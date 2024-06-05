@@ -1,126 +1,175 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'loginveMGCY.ui'
+## Form generated from reading UI file 'loginNxyUqk.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.14.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
+from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
     QRect, QSize, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
-from PySide2.QtWidgets import *
+from PyQt5.QtWidgets import *
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1123, 865)
+        MainWindow.resize(1920, 1080)
+        MainWindow.setStyleSheet(u"#widget_2 {\n"
+"                background-color: white;\n"
+"            }\n"
+"\n"
+"#widget_3, #loginbutton {\n"
+"                background-color: \"#B6D0E2\";\n"
+"            }\n"
+"\n"
+"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.widget = QWidget(self.centralwidget)
+        self.gridLayout_4 = QGridLayout(self.centralwidget)
+        self.gridLayout_4.setObjectName(u"gridLayout_4")
+        self.bg = QFrame(self.centralwidget)
+        self.bg.setObjectName(u"bg")
+        self.bg.setMinimumSize(QSize(1920, 1080))
+        self.bg.setFrameShape(QFrame.StyledPanel)
+        self.bg.setFrameShadow(QFrame.Raised)
+        self.widget_2 = QWidget(self.bg)
+        self.widget_2.setObjectName(u"widget_2")
+        self.widget_2.setGeometry(QRect(-2, 0, 1350, 1080))
+        self.widget_2.setMinimumSize(QSize(0, 1080))
+        self.loginwidget = QWidget(self.widget_2)
+        self.loginwidget.setObjectName(u"loginwidget")
+        self.loginwidget.setGeometry(QRect(160, 200, 701, 721))
+        self.widget = QWidget(self.loginwidget)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(50, 50, 701, 721))
-        self.gridLayout = QGridLayout(self.widget)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.verticalSpacer = QSpacerItem(20, 184, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.gridLayout.addItem(self.verticalSpacer, 0, 1, 1, 1)
-
-        self.horizontalSpacer = QSpacerItem(77, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer, 1, 0, 1, 1)
-
-        self.verticalLayout_4 = QVBoxLayout()
-        self.verticalLayout_4.setSpacing(10)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.label = QLabel(self.widget)
-        self.label.setObjectName(u"label")
+        self.widget.setGeometry(QRect(101, 71, 506, 428))
+        self.verticalLayout_13 = QVBoxLayout(self.widget)
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
+        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.logintext = QLabel(self.widget)
+        self.logintext.setObjectName(u"logintext")
         font = QFont()
-        font.setPointSize(12)
-        self.label.setFont(font)
-        self.label.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
+        font.setFamily(u"Consolas")
+        font.setPointSize(36)
+        font.setBold(True)
+        font.setWeight(75)
+        self.logintext.setFont(font)
+        self.logintext.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
 
-        self.verticalLayout_4.addWidget(self.label)
+        self.verticalLayout_13.addWidget(self.logintext)
 
-        self.verticalSpacer_4 = QSpacerItem(20, 30, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_13 = QSpacerItem(20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_4.addItem(self.verticalSpacer_4)
+        self.verticalLayout_13.addItem(self.verticalSpacer_13)
 
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setSpacing(10)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setSpacing(10)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label_2 = QLabel(self.widget)
-        self.label_2.setObjectName(u"label_2")
+        self.verticalLayout_14 = QVBoxLayout()
+        self.verticalLayout_14.setSpacing(10)
+        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
+        self.user = QVBoxLayout()
+        self.user.setSpacing(10)
+        self.user.setObjectName(u"user")
+        self.username = QLabel(self.widget)
+        self.username.setObjectName(u"username")
+        font1 = QFont()
+        font1.setFamily(u"Consolas")
+        font1.setPointSize(12)
+        self.username.setFont(font1)
 
-        self.verticalLayout.addWidget(self.label_2)
+        self.user.addWidget(self.username)
 
-        self.lineEdit_2 = QLineEdit(self.widget)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
-        self.lineEdit_2.setMinimumSize(QSize(500, 40))
-        self.lineEdit_2.setBaseSize(QSize(0, 0))
+        self.username_input = QLineEdit(self.widget)
+        self.username_input.setObjectName(u"username_input")
+        self.username_input.setMinimumSize(QSize(500, 40))
+        self.username_input.setBaseSize(QSize(0, 0))
 
-        self.verticalLayout.addWidget(self.lineEdit_2)
-
-
-        self.verticalLayout_3.addLayout(self.verticalLayout)
-
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.label_3 = QLabel(self.widget)
-        self.label_3.setObjectName(u"label_3")
-
-        self.verticalLayout_2.addWidget(self.label_3)
-
-        self.lineEdit = QLineEdit(self.widget)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(0, 40))
-
-        self.verticalLayout_2.addWidget(self.lineEdit)
+        self.user.addWidget(self.username_input)
 
 
-        self.verticalLayout_3.addLayout(self.verticalLayout_2)
+        self.verticalLayout_14.addLayout(self.user)
+
+        self.password_layout = QVBoxLayout()
+        self.password_layout.setObjectName(u"password_layout")
+        self.password = QLabel(self.widget)
+        self.password.setObjectName(u"password")
+        self.password.setFont(font1)
+
+        self.password_layout.addWidget(self.password)
+
+        self.password_input = QLineEdit(self.widget)
+        self.password_input.setObjectName(u"password_input")
+        self.password_input.setMinimumSize(QSize(0, 40))
+
+        self.password_layout.addWidget(self.password_input)
 
 
-        self.verticalLayout_4.addLayout(self.verticalLayout_3)
-
-        self.verticalSpacer_3 = QSpacerItem(20, 30, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_4.addItem(self.verticalSpacer_3)
-
-        self.pushButton = QPushButton(self.widget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(0, 40))
-
-        self.verticalLayout_4.addWidget(self.pushButton)
+        self.verticalLayout_14.addLayout(self.password_layout)
 
 
-        self.gridLayout.addLayout(self.verticalLayout_4, 1, 1, 1, 1)
+        self.verticalLayout_13.addLayout(self.verticalLayout_14)
 
-        self.horizontalSpacer_2 = QSpacerItem(76, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.forgetpasslayout = QHBoxLayout()
+        self.forgetpasslayout.setObjectName(u"forgetpasslayout")
+        self.horizontalSpacer_9 = QSpacerItem(358, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.gridLayout.addItem(self.horizontalSpacer_2, 1, 2, 1, 1)
+        self.forgetpasslayout.addItem(self.horizontalSpacer_9)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 184, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.forgetpass = QLabel(self.widget)
+        self.forgetpass.setObjectName(u"forgetpass")
+        font2 = QFont()
+        font2.setFamily(u"Consolas")
+        font2.setPointSize(9)
+        self.forgetpass.setFont(font2)
+        self.forgetpass.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
-        self.gridLayout.addItem(self.verticalSpacer_2, 2, 1, 1, 1)
+        self.forgetpasslayout.addWidget(self.forgetpass)
+
+
+        self.verticalLayout_13.addLayout(self.forgetpasslayout)
+
+        self.verticalSpacer_16 = QSpacerItem(498, 38, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_13.addItem(self.verticalSpacer_16)
+
+        self.loginbutton = QPushButton(self.widget)
+        self.loginbutton.setObjectName(u"loginbutton")
+        self.loginbutton.setMinimumSize(QSize(0, 60))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(14)
+        self.loginbutton.setFont(font3)
+        self.loginbutton.setStyleSheet(u"QPushButton {border-radius: 15px; color: white; }")
+
+        self.verticalLayout_13.addWidget(self.loginbutton)
+
+        self.widget_3 = QWidget(self.bg)
+        self.widget_3.setObjectName(u"widget_3")
+        self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
+        self.widget_3.setMinimumSize(QSize(0, 1080))
+        self.imageframe = QFrame(self.bg)
+        self.imageframe.setObjectName(u"imageframe")
+        self.imageframe.setGeometry(QRect(1040, 110, 641, 841))
+        self.imageframe.setFrameShape(QFrame.StyledPanel)
+        self.imageframe.setFrameShadow(QFrame.Raised)
+        self.imageframe.setLineWidth(0)
+        self.image = QLabel(self.imageframe)
+        self.image.setObjectName(u"image")
+        self.image.setGeometry(QRect(0, 0, 641, 891))
+        self.image.setPixmap(QPixmap(u"CAD\Images\Stethoscope.jpg"))
+        self.image.setScaledContents(True)
+
+        self.gridLayout_4.addWidget(self.bg, 0, 0, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1123, 26))
+        self.menubar.setGeometry(QRect(0, 0, 1932, 26))
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
 
@@ -129,9 +178,14 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Login", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Username", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Password", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Login", None))
+        self.logintext.setText(QCoreApplication.translate("MainWindow", u"Login", None))
+        self.username.setText(QCoreApplication.translate("MainWindow", u"Username", None))
+        self.password.setText(QCoreApplication.translate("MainWindow", u"Password", None))
+        self.forgetpass.setText(QCoreApplication.translate("MainWindow", u"Forget Password?", None))
+#if QT_CONFIG(tooltip)
+        self.loginbutton.setToolTip("")
+#endif // QT_CONFIG(tooltip)
+        self.loginbutton.setText(QCoreApplication.translate("MainWindow", u"Login", None))
+        self.image.setText("")
     # retranslateUi
 
