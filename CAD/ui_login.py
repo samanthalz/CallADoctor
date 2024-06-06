@@ -1,26 +1,18 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'loginNxyUqk.ui'
-##
-## Created by: Qt User Interface Compiler version 5.14.1
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt )
+from PyQt5 import QtCore
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 
 
-class Ui_MainWindow(object):
+class LoginWindow(QMainWindow):
+    
     def setupUi(self, MainWindow):
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1920, 1080)
+        MainWindow.resize(1938, 1124)
         MainWindow.setStyleSheet(u"#widget_2 {\n"
 "                background-color: white;\n"
 "            }\n"
@@ -48,10 +40,10 @@ class Ui_MainWindow(object):
         self.loginwidget.setGeometry(QRect(160, 200, 701, 721))
         self.widget = QWidget(self.loginwidget)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(101, 71, 506, 428))
-        self.verticalLayout_13 = QVBoxLayout(self.widget)
-        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
-        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.widget.setGeometry(QRect(102, 72, 506, 428))
+        self.verticalLayout = QVBoxLayout(self.widget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.logintext = QLabel(self.widget)
         self.logintext.setObjectName(u"logintext")
         font = QFont()
@@ -62,18 +54,18 @@ class Ui_MainWindow(object):
         self.logintext.setFont(font)
         self.logintext.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
 
-        self.verticalLayout_13.addWidget(self.logintext)
+        self.verticalLayout.addWidget(self.logintext)
 
         self.verticalSpacer_13 = QSpacerItem(20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_13.addItem(self.verticalSpacer_13)
+        self.verticalLayout.addItem(self.verticalSpacer_13)
 
         self.verticalLayout_14 = QVBoxLayout()
         self.verticalLayout_14.setSpacing(10)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
-        self.user = QVBoxLayout()
-        self.user.setSpacing(10)
-        self.user.setObjectName(u"user")
+        self.user_layout = QVBoxLayout()
+        self.user_layout.setSpacing(10)
+        self.user_layout.setObjectName(u"user_layout")
         self.username = QLabel(self.widget)
         self.username.setObjectName(u"username")
         font1 = QFont()
@@ -81,17 +73,17 @@ class Ui_MainWindow(object):
         font1.setPointSize(12)
         self.username.setFont(font1)
 
-        self.user.addWidget(self.username)
+        self.user_layout.addWidget(self.username)
 
         self.username_input = QLineEdit(self.widget)
         self.username_input.setObjectName(u"username_input")
         self.username_input.setMinimumSize(QSize(500, 40))
         self.username_input.setBaseSize(QSize(0, 0))
 
-        self.user.addWidget(self.username_input)
+        self.user_layout.addWidget(self.username_input)
 
 
-        self.verticalLayout_14.addLayout(self.user)
+        self.verticalLayout_14.addLayout(self.user_layout)
 
         self.password_layout = QVBoxLayout()
         self.password_layout.setObjectName(u"password_layout")
@@ -111,30 +103,28 @@ class Ui_MainWindow(object):
         self.verticalLayout_14.addLayout(self.password_layout)
 
 
-        self.verticalLayout_13.addLayout(self.verticalLayout_14)
+        self.verticalLayout.addLayout(self.verticalLayout_14)
 
-        self.forgetpasslayout = QHBoxLayout()
-        self.forgetpasslayout.setObjectName(u"forgetpasslayout")
+        self.forgetpassword = QHBoxLayout()
+        self.forgetpassword.setObjectName(u"forgetpassword")
         self.horizontalSpacer_9 = QSpacerItem(358, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.forgetpasslayout.addItem(self.horizontalSpacer_9)
+        self.forgetpassword.addItem(self.horizontalSpacer_9)
 
-        self.forgetpass = QLabel(self.widget)
-        self.forgetpass.setObjectName(u"forgetpass")
+        self.forgetpassbutton = QPushButton(self.widget)
+        self.forgetpassbutton.setObjectName(u"forgetpassbutton")
         font2 = QFont()
         font2.setFamily(u"Consolas")
-        font2.setPointSize(9)
-        self.forgetpass.setFont(font2)
-        self.forgetpass.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.forgetpassbutton.setFont(font2)
+        self.forgetpassbutton.setStyleSheet(u"QPushButton { border: none; }")
 
-        self.forgetpasslayout.addWidget(self.forgetpass)
+        self.forgetpassword.addWidget(self.forgetpassbutton)
 
-
-        self.verticalLayout_13.addLayout(self.forgetpasslayout)
+        self.verticalLayout.addLayout(self.forgetpassword)
 
         self.verticalSpacer_16 = QSpacerItem(498, 38, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_13.addItem(self.verticalSpacer_16)
+        self.verticalLayout.addItem(self.verticalSpacer_16)
 
         self.loginbutton = QPushButton(self.widget)
         self.loginbutton.setObjectName(u"loginbutton")
@@ -145,7 +135,7 @@ class Ui_MainWindow(object):
         self.loginbutton.setFont(font3)
         self.loginbutton.setStyleSheet(u"QPushButton {border-radius: 15px; color: white; }")
 
-        self.verticalLayout_13.addWidget(self.loginbutton)
+        self.verticalLayout.addWidget(self.loginbutton)
 
         self.widget_3 = QWidget(self.bg)
         self.widget_3.setObjectName(u"widget_3")
@@ -160,7 +150,7 @@ class Ui_MainWindow(object):
         self.image = QLabel(self.imageframe)
         self.image.setObjectName(u"image")
         self.image.setGeometry(QRect(0, 0, 641, 891))
-        self.image.setPixmap(QPixmap(u"CAD\Images\Stethoscope.jpg"))
+        self.image.setPixmap(QPixmap(u"CAD/Images/Stethoscope.jpg"))
         self.image.setScaledContents(True)
 
         self.gridLayout_4.addWidget(self.bg, 0, 0, 1, 1)
@@ -168,7 +158,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1932, 26))
+        self.menubar.setGeometry(QRect(0, 0, 1938, 26))
         MainWindow.setMenuBar(self.menubar)
 
         self.retranslateUi(MainWindow)
@@ -181,11 +171,10 @@ class Ui_MainWindow(object):
         self.logintext.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.username.setText(QCoreApplication.translate("MainWindow", u"Username", None))
         self.password.setText(QCoreApplication.translate("MainWindow", u"Password", None))
-        self.forgetpass.setText(QCoreApplication.translate("MainWindow", u"Forget Password?", None))
+        self.forgetpassbutton.setText(QCoreApplication.translate("MainWindow", u"Forgot Password", None))
 #if QT_CONFIG(tooltip)
         self.loginbutton.setToolTip("")
 #endif // QT_CONFIG(tooltip)
         self.loginbutton.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.image.setText("")
     # retranslateUi
-

@@ -1,18 +1,18 @@
 from PyQt5 import QtWidgets
-from ui_login import Ui_MainWindow
+from ui_login import LoginWindow
+from User.forgotpw import ForgotPwWindow  # Assuming you have a ui_forgotpw file for ForgotPwWindow
+import sys
 
-class MainWindow(QtWidgets.QMainWindow):
+class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-            
+        super().__init__()
+        self.login_window = LoginWindow()
+        self.forgot_pw_window = ForgotPwWindow()
+        
+        self.login_window.setupUi(self)
+
 if __name__ == "__main__":
-    app = QtWidgets.QApplication([])
-    window = MainWindow()
-    window.show()
-    window.showMaximized()
-
-    app.exec()
-            
-
+    app = QtWidgets.QApplication(sys.argv)
+    main_app = MainApp()
+    main_app.showMaximized()
+    sys.exit(app.exec_())
