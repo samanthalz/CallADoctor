@@ -11,6 +11,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = MainWindow()
     window.show()
+    window.showMaximized()
 
     app.exec()
             
