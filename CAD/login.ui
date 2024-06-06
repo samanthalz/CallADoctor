@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1932</width>
-    <height>1080</height>
+    <width>1938</width>
+    <height>1124</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -67,13 +67,13 @@
         <widget class="QWidget" name="">
          <property name="geometry">
           <rect>
-           <x>101</x>
-           <y>71</y>
+           <x>102</x>
+           <y>72</y>
            <width>506</width>
            <height>428</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_13">
+         <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QLabel" name="logintext">
             <property name="font">
@@ -111,7 +111,7 @@
              <number>10</number>
             </property>
             <item>
-             <layout class="QVBoxLayout" name="user">
+             <layout class="QVBoxLayout" name="user_layout">
               <property name="spacing">
                <number>10</number>
               </property>
@@ -176,7 +176,7 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="forgetpasslayout">
+           <layout class="QHBoxLayout" name="forgetpassword">
             <item>
              <spacer name="horizontalSpacer_9">
               <property name="orientation">
@@ -191,18 +191,17 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLabel" name="forgetpass">
+             <widget class="QPushButton" name="forgetpassbutton">
               <property name="font">
                <font>
                 <family>Consolas</family>
-                <pointsize>9</pointsize>
                </font>
               </property>
-              <property name="text">
-               <string>Forget Password?</string>
+              <property name="styleSheet">
+               <string notr="true">QPushButton { border: none; }</string>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <property name="text">
+               <string>Forgot Password</string>
               </property>
              </widget>
             </item>
@@ -313,7 +312,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1932</width>
+     <width>1938</width>
      <height>26</height>
     </rect>
    </property>
