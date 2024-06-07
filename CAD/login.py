@@ -143,7 +143,7 @@ class LoginWidget(QWidget):
         self.image = QLabel(self.imageframe)
         self.image.setObjectName(u"image")
         self.image.setGeometry(QRect(0, 0, 641, 891))
-        self.image.setPixmap(QPixmap(u"CAD/Images/Stethoscope.jpg"))
+        self.image.setPixmap(QPixmap(u"Images/Stethoscope.jpg"))
         self.image.setScaledContents(True)
 
         self.retranslateUi(Form)
