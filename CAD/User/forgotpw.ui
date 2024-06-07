@@ -58,10 +58,10 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>510</x>
-       <y>390</y>
-       <width>511</width>
-       <height>381</height>
+       <x>580</x>
+       <y>280</y>
+       <width>621</width>
+       <height>511</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -74,6 +74,19 @@
       <string notr="true"/>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="5" column="0">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
       <item row="3" column="2">
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
@@ -87,7 +100,7 @@
         </property>
        </spacer>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -100,7 +113,41 @@
         </property>
        </spacer>
       </item>
-      <item row="3" column="1">
+      <item row="1" column="0">
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>30</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="pushButton">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(182, 208, 226);</string>
+        </property>
+        <property name="text">
+         <string>Continue</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="spacing">
          <number>10</number>
@@ -113,7 +160,7 @@
           <property name="font">
            <font>
             <family>Microsoft Sans Serif</family>
-            <pointsize>22</pointsize>
+            <pointsize>28</pointsize>
            </font>
           </property>
           <property name="styleSheet">
@@ -142,7 +189,7 @@
               <property name="font">
                <font>
                 <family>MS Shell Dlg 2</family>
-                <pointsize>10</pointsize>
+                <pointsize>12</pointsize>
                </font>
               </property>
               <property name="styleSheet">
@@ -159,7 +206,7 @@
            <widget class="QLabel" name="label_5">
             <property name="font">
              <font>
-              <pointsize>10</pointsize>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="styleSheet">
@@ -199,7 +246,7 @@
          <widget class="QLabel" name="label_3">
           <property name="font">
            <font>
-            <pointsize>10</pointsize>
+            <pointsize>12</pointsize>
            </font>
           </property>
           <property name="styleSheet">
@@ -220,30 +267,9 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(182, 208, 226);</string>
-          </property>
-          <property name="text">
-           <string>Continue</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
-      <item row="1" column="1">
+      <item row="0" column="1">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -251,33 +277,7 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>184</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="0">
-       <spacer name="verticalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>30</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="4" column="0">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>20</height>
+          <height>180</height>
          </size>
         </property>
        </spacer>
@@ -287,17 +287,17 @@
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>-20</y>
-       <width>291</width>
-       <height>251</height>
+       <x>10</x>
+       <y>-50</y>
+       <width>281</width>
+       <height>261</height>
       </rect>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>../../../../Downloads/Software Engineering/CAD/Figma icons/call a doctor.png</pixmap>
+      <pixmap>../Images/call a doctor.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -306,10 +306,10 @@
     <widget class="QLabel" name="label_7">
      <property name="geometry">
       <rect>
-       <x>500</x>
-       <y>380</y>
-       <width>531</width>
-       <height>401</height>
+       <x>540</x>
+       <y>270</y>
+       <width>681</width>
+       <height>531</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -343,6 +343,8 @@ border-radius: 10px;</string>
      <string notr="true">background-color: &quot;#B6D0E2&quot;;</string>
     </property>
    </widget>
+   <zorder>widget_3</zorder>
+   <zorder>widget_2</zorder>
   </widget>
  </widget>
  <resources/>
