@@ -10,7 +10,7 @@ class RegisterWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        
+
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
@@ -26,35 +26,35 @@ class RegisterWidget(QWidget):
         self.widget_2.setGeometry(QRect(0, 0, 1350, 1080))
         self.widget_2.setMinimumSize(QSize(0, 1080))
         self.widget_2.setStyleSheet(u"background-color: white;")
-        self.loginwidget = QWidget(self.widget_2)
-        self.loginwidget.setObjectName(u"loginwidget")
-        self.loginwidget.setGeometry(QRect(170, 40, 671, 991))
-        self.loginbutton_2 = QPushButton(self.loginwidget)
-        self.loginbutton_2.setObjectName(u"loginbutton_2")
-        self.loginbutton_2.setGeometry(QRect(190, 910, 331, 28))
+        self.registerwidget = QWidget(self.widget_2)
+        self.registerwidget.setObjectName(u"registerwidget")
+        self.registerwidget.setGeometry(QRect(170, 40, 671, 991))
+        self.loginbutton = QPushButton(self.registerwidget)
+        self.loginbutton.setObjectName(u"loginbutton")
+        self.loginbutton.setGeometry(QRect(190, 910, 331, 28))
         font = QFont()
         font.setFamily(u"Consolas")
         font.setPointSize(10)
-        self.loginbutton_2.setFont(font)
-        self.loginbutton_2.setStyleSheet(u"border: none")
-        self.widget = QWidget(self.loginwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(100, 73, 504, 799))
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.loginbutton.setFont(font)
+        self.loginbutton.setStyleSheet(u"border: none")
+        self.layoutWidget = QWidget(self.registerwidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(100, 73, 504, 799))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.logintext = QLabel(self.widget)
-        self.logintext.setObjectName(u"logintext")
+        self.registertext = QLabel(self.layoutWidget)
+        self.registertext.setObjectName(u"registertext")
         font1 = QFont()
         font1.setFamily(u"Consolas")
         font1.setPointSize(36)
         font1.setBold(True)
         font1.setWeight(75)
-        self.logintext.setFont(font1)
-        self.logintext.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
+        self.registertext.setFont(font1)
+        self.registertext.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
 
-        self.verticalLayout.addWidget(self.logintext)
+        self.verticalLayout.addWidget(self.registertext)
 
         self.verticalSpacer_13 = QSpacerItem(20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -63,7 +63,7 @@ class RegisterWidget(QWidget):
         self.name_layout = QVBoxLayout()
         self.name_layout.setSpacing(10)
         self.name_layout.setObjectName(u"name_layout")
-        self.name = QLabel(self.widget)
+        self.name = QLabel(self.layoutWidget)
         self.name.setObjectName(u"name")
         font2 = QFont()
         font2.setFamily(u"Consolas")
@@ -72,7 +72,7 @@ class RegisterWidget(QWidget):
 
         self.name_layout.addWidget(self.name)
 
-        self.name_input = QLineEdit(self.widget)
+        self.name_input = QLineEdit(self.layoutWidget)
         self.name_input.setObjectName(u"name_input")
         self.name_input.setMinimumSize(QSize(500, 40))
         self.name_input.setBaseSize(QSize(0, 0))
@@ -84,13 +84,13 @@ class RegisterWidget(QWidget):
 
         self.ic_layout = QVBoxLayout()
         self.ic_layout.setObjectName(u"ic_layout")
-        self.ic = QLabel(self.widget)
+        self.ic = QLabel(self.layoutWidget)
         self.ic.setObjectName(u"ic")
         self.ic.setFont(font2)
 
         self.ic_layout.addWidget(self.ic)
 
-        self.ic_input = QLineEdit(self.widget)
+        self.ic_input = QLineEdit(self.layoutWidget)
         self.ic_input.setObjectName(u"ic_input")
         self.ic_input.setMinimumSize(QSize(0, 40))
 
@@ -101,13 +101,13 @@ class RegisterWidget(QWidget):
 
         self.phone_layout = QVBoxLayout()
         self.phone_layout.setObjectName(u"phone_layout")
-        self.phonenum = QLabel(self.widget)
+        self.phonenum = QLabel(self.layoutWidget)
         self.phonenum.setObjectName(u"phonenum")
         self.phonenum.setFont(font2)
 
         self.phone_layout.addWidget(self.phonenum)
 
-        self.phone_input = QLineEdit(self.widget)
+        self.phone_input = QLineEdit(self.layoutWidget)
         self.phone_input.setObjectName(u"phone_input")
         self.phone_input.setMinimumSize(QSize(0, 40))
 
@@ -118,13 +118,13 @@ class RegisterWidget(QWidget):
 
         self.email_layout = QVBoxLayout()
         self.email_layout.setObjectName(u"email_layout")
-        self.email = QLabel(self.widget)
+        self.email = QLabel(self.layoutWidget)
         self.email.setObjectName(u"email")
         self.email.setFont(font2)
 
         self.email_layout.addWidget(self.email)
 
-        self.email_input = QLineEdit(self.widget)
+        self.email_input = QLineEdit(self.layoutWidget)
         self.email_input.setObjectName(u"email_input")
         self.email_input.setMinimumSize(QSize(0, 40))
 
@@ -135,13 +135,13 @@ class RegisterWidget(QWidget):
 
         self.username_layout = QVBoxLayout()
         self.username_layout.setObjectName(u"username_layout")
-        self.username = QLabel(self.widget)
+        self.username = QLabel(self.layoutWidget)
         self.username.setObjectName(u"username")
         self.username.setFont(font2)
 
         self.username_layout.addWidget(self.username)
 
-        self.username_input = QLineEdit(self.widget)
+        self.username_input = QLineEdit(self.layoutWidget)
         self.username_input.setObjectName(u"username_input")
         self.username_input.setMinimumSize(QSize(0, 40))
 
@@ -152,13 +152,13 @@ class RegisterWidget(QWidget):
 
         self.password_layout = QVBoxLayout()
         self.password_layout.setObjectName(u"password_layout")
-        self.password = QLabel(self.widget)
+        self.password = QLabel(self.layoutWidget)
         self.password.setObjectName(u"password")
         self.password.setFont(font2)
 
         self.password_layout.addWidget(self.password)
 
-        self.password_input = QLineEdit(self.widget)
+        self.password_input = QLineEdit(self.layoutWidget)
         self.password_input.setObjectName(u"password_input")
         self.password_input.setMinimumSize(QSize(0, 40))
 
@@ -169,13 +169,13 @@ class RegisterWidget(QWidget):
 
         self.confirmpass = QVBoxLayout()
         self.confirmpass.setObjectName(u"confirmpass")
-        self.confirmpass_2 = QLabel(self.widget)
+        self.confirmpass_2 = QLabel(self.layoutWidget)
         self.confirmpass_2.setObjectName(u"confirmpass_2")
         self.confirmpass_2.setFont(font2)
 
         self.confirmpass.addWidget(self.confirmpass_2)
 
-        self.confirmpass_input = QLineEdit(self.widget)
+        self.confirmpass_input = QLineEdit(self.layoutWidget)
         self.confirmpass_input.setObjectName(u"confirmpass_input")
         self.confirmpass_input.setMinimumSize(QSize(0, 40))
 
@@ -188,7 +188,7 @@ class RegisterWidget(QWidget):
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.registerbutton = QPushButton(self.widget)
+        self.registerbutton = QPushButton(self.layoutWidget)
         self.registerbutton.setObjectName(u"registerbutton")
         self.registerbutton.setMinimumSize(QSize(0, 60))
         font3 = QFont()
@@ -223,8 +223,8 @@ class RegisterWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.loginbutton_2.setText(QCoreApplication.translate("Form", u"Already have an account? Login here.", None))
-        self.logintext.setText(QCoreApplication.translate("Form", u"Register", None))
+        self.loginbutton.setText(QCoreApplication.translate("Form", u"Already have an account? Login here.", None))
+        self.registertext.setText(QCoreApplication.translate("Form", u"Register", None))
         self.name.setText(QCoreApplication.translate("Form", u"Name", None))
         self.ic.setText(QCoreApplication.translate("Form", u"IC Number", None))
         self.phonenum.setText(QCoreApplication.translate("Form", u"Phone Number (eg. 601XXXXXXXXX)", None))
@@ -238,4 +238,8 @@ class RegisterWidget(QWidget):
         self.registerbutton.setText(QCoreApplication.translate("Form", u"Register", None))
         self.image.setText("")
     # retranslateUi
+
+
+
+
 
