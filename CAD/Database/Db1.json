@@ -38,12 +38,11 @@
     ],
     "medical_records": [
         {
-            "clinic_id": null,
-            "clinic_name": "",
-            "clinic_address":"",
-            "opening_hours":null,
-            "clinic_image":null,
-            "doctor_id": null
+            "record_id": null,
+            "patient_id": "",
+            "medicine":"",
+            "diagnosis":null,
+            "appointment_id": null
         }
     ]
 }
