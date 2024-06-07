@@ -11,6 +11,7 @@ class Ui_MainWindow(QMainWindow):
         self.setupUi(self)
         # Connect the signal from login widget to switch to forgot password widget
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
+        self.loginWidget.registerbutton.clicked.connect(self.showLoginWidget)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -46,6 +47,10 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
+        
+    @pyqtSlot()
+    def showLoginWidget(self):
+        self.stackedWidget.setCurrentWidget(self.loginWidget)
     
 if __name__ == "__main__":
     import sys
