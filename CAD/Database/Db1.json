@@ -1,0 +1,49 @@
+{
+    "patient": [
+        {
+            "patient_id": null,
+            "patient_name": "",
+            "patient_age": null,
+            "patient_pass": null,
+            "patient_address":""
+        }
+    ],
+    "doctor": [
+        {
+            "doctor_id": null,
+            "doctor_name": "",
+            "doctor_age": null,
+            "doctor_pass": null,
+            "doctor_address":"",
+            "doctor_speciality":"",
+            "doctor_image":null,
+            "clinic_id": null
+        }
+    ],
+    "clinic_admin": [
+        {
+            "admin_id": null,
+            "clinic_id": null
+        }
+    ],
+    "clinic": [
+        {
+            "clinic_id": null,
+            "clinic_name": "",
+            "clinic_address":"",
+            "opening_hours":null,
+            "clinic_image":null,
+            "doctor_id": null
+        }
+    ],
+    "medical_records": [
+        {
+            "clinic_id": null,
+            "clinic_name": "",
+            "clinic_address":"",
+            "opening_hours":null,
+            "clinic_image":null,
+            "doctor_id": null
+        }
+    ]
+}
