@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, 
 # Import your custom widgets
 from User.forgotpw import ForgotPwWidget
 from login import LoginWidget
+from register import RegisterWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -11,7 +12,7 @@ class Ui_MainWindow(QMainWindow):
         self.setupUi(self)
         # Connect the signal from login widget to switch to forgot password widget
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
-        self.loginWidget.registerbutton.clicked.connect(self.showLoginWidget)
+        self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -28,10 +29,12 @@ class Ui_MainWindow(QMainWindow):
 
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget()
+        self.registerWidget = RegisterWidget()
          
 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
+        self.stackedWidget.addWidget(self.registerWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -49,8 +52,8 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
         
     @pyqtSlot()
-    def showLoginWidget(self):
-        self.stackedWidget.setCurrentWidget(self.loginWidget)
+    def showRegisterWidget(self):
+        self.stackedWidget.setCurrentWidget(self.registerWidget)
     
 if __name__ == "__main__":
     import sys

@@ -1,22 +1,16 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'registeruayPot.ui'
-##
-## Created by: Qt User Interface Compiler version 5.14.1
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
+from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
     QRect, QSize, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
-from PySide2.QtWidgets import *
+from PyQt5.QtWidgets import *
 
 
-class Ui_Form(object):
+class RegisterWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
@@ -219,7 +213,7 @@ class Ui_Form(object):
         self.image = QLabel(self.imageframe)
         self.image.setObjectName(u"image")
         self.image.setGeometry(QRect(0, 0, 641, 891))
-        self.image.setPixmap(QPixmap(u"Images/Stethoscope.jpg"))
+        self.image.setPixmap(QPixmap(u"CAD/Images/Stethoscope.jpg"))
         self.image.setScaledContents(True)
 
         self.retranslateUi(Form)
