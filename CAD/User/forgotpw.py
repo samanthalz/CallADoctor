@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'forgetpasswordasXsiq.ui'
-##
-## Created by: Qt User Interface Compiler version 5.14.1
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
     QRect, QSize, QUrl, Qt)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
@@ -16,43 +6,36 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 
 
-class ForgotPwWindow(QMainWindow):
-    def setupUi(self, MainWindow):
-        if MainWindow.objectName():
-            MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1942, 1128)
-        MainWindow.setStyleSheet(u"#widget_2 {\n"
-"                background-color: white;\n"
-"            }\n"
-"\n"
-"#widget_3, #loginbutton {\n"
-"                background-color: \"#B6D0E2\";\n"
-"            }\n"
-"\n"
-"")
-        self.centralwidget = QWidget(MainWindow)
-        self.centralwidget.setObjectName(u"centralwidget")
-        self.gridLayout_4 = QGridLayout(self.centralwidget)
-        self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.bg = QFrame(self.centralwidget)
+class ForgotPwWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        
+    def setupUi(self, Form):
+        if Form.objectName():
+            Form.setObjectName(u"Form")
+        Form.resize(1920, 1080)
+        self.bg = QFrame(Form)
         self.bg.setObjectName(u"bg")
+        self.bg.setGeometry(QRect(0, 0, 1920, 1080))
         self.bg.setMinimumSize(QSize(1920, 1080))
         self.bg.setFrameShape(QFrame.StyledPanel)
         self.bg.setFrameShadow(QFrame.Raised)
         self.widget_2 = QWidget(self.bg)
         self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setGeometry(QRect(20, -30, 1350, 1080))
+        self.widget_2.setGeometry(QRect(0, 0, 1350, 1080))
         self.widget_2.setMinimumSize(QSize(0, 1080))
+        self.widget_2.setStyleSheet(u"background-color: \"white\";")
         self.widget = QWidget(self.widget_2)
         self.widget.setObjectName(u"widget")
         self.widget.setEnabled(True)
-        self.widget.setGeometry(QRect(500, 390, 531, 381))
+        self.widget.setGeometry(QRect(510, 390, 511, 381))
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
         self.widget.setSizePolicy(sizePolicy)
-        self.widget.setStyleSheet(u"gridline-color: rgb(0, 126, 133);")
+        self.widget.setStyleSheet(u"")
         self.gridLayout = QGridLayout(self.widget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.horizontalSpacer_2 = QSpacerItem(76, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -176,34 +159,21 @@ class ForgotPwWindow(QMainWindow):
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
         self.widget_3.setMinimumSize(QSize(0, 1080))
-        self.frame = QFrame(self.bg)
-        self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(1040, 110, 641, 841))
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
-        self.frame.setLineWidth(0)
+        self.widget_3.setStyleSheet(u"background-color: \"#B6D0E2\";")
 
-        self.gridLayout_4.addWidget(self.bg, 0, 0, 1, 1)
+        self.retranslateUi(Form)
 
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(MainWindow)
-        self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1942, 26))
-        MainWindow.setMenuBar(self.menubar)
-
-        self.retranslateUi(MainWindow)
-
-        QMetaObject.connectSlotsByName(MainWindow)
+        QMetaObject.connectSlotsByName(Form)
     # setupUi
 
-    def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Forgot Password", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Enter your email for the verification processes, we will send ", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"4 digit codes to your email", None))
+    def retranslateUi(self, Form):
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        self.label.setText(QCoreApplication.translate("Form", u"Forgot Password", None))
+        self.label_2.setText(QCoreApplication.translate("Form", u"Enter your email for the verification processes, we will send ", None))
+        self.label_5.setText(QCoreApplication.translate("Form", u"4 digit codes to your email", None))
         self.label_6.setText("")
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Email", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Continue", None))
+        self.label_3.setText(QCoreApplication.translate("Form", u"Email", None))
+        self.pushButton.setText(QCoreApplication.translate("Form", u"Continue", None))
         self.label_4.setText("")
         self.label_7.setText("")
     # retranslateUi

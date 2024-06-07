@@ -1,50 +1,41 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt )
-from PyQt5 import QtCore
+    QRect, QSize, QUrl, Qt)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 
 
-class LoginWindow(QMainWindow):
-    
-    def setupUi(self, MainWindow):
-        if MainWindow.objectName():
-            MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1938, 1124)
-        MainWindow.setStyleSheet(u"#widget_2 {\n"
-"                background-color: white;\n"
-"            }\n"
-"\n"
-"#widget_3, #loginbutton {\n"
-"                background-color: \"#B6D0E2\";\n"
-"            }\n"
-"\n"
-"")
-        self.centralwidget = QWidget(MainWindow)
-        self.centralwidget.setObjectName(u"centralwidget")
-        self.gridLayout_4 = QGridLayout(self.centralwidget)
-        self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.bg = QFrame(self.centralwidget)
+class LoginWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        
+    def setupUi(self, Form):
+        if Form.objectName():
+            Form.setObjectName(u"Form")
+        Form.resize(1920, 1080)
+        self.bg = QFrame(Form)
         self.bg.setObjectName(u"bg")
+        self.bg.setGeometry(QRect(0, 0, 1920, 1080))
         self.bg.setMinimumSize(QSize(1920, 1080))
         self.bg.setFrameShape(QFrame.StyledPanel)
         self.bg.setFrameShadow(QFrame.Raised)
         self.widget_2 = QWidget(self.bg)
         self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setGeometry(QRect(-2, 0, 1350, 1080))
+        self.widget_2.setGeometry(QRect(0, 0, 1350, 1080))
         self.widget_2.setMinimumSize(QSize(0, 1080))
+        self.widget_2.setStyleSheet(u"background-color: white;")
         self.loginwidget = QWidget(self.widget_2)
         self.loginwidget.setObjectName(u"loginwidget")
         self.loginwidget.setGeometry(QRect(160, 200, 701, 721))
-        self.widget = QWidget(self.loginwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(102, 72, 506, 428))
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(self.loginwidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(102, 72, 506, 428))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.logintext = QLabel(self.widget)
+        self.logintext = QLabel(self.layoutWidget)
         self.logintext.setObjectName(u"logintext")
         font = QFont()
         font.setFamily(u"Consolas")
@@ -66,7 +57,7 @@ class LoginWindow(QMainWindow):
         self.user_layout = QVBoxLayout()
         self.user_layout.setSpacing(10)
         self.user_layout.setObjectName(u"user_layout")
-        self.username = QLabel(self.widget)
+        self.username = QLabel(self.layoutWidget)
         self.username.setObjectName(u"username")
         font1 = QFont()
         font1.setFamily(u"Consolas")
@@ -75,7 +66,7 @@ class LoginWindow(QMainWindow):
 
         self.user_layout.addWidget(self.username)
 
-        self.username_input = QLineEdit(self.widget)
+        self.username_input = QLineEdit(self.layoutWidget)
         self.username_input.setObjectName(u"username_input")
         self.username_input.setMinimumSize(QSize(500, 40))
         self.username_input.setBaseSize(QSize(0, 0))
@@ -87,13 +78,13 @@ class LoginWindow(QMainWindow):
 
         self.password_layout = QVBoxLayout()
         self.password_layout.setObjectName(u"password_layout")
-        self.password = QLabel(self.widget)
+        self.password = QLabel(self.layoutWidget)
         self.password.setObjectName(u"password")
         self.password.setFont(font1)
 
         self.password_layout.addWidget(self.password)
 
-        self.password_input = QLineEdit(self.widget)
+        self.password_input = QLineEdit(self.layoutWidget)
         self.password_input.setObjectName(u"password_input")
         self.password_input.setMinimumSize(QSize(0, 40))
 
@@ -111,7 +102,7 @@ class LoginWindow(QMainWindow):
 
         self.forgetpassword.addItem(self.horizontalSpacer_9)
 
-        self.forgetpassbutton = QPushButton(self.widget)
+        self.forgetpassbutton = QPushButton(self.layoutWidget)
         self.forgetpassbutton.setObjectName(u"forgetpassbutton")
         font2 = QFont()
         font2.setFamily(u"Consolas")
@@ -120,20 +111,21 @@ class LoginWindow(QMainWindow):
 
         self.forgetpassword.addWidget(self.forgetpassbutton)
 
+
         self.verticalLayout.addLayout(self.forgetpassword)
 
         self.verticalSpacer_16 = QSpacerItem(498, 38, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer_16)
 
-        self.loginbutton = QPushButton(self.widget)
+        self.loginbutton = QPushButton(self.layoutWidget)
         self.loginbutton.setObjectName(u"loginbutton")
         self.loginbutton.setMinimumSize(QSize(0, 60))
         font3 = QFont()
         font3.setFamily(u"Consolas")
         font3.setPointSize(14)
         self.loginbutton.setFont(font3)
-        self.loginbutton.setStyleSheet(u"QPushButton {border-radius: 15px; color: white; }")
+        self.loginbutton.setStyleSheet(u"border-radius: 15px; color: white; background-color: \"#B6D0E2\";")
 
         self.verticalLayout.addWidget(self.loginbutton)
 
@@ -141,6 +133,7 @@ class LoginWindow(QMainWindow):
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
         self.widget_3.setMinimumSize(QSize(0, 1080))
+        self.widget_3.setStyleSheet(u"background-color: \"#B6D0E2\";")
         self.imageframe = QFrame(self.bg)
         self.imageframe.setObjectName(u"imageframe")
         self.imageframe.setGeometry(QRect(1040, 110, 641, 841))
@@ -153,28 +146,21 @@ class LoginWindow(QMainWindow):
         self.image.setPixmap(QPixmap(u"CAD/Images/Stethoscope.jpg"))
         self.image.setScaledContents(True)
 
-        self.gridLayout_4.addWidget(self.bg, 0, 0, 1, 1)
+        self.retranslateUi(Form)
 
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(MainWindow)
-        self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1938, 26))
-        MainWindow.setMenuBar(self.menubar)
-
-        self.retranslateUi(MainWindow)
-
-        QMetaObject.connectSlotsByName(MainWindow)
+        QMetaObject.connectSlotsByName(Form)
     # setupUi
 
-    def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.logintext.setText(QCoreApplication.translate("MainWindow", u"Login", None))
-        self.username.setText(QCoreApplication.translate("MainWindow", u"Username", None))
-        self.password.setText(QCoreApplication.translate("MainWindow", u"Password", None))
-        self.forgetpassbutton.setText(QCoreApplication.translate("MainWindow", u"Forgot Password", None))
+    def retranslateUi(self, Form):
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        self.logintext.setText(QCoreApplication.translate("Form", u"Login", None))
+        self.username.setText(QCoreApplication.translate("Form", u"Username", None))
+        self.password.setText(QCoreApplication.translate("Form", u"Password", None))
+        self.forgetpassbutton.setText(QCoreApplication.translate("Form", u"Forgot Password", None))
 #if QT_CONFIG(tooltip)
         self.loginbutton.setToolTip("")
 #endif // QT_CONFIG(tooltip)
-        self.loginbutton.setText(QCoreApplication.translate("MainWindow", u"Login", None))
+        self.loginbutton.setText(QCoreApplication.translate("Form", u"Login", None))
         self.image.setText("")
     # retranslateUi
+
