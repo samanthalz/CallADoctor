@@ -145,7 +145,7 @@ class ForgotPwWidget(QWidget):
         self.label_4 = QLabel(self.widget_2)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(0, -20, 291, 251))
-        self.label_4.setPixmap(QPixmap(u"../../../../Downloads/Software Engineering/CAD/Figma icons/call a doctor.png"))
+        self.label_4.setPixmap(QPixmap(u"CAD/Images/call a doctor.png"))
         self.label_4.setScaledContents(True)
         self.label_7 = QLabel(self.widget_2)
         self.label_7.setObjectName(u"label_7")
