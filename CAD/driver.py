@@ -12,7 +12,13 @@ class Ui_MainWindow(QMainWindow):
         self.setupUi(self)
         # Connect the signal from login widget to switch to forgot password widget
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
+<<<<<<< HEAD
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
+=======
+        # connect signal from click login button to switch to home page
+
+        # connect signal from click register button to switch to registration page
+>>>>>>> aab72ef2ba1cc63c5b2342305c24cd1e2a94cb4a
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
