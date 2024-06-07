@@ -52,7 +52,7 @@
     <property name="styleSheet">
      <string notr="true">background-color: white;</string>
     </property>
-    <widget class="QWidget" name="loginwidget" native="true">
+    <widget class="QWidget" name="registerwidget" native="true">
      <property name="geometry">
       <rect>
        <x>170</x>
