@@ -106,6 +106,7 @@ class LoginWidget(QWidget):
         self.forgetpassbutton.setObjectName(u"forgetpassbutton")
         font2 = QFont()
         font2.setFamily(u"Consolas")
+        font2.setPointSize(9)
         self.forgetpassbutton.setFont(font2)
         self.forgetpassbutton.setStyleSheet(u"QPushButton { border: none; }")
 
@@ -129,6 +130,14 @@ class LoginWidget(QWidget):
 
         self.verticalLayout.addWidget(self.loginbutton)
 
+        self.registerbutton = QPushButton(self.loginwidget)
+        self.registerbutton.setObjectName(u"registerbutton")
+        self.registerbutton.setGeometry(QRect(200, 550, 331, 28))
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(10)
+        self.registerbutton.setFont(font4)
+        self.registerbutton.setStyleSheet(u"border: none")
         self.widget_3 = QWidget(self.bg)
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
@@ -161,6 +170,9 @@ class LoginWidget(QWidget):
         self.loginbutton.setToolTip("")
 #endif // QT_CONFIG(tooltip)
         self.loginbutton.setText(QCoreApplication.translate("Form", u"Login", None))
+        self.registerbutton.setText(QCoreApplication.translate("Form", u"Don't have an account? Register here.", None))
         self.image.setText("")
     # retranslateUi
+
+
 
