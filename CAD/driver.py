@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, pyqtSlot
-from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QMenuBar, QStatusBar
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 
 # Import your custom widgets
 from User.forgotpw import ForgotPwWidget
@@ -47,7 +47,7 @@ class Ui_MainWindow(QMainWindow):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow"))
         
-
+        
     @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
@@ -59,6 +59,8 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showLoginWidget(self):
         self.stackedWidget.setCurrentWidget(self.loginWidget)
+        
+    
     
 if __name__ == "__main__":
     import sys

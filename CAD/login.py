@@ -89,11 +89,7 @@ class LoginWidget(QWidget):
         self.password_input.setMinimumSize(QSize(0, 40))
 
         self.password_layout.addWidget(self.password_input)
-
-
         self.verticalLayout_14.addLayout(self.password_layout)
-
-
         self.verticalLayout.addLayout(self.verticalLayout_14)
 
         self.forgetpassword = QHBoxLayout()
@@ -173,6 +169,8 @@ class LoginWidget(QWidget):
         self.registerbutton.setText(QCoreApplication.translate("Form", u"Don't have an account? Register here.", None))
         self.image.setText("")
     # retranslateUi
+    
+    
 
 
 

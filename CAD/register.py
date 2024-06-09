@@ -196,6 +196,7 @@ class RegisterWidget(QWidget):
         font3.setPointSize(14)
         self.registerbutton.setFont(font3)
         self.registerbutton.setStyleSheet(u"border-radius: 15px; color: white; background-color: \"#B6D0E2\";")
+        self.registerbutton.clicked.connect(self.validate_form)
 
         self.verticalLayout.addWidget(self.registerbutton)
 
@@ -238,7 +239,51 @@ class RegisterWidget(QWidget):
         self.registerbutton.setText(QCoreApplication.translate("Form", u"Register", None))
         self.image.setText("")
     # retranslateUi
-
+    
+    
+    def validate_form(self):
+        name = self.name_input.text().strip()
+        ic = self.ic_input.text().strip()
+        phone = self.phone_input.text().strip()
+        email = self.email_input.text().strip()
+        username = self.username_input.text().strip()
+        password = self.password_input.text().strip()
+        confirm_password = self.confirmpass_input.text().strip()
+        
+        if not all([name, ic, phone, email, username, password, confirm_password]):
+            QMessageBox.warning(self, "Validation Error", "All fields are required.")
+            return
+        
+        if not name.isalpha():
+            QMessageBox.warning(self, "Validation Error", "Name can only contain letters.")
+            return
+        
+        if len(ic) != 12 or not ic.isdigit():
+            QMessageBox.warning(self, "Validation Error", "IC must be 12 digits with no special characters.")
+            return
+        
+        if not phone.startswith("601") or not phone[3:].isdigit() or len(phone) < 11 or len(phone) > 12:
+            QMessageBox.warning(self, "Validation Error", "Phone number format is invalid.")
+            return
+        
+        if "@" not in email or "." not in email:
+            QMessageBox.warning(self, "Validation Error", "Invalid email format.")
+            return
+        
+        if len(password) < 8:
+            QMessageBox.warning(self, "Validation Error", "Password must be at least 8 characters long.")
+            return
+        
+        if not any(char.isdigit() for char in password) or not any(char.isalpha() for char in password):
+            QMessageBox.warning(self, "Validation Error", "Password must contain both letters and numbers.")
+            return
+        
+        if password != confirm_password:
+            QMessageBox.warning(self, "Validation Error", "Passwords do not match.")
+            return
+        
+        # If all validations pass, you can proceed with registration or any other action.
+        QMessageBox.information(self, "Success", "Registration Successful!")
 
 
 
