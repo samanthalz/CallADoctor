@@ -4,7 +4,11 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from datetime import datetime
 
+import firebase_admin
+from firebase_admin import credentials, db
+from connection import db_ref
 
 class RegisterWidget(QWidget, QObject):
     registration_successful = pyqtSignal()  # Custom signal
@@ -284,7 +288,28 @@ class RegisterWidget(QWidget, QObject):
             QMessageBox.warning(self, "Validation Error", "Passwords do not match.")
             return
         
-        # If all validations pass, you can proceed with registration or any other action.
+        birth_year_str = ic[:2] if len(ic) >= 2 else '00'
+        birth_year = int(birth_year_str) + 1900  # Assuming the IC represents the birth year in YY format
+        current_year = datetime.now().year
+
+        age = current_year - birth_year
+        
+        # After successful validation
+        patient_data = {
+            'patient_name': name,
+            'patient_ic': ic,
+            'patient_age': ic,
+            'patient_phone': phone,
+            'patient_email': email,
+            'patient_username': username,
+            'patient_pass': password,
+            'patient_address': ""
+        }
+        
+        patients_ref = db_ref.child('patients')
+        # Add the data to the 'patients' node in Realtime Database
+        new_patient_ref = patients_ref.push(patient_data)
+        
         QMessageBox.information(self, "Success", "Registration Successful!")
         self.registration_successful.emit()  # Emit the signal to switch views
 
