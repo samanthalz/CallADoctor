@@ -1,12 +1,14 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt, pyqtSignal)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 
 
-class RegisterWidget(QWidget):
+class RegisterWidget(QWidget, QObject):
+    registration_successful = pyqtSignal()  # Custom signal
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -284,6 +286,7 @@ class RegisterWidget(QWidget):
         
         # If all validations pass, you can proceed with registration or any other action.
         QMessageBox.information(self, "Success", "Registration Successful!")
+        self.registration_successful.emit()  # Emit the signal to switch views
 
 
 
