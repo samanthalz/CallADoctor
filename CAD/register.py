@@ -136,22 +136,22 @@ class RegisterWidget(QWidget, QObject):
 
         self.verticalLayout.addLayout(self.email_layout)
 
-        self.username_layout = QVBoxLayout()
-        self.username_layout.setObjectName(u"username_layout")
-        self.username = QLabel(self.layoutWidget)
-        self.username.setObjectName(u"username")
-        self.username.setFont(font2)
+        self.address_layout = QVBoxLayout()
+        self.address_layout.setObjectName(u"address_layout")
+        self.address = QLabel(self.layoutWidget)
+        self.address.setObjectName(u"address")
+        self.address.setFont(font2)
 
-        self.username_layout.addWidget(self.username)
+        self.address_layout.addWidget(self.address)
 
-        self.username_input = QLineEdit(self.layoutWidget)
-        self.username_input.setObjectName(u"username_input")
-        self.username_input.setMinimumSize(QSize(0, 40))
+        self.address_input = QLineEdit(self.layoutWidget)
+        self.address_input.setObjectName(u"address_input")
+        self.address_input.setMinimumSize(QSize(0, 40))
 
-        self.username_layout.addWidget(self.username_input)
+        self.address_layout.addWidget(self.address_input)
 
 
-        self.verticalLayout.addLayout(self.username_layout)
+        self.verticalLayout.addLayout(self.address_layout)
 
         self.password_layout = QVBoxLayout()
         self.password_layout.setObjectName(u"password_layout")
@@ -233,7 +233,7 @@ class RegisterWidget(QWidget, QObject):
         self.ic.setText(QCoreApplication.translate("Form", u"IC Number", None))
         self.phonenum.setText(QCoreApplication.translate("Form", u"Phone Number (eg. 601XXXXXXXXX)", None))
         self.email.setText(QCoreApplication.translate("Form", u"Email Address", None))
-        self.username.setText(QCoreApplication.translate("Form", u"Username", None))
+        self.address.setText(QCoreApplication.translate("Form", u"Address", None))
         self.password.setText(QCoreApplication.translate("Form", u"Password", None))
         self.confirmpass_2.setText(QCoreApplication.translate("Form", u"Confirm Password", None))
 #if QT_CONFIG(tooltip)
@@ -249,11 +249,11 @@ class RegisterWidget(QWidget, QObject):
         ic = self.ic_input.text().strip()
         phone = self.phone_input.text().strip()
         email = self.email_input.text().strip()
-        username = self.username_input.text().strip()
+        address = self.address_input.text().strip()
         password = self.password_input.text().strip()
         confirm_password = self.confirmpass_input.text().strip()
         
-        if not all([name, ic, phone, email, username, password, confirm_password]):
+        if not all([name, ic, phone, email, address, password, confirm_password]):
             QMessageBox.warning(self, "Validation Error", "All fields are required.")
             return
         
@@ -295,12 +295,11 @@ class RegisterWidget(QWidget, QObject):
         patient_data = {
             'patient_name': name,
             'patient_ic': ic,
-            'patient_age': ic,
+            'patient_age': age,
             'patient_phone': phone,
             'patient_email': email,
-            'patient_username': username,
             'patient_pass': password,
-            'patient_address': ""
+            'patient_address': address
         }
         
         # Get a reference to the 'patients' node

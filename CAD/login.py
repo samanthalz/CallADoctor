@@ -55,27 +55,27 @@ class LoginWidget(QWidget):
         self.verticalLayout_14 = QVBoxLayout()
         self.verticalLayout_14.setSpacing(10)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
-        self.user_layout = QVBoxLayout()
-        self.user_layout.setSpacing(10)
-        self.user_layout.setObjectName(u"user_layout")
-        self.username = QLabel(self.layoutWidget)
-        self.username.setObjectName(u"username")
+        self.ic_layout = QVBoxLayout()
+        self.ic_layout.setSpacing(10)
+        self.ic_layout.setObjectName(u"ic_layout")
+        self.ic = QLabel(self.layoutWidget)
+        self.ic.setObjectName(u"ic")
         font1 = QFont()
         font1.setFamily(u"Consolas")
         font1.setPointSize(12)
-        self.username.setFont(font1)
+        self.ic.setFont(font1)
 
-        self.user_layout.addWidget(self.username)
+        self.ic_layout.addWidget(self.ic)
 
-        self.username_input = QLineEdit(self.layoutWidget)
-        self.username_input.setObjectName(u"username_input")
-        self.username_input.setMinimumSize(QSize(500, 40))
-        self.username_input.setBaseSize(QSize(0, 0))
+        self.ic_input = QLineEdit(self.layoutWidget)
+        self.ic_input.setObjectName(u"ic_input")
+        self.ic_input.setMinimumSize(QSize(500, 40))
+        self.ic_input.setBaseSize(QSize(0, 0))
 
-        self.user_layout.addWidget(self.username_input)
+        self.ic_layout.addWidget(self.ic_input)
 
 
-        self.verticalLayout_14.addLayout(self.user_layout)
+        self.verticalLayout_14.addLayout(self.ic_layout)
 
         self.password_layout = QVBoxLayout()
         self.password_layout.setObjectName(u"password_layout")
@@ -161,7 +161,7 @@ class LoginWidget(QWidget):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.logintext.setText(QCoreApplication.translate("Form", u"Login", None))
-        self.username.setText(QCoreApplication.translate("Form", u"Username", None))
+        self.ic.setText(QCoreApplication.translate("Form", u"IC Number", None))
         self.password.setText(QCoreApplication.translate("Form", u"Password", None))
         self.forgetpassbutton.setText(QCoreApplication.translate("Form", u"Forgot Password", None))
 #if QT_CONFIG(tooltip)
@@ -173,22 +173,22 @@ class LoginWidget(QWidget):
     # retranslateUi
     
     def validateLogin(self):
-        username = self.username_input.text()
+        ic = self.ic_input.text()
         password = self.password_input.text()
 
-        if not username or not password:
-            self.showMessageBox('Error', 'Username and password cannot be empty.')
+        if not ic or not password:
+            self.showMessageBox('Error', 'IC number and password cannot be empty.')
             return
 
         # Fetch data from Firebase
         patients = db.child('patients').get()
         for patient in patients.each():
             patient_data = patient.val()
-            if patient_data['patient_username'] == username and patient_data['patient_pass'] == password:
+            if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
                 self.showMessageBox('Success', 'Login successful!')
                 return
 
-        self.showMessageBox('Error', 'Invalid username or password.')
+        self.showMessageBox('Error', 'Invalid IC number or password.')
 
     def showMessageBox(self, title, message):
         msgBox = QMessageBox()
