@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt, pyqtSignal)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -8,6 +8,8 @@ from connection import db
 
 
 class LoginWidget(QWidget):
+    login_successful = pyqtSignal()
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -185,18 +187,19 @@ class LoginWidget(QWidget):
         for patient in patients.each():
             patient_data = patient.val()
             if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
-                self.showMessageBox('Success', 'Login successful!')
+                self.showMessageBox('Success', 'Login successful!', success=True)
                 return
 
         self.showMessageBox('Error', 'Invalid IC number or password.')
 
-    def showMessageBox(self, title, message):
+    def showMessageBox(self, title, message, success=False):
         msgBox = QMessageBox()
         msgBox.setIcon(QMessageBox.Information)
         msgBox.setWindowTitle(title)
         msgBox.setText(message)
         msgBox.setStandardButtons(QMessageBox.Ok)
-        msgBox.exec()
+        if msgBox.exec() == QMessageBox.Ok and success:
+            self.login_successful.emit()
 
 
 

@@ -5,15 +5,16 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 from User.forgotpw import ForgotPwWidget
 from login import LoginWidget
 from register import RegisterWidget
+from User.home_page_ui import HomeWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         
-        # Connect the signal from login widget to switch to forgot password widget
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
+        
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
         self.registerWidget.registration_successful.connect(self.showLoginWidget)
 
@@ -33,11 +34,13 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget()
         self.registerWidget = RegisterWidget()
+        self.homeWidget = HomeWidget()
          
 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.registerWidget)
+        self.stackedWidget.addWidget(self.homeWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -61,7 +64,6 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showLoginWidget(self):
         self.stackedWidget.setCurrentWidget(self.loginWidget)
-        
     
     
 if __name__ == "__main__":
