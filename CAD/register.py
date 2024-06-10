@@ -5,10 +5,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 from datetime import datetime
-
-import firebase_admin
-from firebase_admin import credentials, db
-from connection import db_ref
+from connection import db
 
 class RegisterWidget(QWidget, QObject):
     registration_successful = pyqtSignal()  # Custom signal
@@ -306,9 +303,12 @@ class RegisterWidget(QWidget, QObject):
             'patient_address': ""
         }
         
-        patients_ref = db_ref.child('patients')
+        # Get a reference to the 'patients' node
+        patients_ref = db.child('patients')
+
         # Add the data to the 'patients' node in Realtime Database
         new_patient_ref = patients_ref.push(patient_data)
+        print(f"Data added to the database with key: {new_patient_ref['name']}")
         
         QMessageBox.information(self, "Success", "Registration Successful!")
         self.registration_successful.emit()  # Emit the signal to switch views

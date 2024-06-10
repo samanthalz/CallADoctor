@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from connection import db
 
 
 class LoginWidget(QWidget):
@@ -123,6 +124,7 @@ class LoginWidget(QWidget):
         font3.setPointSize(14)
         self.loginbutton.setFont(font3)
         self.loginbutton.setStyleSheet(u"border-radius: 15px; color: white; background-color: \"#B6D0E2\";")
+        self.loginbutton.clicked.connect(self.validateLogin)
 
         self.verticalLayout.addWidget(self.loginbutton)
 
@@ -170,7 +172,31 @@ class LoginWidget(QWidget):
         self.image.setText("")
     # retranslateUi
     
-    
+    def validateLogin(self):
+        username = self.username_input.text()
+        password = self.password_input.text()
+
+        if not username or not password:
+            self.showMessageBox('Error', 'Username and password cannot be empty.')
+            return
+
+        # Fetch data from Firebase
+        patients = db.child('patients').get()
+        for patient in patients.each():
+            patient_data = patient.val()
+            if patient_data['patient_username'] == username and patient_data['patient_pass'] == password:
+                self.showMessageBox('Success', 'Login successful!')
+                return
+
+        self.showMessageBox('Error', 'Invalid username or password.')
+
+    def showMessageBox(self, title, message):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setWindowTitle(title)
+        msgBox.setText(message)
+        msgBox.setStandardButtons(QMessageBox.Ok)
+        msgBox.exec()
 
 
 
