@@ -1,19 +1,22 @@
 from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, pyqtSlot
-from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QMenuBar, QStatusBar
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 
 # Import your custom widgets
 from User.forgotpw import ForgotPwWidget
 from login import LoginWidget
+from register import RegisterWidget
+from User.home_page_ui import HomeWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        # Connect the signal from login widget to switch to forgot password widget
+        
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
-        # connect signal from click login button to switch to home page
-
-        # connect signal from click register button to switch to registration page
+        self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
+        
+        self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
+        self.registerWidget.registration_successful.connect(self.showLoginWidget)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -30,10 +33,14 @@ class Ui_MainWindow(QMainWindow):
 
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget()
+        self.registerWidget = RegisterWidget()
+        self.homeWidget = HomeWidget()
          
 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
+        self.stackedWidget.addWidget(self.registerWidget)
+        self.stackedWidget.addWidget(self.homeWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -45,10 +52,19 @@ class Ui_MainWindow(QMainWindow):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow"))
         
-
+        
     @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
+        
+    @pyqtSlot()
+    def showRegisterWidget(self):
+        self.stackedWidget.setCurrentWidget(self.registerWidget)
+        
+    @pyqtSlot()
+    def showLoginWidget(self):
+        self.stackedWidget.setCurrentWidget(self.loginWidget)
+    
     
 if __name__ == "__main__":
     import sys
