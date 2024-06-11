@@ -299,7 +299,8 @@ class RegisterWidget(QWidget, QObject):
             'patient_phone': phone,
             'patient_email': email,
             'patient_pass': password,
-            'patient_address': address
+            'patient_address': address,
+            'rights': 0
         }
         
         # Get a reference to the 'patients' node
