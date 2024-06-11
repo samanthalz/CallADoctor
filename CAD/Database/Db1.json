@@ -2,8 +2,11 @@
     "patient": [
         {
             "patient_id": null,
+            "patient_username": "",
             "patient_name": "",
+            "patient_ic": "",
             "patient_age": null,
+            "patient_phone": "",
             "patient_pass": null,
             "patient_address":""
         }
