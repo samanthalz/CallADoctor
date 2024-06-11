@@ -284,10 +284,10 @@ border-top-left-radius: 30px;</string>
    <widget class="QPushButton" name="noti_icon">
     <property name="geometry">
      <rect>
-      <x>1400</x>
+      <x>1380</x>
       <y>30</y>
-      <width>54</width>
-      <height>50</height>
+      <width>70</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -299,8 +299,8 @@ border-top-left-radius: 30px;</string>
     </property>
     <property name="iconSize">
      <size>
-      <width>35</width>
-      <height>35</height>
+      <width>40</width>
+      <height>40</height>
      </size>
     </property>
    </widget>
@@ -325,129 +325,611 @@ border-top-left-radius: 30px;</string>
      <string>Services Available</string>
     </property>
    </widget>
-   <widget class="QFrame" name="faclinic_frame">
+   <widget class="QFrame" name="user_frame">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>240</y>
-      <width>411</width>
-      <height>551</height>
+      <x>1480</x>
+      <y>30</y>
+      <width>251</width>
+      <height>80</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border: 2px solid #4CAF50;</string>
+     <string notr="true">border-radius: 20px; border: 2px solid #808080</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
+     <enum>QFrame::Raised</enum>
     </property>
-    <property name="lineWidth">
-     <number>0</number>
-    </property>
-    <property name="midLineWidth">
-     <number>0</number>
-    </property>
-    <widget class="QLabel" name="faclinic_img">
+    <widget class="QLabel" name="profile_icon">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>361</width>
-       <height>211</height>
+       <x>10</x>
+       <y>10</y>
+       <width>60</width>
+       <height>60</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: none;</string>
+      <string notr="true">border: none</string>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>../Images/findaclinic.png</pixmap>
+      <pixmap>../Images/profile_icon.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="faclinic_title">
+    <widget class="QPushButton" name="profile_btn">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>270</y>
-       <width>171</width>
-       <height>16</height>
+       <x>120</x>
+       <y>25</y>
+       <width>71</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Consolas</family>
-       <pointsize>12</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <pointsize>16</pointsize>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: none;</string>
+      <string notr="true">border: none</string>
      </property>
      <property name="text">
-      <string>Find A Clinic</string>
-     </property>
-     <property name="scaledContents">
-      <bool>false</bool>
+      <string>User</string>
      </property>
     </widget>
-    <widget class="QLabel" name="faclinic_text">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>300</y>
-       <width>341</width>
-       <height>141</height>
-      </rect>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>190</y>
+      <width>1341</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>50</number>
      </property>
-     <property name="font">
-      <font>
-       <family>Consolas</family>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border: none;</string>
-     </property>
-     <property name="text">
-      <string>Finding the right clinic has never been easier. Whether you need a routine check-up, or a specialist consultation, our comprehensive directory will help you locate the perfect healthcare provider.</string>
-     </property>
-     <property name="scaledContents">
-      <bool>false</bool>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="faclinic_btn">
-     <property name="geometry">
-      <rect>
-       <x>32</x>
-       <y>460</y>
-       <width>81</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Consolas</family>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border: 2px solid #007E85; border-radius: 10; background-color: #007E85; color: white</string>
-     </property>
-     <property name="text">
-      <string>Go →</string>
-     </property>
-    </widget>
+     <item>
+      <widget class="QFrame" name="faclinic_outer_frame">
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid #B6D0E2; border-radius: 20px; </string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="faclinic_inner_frame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>401</width>
+          <height>551</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border: none; margin: 0; padding:0; background-color: rgba(255, 255, 255, 0.5)</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <property name="midLineWidth">
+         <number>0</number>
+        </property>
+        <widget class="QPushButton" name="faclinic_btn">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>480</y>
+           <width>81</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white</string>
+         </property>
+         <property name="text">
+          <string>Go →</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="">
+         <property name="geometry">
+          <rect>
+           <x>22</x>
+           <y>33</y>
+           <width>371</width>
+           <height>451</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="faclinic_info_layout">
+          <item>
+           <widget class="QLabel" name="faclinic_img">
+            <property name="maximumSize">
+             <size>
+              <width>369</width>
+              <height>260</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: none; </string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap>../Images/services/services_findClinic.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>348</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="faclinic_title_layout">
+            <item>
+             <widget class="QLabel" name="faclinic_title">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: none;</string>
+              </property>
+              <property name="text">
+               <string>Find A Clinic</string>
+              </property>
+              <property name="scaledContents">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>168</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="faclinic_text">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string>Finding the right clinic has never been easier. Whether you need a routine check-up, or a specialist consultation, our comprehensive directory will help you locate the perfect healthcare provider.</string>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>338</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="fadoctor_outer_frame">
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid #B6D0E2; border-radius: 20px; </string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="fadoctor_inner_frame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>401</width>
+          <height>551</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border: none; margin: 0; padding:0; background-color: rgba(255, 255, 255, 0.5)</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <property name="midLineWidth">
+         <number>0</number>
+        </property>
+        <widget class="QPushButton" name="fadoctor_btn">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>480</y>
+           <width>81</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white</string>
+         </property>
+         <property name="text">
+          <string>Go →</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>371</width>
+           <height>451</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="fad_info_layout">
+          <item>
+           <widget class="QLabel" name="fadoctor_img">
+            <property name="styleSheet">
+             <string notr="true">border: none; </string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap>../Images/services/services_doctor.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>348</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="fad_title_layout">
+            <item>
+             <widget class="QLabel" name="fadoctor_title">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: none;</string>
+              </property>
+              <property name="text">
+               <string>Find A Doctor</string>
+              </property>
+              <property name="scaledContents">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>168</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="fadoctor_text">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string>Quickly locate and connect with qualified medical professionals in your area. Whether you need a specialist, or a consultant, we ensures you find the right doctor for your health needs.</string>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>338</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="makeAppt_outer_frame">
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid #B6D0E2; border-radius: 20px; </string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="makeAppt_inner_frame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>401</width>
+          <height>551</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border: none; margin: 0; padding:0; background-color: rgba(255, 255, 255, 0.5)</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <property name="midLineWidth">
+         <number>0</number>
+        </property>
+        <widget class="QPushButton" name="makeAppt_btn">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>480</y>
+           <width>81</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white</string>
+         </property>
+         <property name="text">
+          <string>Go →</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>371</width>
+           <height>451</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="makeAppt_info_layout">
+          <item>
+           <widget class="QLabel" name="makeAppt_img">
+            <property name="styleSheet">
+             <string notr="true">border: none; </string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap>../Images/services/services_make_appointment.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>348</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="makeAppt_title_layout">
+            <item>
+             <widget class="QLabel" name="fadoctormakeAppt">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: none;</string>
+              </property>
+              <property name="text">
+               <string>Make An Appointment</string>
+              </property>
+              <property name="scaledContents">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>168</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="makeAppt_text">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string>Easily schedule your next medical appointment with just a few clicks. Choose your preferred date, time, and doctor to ensure timely and convenient care.</string>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>338</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>
