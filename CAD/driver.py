@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 from User.forgotpw import ForgotPwWidget
 from login import LoginWidget
 from register import RegisterWidget
-from User.home_page_ui import HomeWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -34,13 +33,11 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget()
         self.registerWidget = RegisterWidget()
-        self.homeWidget = HomeWidget()
          
 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.registerWidget)
-        self.stackedWidget.addWidget(self.homeWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         

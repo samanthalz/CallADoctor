@@ -4,15 +4,9 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
-from connection import db
 
 
-class ServicesWidget(QWidget):
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setupUi(self)
-        
+class Ui_Form(object):
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
@@ -104,7 +98,7 @@ class ServicesWidget(QWidget):
         self.whitebg = QWidget(Form)
         self.whitebg.setObjectName(u"whitebg")
         self.whitebg.setGeometry(QRect(150, 0, 1771, 1080))
-        self.whitebg.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+        self.whitebg.setStyleSheet(u"background-color: #F8F8F8;\n"
 "border-bottom-left-radius: 30px;\n"
 "border-top-left-radius: 30px;")
         self.noti_icon = QPushButton(self.whitebg)
@@ -143,102 +137,15 @@ class ServicesWidget(QWidget):
         font2.setPointSize(16)
         self.profile_btn.setFont(font2)
         self.profile_btn.setStyleSheet(u"border: none")
-        self.widget = QWidget(self.whitebg)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(90, 190, 1341, 541))
-        self.horizontalLayout = QHBoxLayout(self.widget)
-        self.horizontalLayout.setSpacing(50)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.faclinic_outer_frame = QFrame(self.widget)
-        self.faclinic_outer_frame.setObjectName(u"faclinic_outer_frame")
-        self.faclinic_outer_frame.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 20px; ")
-        self.faclinic_outer_frame.setFrameShape(QFrame.StyledPanel)
-        self.faclinic_outer_frame.setFrameShadow(QFrame.Raised)
-        self.faclinic_inner_frame = QFrame(self.faclinic_outer_frame)
-        self.faclinic_inner_frame.setObjectName(u"faclinic_inner_frame")
-        self.faclinic_inner_frame.setGeometry(QRect(0, 0, 401, 551))
-        self.faclinic_inner_frame.setStyleSheet(u"border: none; margin: 0; padding:0; background-color: rgba(255, 255, 255, 0.5)")
-        self.faclinic_inner_frame.setFrameShape(QFrame.StyledPanel)
-        self.faclinic_inner_frame.setFrameShadow(QFrame.Plain)
-        self.faclinic_inner_frame.setLineWidth(0)
-        self.faclinic_inner_frame.setMidLineWidth(0)
-        self.faclinic_btn = QPushButton(self.faclinic_inner_frame)
-        self.faclinic_btn.setObjectName(u"faclinic_btn")
-        self.faclinic_btn.setGeometry(QRect(20, 480, 81, 41))
-        font3 = QFont()
-        font3.setFamily(u"Consolas")
-        font3.setPointSize(14)
-        self.faclinic_btn.setFont(font3)
-        self.faclinic_btn.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white")
-        self.widget1 = QWidget(self.faclinic_inner_frame)
-        self.widget1.setObjectName(u"widget1")
-        self.widget1.setGeometry(QRect(22, 33, 371, 451))
-        self.faclinic_info_layout = QVBoxLayout(self.widget1)
-        self.faclinic_info_layout.setObjectName(u"faclinic_info_layout")
-        self.faclinic_info_layout.setContentsMargins(0, 0, 0, 0)
-        self.faclinic_img = QLabel(self.widget1)
-        self.faclinic_img.setObjectName(u"faclinic_img")
-        self.faclinic_img.setMaximumSize(QSize(369, 260))
-        self.faclinic_img.setStyleSheet(u"border: none; ")
-        self.faclinic_img.setPixmap(QPixmap(u"../Images/services/services_findClinic.png"))
-        self.faclinic_img.setScaledContents(True)
-
-        self.faclinic_info_layout.addWidget(self.faclinic_img)
-
-        self.horizontalSpacer_3 = QSpacerItem(348, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.faclinic_info_layout.addItem(self.horizontalSpacer_3)
-
-        self.faclinic_title_layout = QHBoxLayout()
-        self.faclinic_title_layout.setObjectName(u"faclinic_title_layout")
-        self.faclinic_title = QLabel(self.widget1)
-        self.faclinic_title.setObjectName(u"faclinic_title")
-        font4 = QFont()
-        font4.setFamily(u"Consolas")
-        font4.setPointSize(12)
-        font4.setBold(True)
-        font4.setWeight(75)
-        self.faclinic_title.setFont(font4)
-        self.faclinic_title.setStyleSheet(u"border: none;")
-        self.faclinic_title.setScaledContents(False)
-
-        self.faclinic_title_layout.addWidget(self.faclinic_title)
-
-        self.horizontalSpacer_2 = QSpacerItem(168, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.faclinic_title_layout.addItem(self.horizontalSpacer_2)
-
-
-        self.faclinic_info_layout.addLayout(self.faclinic_title_layout)
-
-        self.faclinic_text = QLabel(self.widget1)
-        self.faclinic_text.setObjectName(u"faclinic_text")
-        font5 = QFont()
-        font5.setFamily(u"Consolas")
-        font5.setPointSize(10)
-        self.faclinic_text.setFont(font5)
-        self.faclinic_text.setStyleSheet(u"border: none;")
-        self.faclinic_text.setScaledContents(False)
-        self.faclinic_text.setWordWrap(True)
-
-        self.faclinic_info_layout.addWidget(self.faclinic_text)
-
-        self.horizontalSpacer_4 = QSpacerItem(338, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.faclinic_info_layout.addItem(self.horizontalSpacer_4)
-
-
-        self.horizontalLayout.addWidget(self.faclinic_outer_frame)
-
-        self.fadoctor_outer_frame = QFrame(self.widget)
+        self.fadoctor_outer_frame = QFrame(self.whitebg)
         self.fadoctor_outer_frame.setObjectName(u"fadoctor_outer_frame")
+        self.fadoctor_outer_frame.setGeometry(QRect(554, 191, 413, 539))
         self.fadoctor_outer_frame.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 20px; ")
         self.fadoctor_outer_frame.setFrameShape(QFrame.StyledPanel)
         self.fadoctor_outer_frame.setFrameShadow(QFrame.Raised)
         self.fadoctor_inner_frame = QFrame(self.fadoctor_outer_frame)
         self.fadoctor_inner_frame.setObjectName(u"fadoctor_inner_frame")
-        self.fadoctor_inner_frame.setGeometry(QRect(0, 0, 401, 551))
+        self.fadoctor_inner_frame.setGeometry(QRect(0, 0, 411, 551))
         self.fadoctor_inner_frame.setStyleSheet(u"border: none; margin: 0; padding:0; background-color: rgba(255, 255, 255, 0.5)")
         self.fadoctor_inner_frame.setFrameShape(QFrame.StyledPanel)
         self.fadoctor_inner_frame.setFrameShadow(QFrame.Plain)
@@ -247,6 +154,9 @@ class ServicesWidget(QWidget):
         self.fadoctor_btn = QPushButton(self.fadoctor_inner_frame)
         self.fadoctor_btn.setObjectName(u"fadoctor_btn")
         self.fadoctor_btn.setGeometry(QRect(20, 480, 81, 41))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(14)
         self.fadoctor_btn.setFont(font3)
         self.fadoctor_btn.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white")
         self.layoutWidget = QWidget(self.fadoctor_inner_frame)
@@ -271,6 +181,11 @@ class ServicesWidget(QWidget):
         self.fad_title_layout.setObjectName(u"fad_title_layout")
         self.fadoctor_title = QLabel(self.layoutWidget)
         self.fadoctor_title.setObjectName(u"fadoctor_title")
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(12)
+        font4.setBold(True)
+        font4.setWeight(75)
         self.fadoctor_title.setFont(font4)
         self.fadoctor_title.setStyleSheet(u"border: none;")
         self.fadoctor_title.setScaledContents(False)
@@ -286,6 +201,9 @@ class ServicesWidget(QWidget):
 
         self.fadoctor_text = QLabel(self.layoutWidget)
         self.fadoctor_text.setObjectName(u"fadoctor_text")
+        font5 = QFont()
+        font5.setFamily(u"Consolas")
+        font5.setPointSize(10)
         self.fadoctor_text.setFont(font5)
         self.fadoctor_text.setStyleSheet(u"border: none;")
         self.fadoctor_text.setScaledContents(False)
@@ -297,17 +215,82 @@ class ServicesWidget(QWidget):
 
         self.fad_info_layout.addItem(self.horizontalSpacer_7)
 
+        self.faclinic_outer_frame = QFrame(self.whitebg)
+        self.faclinic_outer_frame.setObjectName(u"faclinic_outer_frame")
+        self.faclinic_outer_frame.setGeometry(QRect(91, 191, 413, 539))
+        self.faclinic_outer_frame.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 20px; ")
+        self.faclinic_outer_frame.setFrameShape(QFrame.StyledPanel)
+        self.faclinic_outer_frame.setFrameShadow(QFrame.Raised)
+        self.faclinic_inner_frame = QFrame(self.faclinic_outer_frame)
+        self.faclinic_inner_frame.setObjectName(u"faclinic_inner_frame")
+        self.faclinic_inner_frame.setGeometry(QRect(0, 0, 411, 551))
+        self.faclinic_inner_frame.setStyleSheet(u"border: none; margin: 0; padding:0; background-color: rgba(255, 255, 255, 0.5)")
+        self.faclinic_inner_frame.setFrameShape(QFrame.StyledPanel)
+        self.faclinic_inner_frame.setFrameShadow(QFrame.Plain)
+        self.faclinic_inner_frame.setLineWidth(0)
+        self.faclinic_inner_frame.setMidLineWidth(0)
+        self.faclinic_btn = QPushButton(self.faclinic_inner_frame)
+        self.faclinic_btn.setObjectName(u"faclinic_btn")
+        self.faclinic_btn.setGeometry(QRect(20, 480, 81, 41))
+        self.faclinic_btn.setFont(font3)
+        self.faclinic_btn.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white")
+        self.layoutWidget_3 = QWidget(self.faclinic_inner_frame)
+        self.layoutWidget_3.setObjectName(u"layoutWidget_3")
+        self.layoutWidget_3.setGeometry(QRect(20, 30, 371, 451))
+        self.faclinic_info_layout = QVBoxLayout(self.layoutWidget_3)
+        self.faclinic_info_layout.setObjectName(u"faclinic_info_layout")
+        self.faclinic_info_layout.setContentsMargins(0, 0, 0, 0)
+        self.faclinic_img = QLabel(self.layoutWidget_3)
+        self.faclinic_img.setObjectName(u"faclinic_img")
+        self.faclinic_img.setStyleSheet(u"border: none; ")
+        self.faclinic_img.setPixmap(QPixmap(u"../Images/services/services_findClinic.png"))
+        self.faclinic_img.setScaledContents(True)
 
-        self.horizontalLayout.addWidget(self.fadoctor_outer_frame)
+        self.faclinic_info_layout.addWidget(self.faclinic_img)
 
-        self.makeAppt_outer_frame = QFrame(self.widget)
+        self.horizontalSpacer_11 = QSpacerItem(348, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.faclinic_info_layout.addItem(self.horizontalSpacer_11)
+
+        self.faclinic_title_layout = QHBoxLayout()
+        self.faclinic_title_layout.setObjectName(u"faclinic_title_layout")
+        self.faclinic_title = QLabel(self.layoutWidget_3)
+        self.faclinic_title.setObjectName(u"faclinic_title")
+        self.faclinic_title.setFont(font4)
+        self.faclinic_title.setStyleSheet(u"border: none;")
+        self.faclinic_title.setScaledContents(False)
+
+        self.faclinic_title_layout.addWidget(self.faclinic_title)
+
+        self.horizontalSpacer_12 = QSpacerItem(168, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.faclinic_title_layout.addItem(self.horizontalSpacer_12)
+
+
+        self.faclinic_info_layout.addLayout(self.faclinic_title_layout)
+
+        self.faclinic_text = QLabel(self.layoutWidget_3)
+        self.faclinic_text.setObjectName(u"faclinic_text")
+        self.faclinic_text.setFont(font5)
+        self.faclinic_text.setStyleSheet(u"border: none;")
+        self.faclinic_text.setScaledContents(False)
+        self.faclinic_text.setWordWrap(True)
+
+        self.faclinic_info_layout.addWidget(self.faclinic_text)
+
+        self.horizontalSpacer_13 = QSpacerItem(338, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.faclinic_info_layout.addItem(self.horizontalSpacer_13)
+
+        self.makeAppt_outer_frame = QFrame(self.whitebg)
         self.makeAppt_outer_frame.setObjectName(u"makeAppt_outer_frame")
+        self.makeAppt_outer_frame.setGeometry(QRect(1017, 191, 413, 539))
         self.makeAppt_outer_frame.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 20px; ")
         self.makeAppt_outer_frame.setFrameShape(QFrame.StyledPanel)
         self.makeAppt_outer_frame.setFrameShadow(QFrame.Raised)
         self.makeAppt_inner_frame = QFrame(self.makeAppt_outer_frame)
         self.makeAppt_inner_frame.setObjectName(u"makeAppt_inner_frame")
-        self.makeAppt_inner_frame.setGeometry(QRect(0, 0, 401, 551))
+        self.makeAppt_inner_frame.setGeometry(QRect(0, 0, 411, 551))
         self.makeAppt_inner_frame.setStyleSheet(u"border: none; margin: 0; padding:0; background-color: rgba(255, 255, 255, 0.5)")
         self.makeAppt_inner_frame.setFrameShape(QFrame.StyledPanel)
         self.makeAppt_inner_frame.setFrameShadow(QFrame.Plain)
@@ -367,9 +350,6 @@ class ServicesWidget(QWidget):
         self.makeAppt_info_layout.addItem(self.horizontalSpacer_10)
 
 
-        self.horizontalLayout.addWidget(self.makeAppt_outer_frame)
-
-
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
@@ -386,14 +366,14 @@ class ServicesWidget(QWidget):
         self.services_avail_title.setText(QCoreApplication.translate("Form", u"Services Available", None))
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
-        self.faclinic_btn.setText(QCoreApplication.translate("Form", u"Go \u2192", None))
-        self.faclinic_img.setText("")
-        self.faclinic_title.setText(QCoreApplication.translate("Form", u"Find A Clinic", None))
-        self.faclinic_text.setText(QCoreApplication.translate("Form", u"Finding the right clinic has never been easier. Whether you need a routine check-up, or a specialist consultation, our comprehensive directory will help you locate the perfect healthcare provider.", None))
         self.fadoctor_btn.setText(QCoreApplication.translate("Form", u"Go \u2192", None))
         self.fadoctor_img.setText("")
         self.fadoctor_title.setText(QCoreApplication.translate("Form", u"Find A Doctor", None))
         self.fadoctor_text.setText(QCoreApplication.translate("Form", u"Quickly locate and connect with qualified medical professionals in your area. Whether you need a specialist, or a consultant, we ensures you find the right doctor for your health needs.", None))
+        self.faclinic_btn.setText(QCoreApplication.translate("Form", u"Go \u2192", None))
+        self.faclinic_img.setText("")
+        self.faclinic_title.setText(QCoreApplication.translate("Form", u"Find A Clinic", None))
+        self.faclinic_text.setText(QCoreApplication.translate("Form", u"Finding the right clinic has never been easier. Whether you need a routine check-up, or a specialist consultation, our comprehensive directory will help you locate the perfect healthcare provider.", None))
         self.makeAppt_btn.setText(QCoreApplication.translate("Form", u"Go \u2192", None))
         self.makeAppt_img.setText("")
         self.fadoctormakeAppt.setText(QCoreApplication.translate("Form", u"Make An Appointment", None))
