@@ -6,7 +6,11 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 
 
-class Ui_Form(object):
+class ServicesWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
