@@ -569,7 +569,7 @@ class HomeWidget(QWidget):
         self.noti_icon.setGeometry(QtCore.QRect(1380, 30, 70, 81))
         self.noti_icon.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../Documents/SE_CAD/CallADoctor/CAD/Images/icon/notification.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("CAD/Images/icon/notification.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.noti_icon.setIcon(icon)
         self.noti_icon.setIconSize(QtCore.QSize(40, 40))
         self.noti_icon.setObjectName("noti_icon")
@@ -583,7 +583,7 @@ class HomeWidget(QWidget):
         self.profile_icon.setGeometry(QtCore.QRect(10, 10, 60, 60))
         self.profile_icon.setStyleSheet("border: none")
         self.profile_icon.setText("")
-        self.profile_icon.setPixmap(QtGui.QPixmap("../../../Documents/SE_CAD/CallADoctor/CAD/Images/profile_icon.png"))
+        self.profile_icon.setPixmap(QtGui.QPixmap("CAD/Images/icon/profile_icon.png"))
         self.profile_icon.setScaledContents(True)
         self.profile_icon.setObjectName("profile_icon")
         self.profile_btn = QtWidgets.QPushButton(self.user_frame)
@@ -616,7 +616,7 @@ class HomeWidget(QWidget):
         self.home_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../../Sem4_5001CEM_SoftwareEngineering/coursework/images/home_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/home_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QtCore.QSize(70, 70))
         self.home_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -638,7 +638,7 @@ class HomeWidget(QWidget):
         self.appointments_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../../Sem4_5001CEM_SoftwareEngineering/coursework/images/appointment_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/appointment_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.appointments_navigation.setIcon(icon2)
         self.appointments_navigation.setIconSize(QtCore.QSize(70, 70))
         self.appointments_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -660,7 +660,7 @@ class HomeWidget(QWidget):
         self.services_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../../Sem4_5001CEM_SoftwareEngineering/coursework/images/services_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/services_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.services_navigation.setIcon(icon3)
         self.services_navigation.setIconSize(QtCore.QSize(70, 70))
         self.services_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -682,7 +682,7 @@ class HomeWidget(QWidget):
         self.settings_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("../../Sem4_5001CEM_SoftwareEngineering/coursework/images/settings_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/settings_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QtCore.QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -704,7 +704,7 @@ class HomeWidget(QWidget):
         self.logout_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("../../Sem4_5001CEM_SoftwareEngineering/coursework/images/logout_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/logout_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QtCore.QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -774,7 +774,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
+    ui = HomeWidget()
     ui.setupUi(MainWindow)
-    MainWindow.show()
+    MainWindow.showMaximized()
     sys.exit(app.exec_())
