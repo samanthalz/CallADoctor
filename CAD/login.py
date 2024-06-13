@@ -188,7 +188,7 @@ class LoginWidget(QWidget):
             patient_data = patient.val()
             if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
                 # go to home page
-                # self.loginbutton.clicked.connect(self.showHomeWidget)
+                self.login_successful.emit()
                 #self.showMessageBox('Success', 'Login successful!', success=True)
                 return
 
@@ -200,8 +200,8 @@ class LoginWidget(QWidget):
         msgBox.setWindowTitle(title)
         msgBox.setText(message)
         msgBox.setStandardButtons(QMessageBox.Ok)
-        if msgBox.exec() == QMessageBox.Ok and success:
-            self.login_successful.emit()
+        # if msgBox.exec() == QMessageBox.Ok and success:
+        #     self.login_successful.emit()
 
 
 
