@@ -187,9 +187,7 @@ class LoginWidget(QWidget):
         for patient in patients.each():
             patient_data = patient.val()
             if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
-                # go to home page
                 self.login_successful.emit()
-                #self.showMessageBox('Success', 'Login successful!', success=True)
                 return
 
         self.showMessageBox('Error', 'Invalid IC number or password.')
@@ -201,8 +199,6 @@ class LoginWidget(QWidget):
         msgBox.setText(message)
         msgBox.setStandardButtons(QMessageBox.Ok)
         msgBox.exec()
-        # if msgBox.exec() == QMessageBox.Ok and success:
-        #     self.login_successful.emit()
 
 
 
