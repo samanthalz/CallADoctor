@@ -14,7 +14,6 @@ class Ui_MainWindow(QMainWindow):
         
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
-        #self.loginWidget.loginbutton.clicked.connect(self.showHomeWidget) # will redirect to home page even if invalid login credentials
         self.loginWidget.login_successful.connect(self.showHomeWidget)
 
         
