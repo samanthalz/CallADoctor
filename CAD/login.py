@@ -200,6 +200,7 @@ class LoginWidget(QWidget):
         msgBox.setWindowTitle(title)
         msgBox.setText(message)
         msgBox.setStandardButtons(QMessageBox.Ok)
+        msgBox.exec()
         # if msgBox.exec() == QMessageBox.Ok and success:
         #     self.login_successful.emit()
 
