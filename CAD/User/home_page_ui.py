@@ -714,14 +714,14 @@ class HomeWidget(QWidget):
         self.logout_navigation.setIconSize(QtCore.QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.logout_navigation.setObjectName("logout_navigation")
-        MainWindow.setCentralWidget(self.mainWidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        Form.setCentralWidget(self.mainWidget)
+        self.menubar = QtWidgets.QMenuBar(Form)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 21))
         self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
+        Form.setMenuBar(self.menubar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
