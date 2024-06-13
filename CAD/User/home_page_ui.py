@@ -13,6 +13,10 @@ from PyQt5.QtWidgets import *
 
 
 class HomeWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1920, 1080)
@@ -770,11 +774,11 @@ class HomeWidget(QWidget):
         self.logout_navigation.setText(_translate("MainWindow", "Logout"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = HomeWidget()
-    ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
-    sys.exit(app.exec_())
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = HomeWidget()
+#     ui.setupUi(MainWindow)
+#     MainWindow.showMaximized()
+#     sys.exit(app.exec_())
