@@ -14,7 +14,7 @@ class Ui_MainWindow(QMainWindow):
         
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
-        
+        self.loginWidget.loginbutton.clicked.connect(self.showHomeWidget)
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
         self.registerWidget.registration_successful.connect(self.showLoginWidget)
