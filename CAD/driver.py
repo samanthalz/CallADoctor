@@ -22,8 +22,9 @@ class Ui_MainWindow(QMainWindow):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1920, 1080)
-        MainWindow.setMinimumSize(QSize(1920, 1080))
+        MainWindow.resize(1600, 900)
+        MainWindow.setMinimumSize(QSize(1600, 900))
+        MainWindow.setMaximumSize(QSize(1600, 900))
 
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -76,5 +77,5 @@ if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
     mainWin = Ui_MainWindow()
-    mainWin.showMaximized()
+    mainWin.show()
     sys.exit(app.exec_())
