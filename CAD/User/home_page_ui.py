@@ -13,19 +13,24 @@ from PyQt5.QtWidgets import *
 
 
 class HomeWidget(QWidget):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1920, 1080)
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
+    def setupUi(self, Form):
+        if Form.objectName():
+            Form.setObjectName(u"Home Page")
+        Form.resize(1920, 1080)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
-        MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(0, 1))
-        MainWindow.setLayoutDirection(QtCore.Qt.RightToLeft)
-        MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet("background-color: #B6D0E2;")
-        self.mainWidget = QtWidgets.QWidget(MainWindow)
+        sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
+        Form.setSizePolicy(sizePolicy)
+        Form.setMinimumSize(QtCore.QSize(0, 1))
+        Form.setLayoutDirection(QtCore.Qt.RightToLeft)
+        Form.setAutoFillBackground(False)
+        Form.setStyleSheet("background-color: #B6D0E2;")
+        self.mainWidget = QtWidgets.QWidget(Form)
         self.mainWidget.setObjectName("mainWidget")
         self.background = QtWidgets.QWidget(self.mainWidget)
         self.background.setGeometry(QtCore.QRect(150, 0, 1771, 1061))
@@ -709,14 +714,14 @@ class HomeWidget(QWidget):
         self.logout_navigation.setIconSize(QtCore.QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.logout_navigation.setObjectName("logout_navigation")
-        MainWindow.setCentralWidget(self.mainWidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 21))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
+        # Form.setCentralWidget(self.mainWidget)
+        # self.menubar = QtWidgets.QMenuBar(Form)
+        # self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 21))
+        # self.menubar.setObjectName("menubar")
+        # Form.setMenuBar(self.menubar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -770,11 +775,11 @@ class HomeWidget(QWidget):
         self.logout_navigation.setText(_translate("MainWindow", "Logout"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = HomeWidget()
-    ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
-    sys.exit(app.exec_())
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = HomeWidget()
+#     ui.setupUi(MainWindow)
+#     MainWindow.showMaximized()
+#     sys.exit(app.exec_())
