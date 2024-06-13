@@ -11,7 +11,6 @@ class ForgotPwWidget(QWidget):
         super().__init__(parent)
         self.setupUi(self)
 
-class Ui_Form(object):
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
