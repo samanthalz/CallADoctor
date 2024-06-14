@@ -480,7 +480,7 @@ class HomeWidget(QWidget):
         self.active_pres_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.active_pres_frame.setObjectName("active_pres_frame")
         self.active_pres_label = QtWidgets.QLabel(self.active_pres_frame)
-        self.active_pres_label.setGeometry(QtCore.QRect(20, 10, 191, 41))
+        self.active_pres_label.setGeometry(QtCore.QRect(20, 10, 451, 41))
         font = QtGui.QFont()
         font.setFamily("Cascadia Code")
         font.setPointSize(11)
