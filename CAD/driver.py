@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 
 # Import your custom widgets
 from User.forgotpw import ForgotPwWidget
+from User.forgotpw_newpw import ForgotPw_newpwWidget
+from User.forgotpw_verification import ForgotPw_verificationWidget
 from User.home_page_ui import HomeWidget
 from login import LoginWidget
 from register import RegisterWidget
@@ -27,6 +29,9 @@ class Ui_MainWindow(QMainWindow):
         #this
         self.servicesWidget.fad_btn_clicked.connect(self.showFindDocWidget)
 
+        self.forgotPw_verificationWidget.Continuebutton.connect(self.showNewPassword)
+        
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1920, 1080)
@@ -42,6 +47,8 @@ class Ui_MainWindow(QMainWindow):
 
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget()
+        self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
+        self.forgotPw_newpwWidget = ForgotPw_newpwWidget()
         self.registerWidget = RegisterWidget()
         self.homeWidget = HomeWidget()
         self.findClinicWidget = FindClinicWidget()
@@ -52,6 +59,8 @@ class Ui_MainWindow(QMainWindow):
 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
+        self.stackedWidget.addWidget(self.forgotPw_newpwWidget)
+        self.stackedWidget.addWidget(self.forgotPw_verificationWidget)
         self.stackedWidget.addWidget(self.registerWidget)
         self.stackedWidget.addWidget(self.homeWidget)
         self.stackedWidget.addWidget(self.findClinicWidget)
@@ -90,6 +99,9 @@ class Ui_MainWindow(QMainWindow):
     def showFindDocWidget(self):
         self.stackedWidget.setCurrentWidget(self.findDocWidget)
     
+    @pyqtSlot()
+    def showNewPassword(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
     
 if __name__ == "__main__":
     import sys
