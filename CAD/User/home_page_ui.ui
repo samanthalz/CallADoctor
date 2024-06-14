@@ -1423,7 +1423,7 @@ color : #6ea0c4;
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../../../Documents/SE_CAD/CallADoctor/CAD/Images/icon/notification.png</normaloff>../../../Documents/SE_CAD/CallADoctor/CAD/Images/icon/notification.png</iconset>
+       <normaloff>../Images/icon/notification.png</normaloff>../Images/icon/notification.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -1466,7 +1466,7 @@ color : #6ea0c4;
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../../../Documents/SE_CAD/CallADoctor/CAD/Images/profile_icon.png</pixmap>
+       <pixmap>../Images/icon/profile_icon.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -1540,7 +1540,7 @@ color: white;</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/home_page_icon.png</normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/home_page_icon.png</iconset>
+         <normaloff>../Images/nav_images/home_page_icon.png</normaloff>../Images/nav_images/home_page_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1581,7 +1581,7 @@ color: white;</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/appointment_page_icon.png</normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/appointment_page_icon.png</iconset>
+         <normaloff>../Images/nav_images/appointment_page_icon.png</normaloff>../Images/nav_images/appointment_page_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1622,7 +1622,7 @@ color: white;</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/services_icon.png</normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/services_icon.png</iconset>
+         <normaloff>../Images/nav_images/services_icon.png</normaloff>../Images/nav_images/services_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1663,7 +1663,7 @@ color: white;</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/settings_page_icon.png</normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/settings_page_icon.png</iconset>
+         <normaloff>../Images/nav_images/settings_page_icon.png</normaloff>../Images/nav_images/settings_page_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1704,7 +1704,7 @@ color: white;</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/logout_icon.png</normaloff>../../Sem4_5001CEM_SoftwareEngineering/coursework/images/logout_icon.png</iconset>
+         <normaloff>../Images/nav_images/logout_icon.png</normaloff>../Images/nav_images/logout_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
