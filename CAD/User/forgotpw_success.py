@@ -5,7 +5,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 
-class ForgotPw_newpwWidget(QWidget):
+class ForgotPw_successWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
