@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt, pyqtSlot, pyqtSignal)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -15,7 +15,7 @@ class MakeApptWidget(QWidget):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+        Form.setStyleSheet(u"background-color: \"#B6D0E2\"")
         self.whitebg = QWidget(Form)
         self.whitebg.setObjectName(u"whitebg")
         self.whitebg.setGeometry(QRect(150, 0, 1771, 1080))
@@ -76,6 +76,19 @@ class MakeApptWidget(QWidget):
         self.calendarWidget.setGridVisible(True)
         self.calendarWidget.setNavigationBarVisible(True)
         self.calendarWidget.setDateEditEnabled(True)
+        self.cancel_btn = QPushButton(self.whitebg)
+        self.cancel_btn.setObjectName(u"cancel_btn")
+        self.cancel_btn.setGeometry(QRect(950, 940, 321, 50))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(10)
+        self.cancel_btn.setFont(font3)
+        self.cancel_btn.setStyleSheet(u"background-color: \"#D3D3D3\"; border-radius: 10px;")
+        self.makeapt_btn = QPushButton(self.whitebg)
+        self.makeapt_btn.setObjectName(u"makeapt_btn")
+        self.makeapt_btn.setGeometry(QRect(1360, 940, 321, 50))
+        self.makeapt_btn.setFont(font3)
+        self.makeapt_btn.setStyleSheet(u"background-color: \"#B6D0E2\"; border-radius: 10px;")
         self.widget = QWidget(self.whitebg)
         self.widget.setObjectName(u"widget")
         self.widget.setGeometry(QRect(54, 146, 521, 871))
@@ -100,10 +113,10 @@ class MakeApptWidget(QWidget):
         self.clinic_dropdown.setObjectName(u"clinic_dropdown")
         self.clinic_dropdown.setMinimumSize(QSize(321, 41))
         self.clinic_dropdown.setMaximumSize(QSize(321, 41))
-        font3 = QFont()
-        font3.setFamily(u"Consolas")
-        font3.setPointSize(11)
-        self.clinic_dropdown.setFont(font3)
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(11)
+        self.clinic_dropdown.setFont(font4)
         self.clinic_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
@@ -134,7 +147,7 @@ class MakeApptWidget(QWidget):
         self.doc_dropdown.setObjectName(u"doc_dropdown")
         self.doc_dropdown.setMinimumSize(QSize(321, 41))
         self.doc_dropdown.setMaximumSize(QSize(321, 41))
-        self.doc_dropdown.setFont(font3)
+        self.doc_dropdown.setFont(font4)
         self.doc_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
@@ -165,7 +178,7 @@ class MakeApptWidget(QWidget):
         self.time_dropdown.setObjectName(u"time_dropdown")
         self.time_dropdown.setMinimumSize(QSize(321, 41))
         self.time_dropdown.setMaximumSize(QSize(321, 41))
-        self.time_dropdown.setFont(font3)
+        self.time_dropdown.setFont(font4)
         self.time_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
@@ -196,7 +209,7 @@ class MakeApptWidget(QWidget):
         self.speciality_dropdown.setObjectName(u"speciality_dropdown")
         self.speciality_dropdown.setMinimumSize(QSize(321, 41))
         self.speciality_dropdown.setMaximumSize(QSize(321, 41))
-        self.speciality_dropdown.setFont(font3)
+        self.speciality_dropdown.setFont(font4)
         self.speciality_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
@@ -227,7 +240,7 @@ class MakeApptWidget(QWidget):
         self.med_dropdown.setObjectName(u"med_dropdown")
         self.med_dropdown.setMinimumSize(QSize(321, 41))
         self.med_dropdown.setMaximumSize(QSize(405, 46))
-        self.med_dropdown.setFont(font3)
+        self.med_dropdown.setFont(font4)
         self.med_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
@@ -257,12 +270,12 @@ class MakeApptWidget(QWidget):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.home_navigation.sizePolicy().hasHeightForWidth())
         self.home_navigation.setSizePolicy(sizePolicy)
-        font4 = QFont()
-        font4.setFamily(u"Source Sans Pro Semibold")
-        font4.setPointSize(10)
-        font4.setBold(True)
-        font4.setWeight(75)
-        self.home_navigation.setFont(font4)
+        font5 = QFont()
+        font5.setFamily(u"Source Sans Pro Semibold")
+        font5.setPointSize(10)
+        font5.setBold(True)
+        font5.setWeight(75)
+        self.home_navigation.setFont(font5)
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon1 = QIcon()
@@ -276,7 +289,7 @@ class MakeApptWidget(QWidget):
         self.appointments_navigation.setGeometry(QRect(10, 250, 88, 94))
         sizePolicy.setHeightForWidth(self.appointments_navigation.sizePolicy().hasHeightForWidth())
         self.appointments_navigation.setSizePolicy(sizePolicy)
-        self.appointments_navigation.setFont(font4)
+        self.appointments_navigation.setFont(font5)
         self.appointments_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
@@ -290,7 +303,7 @@ class MakeApptWidget(QWidget):
         self.services_navigation.setGeometry(QRect(20, 430, 73, 94))
         sizePolicy.setHeightForWidth(self.services_navigation.sizePolicy().hasHeightForWidth())
         self.services_navigation.setSizePolicy(sizePolicy)
-        self.services_navigation.setFont(font4)
+        self.services_navigation.setFont(font5)
         self.services_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
@@ -304,7 +317,7 @@ class MakeApptWidget(QWidget):
         self.settings_navigation.setGeometry(QRect(20, 580, 73, 94))
         sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
         self.settings_navigation.setSizePolicy(sizePolicy)
-        self.settings_navigation.setFont(font4)
+        self.settings_navigation.setFont(font5)
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
@@ -318,7 +331,7 @@ class MakeApptWidget(QWidget):
         self.logout_navigation.setGeometry(QRect(20, 770, 73, 94))
         sizePolicy.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
         self.logout_navigation.setSizePolicy(sizePolicy)
-        self.logout_navigation.setFont(font4)
+        self.logout_navigation.setFont(font5)
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon5 = QIcon()
@@ -339,6 +352,8 @@ class MakeApptWidget(QWidget):
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
         self.label.setText(QCoreApplication.translate("Form", u"Choose a Date*", None))
+        self.cancel_btn.setText(QCoreApplication.translate("Form", u"Cancel", None))
+        self.makeapt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
         self.clinic_label.setText(QCoreApplication.translate("Form", u"Select Clinic*", None))
         self.clinic_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
 
