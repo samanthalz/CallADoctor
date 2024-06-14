@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 from User.forgotpw import ForgotPwWidget
 from User.forgotpw_newpw import ForgotPw_newpwWidget
 from User.forgotpw_verification import ForgotPw_verificationWidget
-from User.home_page_ui import HomeWidget
+#from User.home_page_ui import HomeWidget
+from User.ui_home import HomeWidget
 from login import LoginWidget
 from register import RegisterWidget
 from User.ui_find_clinic import FindClinicWidget
@@ -30,7 +31,7 @@ class Ui_MainWindow(QMainWindow):
         self.servicesWidget.fac_btn_clicked.connect(self.showFindClinicWidget)
         self.servicesWidget.makeAppt_btn_clicked.connect(self.showMakeApptWidget)
         
-        self.homeWidget.service_btn_clicked.connect(self.showServicesWidget)
+        #self.homeWidget.service_btn_clicked.connect(self.showServicesWidget)
 
         self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
         
