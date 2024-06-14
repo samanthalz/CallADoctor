@@ -256,7 +256,6 @@ class FindDoctorWidget(QWidget):
         self.clinic_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
-"box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); \n"
 "padding: 10px; \n"
 "font-family: Consolas;\n"
 "font-size: 11pt;")
@@ -275,7 +274,6 @@ class FindDoctorWidget(QWidget):
         self.speciality_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
-"box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); \n"
 "padding: 10px; \n"
 "font-family: Consolas;\n"
 "font-size: 11pt;")
@@ -294,7 +292,6 @@ class FindDoctorWidget(QWidget):
         self.doc_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
-"box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); \n"
 "padding: 10px; \n"
 "font-family: Consolas;\n"
 "font-size: 11pt;")
