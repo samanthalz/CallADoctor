@@ -705,18 +705,18 @@ class HomeWidget(QWidget):
         self.logout_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.logout_navigation.setObjectName("logout_navigation")
         self.verticalLayout.addWidget(self.logout_navigation)
-        Form.setCentralWidget(self.mainWidget)
+        #Form.setCentralWidget(self.mainWidget)
         self.menubar = QtWidgets.QMenuBar(Form)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 21))
         self.menubar.setObjectName("menubar")
-        Form.setMenuBar(self.menubar)
+        #Form.setMenuBar(self.menubar)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Call A Doctor"))
+        #Form.setWindowTitle(_translate("Form", "Call A Doctor"))
         self.num_upcoming_appt_label.setText(_translate("Form", "Number of upcoming appointments :"))
         self.num_appt_number_label.setText(_translate("Form", "2"))
         self.upcoming_label.setText(_translate("Form", "Upcoming"))
