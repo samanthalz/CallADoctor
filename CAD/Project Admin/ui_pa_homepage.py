@@ -1,27 +1,27 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'pa_homepagelSoBLt.ui'
-##
-## Created by: Qt User Interface Compiler version 5.14.1
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
+    QRect, QSize, QUrl, Qt, pyqtSignal)
+from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
-from PySide2.QtWidgets import *
+from PyQt5.QtWidgets import *
 
 
-class Ui_Form(object):
+class PA_Home(QWidget):
+        
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+        
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
@@ -376,14 +376,19 @@ class Ui_Form(object):
         font9.setPointSize(16)
         self.profile_btn.setFont(font9)
         self.profile_btn.setStyleSheet(u"border: none")
+        
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(20, 90, 111, 891))
+        self.frame.setGeometry(QRect(0, 90, 141, 891))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_2 = QVBoxLayout(self.frame)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.home_navigation = QToolButton(self.frame)
+        self.widget = QWidget(self.frame)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(31, 20, 87, 851))
+        self.verticalLayout = QVBoxLayout(self.widget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.home_navigation = QToolButton(self.widget)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -391,6 +396,8 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.home_navigation.sizePolicy().hasHeightForWidth())
         self.home_navigation.setSizePolicy(sizePolicy)
+        self.home_navigation.setMinimumSize(QSize(85, 96))
+        self.home_navigation.setMaximumSize(QSize(85, 96))
         font10 = QFont()
         font10.setFamily(u"Source Sans Pro Semibold")
         font10.setPointSize(10)
@@ -405,29 +412,33 @@ class Ui_Form(object):
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.home_navigation)
+        self.verticalLayout.addWidget(self.home_navigation)
 
-        self.appointments_navigation = QToolButton(self.frame)
-        self.appointments_navigation.setObjectName(u"appointments_navigation")
-        self.appointments_navigation.setEnabled(True)
-        sizePolicy.setHeightForWidth(self.appointments_navigation.sizePolicy().hasHeightForWidth())
-        self.appointments_navigation.setSizePolicy(sizePolicy)
-        self.appointments_navigation.setFont(font10)
-        self.appointments_navigation.setStyleSheet(u"border: none; \n"
+        self.clinic_navigation = QToolButton(self.widget)
+        self.clinic_navigation.setObjectName(u"clinic_navigation")
+        self.clinic_navigation.setEnabled(True)
+        sizePolicy.setHeightForWidth(self.clinic_navigation.sizePolicy().hasHeightForWidth())
+        self.clinic_navigation.setSizePolicy(sizePolicy)
+        self.clinic_navigation.setMinimumSize(QSize(85, 96))
+        self.clinic_navigation.setMaximumSize(QSize(85, 96))
+        self.clinic_navigation.setFont(font10)
+        self.clinic_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
         icon2.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.appointments_navigation.setIcon(icon2)
-        self.appointments_navigation.setIconSize(QSize(70, 70))
-        self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.clinic_navigation.setIcon(icon2)
+        self.clinic_navigation.setIconSize(QSize(70, 70))
+        self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.appointments_navigation)
+        self.verticalLayout.addWidget(self.clinic_navigation)
 
-        self.feedback_navigation = QToolButton(self.frame)
+        self.feedback_navigation = QToolButton(self.widget)
         self.feedback_navigation.setObjectName(u"feedback_navigation")
         self.feedback_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.feedback_navigation.sizePolicy().hasHeightForWidth())
         self.feedback_navigation.setSizePolicy(sizePolicy)
+        self.feedback_navigation.setMinimumSize(QSize(85, 96))
+        self.feedback_navigation.setMaximumSize(QSize(85, 96))
         self.feedback_navigation.setFont(font10)
         self.feedback_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
@@ -437,13 +448,15 @@ class Ui_Form(object):
         self.feedback_navigation.setIconSize(QSize(70, 70))
         self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.feedback_navigation)
+        self.verticalLayout.addWidget(self.feedback_navigation)
 
-        self.settings_navigation = QToolButton(self.frame)
+        self.settings_navigation = QToolButton(self.widget)
         self.settings_navigation.setObjectName(u"settings_navigation")
         self.settings_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
         self.settings_navigation.setSizePolicy(sizePolicy)
+        self.settings_navigation.setMinimumSize(QSize(85, 96))
+        self.settings_navigation.setMaximumSize(QSize(85, 96))
         self.settings_navigation.setFont(font10)
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
@@ -453,13 +466,15 @@ class Ui_Form(object):
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.settings_navigation)
+        self.verticalLayout.addWidget(self.settings_navigation)
 
-        self.logout_navigation = QToolButton(self.frame)
+        self.logout_navigation = QToolButton(self.widget)
         self.logout_navigation.setObjectName(u"logout_navigation")
         self.logout_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
         self.logout_navigation.setSizePolicy(sizePolicy)
+        self.logout_navigation.setMinimumSize(QSize(85, 96))
+        self.logout_navigation.setMaximumSize(QSize(85, 96))
         self.logout_navigation.setFont(font10)
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
@@ -469,7 +484,7 @@ class Ui_Form(object):
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.logout_navigation)
+        self.verticalLayout.addWidget(self.logout_navigation)
 
 
         self.retranslateUi(Form)
