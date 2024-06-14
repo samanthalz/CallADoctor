@@ -403,7 +403,6 @@ border-radius: 24px; </string>
         <string notr="true">border: 1px solid #000000;
 border-radius: 5px; 
 background-color: #FFFFFF; 
-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
 padding: 10px; 
 font-family: Consolas;
 font-size: 11pt;</string>
@@ -450,7 +449,6 @@ font-size: 11pt;</string>
         <string notr="true">border: 1px solid #000000;
 border-radius: 5px; 
 background-color: #FFFFFF; 
-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
 padding: 10px; 
 font-family: Consolas;
 font-size: 11pt;</string>
@@ -497,7 +495,6 @@ font-size: 11pt;</string>
         <string notr="true">border: 1px solid #000000;
 border-radius: 5px; 
 background-color: #FFFFFF; 
-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
 padding: 10px; 
 font-family: Consolas;
 font-size: 11pt;</string>

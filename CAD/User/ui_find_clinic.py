@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import *
 
 
 class FindClinicWidget(QWidget):
+    service_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -266,6 +267,7 @@ class FindClinicWidget(QWidget):
         self.services_navigation.setIcon(icon3)
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.services_navigation.clicked.connect(self.emitServiceBtn)
 
         self.verticalLayout_2.addWidget(self.services_navigation)
 
@@ -328,4 +330,9 @@ class FindClinicWidget(QWidget):
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
+    
+    @pyqtSlot()
+    def emitServiceBtn(self):
+        # Emit the custom signal
+        self.service_btn_clicked.emit()
 
