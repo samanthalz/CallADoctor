@@ -6,6 +6,10 @@ from User.forgotpw import ForgotPwWidget
 from User.home_page_ui import HomeWidget
 from login import LoginWidget
 from register import RegisterWidget
+from User.ui_find_clinic import FindClinicWidget
+from User.ui_find_doctor import FindDoctorWidget
+from User.ui_make_appt import MakeApptWidget
+from User.ui_services import ServicesWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -40,12 +44,20 @@ class Ui_MainWindow(QMainWindow):
         self.forgotPwWidget = ForgotPwWidget()
         self.registerWidget = RegisterWidget()
         self.homeWidget = HomeWidget()
+        self.findClinicWidget = FindClinicWidget()
+        self.findDocWidget = FindDoctorWidget()
+        self.makeApptWidget = MakeApptWidget()
+        self.servicesWidget = ServicesWidget()
          
 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.registerWidget)
         self.stackedWidget.addWidget(self.homeWidget)
+        self.stackedWidget.addWidget(self.findClinicWidget)
+        self.stackedWidget.addWidget(self.findDocWidget)
+        self.stackedWidget.addWidget(self.makeApptWidget)
+        self.stackedWidget.addWidget(self.servicesWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -73,6 +85,10 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.homeWidget)
+        
+    @pyqtSlot()
+    def showFindDocWidget(self):
+        self.stackedWidget.setCurrentWidget(self.findDocWidget)
     
     
 if __name__ == "__main__":
