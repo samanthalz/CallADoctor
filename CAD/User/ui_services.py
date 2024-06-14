@@ -288,12 +288,16 @@ class ServicesWidget(QWidget):
 
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(20, 90, 121, 891))
+        self.frame.setGeometry(QRect(0, 90, 141, 891))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
-        self.verticalLayout = QVBoxLayout(self.frame)
+        self.layoutWidget_4 = QWidget(self.frame)
+        self.layoutWidget_4.setObjectName(u"layoutWidget_4")
+        self.layoutWidget_4.setGeometry(QRect(30, 19, 87, 871))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget_4)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.home_navigation = QToolButton(self.frame)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.home_navigation = QToolButton(self.layoutWidget_4)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -301,6 +305,8 @@ class ServicesWidget(QWidget):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.home_navigation.sizePolicy().hasHeightForWidth())
         self.home_navigation.setSizePolicy(sizePolicy)
+        self.home_navigation.setMinimumSize(QSize(85, 96))
+        self.home_navigation.setMaximumSize(QSize(85, 96))
         font5 = QFont()
         font5.setFamily(u"Source Sans Pro Semibold")
         font5.setPointSize(10)
@@ -317,7 +323,7 @@ class ServicesWidget(QWidget):
 
         self.verticalLayout.addWidget(self.home_navigation)
 
-        self.appointments_navigation = QToolButton(self.frame)
+        self.appointments_navigation = QToolButton(self.layoutWidget_4)
         self.appointments_navigation.setObjectName(u"appointments_navigation")
         self.appointments_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.appointments_navigation.sizePolicy().hasHeightForWidth())
@@ -333,7 +339,7 @@ class ServicesWidget(QWidget):
 
         self.verticalLayout.addWidget(self.appointments_navigation)
 
-        self.services_navigation = QToolButton(self.frame)
+        self.services_navigation = QToolButton(self.layoutWidget_4)
         self.services_navigation.setObjectName(u"services_navigation")
         self.services_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.services_navigation.sizePolicy().hasHeightForWidth())
@@ -349,7 +355,7 @@ class ServicesWidget(QWidget):
 
         self.verticalLayout.addWidget(self.services_navigation)
 
-        self.settings_navigation = QToolButton(self.frame)
+        self.settings_navigation = QToolButton(self.layoutWidget_4)
         self.settings_navigation.setObjectName(u"settings_navigation")
         self.settings_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
@@ -365,7 +371,7 @@ class ServicesWidget(QWidget):
 
         self.verticalLayout.addWidget(self.settings_navigation)
 
-        self.logout_navigation = QToolButton(self.frame)
+        self.logout_navigation = QToolButton(self.layoutWidget_4)
         self.logout_navigation.setObjectName(u"logout_navigation")
         self.logout_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
