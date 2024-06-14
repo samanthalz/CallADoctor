@@ -1499,9 +1499,9 @@ color : #6ea0c4;
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>0</x>
       <y>90</y>
-      <width>91</width>
+      <width>121</width>
       <height>891</height>
      </rect>
     </property>
@@ -1726,7 +1726,7 @@ color: white;</string>
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
