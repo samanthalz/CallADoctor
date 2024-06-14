@@ -93,39 +93,56 @@ class ForgotPwWidget(QWidget):
 
         self.verticalLayout_4.addWidget(self.label_)
 
-        self.lineEdit = QLineEdit(self.widget)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(0, 40))
+        self.email = QLineEdit(self.widget)
+        self.email.setObjectName(u"email")
+        self.email.setMinimumSize(QSize(0, 40))
+        font2 = QFont()
+        font2.setFamily(u"Consolas")
+        self.email.setFont(font2)
+        self.email.setStyleSheet(u"")
+        self.email.setFrame(True)
+        self.email.setEchoMode(QLineEdit.Normal)
 
-        self.verticalLayout_4.addWidget(self.lineEdit)
+        self.verticalLayout_4.addWidget(self.email)
 
         self.verticalSpacer_5 = QSpacerItem(14, 44, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_4.addItem(self.verticalSpacer_5)
 
-        self.pushButton = QPushButton(self.widget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(0, 40))
-        font2 = QFont()
-        font2.setPointSize(10)
-        self.pushButton.setFont(font2)
-        self.pushButton.setStyleSheet(u"background-color: rgb(182, 208, 226);")
+        self.Continue = QPushButton(self.widget)
+        self.Continue.setObjectName(u"Continue")
+        self.Continue.setMinimumSize(QSize(0, 40))
+        self.Continue.setFont(font1)
+        self.Continue.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
+"border-radius: 10px;\n"
+"border: none\n"
+"")
 
-        self.verticalLayout_4.addWidget(self.pushButton)
+        self.verticalLayout_4.addWidget(self.Continue)
 
-        self.logo = QLabel(self.widget_2)
-        self.logo.setObjectName(u"logo")
-        self.logo.setGeometry(QRect(10, -50, 281, 261))
-        self.logo.setPixmap(QPixmap(u"../Images/call a doctor.png"))
-        self.logo.setScaledContents(True)
         self.label_7 = QLabel(self.widget_2)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(540, 270, 681, 531))
-        self.label_7.setStyleSheet(u"border: 2px solid green;\n"
+        self.label_7.setStyleSheet(u"border: 2px solid rgb(182, 208, 226);\n"
 "border-radius: 10px;")
-        self.logo.raise_()
+        self.back_button = QPushButton(self.widget_2)
+        self.back_button.setObjectName(u"back_button")
+        self.back_button.setEnabled(True)
+        self.back_button.setGeometry(QRect(20, 30, 181, 61))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(20)
+        font3.setBold(True)
+        font3.setWeight(75)
+        self.back_button.setFont(font3)
+        self.back_button.setAutoFillBackground(False)
+        self.back_button.setStyleSheet(u"background-color: rgba(182, 208, 226,0.8);\n"
+"color: rgb(255, 255, 255);\n"
+"border-radius: 10px;")
+        self.back_button.setIconSize(QSize(70, 70))
         self.label_7.raise_()
         self.widget.raise_()
+        self.back_button.raise_()
         self.widget_3 = QWidget(self.bg)
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
@@ -145,8 +162,10 @@ class ForgotPwWidget(QWidget):
         self.label_2.setText(QCoreApplication.translate("Form", u"Enter your email for the verification processes, we will ", None))
         self.label_5.setText(QCoreApplication.translate("Form", u"send 4 digit codes to your email", None))
         self.label_.setText(QCoreApplication.translate("Form", u"Email", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"Continue", None))
-        self.logo.setText("")
+        self.Continue.setText(QCoreApplication.translate("Form", u"Continue", None))
         self.label_7.setText("")
+        self.back_button.setText(QCoreApplication.translate("Form", u"< Back", None))
     # retranslateUi
+
+
 

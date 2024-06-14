@@ -10,11 +10,11 @@ class ForgotPwWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-
+        
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(1920, 1080)
+        Form.resize(1938, 1098)
         self.horizontalLayout = QHBoxLayout(Form)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.bg = QFrame(Form)
@@ -122,7 +122,9 @@ class ForgotPwWidget(QWidget):
         font2.setFamily(u"Consolas")
         font2.setPointSize(10)
         self.Continuebutton.setFont(font2)
-        self.Continuebutton.setStyleSheet(u"background-color: rgb(182, 208, 226);")
+        self.Continuebutton.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
+"border-radius: 10px;\n"
+"border: none")
 
         self.verticalLayout.addWidget(self.Continuebutton)
 
@@ -146,7 +148,7 @@ class ForgotPwWidget(QWidget):
         self.label_7 = QLabel(self.widget_2)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(540, 270, 681, 531))
-        self.label_7.setStyleSheet(u"border: 2px solid green;\n"
+        self.label_7.setStyleSheet(u"border: 2px solid #B6D0E2;\n"
 "border-radius: 10px;")
         self.Logo.raise_()
         self.label_7.raise_()
