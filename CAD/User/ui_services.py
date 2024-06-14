@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -7,6 +7,8 @@ from PyQt5.QtWidgets import *
 
 
 class ServicesWidget(QWidget):
+    fad_btn_clicked = pyqtSignal()
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -163,6 +165,8 @@ class ServicesWidget(QWidget):
         font3.setPointSize(14)
         self.fadoctor_btn.setFont(font3)
         self.fadoctor_btn.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white")
+        self.fadoctor_btn.clicked.connect(self.emitFadBtn)
+        
         self.layoutWidget = QWidget(self.fadoctor_inner_frame)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(20, 30, 371, 451))
@@ -384,3 +388,7 @@ class ServicesWidget(QWidget):
         self.makeAppt_text.setText(QCoreApplication.translate("Form", u"Easily schedule your next medical appointment with just a few clicks. Choose your preferred date, time, and doctor to ensure timely and convenient care.", None))
     # retranslateUi
 
+    @pyqtSlot()
+    def emitFadBtn(self):
+        # Emit the custom signal
+        self.fad_btn_clicked.emit()
