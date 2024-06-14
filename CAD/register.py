@@ -285,6 +285,7 @@ class RegisterWidget(QWidget, QObject):
             QMessageBox.warning(self, "Validation Error", "Passwords do not match.")
             return
         
+        #need change
         birth_year_str = ic[:2] if len(ic) >= 2 else '00'
         birth_year = int(birth_year_str) + 1900  # Assuming the IC represents the birth year in YY format
         current_year = datetime.now().year
