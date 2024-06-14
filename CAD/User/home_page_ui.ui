@@ -1536,7 +1536,7 @@ color : #6ea0c4;
 color: white;</string>
        </property>
        <property name="text">
-        <string>Home</string>
+        <string>   Home   </string>
        </property>
        <property name="icon">
         <iconset>
