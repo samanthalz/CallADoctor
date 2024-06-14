@@ -115,15 +115,17 @@ class ForgotPwWidget(QWidget):
 
         self.verticalLayout.addItem(self.verticalSpacer_6)
 
-        self.pushButton = QPushButton(self.widget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(0, 40))
+        self.updatepw = QPushButton(self.widget)
+        self.updatepw.setObjectName(u"updatepw")
+        self.updatepw.setMinimumSize(QSize(0, 40))
         font2 = QFont()
         font2.setPointSize(10)
-        self.pushButton.setFont(font2)
-        self.pushButton.setStyleSheet(u"background-color: rgb(182, 208, 226);")
+        self.updatepw.setFont(font2)
+        self.updatepw.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
+"border-radius: 10px;\n"
+"border: none")
 
-        self.verticalLayout.addWidget(self.pushButton)
+        self.verticalLayout.addWidget(self.updatepw)
 
         self.logo = QLabel(self.widget_2)
         self.logo.setObjectName(u"logo")
@@ -133,7 +135,7 @@ class ForgotPwWidget(QWidget):
         self.label_7 = QLabel(self.widget_2)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(540, 270, 681, 531))
-        self.label_7.setStyleSheet(u"border: 2px solid green;\n"
+        self.label_7.setStyleSheet(u"border: 2px solid #B6D0E2;\n"
 "border-radius: 10px;")
         self.logo.raise_()
         self.label_7.raise_()
@@ -160,7 +162,7 @@ class ForgotPwWidget(QWidget):
         self.lineEdit.setText("")
         self.label_1.setText(QCoreApplication.translate("Form", u"Confirm password", None))
         self.lineEdit_2.setText("")
-        self.pushButton.setText(QCoreApplication.translate("Form", u"Update Password", None))
+        self.updatepw.setText(QCoreApplication.translate("Form", u"Update Password", None))
         self.logo.setText("")
         self.label_7.setText("")
     # retranslateUi
