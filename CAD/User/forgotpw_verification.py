@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt,pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -7,6 +7,8 @@ from PyQt5.QtWidgets import *
 
 
 class ForgotPw_verificationWidget(QWidget):
+    continue_successful = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -125,6 +127,7 @@ class ForgotPw_verificationWidget(QWidget):
         self.Continuebutton.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
 "border-radius: 10px;\n"
 "border: none")
+        self.Continuebutton.clicked.connect(self.emitContinue)
 
         self.verticalLayout.addWidget(self.Continuebutton)
 
@@ -182,4 +185,9 @@ class ForgotPw_verificationWidget(QWidget):
         self.Logo.setText("")
         self.label_7.setText("")
     # retranslateUi
+
+    @pyqtSlot()
+    def emitContinue(self):
+        # Emit the custom signal
+        self.continue_successful.emit()
 
