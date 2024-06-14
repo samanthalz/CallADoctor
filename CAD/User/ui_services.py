@@ -8,6 +8,8 @@ from PyQt5.QtWidgets import *
 
 class ServicesWidget(QWidget):
     fad_btn_clicked = pyqtSignal()
+    fac_btn_clicked = pyqtSignal()
+    makeAppt_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -242,6 +244,8 @@ class ServicesWidget(QWidget):
         self.faclinic_btn.setGeometry(QRect(20, 480, 81, 41))
         self.faclinic_btn.setFont(font3)
         self.faclinic_btn.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white")
+        self.faclinic_btn.clicked.connect(self.emitFacBtn)
+        
         self.layoutWidget_3 = QWidget(self.faclinic_inner_frame)
         self.layoutWidget_3.setObjectName(u"layoutWidget_3")
         self.layoutWidget_3.setGeometry(QRect(20, 30, 371, 451))
@@ -309,6 +313,9 @@ class ServicesWidget(QWidget):
         self.makeAppt_btn.setGeometry(QRect(20, 480, 81, 41))
         self.makeAppt_btn.setFont(font3)
         self.makeAppt_btn.setStyleSheet(u"border: 2px solid #B6D0E2; border-radius: 10; background-color: #B6D0E2; color: white")
+        self.makeAppt_btn.clicked.connect(self.emitmakeApptBtn)
+        
+        
         self.layoutWidget_2 = QWidget(self.makeAppt_inner_frame)
         self.layoutWidget_2.setObjectName(u"layoutWidget_2")
         self.layoutWidget_2.setGeometry(QRect(20, 30, 371, 451))
@@ -392,3 +399,13 @@ class ServicesWidget(QWidget):
     def emitFadBtn(self):
         # Emit the custom signal
         self.fad_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitFacBtn(self):
+        # Emit the custom signal
+        self.fac_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitmakeApptBtn(self):
+        # Emit the custom signal
+        self.makeAppt_btn_clicked.emit()

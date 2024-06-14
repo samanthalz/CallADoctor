@@ -2,9 +2,13 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtWidgets import QWidget
 
 class HomeWidget(QWidget):
+    service_btn_clicked = pyqtSignal()
+                
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -645,6 +649,7 @@ class HomeWidget(QWidget):
         self.verticalLayout.addWidget(self.appointments_navigation)
         self.services_navigation = QtWidgets.QToolButton(self.frame)
         self.services_navigation.setEnabled(True)
+        
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -667,6 +672,9 @@ class HomeWidget(QWidget):
         self.verticalLayout.addWidget(self.services_navigation)
         self.settings_navigation = QtWidgets.QToolButton(self.frame)
         self.settings_navigation.setEnabled(True)
+        self.services_navigation.clicked.connect(self.emitServiceBtn)
+                
+                
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -766,4 +774,8 @@ class HomeWidget(QWidget):
         self.settings_navigation.setText(_translate("Form", "Settings"))
         self.logout_navigation.setText(_translate("Form", "Logout"))
 
-
+    @pyqtSlot()
+    def emitServiceBtn(self):
+        # Emit the custom signal
+        self.service_btn_clicked.emit()
+        

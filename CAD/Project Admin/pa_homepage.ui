@@ -31,7 +31,7 @@ border-bottom-left-radius: 30px;
 border-top-left-radius: 30px;
 text-align: center;</string>
    </property>
-   <widget class="QFrame" name="num_appt_frame">
+   <widget class="QFrame" name="clinic_req_frame">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -57,7 +57,7 @@ text-align: center;</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLabel" name="num_upcoming_appt_label">
+    <widget class="QLabel" name="num_clinic_req_label">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -79,7 +79,7 @@ text-align: center;</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="num_appt_number_label">
+    <widget class="QLabel" name="clinic_req__label">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -99,7 +99,7 @@ text-align: center;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="appointment_frame">
+   <widget class="QFrame" name="details_frame">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -164,7 +164,7 @@ border-radius: 10px;
        <string>Clinic List</string>
       </property>
      </widget>
-     <widget class="QFrame" name="clinicAppt_frame">
+     <widget class="QFrame" name="clinicReq_frame">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -261,7 +261,7 @@ color: #128983; text-align: center;
        </property>
       </widget>
      </widget>
-     <widget class="QFrame" name="clinicAppt_frame_2">
+     <widget class="QFrame" name="clinicReq_frame_2">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -385,7 +385,7 @@ color: #F62088; text-align: center;
       </item>
      </widget>
     </widget>
-    <widget class="QFrame" name="upcomin_appt_frame_2">
+    <widget class="QFrame" name="request_detail_outer">
      <property name="geometry">
       <rect>
        <x>510</x>
@@ -403,7 +403,7 @@ color: #F62088; text-align: center;
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="upcoming_label_2">
+     <widget class="QLabel" name="req_detail_label">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -426,7 +426,7 @@ color: #F62088; text-align: center;
        <string>Request Details</string>
       </property>
      </widget>
-     <widget class="QFrame" name="clinicAppt_frame_6">
+     <widget class="QFrame" name="clinic_details_inner">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -441,7 +441,7 @@ color: #F62088; text-align: center;
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QLabel" name="clinic_name_label_6">
+      <widget class="QLabel" name="clinic_name">
        <property name="geometry">
         <rect>
          <x>100</x>
@@ -464,7 +464,7 @@ color: #F62088; text-align: center;
         <string>Clinic Name</string>
        </property>
       </widget>
-      <widget class="QLabel" name="clinic_logo_label_6">
+      <widget class="QLabel" name="clinic_logo">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -535,11 +535,11 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
          <height>311</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="layout">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="phone_layout">
           <item>
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="phone_label">
             <property name="font">
              <font>
               <family>Consolas</family>
@@ -560,7 +560,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="phone_display">
             <property name="font">
              <font>
               <family>Consolas</family>
@@ -580,9 +580,9 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="email_layout">
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="email_label">
             <property name="font">
              <font>
               <family>Consolas</family>
@@ -600,7 +600,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_8">
+           <widget class="QLabel" name="email_display">
             <property name="font">
              <font>
               <family>Consolas</family>
@@ -620,12 +620,12 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QHBoxLayout" name="add_layout">
           <property name="spacing">
            <number>135</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="add_label">
             <property name="font">
              <font>
               <family>Consolas</family>
@@ -643,7 +643,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_9">
+           <widget class="QLabel" name="add_display">
             <property name="font">
              <font>
               <family>Consolas</family>
@@ -669,12 +669,12 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="opening_hr_layout">
           <property name="sizeConstraint">
            <enum>QLayout::SetFixedSize</enum>
           </property>
           <item>
-           <widget class="QLabel" name="label_6">
+           <widget class="QLabel" name="opening_hr_text">
             <property name="font">
              <font>
               <family>Consolas</family>
@@ -695,7 +695,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_10">
+           <widget class="QLabel" name="hour_display">
             <property name="font">
              <font>
               <family>Consolas</family>
@@ -723,7 +723,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        </layout>
       </widget>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="view_detail_btn">
       <property name="geometry">
        <rect>
         <x>320</x>
@@ -748,7 +748,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
      </widget>
     </widget>
    </widget>
-   <widget class="QFrame" name="active_pres_frame">
+   <widget class="QFrame" name="feedback_frame">
     <property name="geometry">
      <rect>
       <x>1120</x>
@@ -768,7 +768,7 @@ background-color: white</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLabel" name="upcoming_label_3">
+    <widget class="QLabel" name="feedback_label">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -791,7 +791,7 @@ background-color: white</string>
       <string>Feedbacks</string>
      </property>
     </widget>
-    <widget class="QFrame" name="clinicAppt_frame_3">
+    <widget class="QFrame" name="feedback_detail_frame">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -806,7 +806,7 @@ background-color: white</string>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="clinic_name_label_3">
+     <widget class="QLabel" name="name_display">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -831,33 +831,7 @@ background-color: white</string>
        <string>Name</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_11">
-      <property name="geometry">
-       <rect>
-        <x>310</x>
-        <y>20</y>
-        <width>71</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #B6D0E2;
-color: white; text-align: center;</string>
-      </property>
-      <property name="text">
-       <string>View</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="clinic_name_label_4">
+     <widget class="QLabel" name="date_feedback_display">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -878,6 +852,29 @@ color: white; text-align: center;</string>
       </property>
       <property name="text">
        <string>Date</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="view_feedback_btn">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>93</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #B6D0E2;
+color: white; text-align: center;</string>
+      </property>
+      <property name="text">
+       <string>View</string>
       </property>
      </widget>
     </widget>
@@ -1068,7 +1065,7 @@ color: white;</string>
      </widget>
     </item>
     <item>
-     <widget class="QToolButton" name="services_navigation">
+     <widget class="QToolButton" name="feedback_navigation">
       <property name="enabled">
        <bool>true</bool>
       </property>
