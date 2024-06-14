@@ -11,7 +11,12 @@ class FindDoctorWidget(QWidget):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+        
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        
         self.whitebg = QWidget(Form)
         self.whitebg.setObjectName(u"whitebg")
         self.whitebg.setGeometry(QRect(150, 0, 1771, 1080))
@@ -24,7 +29,7 @@ class FindDoctorWidget(QWidget):
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
         icon = QIcon()
-        icon.addFile(u"../Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
         self.noti_icon.setIcon(icon)
         self.noti_icon.setIconSize(QSize(40, 40))
         self.fad_title = QLabel(self.whitebg)
@@ -46,7 +51,7 @@ class FindDoctorWidget(QWidget):
         self.profile_icon.setObjectName(u"profile_icon")
         self.profile_icon.setGeometry(QRect(10, 10, 60, 60))
         self.profile_icon.setStyleSheet(u"border: none")
-        self.profile_icon.setPixmap(QPixmap(u"../Images/icon/profile_icon.png"))
+        self.profile_icon.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
         self.profile_icon.setScaledContents(True)
         self.profile_btn = QPushButton(self.user_frame)
         self.profile_btn.setObjectName(u"profile_btn")
@@ -169,7 +174,6 @@ class FindDoctorWidget(QWidget):
         self.clinic_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
-"box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); \n"
 "padding: 10px; \n"
 "font-family: Consolas;\n"
 "font-size: 11pt;")
@@ -188,7 +192,6 @@ class FindDoctorWidget(QWidget):
         self.speciality_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
-"box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); \n"
 "padding: 10px; \n"
 "font-family: Consolas;\n"
 "font-size: 11pt;")
@@ -207,7 +210,6 @@ class FindDoctorWidget(QWidget):
         self.doc_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
 "border-radius: 5px; \n"
 "background-color: #FFFFFF; \n"
-"box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); \n"
 "padding: 10px; \n"
 "font-family: Consolas;\n"
 "font-size: 11pt;")
@@ -247,7 +249,7 @@ class FindDoctorWidget(QWidget):
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon1 = QIcon()
-        icon1.addFile(u"../Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -263,7 +265,7 @@ class FindDoctorWidget(QWidget):
         self.appointments_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
-        icon2.addFile(u"../Images/nav_images/appointment_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"CAD/Images/nav_images/appointment_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.appointments_navigation.setIcon(icon2)
         self.appointments_navigation.setIconSize(QSize(70, 70))
         self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -279,7 +281,7 @@ class FindDoctorWidget(QWidget):
         self.services_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
-        icon3.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.services_navigation.setIcon(icon3)
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -295,7 +297,7 @@ class FindDoctorWidget(QWidget):
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
-        icon4.addFile(u"../Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -311,7 +313,7 @@ class FindDoctorWidget(QWidget):
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon5 = QIcon()
-        icon5.addFile(u"../Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
