@@ -29,7 +29,7 @@ class Ui_MainWindow(QMainWindow):
         #this
         self.servicesWidget.fad_btn_clicked.connect(self.showFindDocWidget)
 
-        self.forgotPw_verificationWidget.Continuebutton.connect(self.showNewPassword)
+        self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
         
 
     def setupUi(self, MainWindow):
