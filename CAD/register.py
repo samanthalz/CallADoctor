@@ -307,11 +307,6 @@ class RegisterWidget(QWidget, QObject):
         # Get a reference to the 'patients' node
         patients_ref = db.child('patients')
 
-        # # Add the data to the 'patients' node in Realtime Database
-        # new_patient_ref = patients_ref.push(patient_data)
-        # print(f"Data added to the database with key: {new_patient_ref['name']}")
-
-
         # Add the data to the 'patients' node in Realtime Database using the patient IC number as the key
         patients_ref.child(ic).set(patient_data)
         print(f"Data added to the database with key: {ic}")
