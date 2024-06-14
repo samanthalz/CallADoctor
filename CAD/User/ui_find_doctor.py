@@ -16,7 +16,10 @@ class FindDoctorWidget(QWidget):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
         self.navbar = QFrame(Form)
         self.navbar.setObjectName(u"navbar")
         self.navbar.setGeometry(QRect(0, 0, 111, 901))

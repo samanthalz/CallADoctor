@@ -19,7 +19,12 @@ class ServicesWidget(QWidget):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet("background-color: #B6D0E2;")
+        
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        
         self.whitebg = QWidget(Form)
         self.whitebg.setObjectName(u"whitebg")
         self.whitebg.setGeometry(QRect(150, 0, 1771, 1080))
