@@ -1,22 +1,11 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'make_apptNSYlRG.ui'
-##
-## Created by: Qt User Interface Compiler version 5.14.1
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
+from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
-from PySide2.QtWidgets import *
+from PyQt5.QtWidgets import *
 
-
-class Ui_Form(object):
+class MakeApptWidget(QWidget):
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
