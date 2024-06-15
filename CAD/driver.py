@@ -36,6 +36,12 @@ class Ui_MainWindow(QMainWindow):
         self.servicesWidget.makeAppt_btn_clicked.connect(self.showMakeApptWidget)
         
         self.homeWidget.service_btn_clicked.connect(self.showServicesWidget)
+        
+        self.findClinicWidget.service_btn_clicked.connect(self.showServicesWidget)
+        
+        self.findDocWidget.service_btn_clicked.connect(self.showServicesWidget)
+        
+        self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
 
         self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
         
@@ -76,6 +82,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.forgotPw_verificationWidget)
         self.stackedWidget.addWidget(self.registerWidget)
         self.stackedWidget.addWidget(self.homeWidget)
+        self.stackedWidget.addWidget(self.servicesWidget)
         self.stackedWidget.addWidget(self.findClinicWidget)
         self.stackedWidget.addWidget(self.findDocWidget)
         self.stackedWidget.addWidget(self.makeApptWidget)
@@ -138,9 +145,6 @@ class Ui_MainWindow(QMainWindow):
     def showServicesWidget(self):
         self.stackedWidget.setCurrentWidget(self.servicesWidget)
         
-    @pyqtSlot()
-    def showServicesWidget(self):
-        self.stackedWidget.setCurrentWidget(self.paHomeWidget)
     
 if __name__ == "__main__":
     import sys

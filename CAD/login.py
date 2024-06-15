@@ -196,7 +196,7 @@ class LoginWidget(QWidget):
             self.showMessageBox('Error', f"Error fetching patient data: {e}")
 
         try:
-            # Fetch data from Firebase for admins
+            # Fetch data from Firebase for pa
             pa_admins = db.child('project_admin').get()
             if pa_admins.each() is not None:
                 for admin in pa_admins.each():
