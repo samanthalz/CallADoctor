@@ -178,6 +178,8 @@ class LoginWidget(QWidget):
         ic = self.ic_input.text()
         password = self.password_input.text()
 
+        self.showMessageBox('Info', f"Input IC: {ic}, Password: {password}")
+
         if not ic or not password:
             self.showMessageBox('Error', 'IC/ID number and password cannot be empty.')
             return
@@ -188,17 +190,20 @@ class LoginWidget(QWidget):
             patient_data = patient.val()
             if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
                 rights = patient_data.get('rights', 0)
+                self.showMessageBox('Info', 'Patient login successful')
                 self.login_successful.emit(rights)
                 return
-            
+
         pa_admins = db.child('project_admin').get()
         if pa_admins.each() is not None:
             for admin in pa_admins.each():
                 admin_data = admin.val()
+                self.showMessageBox('Info', f"Fetched pa_id: {admin_data['pa_id']}, pa_pass: {admin_data['pa_pass']}")
                 if admin_data['pa_id'] == ic and admin_data['pa_pass'] == password:
-                    rights = patient_data.get('rights', 4)
+                    rights = admin_data.get('rights', 4)
+                    self.showMessageBox('Info', 'Admin login successful')
                     self.login_successful.emit(rights)
-                    return 
+                    return
 
         self.showMessageBox('Error', 'Invalid IC/ID number or password.')
 
