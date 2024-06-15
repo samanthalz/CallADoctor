@@ -12,6 +12,7 @@ from User.ui_find_clinic import FindClinicWidget
 from User.ui_find_doctor import FindDoctorWidget
 from User.ui_make_appt import MakeApptWidget
 from User.ui_services import ServicesWidget
+from Project_Admin.ui_pa_homepage import PA_Home
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -20,7 +21,7 @@ class Ui_MainWindow(QMainWindow):
         
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
-        self.loginWidget.login_successful.connect(self.showHomeWidget)
+        self.loginWidget.login_successful.connect(self.handle_login_success)
 
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
@@ -82,6 +83,12 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow"))
         
         
+    def handle_login_success(self, rights):
+        if rights == 0:
+            self.stackedWidget.setCurrentWidget(self.homeWidget)
+        elif rights == 4:
+            self.stackedWidget.setCurrentWidget(self.paHomeWidget)
+            
     @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
@@ -117,6 +124,10 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showServicesWidget(self):
         self.stackedWidget.setCurrentWidget(self.servicesWidget)
+        
+    @pyqtSlot()
+    def showServicesWidget(self):
+        self.stackedWidget.setCurrentWidget(self.paHomeWidget)
     
 if __name__ == "__main__":
     import sys
