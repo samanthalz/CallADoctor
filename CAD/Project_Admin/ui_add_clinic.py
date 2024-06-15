@@ -227,7 +227,6 @@ class AddClinicWidget(QWidget):
         self.name_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 
@@ -254,7 +253,6 @@ class AddClinicWidget(QWidget):
         self.hour_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 
@@ -287,7 +285,6 @@ class AddClinicWidget(QWidget):
         self.startyear_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 
@@ -314,7 +311,6 @@ class AddClinicWidget(QWidget):
         self.services_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 
@@ -344,7 +340,6 @@ class AddClinicWidget(QWidget):
         self.address_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 
@@ -374,7 +369,6 @@ class AddClinicWidget(QWidget):
         self.phone_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 
@@ -401,7 +395,6 @@ class AddClinicWidget(QWidget):
         self.email_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 
@@ -434,7 +427,6 @@ class AddClinicWidget(QWidget):
         self.prood_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 

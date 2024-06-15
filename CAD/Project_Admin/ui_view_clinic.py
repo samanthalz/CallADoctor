@@ -67,7 +67,6 @@ class ViewClinicWidget(QWidget):
 " background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
         self.search_clinic.setClearButtonEnabled(False)

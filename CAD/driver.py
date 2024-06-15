@@ -12,7 +12,11 @@ from User.ui_find_clinic import FindClinicWidget
 from User.ui_find_doctor import FindDoctorWidget
 from User.ui_make_appt import MakeApptWidget
 from User.ui_services import ServicesWidget
-from Project_Admin.ui_pa_homepage import PA_Home
+from Project_Admin.ui_pa_homepage import PAHomeWidget
+from Project_Admin.ui_add_clinic import AddClinicWidget
+from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
+from Project_Admin.ui_view_clinic import ViewClinicWidget
+from Project_Admin.ui_view_feedback import ViewFeedbackWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -59,6 +63,11 @@ class Ui_MainWindow(QMainWindow):
         self.findDocWidget = FindDoctorWidget()
         self.makeApptWidget = MakeApptWidget()
         self.servicesWidget = ServicesWidget()
+        self.paHomeWidget = PAHomeWidget()
+        self.addClinicWidget = AddClinicWidget()
+        self.feedbackInboxWidget = FeedbackInboxWidget()
+        self.viewClinicWidget = ViewClinicWidget()
+        self.viewFeedbackWidget = ViewFeedbackWidget()
          
 
         self.stackedWidget.addWidget(self.loginWidget)
@@ -70,7 +79,11 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.findClinicWidget)
         self.stackedWidget.addWidget(self.findDocWidget)
         self.stackedWidget.addWidget(self.makeApptWidget)
-        self.stackedWidget.addWidget(self.servicesWidget)
+        self.stackedWidget.addWidget(self.paHomeWidget)
+        self.stackedWidget.addWidget(self.addClinicWidget)
+        self.stackedWidget.addWidget(self.feedbackInboxWidget)
+        self.stackedWidget.addWidget(self.viewClinicWidget)
+        self.stackedWidget.addWidget(self.viewFeedbackWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         

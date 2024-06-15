@@ -8,7 +8,7 @@ from connection import db
 
 
 class LoginWidget(QWidget):
-    login_successful = pyqtSignal()
+    login_successful = pyqtSignal(int)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -188,17 +188,17 @@ class LoginWidget(QWidget):
             patient_data = patient.val()
             if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
                 rights = patient_data.get('rights', 0)
-                self.login_successful.emit()
+                self.login_successful.emit(rights)
                 return
             
-        pa_admins = self.db.child('project_admin').get()
+        pa_admins = db.child('project_admin').get()
         if pa_admins.each() is not None:
             for admin in pa_admins.each():
                 admin_data = admin.val()
                 if admin_data['pa_id'] == ic and admin_data['pa_pass'] == password:
                     rights = patient_data.get('rights', 4)
-                    self.login_successful.emit()
-                    return
+                    self.login_successful.emit(rights)
+                    return 
 
         self.showMessageBox('Error', 'Invalid IC/ID number or password.')
 

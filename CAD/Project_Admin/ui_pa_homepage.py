@@ -6,7 +6,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 
 
-class PA_Home(QWidget):
+class PAHomeWidget(QWidget):
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -21,7 +21,7 @@ class PA_Home(QWidget):
         p = Form.palette()
         p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
         Form.setPalette(p)
-        
+
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
@@ -203,15 +203,15 @@ class PA_Home(QWidget):
         self.line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
         self.line.setFrameShape(QFrame.StyledPanel)
         self.line.setFrameShadow(QFrame.Raised)
-        self.widget = QWidget(self.clinic_details_inner)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 120, 401, 311))
-        self.layout = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(self.clinic_details_inner)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(0, 120, 401, 311))
+        self.layout = QVBoxLayout(self.layoutWidget)
         self.layout.setObjectName(u"layout")
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.phone_layout = QHBoxLayout()
         self.phone_layout.setObjectName(u"phone_layout")
-        self.phone_label = QLabel(self.widget)
+        self.phone_label = QLabel(self.layoutWidget)
         self.phone_label.setObjectName(u"phone_label")
         font6 = QFont()
         font6.setFamily(u"Consolas")
@@ -224,7 +224,7 @@ class PA_Home(QWidget):
 
         self.phone_layout.addWidget(self.phone_label)
 
-        self.phone_display = QLabel(self.widget)
+        self.phone_display = QLabel(self.layoutWidget)
         self.phone_display.setObjectName(u"phone_display")
         font7 = QFont()
         font7.setFamily(u"Consolas")
@@ -241,14 +241,14 @@ class PA_Home(QWidget):
 
         self.email_layout = QHBoxLayout()
         self.email_layout.setObjectName(u"email_layout")
-        self.email_label = QLabel(self.widget)
+        self.email_label = QLabel(self.layoutWidget)
         self.email_label.setObjectName(u"email_label")
         self.email_label.setFont(font6)
         self.email_label.setStyleSheet(u"border: none;")
 
         self.email_layout.addWidget(self.email_label)
 
-        self.email_display = QLabel(self.widget)
+        self.email_display = QLabel(self.layoutWidget)
         self.email_display.setObjectName(u"email_display")
         self.email_display.setFont(font7)
         self.email_display.setStyleSheet(u"border: none;")
@@ -261,14 +261,14 @@ class PA_Home(QWidget):
         self.add_layout = QHBoxLayout()
         self.add_layout.setSpacing(135)
         self.add_layout.setObjectName(u"add_layout")
-        self.add_label = QLabel(self.widget)
+        self.add_label = QLabel(self.layoutWidget)
         self.add_label.setObjectName(u"add_label")
         self.add_label.setFont(font6)
         self.add_label.setStyleSheet(u"border: none;")
 
         self.add_layout.addWidget(self.add_label)
 
-        self.add_display = QLabel(self.widget)
+        self.add_display = QLabel(self.layoutWidget)
         self.add_display.setObjectName(u"add_display")
         self.add_display.setFont(font7)
         self.add_display.setStyleSheet(u"border: none;")
@@ -283,7 +283,7 @@ class PA_Home(QWidget):
         self.opening_hr_layout = QHBoxLayout()
         self.opening_hr_layout.setObjectName(u"opening_hr_layout")
         self.opening_hr_layout.setSizeConstraint(QLayout.SetFixedSize)
-        self.opening_hr_text = QLabel(self.widget)
+        self.opening_hr_text = QLabel(self.layoutWidget)
         self.opening_hr_text.setObjectName(u"opening_hr_text")
         self.opening_hr_text.setFont(font6)
         self.opening_hr_text.setStyleSheet(u"border: none;")
@@ -291,7 +291,7 @@ class PA_Home(QWidget):
 
         self.opening_hr_layout.addWidget(self.opening_hr_text)
 
-        self.hour_display = QLabel(self.widget)
+        self.hour_display = QLabel(self.layoutWidget)
         self.hour_display.setObjectName(u"hour_display")
         self.hour_display.setFont(font7)
         self.hour_display.setStyleSheet(u"border: none;")
@@ -353,7 +353,7 @@ class PA_Home(QWidget):
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
         icon = QIcon()
-        icon.addFile(u"../Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
         self.noti_icon.setIcon(icon)
         self.noti_icon.setIconSize(QSize(40, 40))
         self.user_frame = QFrame(self.background)
@@ -366,7 +366,7 @@ class PA_Home(QWidget):
         self.profile_icon.setObjectName(u"profile_icon")
         self.profile_icon.setGeometry(QRect(10, 10, 60, 60))
         self.profile_icon.setStyleSheet(u"border: none")
-        self.profile_icon.setPixmap(QPixmap(u"../Images/icon/profile_icon.png"))
+        self.profile_icon.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
         self.profile_icon.setScaledContents(True)
         self.profile_btn = QPushButton(self.user_frame)
         self.profile_btn.setObjectName(u"profile_btn")
@@ -376,19 +376,18 @@ class PA_Home(QWidget):
         font9.setPointSize(16)
         self.profile_btn.setFont(font9)
         self.profile_btn.setStyleSheet(u"border: none")
-        
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
-        self.widget = QWidget(self.frame)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(31, 20, 87, 851))
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.layoutWidget1 = QWidget(self.frame)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(31, 20, 87, 851))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.home_navigation = QToolButton(self.widget)
+        self.home_navigation = QToolButton(self.layoutWidget1)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -407,14 +406,14 @@ class PA_Home(QWidget):
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon1 = QIcon()
-        icon1.addFile(u"../Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
         self.verticalLayout.addWidget(self.home_navigation)
 
-        self.clinic_navigation = QToolButton(self.widget)
+        self.clinic_navigation = QToolButton(self.layoutWidget1)
         self.clinic_navigation.setObjectName(u"clinic_navigation")
         self.clinic_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.clinic_navigation.sizePolicy().hasHeightForWidth())
@@ -425,14 +424,14 @@ class PA_Home(QWidget):
         self.clinic_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
-        icon2.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.clinic_navigation.setIcon(icon2)
         self.clinic_navigation.setIconSize(QSize(70, 70))
         self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
         self.verticalLayout.addWidget(self.clinic_navigation)
 
-        self.feedback_navigation = QToolButton(self.widget)
+        self.feedback_navigation = QToolButton(self.layoutWidget1)
         self.feedback_navigation.setObjectName(u"feedback_navigation")
         self.feedback_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.feedback_navigation.sizePolicy().hasHeightForWidth())
@@ -443,14 +442,14 @@ class PA_Home(QWidget):
         self.feedback_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
-        icon3.addFile(u"../Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"CAD/Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.feedback_navigation.setIcon(icon3)
         self.feedback_navigation.setIconSize(QSize(70, 70))
         self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
         self.verticalLayout.addWidget(self.feedback_navigation)
 
-        self.settings_navigation = QToolButton(self.widget)
+        self.settings_navigation = QToolButton(self.layoutWidget1)
         self.settings_navigation.setObjectName(u"settings_navigation")
         self.settings_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
@@ -461,14 +460,14 @@ class PA_Home(QWidget):
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
-        icon4.addFile(u"../Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
         self.verticalLayout.addWidget(self.settings_navigation)
 
-        self.logout_navigation = QToolButton(self.widget)
+        self.logout_navigation = QToolButton(self.layoutWidget1)
         self.logout_navigation.setObjectName(u"logout_navigation")
         self.logout_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
@@ -479,7 +478,7 @@ class PA_Home(QWidget):
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon5 = QIcon()
-        icon5.addFile(u"../Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -524,10 +523,10 @@ class PA_Home(QWidget):
         self.view_feedback_btn.setText(QCoreApplication.translate("Form", u"View", None))
         self.noti_icon.setText("")
         self.profile_icon.setText("")
-        self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
+        self.profile_btn.setText(QCoreApplication.translate("Form", u"Admin", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
-        self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))
-        self.feedback_navigation.setText(QCoreApplication.translate("Form", u"Feedbacks", None))
+        self.clinic_navigation.setText(QCoreApplication.translate("Form", u"Clinics", None))
+        self.feedback_navigation.setText(QCoreApplication.translate("Form", u"Feedback", None))
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
