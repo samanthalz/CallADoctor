@@ -961,7 +961,7 @@ color: white; text-align: center;</string>
       <string notr="true">border: none</string>
      </property>
      <property name="text">
-      <string>User</string>
+      <string>Admin</string>
      </property>
     </widget>
    </widget>
@@ -981,7 +981,7 @@ color: white; text-align: center;</string>
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>31</x>
