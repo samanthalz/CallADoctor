@@ -117,7 +117,7 @@ text-align: center;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="search_clinic">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -157,7 +157,7 @@ border: 1px solid gray;
       <x>979</x>
       <y>200</y>
       <width>751</width>
-      <height>831</height>
+      <height>841</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -175,7 +175,7 @@ border: 1px solid gray;
        <x>20</x>
        <y>20</y>
        <width>711</width>
-       <height>791</height>
+       <height>771</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -269,13 +269,13 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        <enum>QFrame::Raised</enum>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>3</x>
         <y>123</y>
         <width>701</width>
-        <height>661</height>
+        <height>641</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -626,8 +626,32 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
       </layout>
      </widget>
     </widget>
+    <widget class="QPushButton" name="change_img_btn">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>790</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #E73030; border-radius: 16px; color: white;\n border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string>Remove Clinic</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="filter">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -680,7 +704,7 @@ border: 1px solid gray;</string>
      <string>Clinic List</string>
     </property>
    </widget>
-   <widget class="QFrame" name="clinicReq_frame_2">
+   <widget class="QFrame" name="clinic_frame_2">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -749,7 +773,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="status_2">
      <property name="geometry">
       <rect>
        <x>690</x>
@@ -777,7 +801,7 @@ color: #F62088; text-align: center;
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="clinicReq_frame">
+   <widget class="QFrame" name="clinic_frame">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -846,7 +870,7 @@ max-height: 50px; </string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="status">
      <property name="geometry">
       <rect>
        <x>690</x>
