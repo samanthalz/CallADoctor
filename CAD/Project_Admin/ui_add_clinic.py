@@ -1,9 +1,10 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from connection import db
 
 
 class AddClinicWidget(QWidget):
@@ -16,12 +17,7 @@ class AddClinicWidget(QWidget):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        
-        Form.setAutoFillBackground(True)
-        p = Form.palette()
-        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
-        Form.setPalette(p)
-        
+        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
@@ -198,9 +194,8 @@ class AddClinicWidget(QWidget):
         self.submit_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
         self.widget = QWidget(self.background)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(550, 200, 1171, 731))
+        self.widget.setGeometry(QRect(540, 202, 1181, 751))
         self.verticalLayout_2 = QVBoxLayout(self.widget)
-        self.verticalLayout_2.setSpacing(6)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
@@ -322,31 +317,66 @@ class AddClinicWidget(QWidget):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
-        self.address_layout = QVBoxLayout()
-        self.address_layout.setSpacing(10)
-        self.address_layout.setObjectName(u"address_layout")
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setSpacing(50)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.add_layout = QVBoxLayout()
+        self.add_layout.setSpacing(10)
+        self.add_layout.setObjectName(u"add_layout")
         self.address_label = QLabel(self.widget)
         self.address_label.setObjectName(u"address_label")
+        self.address_label.setMinimumSize(QSize(0, 23))
         self.address_label.setMaximumSize(QSize(16777215, 23))
         self.address_label.setFont(font4)
 
-        self.address_layout.addWidget(self.address_label)
+        self.add_layout.addWidget(self.address_label)
 
         self.address_input = QLineEdit(self.widget)
         self.address_input.setObjectName(u"address_input")
-        self.address_input.setMinimumSize(QSize(500, 40))
-        self.address_input.setMaximumSize(QSize(16777215, 40))
+        self.address_input.setMinimumSize(QSize(500, 140))
+        self.address_input.setMaximumSize(QSize(16777215, 140))
         self.address_input.setBaseSize(QSize(0, 0))
         self.address_input.setStyleSheet(u" padding: 60px; color: Black;\n"
-"background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 "border: 1px solid gray;\n"
+"border-radius: 0px; \n"
 "")
 
-        self.address_layout.addWidget(self.address_input)
+        self.add_layout.addWidget(self.address_input)
 
 
-        self.verticalLayout_2.addLayout(self.address_layout)
+        self.horizontalLayout_5.addLayout(self.add_layout)
+
+        self.state_layout = QVBoxLayout()
+        self.state_layout.setSpacing(0)
+        self.state_layout.setObjectName(u"state_layout")
+        self.state_label = QLabel(self.widget)
+        self.state_label.setObjectName(u"state_label")
+        self.state_label.setMinimumSize(QSize(379, 23))
+        self.state_label.setMaximumSize(QSize(16777215, 23))
+        self.state_label.setFont(font4)
+
+        self.state_layout.addWidget(self.state_label)
+
+        self.state_input = QComboBox(self.widget)
+        self.state_input.addItem("")
+        self.state_input.setObjectName(u"state_input")
+        self.state_input.setMinimumSize(QSize(379, 40))
+        self.state_input.setMaximumSize(QSize(16777215, 40))
+        self.state_input.setStyleSheet(u"border: 1px solid #000000;\n"
+"border-radius: 0px; \n"
+"background-color: #FFFFFF; \n"
+"padding: 10px; \n"
+"font-family: Consolas;\n"
+"font-size: 11pt;")
+
+        self.state_layout.addWidget(self.state_input)
+
+
+        self.horizontalLayout_5.addLayout(self.state_layout)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setSpacing(50)
@@ -471,6 +501,10 @@ class AddClinicWidget(QWidget):
         self.startyear_label.setText(QCoreApplication.translate("Form", u"Starting year", None))
         self.services_label.setText(QCoreApplication.translate("Form", u"Types of services", None))
         self.address_label.setText(QCoreApplication.translate("Form", u"Address", None))
+        self.state_label.setText(QCoreApplication.translate("Form", u"State", None))
+        self.state_input.setItemText(0, QCoreApplication.translate("Form", u"Choose a State", None))
+
+        self.state_input.setCurrentText(QCoreApplication.translate("Form", u"Choose a State", None))
         self.phone_label.setText(QCoreApplication.translate("Form", u"Phone number", None))
         self.email_label.setText(QCoreApplication.translate("Form", u"Email address", None))
         self.proof_label.setText(QCoreApplication.translate("Form", u"Submit proof of Government registered doctors", None))

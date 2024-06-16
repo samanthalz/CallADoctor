@@ -226,6 +226,12 @@ border-radius: 24px; </string>
                 <height>55</height>
                </size>
               </property>
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
               <property name="styleSheet">
                <string notr="true">border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;</string>
               </property>
@@ -296,6 +302,12 @@ border-radius: 24px; </string>
             </item>
             <item>
              <widget class="QLabel" name="clinic_name">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
               <property name="styleSheet">
                <string notr="true">text-align: center; border: none;</string>
               </property>
