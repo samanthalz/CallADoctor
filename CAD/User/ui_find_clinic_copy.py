@@ -315,6 +315,9 @@ class FindClinicWidget(QWidget):
                         view_clinic_btn.setMinimumSize(QSize(193, 55))
                         view_clinic_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
                         view_clinic_btn.setText("View Clinic")
+                        font = QFont("Consolas", 10)
+                        view_clinic_btn.setFont(font)
+                        
 
                         horizontalLayout.addWidget(view_clinic_btn)
 
@@ -323,6 +326,8 @@ class FindClinicWidget(QWidget):
                         make_appt_btn.setMinimumSize(QSize(193, 55))
                         make_appt_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
                         make_appt_btn.setText("Make Appointment")
+                        font = QFont("Consolas", 10)
+                        make_appt_btn.setFont(font)
 
                         horizontalLayout.addWidget(make_appt_btn)
 
@@ -336,9 +341,16 @@ class FindClinicWidget(QWidget):
 
                         clinic_logo_label = QLabel(layoutWidget_2)
                         clinic_logo_label.setObjectName("clinic_logo")
-                        clinic_logo_label.setMinimumSize(QSize(160, 160))
-                        clinic_logo_label.setStyleSheet("text-align: center; border: none;")
-                        clinic_logo_label.setText("Clinic Logo")
+                        clinic_logo_label.setMinimumSize(QSize(324, 160))
+                        #clinic_logo_label.setMaximumSize(QSize(324, 160))
+                        clinic_logo_label.setStyleSheet("border: none;") 
+
+                        clinic_logo_label.setAlignment(Qt.AlignCenter)
+
+                        clinic_img_path = clinic.get("clinic_img", "")
+                        if clinic_img_path:
+                                pixmap = QPixmap(clinic_img_path)
+                                clinic_logo_label.setPixmap(pixmap.scaled(clinic_logo_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
 
                         verticalLayout.addWidget(clinic_logo_label)
 
@@ -349,13 +361,28 @@ class FindClinicWidget(QWidget):
                         clinic_name_label.setObjectName("clinic_name")
                         clinic_name_label.setStyleSheet("text-align: center; border: none;")
                         clinic_name_label.setText(clinic.get("clinic_name", "Unknown"))
+                        font = QFont("Consolas", 12, QFont.Bold)
+                        clinic_name_label.setFont(font)
 
                         verticalLayout.addWidget(clinic_name_label)
+                        
+                        line = QFrame(layoutWidget_2)
+                        line.setObjectName("line")
+                        line.setMinimumSize(QSize(324, 3))
+                        line.setMaximumSize(QSize(324, 3))
+                        line.setStyleSheet("background-color: #B6D0E2; border: none;")
+                        line.setFrameShape(QFrame.HLine)
+                        line.setFrameShadow(QFrame.Sunken)
+
+                        verticalLayout.addWidget(line)
 
                         location_label = QLabel(layoutWidget_2)
                         location_label.setObjectName("location")
                         location_label.setStyleSheet("text-align: center; border: none;")
-                        location_label.setText(clinic.get("clinic_add", "Unknown"))
+                        location_text = f"<b>Location:</b> {clinic.get('clinic_add', 'Unknown')}"
+                        location_label.setText(location_text)
+                        font = QFont("Consolas", 11)
+                        location_label.setFont(font)
 
                         verticalLayout.addWidget(location_label)
 
