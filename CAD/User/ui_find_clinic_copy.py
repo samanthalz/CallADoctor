@@ -5,6 +5,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 from connection import db
+import requests
 
 
 class FindClinicWidget(QWidget):
@@ -12,18 +13,15 @@ class FindClinicWidget(QWidget):
         
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.clinic_data_list = []
         self.setupUi(self)
+        self.fetch_clinic_data()
         
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        
-        Form.setAutoFillBackground(True)
-        p = Form.palette()
-        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
-        Form.setPalette(p)
-        
+        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
         self.whitebg = QWidget(Form)
         self.whitebg.setObjectName(u"whitebg")
         self.whitebg.setGeometry(QRect(150, 0, 1771, 1080))
@@ -70,94 +68,19 @@ class FindClinicWidget(QWidget):
         self.profile_btn.setStyleSheet(u"border: none")
         
         self.scrollArea = QScrollArea(self.whitebg)
-        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setObjectName("scrollArea")
         self.scrollArea.setGeometry(QRect(80, 240, 1641, 841))
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1641, 841))
-                        
-        self.clinic_info_outer = QFrame(self.scrollAreaWidgetContents)
-        self.clinic_info_outer.setObjectName(u"clinic_info_outer")
-        self.clinic_info_outer.setGeometry(QRect(0, 0, 388, 535))
-        self.clinic_info_outer.setStyleSheet(u"border: 1px solid black; \n"
-"border-radius: 24px; ")
-        self.clinic_info_outer.setFrameShape(QFrame.StyledPanel)
-        self.clinic_info_outer.setFrameShadow(QFrame.Raised)
-        self.clinic_info_inner = QFrame(self.clinic_info_outer)
-        self.clinic_info_inner.setObjectName(u"clinic_info_inner")
-        self.clinic_info_inner.setGeometry(QRect(-1, 0, 401, 541))
-        self.clinic_info_inner.setStyleSheet(u"border: none; background-color: transparent;")
-        self.clinic_info_inner.setFrameShape(QFrame.StyledPanel)
-        self.clinic_info_inner.setFrameShadow(QFrame.Raised)
-        self.layoutWidget = QWidget(self.clinic_info_inner)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(1, 480, 396, 57))
-        self.horizontalLayout = QHBoxLayout(self.layoutWidget)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.view_clinic_btn = QPushButton(self.layoutWidget)
-        self.view_clinic_btn.setObjectName(u"view_clinic_btn")
-        self.view_clinic_btn.setMinimumSize(QSize(194, 55))
-        self.view_clinic_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
 
-        self.horizontalLayout.addWidget(self.view_clinic_btn)
-
-        self.make_appt_btn = QPushButton(self.layoutWidget)
-        self.make_appt_btn.setObjectName(u"make_appt_btn")
-        self.make_appt_btn.setMinimumSize(QSize(194, 55))
-        self.make_appt_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
-
-        self.horizontalLayout.addWidget(self.make_appt_btn)
-
-        self.layoutWidget_2 = QWidget(self.clinic_info_inner)
-        self.layoutWidget_2.setObjectName(u"layoutWidget_2")
-        self.layoutWidget_2.setGeometry(QRect(30, 30, 326, 451))
-        self.verticalLayout = QVBoxLayout(self.layoutWidget_2)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.clinic_logo = QLabel(self.layoutWidget_2)
-        self.clinic_logo.setObjectName(u"clinic_logo")
-        self.clinic_logo.setMinimumSize(QSize(160, 160))
-        self.clinic_logo.setStyleSheet(u"text-align: center; border: none;")
-
-        self.verticalLayout.addWidget(self.clinic_logo)
-
-        self.verticalSpacer_3 = QSpacerItem(20, 28, QSizePolicy.Minimum, QSizePolicy.Fixed)
-
-        self.verticalLayout.addItem(self.verticalSpacer_3)
-
-        self.clinic_name = QLabel(self.layoutWidget_2)
-        self.clinic_name.setObjectName(u"clinic_name")
-        self.clinic_name.setStyleSheet(u"text-align: center; border: none;")
-
-        self.verticalLayout.addWidget(self.clinic_name)
-
-        self.verticalSpacer = QSpacerItem(20, 58, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer)
-
-        self.line = QFrame(self.layoutWidget_2)
-        self.line.setObjectName(u"line")
-        self.line.setMinimumSize(QSize(324, 3))
-        self.line.setMaximumSize(QSize(16777215, 3))
-        self.line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
-        self.line.setFrameShape(QFrame.StyledPanel)
-        self.line.setFrameShadow(QFrame.Raised)
-
-        self.verticalLayout.addWidget(self.line)
-
-        self.location = QLabel(self.layoutWidget_2)
-        self.location.setObjectName(u"location")
-        self.location.setStyleSheet(u"text-align: center; border: none;")
-
-        self.verticalLayout.addWidget(self.location)
-
-        self.verticalSpacer_2 = QSpacerItem(20, 38, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer_2)
+        self.gridLayout = QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout.setObjectName("gridLayout")
+        self.gridLayout.setAlignment(Qt.AlignTop)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+
         
         self.layoutWidget1 = QWidget(self.whitebg)
         self.layoutWidget1.setObjectName(u"layoutWidget1")
@@ -271,7 +194,6 @@ class FindClinicWidget(QWidget):
         self.services_navigation.setIcon(icon3)
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-        self.services_navigation.clicked.connect(self.emitServiceBtn)
 
         self.verticalLayout_2.addWidget(self.services_navigation)
 
@@ -319,11 +241,21 @@ class FindClinicWidget(QWidget):
         self.fac_title.setText(QCoreApplication.translate("Form", u"Find A Clinic", None))
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
-        self.view_clinic_btn.setText(QCoreApplication.translate("Form", u"View Clinic", None))
-        self.make_appt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
-        self.clinic_logo.setText(QCoreApplication.translate("Form", u"TextLabel", None))
-        self.clinic_name.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        self.location.setText(QCoreApplication.translate("Form", u"Location", None))
+        #self.view_clinic_btn.setText(QCoreApplication.translate("Form", u"View Clinic", None))
+        #self.make_appt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
+        #self.clinic_logo.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        #self.clinic_name.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        #self.location.setText(QCoreApplication.translate("Form", u"Location", None))
+        #self.view_clinic_btn_5.setText(QCoreApplication.translate("Form", u"View Clinic", None))
+        #self.make_appt_btn_5.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
+        #self.clinic_logo_5.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        #self.clinic_name_5.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        #self.location_5.setText(QCoreApplication.translate("Form", u"Location", None))
+        #self.view_clinic_btn_6.setText(QCoreApplication.translate("Form", u"View Clinic", None))
+        #self.make_appt_btn_6.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
+        #self.clinic_logo_6.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        #self.clinic_name_6.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        #self.location_6.setText(QCoreApplication.translate("Form", u"Location", None))
         self.state_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
 
         self.clinic_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
@@ -335,17 +267,93 @@ class FindClinicWidget(QWidget):
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
     
-    @pyqtSlot()
-    def emitServiceBtn(self):
-        # Emit the custom signal
-        self.service_btn_clicked.emit()
-        
     def fetch_clinic_data(self):
-        clinic_data_list = []
-        clinics = db.child("clinic").get()
-        for clinic in clinics.each():
-            clinic_data = clinic.val()
-            clinic_data_list.append(clinic_data)
-        return clinic_data_list
-        
+        try:
+            # Fetch clinic information from Firebase Realtime Database using requests
+            response = requests.get(self.firebase_url)
+            
+            if response.status_code == 200:
+                clinics = response.json()
+                print("Fetched Clinics Data:", clinics)  # Debug: Print the fetched data
+                self.clinic_data_list = clinics if isinstance(clinics, list) else list(clinics.values())
+                self.populate_clinic_info()
+            else:
+                print(f"Failed to fetch data. Status code: {response.status_code}")
+        except Exception as e:
+            print(f"An error occurred while fetching data: {e}")
+            
+    def populate_clinic_info(self):
+        for i, clinic in enumerate(self.clinic_data_list):
+            if isinstance(clinic, dict):
+                clinic_outer = QFrame(self.scrollAreaWidgetContents)
+                clinic_outer.setObjectName("clinic_info_outer")
+                clinic_outer.setStyleSheet("border: 1px solid black; \nborder-radius: 24px; ")
+
+                clinic_inner = QFrame(clinic_outer)
+                clinic_inner.setObjectName("clinic_info_inner")
+                clinic_inner.setGeometry(QRect(-1, 0, 401, 541))
+                clinic_inner.setStyleSheet("border: none; background-color: transparent;")
+
+                layoutWidget = QWidget(clinic_inner)
+                layoutWidget.setObjectName("layoutWidget")
+                layoutWidget.setGeometry(QRect(1, 480, 396, 57))
+
+                horizontalLayout = QHBoxLayout(layoutWidget)
+                horizontalLayout.setObjectName("horizontalLayout")
+                horizontalLayout.setContentsMargins(0, 0, 0, 0)
+
+                view_clinic_btn = QPushButton(layoutWidget)
+                view_clinic_btn.setObjectName("view_clinic_btn")
+                view_clinic_btn.setMinimumSize(QSize(194, 55))
+                view_clinic_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+                view_clinic_btn.setText("View Clinic")
+
+                horizontalLayout.addWidget(view_clinic_btn)
+
+                make_appt_btn = QPushButton(layoutWidget)
+                make_appt_btn.setObjectName("make_appt_btn")
+                make_appt_btn.setMinimumSize(QSize(194, 55))
+                make_appt_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+                make_appt_btn.setText("Make Appointment")
+
+                horizontalLayout.addWidget(make_appt_btn)
+
+                layoutWidget_2 = QWidget(clinic_inner)
+                layoutWidget_2.setObjectName("layoutWidget_2")
+                layoutWidget_2.setGeometry(QRect(30, 30, 326, 451))
+
+                verticalLayout = QVBoxLayout(layoutWidget_2)
+                verticalLayout.setObjectName("verticalLayout")
+                verticalLayout.setContentsMargins(0, 0, 0, 0)
+
+                clinic_logo_label = QLabel(layoutWidget_2)
+                clinic_logo_label.setObjectName("clinic_logo")
+                clinic_logo_label.setMinimumSize(QSize(160, 160))
+                clinic_logo_label.setStyleSheet("text-align: center; border: none;")
+                clinic_logo_label.setText("Clinic Logo")
+
+                verticalLayout.addWidget(clinic_logo_label)
+
+                verticalSpacer_3 = QSpacerItem(20, 28, QSizePolicy.Minimum, QSizePolicy.Fixed)
+                verticalLayout.addItem(verticalSpacer_3)
+
+                clinic_name_label = QLabel(layoutWidget_2)
+                clinic_name_label.setObjectName("clinic_name")
+                clinic_name_label.setStyleSheet("text-align: center; border: none;")
+                clinic_name_label.setText(clinic.get("clinic_name", "Unknown"))
+
+                verticalLayout.addWidget(clinic_name_label)
+
+                location_label = QLabel(layoutWidget_2)
+                location_label.setObjectName("location")
+                location_label.setStyleSheet("text-align: center; border: none;")
+                location_label.setText(clinic.get("location", "Unknown"))
+
+                verticalLayout.addWidget(location_label)
+
+                # Calculate row and column
+                row = i // 3
+                col = i % 3
+                self.gridLayout.addWidget(clinic_outer, row, col)
+       
 

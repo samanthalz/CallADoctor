@@ -8,7 +8,8 @@ from User.forgotpw_verification import ForgotPw_verificationWidget
 from User.ui_home import HomeWidget
 from login import LoginWidget
 from register import RegisterWidget
-from User.ui_find_clinic import FindClinicWidget
+#from User.ui_find_clinic import FindClinicWidget
+from User.ui_find_clinic_copy import FindClinicWidget
 from User.ui_find_doctor import FindDoctorWidget
 from User.ui_make_appt import MakeApptWidget
 from User.ui_services import ServicesWidget
