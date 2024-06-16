@@ -147,7 +147,7 @@ border-top-left-radius: 30px;
       <x>80</x>
       <y>240</y>
       <width>1641</width>
-      <height>841</height>
+      <height>821</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -159,20 +159,20 @@ border-top-left-radius: 30px;
        <x>0</x>
        <y>0</y>
        <width>1641</width>
-       <height>841</height>
+       <height>821</height>
       </rect>
      </property>
      <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
+        <x>-1</x>
+        <y>1</y>
         <width>1641</width>
-        <height>531</height>
+        <height>541</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
-       <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
         <widget class="QFrame" name="clinic_info_outer">
          <property name="maximumSize">
           <size>
@@ -370,7 +370,7 @@ border-radius: 24px; </string>
          </widget>
         </widget>
        </item>
-       <item>
+       <item row="0" column="1">
         <widget class="QFrame" name="clinic_info_outer_2">
          <property name="maximumSize">
           <size>
@@ -568,7 +568,7 @@ border-radius: 24px; </string>
          </widget>
         </widget>
        </item>
-       <item>
+       <item row="0" column="2">
         <widget class="QFrame" name="clinic_info_outer_3">
          <property name="maximumSize">
           <size>

@@ -21,7 +21,12 @@ class FindClinicWidget(QWidget):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+        
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        
         self.whitebg = QWidget(Form)
         self.whitebg.setObjectName(u"whitebg")
         self.whitebg.setGeometry(QRect(150, 0, 1771, 1080))
@@ -69,15 +74,18 @@ class FindClinicWidget(QWidget):
         
         self.scrollArea = QScrollArea(self.whitebg)
         self.scrollArea.setObjectName("scrollArea")
-        self.scrollArea.setGeometry(QRect(80, 240, 1641, 841))
+        self.scrollArea.setGeometry(QRect(80, 240, 1640, 800))
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1641, 841))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1640, 800))
 
         self.gridLayout = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
         self.gridLayout.setAlignment(Qt.AlignTop)
+        self.gridLayout.setHorizontalSpacing(150)  
+        self.gridLayout.setVerticalSpacing(50)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -269,91 +277,92 @@ class FindClinicWidget(QWidget):
     
     def fetch_clinic_data(self):
         try:
-            # Fetch clinic information from Firebase Realtime Database using requests
-            response = requests.get(self.firebase_url)
+            clinics = db.child("clinic").get()
             
-            if response.status_code == 200:
-                clinics = response.json()
-                print("Fetched Clinics Data:", clinics)  # Debug: Print the fetched data
-                self.clinic_data_list = clinics if isinstance(clinics, list) else list(clinics.values())
+            if clinics.each():
+                self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
+                #print("Fetched Clinics Data:", self.clinic_data_list)  # Debug: Print the fetched data
                 self.populate_clinic_info()
             else:
-                print(f"Failed to fetch data. Status code: {response.status_code}")
+                print("No clinics data found.")
         except Exception as e:
             print(f"An error occurred while fetching data: {e}")
             
     def populate_clinic_info(self):
         for i, clinic in enumerate(self.clinic_data_list):
-            if isinstance(clinic, dict):
-                clinic_outer = QFrame(self.scrollAreaWidgetContents)
-                clinic_outer.setObjectName("clinic_info_outer")
-                clinic_outer.setStyleSheet("border: 1px solid black; \nborder-radius: 24px; ")
+                if isinstance(clinic, dict):
+                        clinic_outer = QFrame(self.scrollAreaWidgetContents)
+                        clinic_outer.setObjectName("clinic_info_outer")
+                        clinic_outer.setStyleSheet("border: 1px solid black; \nborder-radius: 24px; ")
+                        clinic_outer.setMinimumSize(QSize(388, 535))
+                        clinic_outer.setMaximumSize(QSize(388, 535))
 
-                clinic_inner = QFrame(clinic_outer)
-                clinic_inner.setObjectName("clinic_info_inner")
-                clinic_inner.setGeometry(QRect(-1, 0, 401, 541))
-                clinic_inner.setStyleSheet("border: none; background-color: transparent;")
+                        clinic_inner = QFrame(clinic_outer)
+                        clinic_inner.setObjectName("clinic_info_inner")
+                        clinic_inner.setGeometry(QRect(0, 0, 388, 535))
+                        clinic_inner.setStyleSheet("border: none; background-color: transparent;")
 
-                layoutWidget = QWidget(clinic_inner)
-                layoutWidget.setObjectName("layoutWidget")
-                layoutWidget.setGeometry(QRect(1, 480, 396, 57))
+                        layoutWidget = QWidget(clinic_inner)
+                        layoutWidget.setObjectName("layoutWidget")
+                        layoutWidget.setGeometry(QRect(1, 480, 386, 55))
 
-                horizontalLayout = QHBoxLayout(layoutWidget)
-                horizontalLayout.setObjectName("horizontalLayout")
-                horizontalLayout.setContentsMargins(0, 0, 0, 0)
+                        horizontalLayout = QHBoxLayout(layoutWidget)
+                        horizontalLayout.setObjectName("horizontalLayout")
+                        horizontalLayout.setContentsMargins(0, 0, 0, 0)
 
-                view_clinic_btn = QPushButton(layoutWidget)
-                view_clinic_btn.setObjectName("view_clinic_btn")
-                view_clinic_btn.setMinimumSize(QSize(194, 55))
-                view_clinic_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
-                view_clinic_btn.setText("View Clinic")
+                        view_clinic_btn = QPushButton(layoutWidget)
+                        view_clinic_btn.setObjectName("view_clinic_btn")
+                        view_clinic_btn.setMinimumSize(QSize(193, 55))
+                        view_clinic_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+                        view_clinic_btn.setText("View Clinic")
 
-                horizontalLayout.addWidget(view_clinic_btn)
+                        horizontalLayout.addWidget(view_clinic_btn)
 
-                make_appt_btn = QPushButton(layoutWidget)
-                make_appt_btn.setObjectName("make_appt_btn")
-                make_appt_btn.setMinimumSize(QSize(194, 55))
-                make_appt_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
-                make_appt_btn.setText("Make Appointment")
+                        make_appt_btn = QPushButton(layoutWidget)
+                        make_appt_btn.setObjectName("make_appt_btn")
+                        make_appt_btn.setMinimumSize(QSize(193, 55))
+                        make_appt_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+                        make_appt_btn.setText("Make Appointment")
 
-                horizontalLayout.addWidget(make_appt_btn)
+                        horizontalLayout.addWidget(make_appt_btn)
 
-                layoutWidget_2 = QWidget(clinic_inner)
-                layoutWidget_2.setObjectName("layoutWidget_2")
-                layoutWidget_2.setGeometry(QRect(30, 30, 326, 451))
+                        layoutWidget_2 = QWidget(clinic_inner)
+                        layoutWidget_2.setObjectName("layoutWidget_2")
+                        layoutWidget_2.setGeometry(QRect(30, 30, 326, 451))
 
-                verticalLayout = QVBoxLayout(layoutWidget_2)
-                verticalLayout.setObjectName("verticalLayout")
-                verticalLayout.setContentsMargins(0, 0, 0, 0)
+                        verticalLayout = QVBoxLayout(layoutWidget_2)
+                        verticalLayout.setObjectName("verticalLayout")
+                        verticalLayout.setContentsMargins(0, 0, 0, 0)
 
-                clinic_logo_label = QLabel(layoutWidget_2)
-                clinic_logo_label.setObjectName("clinic_logo")
-                clinic_logo_label.setMinimumSize(QSize(160, 160))
-                clinic_logo_label.setStyleSheet("text-align: center; border: none;")
-                clinic_logo_label.setText("Clinic Logo")
+                        clinic_logo_label = QLabel(layoutWidget_2)
+                        clinic_logo_label.setObjectName("clinic_logo")
+                        clinic_logo_label.setMinimumSize(QSize(160, 160))
+                        clinic_logo_label.setStyleSheet("text-align: center; border: none;")
+                        clinic_logo_label.setText("Clinic Logo")
 
-                verticalLayout.addWidget(clinic_logo_label)
+                        verticalLayout.addWidget(clinic_logo_label)
 
-                verticalSpacer_3 = QSpacerItem(20, 28, QSizePolicy.Minimum, QSizePolicy.Fixed)
-                verticalLayout.addItem(verticalSpacer_3)
+                        verticalSpacer_3 = QSpacerItem(20, 28, QSizePolicy.Minimum, QSizePolicy.Fixed)
+                        verticalLayout.addItem(verticalSpacer_3)
 
-                clinic_name_label = QLabel(layoutWidget_2)
-                clinic_name_label.setObjectName("clinic_name")
-                clinic_name_label.setStyleSheet("text-align: center; border: none;")
-                clinic_name_label.setText(clinic.get("clinic_name", "Unknown"))
+                        clinic_name_label = QLabel(layoutWidget_2)
+                        clinic_name_label.setObjectName("clinic_name")
+                        clinic_name_label.setStyleSheet("text-align: center; border: none;")
+                        clinic_name_label.setText(clinic.get("clinic_name", "Unknown"))
 
-                verticalLayout.addWidget(clinic_name_label)
+                        verticalLayout.addWidget(clinic_name_label)
 
-                location_label = QLabel(layoutWidget_2)
-                location_label.setObjectName("location")
-                location_label.setStyleSheet("text-align: center; border: none;")
-                location_label.setText(clinic.get("location", "Unknown"))
+                        location_label = QLabel(layoutWidget_2)
+                        location_label.setObjectName("location")
+                        location_label.setStyleSheet("text-align: center; border: none;")
+                        location_label.setText(clinic.get("clinic_add", "Unknown"))
 
-                verticalLayout.addWidget(location_label)
+                        verticalLayout.addWidget(location_label)
 
-                # Calculate row and column
-                row = i // 3
-                col = i % 3
-                self.gridLayout.addWidget(clinic_outer, row, col)
-       
+                        # Calculate row and column
+                        row = i // 3
+                        col = i % 3
+                        self.gridLayout.addWidget(clinic_outer, row, col)
+
+        
 
