@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -8,6 +8,8 @@ from PyQt5.QtWidgets import *
 
 
 class FeedbackInboxWidget(QWidget):
+    clinic_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -164,6 +166,7 @@ class FeedbackInboxWidget(QWidget):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.home_navigation.sizePolicy().hasHeightForWidth())
+        
         self.home_navigation.setSizePolicy(sizePolicy)
         self.home_navigation.setMinimumSize(QSize(85, 96))
         self.home_navigation.setMaximumSize(QSize(85, 96))
@@ -180,7 +183,7 @@ class FeedbackInboxWidget(QWidget):
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
 
         self.clinic_navigation = QToolButton(self.layoutWidget_2)
@@ -198,7 +201,7 @@ class FeedbackInboxWidget(QWidget):
         self.clinic_navigation.setIcon(icon2)
         self.clinic_navigation.setIconSize(QSize(70, 70))
         self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.clinic_navigation.clicked.connect(self.emitClinicBtn)
         self.verticalLayout.addWidget(self.clinic_navigation)
 
         self.feedback_navigation = QToolButton(self.layoutWidget_2)
@@ -279,4 +282,12 @@ class FeedbackInboxWidget(QWidget):
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
+    
+    @pyqtSlot()
+    def emitClinicBtn(self):
+        self.clinic_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        self.home_btn_clicked.emit()
 

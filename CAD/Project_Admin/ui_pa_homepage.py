@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -7,6 +7,8 @@ from PyQt5.QtWidgets import *
 
 
 class PAHomeWidget(QWidget):
+    clinic_btn_clicked = pyqtSignal()
+    feedback_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -387,6 +389,7 @@ class PAHomeWidget(QWidget):
         self.verticalLayout = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        
         self.home_navigation = QToolButton(self.layoutWidget1)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
@@ -428,7 +431,7 @@ class PAHomeWidget(QWidget):
         self.clinic_navigation.setIcon(icon2)
         self.clinic_navigation.setIconSize(QSize(70, 70))
         self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.clinic_navigation.clicked.connect(self.emitClinicBtn)
         self.verticalLayout.addWidget(self.clinic_navigation)
 
         self.feedback_navigation = QToolButton(self.layoutWidget1)
@@ -446,7 +449,7 @@ class PAHomeWidget(QWidget):
         self.feedback_navigation.setIcon(icon3)
         self.feedback_navigation.setIconSize(QSize(70, 70))
         self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.feedback_navigation.clicked.connect(self.emitFeedbackBtn)
         self.verticalLayout.addWidget(self.feedback_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget1)
@@ -531,3 +534,10 @@ class PAHomeWidget(QWidget):
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
 
+    @pyqtSlot()
+    def emitClinicBtn(self):
+        self.clinic_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitFeedbackBtn(self):
+        self.feedback_btn_clicked.emit()

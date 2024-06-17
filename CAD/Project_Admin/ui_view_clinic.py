@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -7,6 +7,8 @@ from PyQt5.QtWidgets import *
 
 
 class ViewClinicWidget(QWidget):
+    feedback_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -26,9 +28,9 @@ class ViewClinicWidget(QWidget):
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
         self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
-"border-bottom-left-radius: 30px;\n"
-"border-top-left-radius: 30px;\n"
-"text-align: center;")
+        "border-bottom-left-radius: 30px;\n"
+        "border-top-left-radius: 30px;\n"
+        "text-align: center;")
         self.noti_icon = QPushButton(self.background)
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
@@ -64,11 +66,11 @@ class ViewClinicWidget(QWidget):
         font1.setPointSize(11)
         self.search_clinic.setFont(font1)
         self.search_clinic.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 60px; color: Black;\n"
-" background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
-"background-repeat: no-repeat; \n"
-"background-position: left center; \n"
-"border: 1px solid gray;\n"
-"")
+        " background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
+        "background-repeat: no-repeat; \n"
+        "background-position: left center; \n"
+        "border: 1px solid gray;\n"
+        "")
         self.search_clinic.setClearButtonEnabled(False)
         self.request_detail_outer = QFrame(self.background)
         self.request_detail_outer.setObjectName(u"request_detail_outer")
@@ -98,12 +100,12 @@ class ViewClinicWidget(QWidget):
         font3.setPointSize(9)
         self.clinic_logo.setFont(font3)
         self.clinic_logo.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
+        "border-radius: 25px; \n"
+        "border: 2px solid #B6D0F7;\n"
+        "min-width: 50px;\n"
+        "min-height: 50px; \n"
+        "max-width: 50px; \n"
+        "max-height: 50px; ")
         self.clinic_logo.setAlignment(Qt.AlignCenter)
         self.line = QFrame(self.clinic_details_inner)
         self.line.setObjectName(u"line")
@@ -304,8 +306,7 @@ class ViewClinicWidget(QWidget):
         font9.setFamily(u"Cascadia Code")
         font9.setPointSize(16)
         self.upcoming_label.setFont(font9)
-        self.upcoming_label.setStyleSheet(u"border : none;\n"
-"")
+        self.upcoming_label.setStyleSheet(u"border : none;\n")
         self.clinic_frame_2 = QFrame(self.background)
         self.clinic_frame_2.setObjectName(u"clinic_frame_2")
         self.clinic_frame_2.setGeometry(QRect(60, 390, 801, 81))
@@ -315,19 +316,18 @@ class ViewClinicWidget(QWidget):
         self.clinic_name_label_2.setObjectName(u"clinic_name_label_2")
         self.clinic_name_label_2.setGeometry(QRect(90, 30, 121, 21))
         self.clinic_name_label_2.setFont(font2)
-        self.clinic_name_label_2.setStyleSheet(u"border : none;\n"
-"")
+        self.clinic_name_label_2.setStyleSheet(u"border : none;\n")
         self.clinic_logo_label_2 = QLabel(self.clinic_frame_2)
         self.clinic_logo_label_2.setObjectName(u"clinic_logo_label_2")
         self.clinic_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
         self.clinic_logo_label_2.setFont(font3)
         self.clinic_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
+        "border-radius: 25px;\n"
+        "border: 2px solid #B6D0F7; \n"
+        "min-width: 50px; \n"
+        "min-height: 50px; \n"
+        "max-width: 50px;\n"
+        "max-height: 50px; ")
         self.clinic_logo_label_2.setAlignment(Qt.AlignCenter)
         self.status_2 = QLabel(self.clinic_frame_2)
         self.status_2.setObjectName(u"status_2")
@@ -337,8 +337,7 @@ class ViewClinicWidget(QWidget):
         font10.setPointSize(10)
         self.status_2.setFont(font10)
         self.status_2.setStyleSheet(u"background-color: rgba(246, 32, 136, 0.15);\n"
-"color: #F62088; text-align: center;\n"
-"")
+        "color: #F62088; text-align: center;\n")
         self.status_2.setAlignment(Qt.AlignCenter)
         self.clinic_frame = QFrame(self.background)
         self.clinic_frame.setObjectName(u"clinic_frame")
@@ -349,34 +348,31 @@ class ViewClinicWidget(QWidget):
         self.clinic_name_label.setObjectName(u"clinic_name_label")
         self.clinic_name_label.setGeometry(QRect(90, 30, 121, 21))
         self.clinic_name_label.setFont(font2)
-        self.clinic_name_label.setStyleSheet(u"border : none;\n"
-"")
+        self.clinic_name_label.setStyleSheet(u"border : none;\n")
         self.clinic_logo_label = QLabel(self.clinic_frame)
         self.clinic_logo_label.setObjectName(u"clinic_logo_label")
         self.clinic_logo_label.setGeometry(QRect(10, 10, 54, 54))
         self.clinic_logo_label.setFont(font3)
         self.clinic_logo_label.setStyleSheet(u"background-color: #B6D0E2; \n"
-"border-radius: 25px; \n"
-"border: 2px solid #B6D0F7; \n"
-"min-width: 50px; \n"
-"min-height: 50px; \n"
-"max-width: 50px;\n"
-"max-height: 50px; ")
+        "border-radius: 25px; \n"
+        "border: 2px solid #B6D0F7; \n"
+        "min-width: 50px; \n"
+        "min-height: 50px; \n"
+        "max-width: 50px;\n"
+        "max-height: 50px; ")
         self.clinic_logo_label.setAlignment(Qt.AlignCenter)
         self.status = QLabel(self.clinic_frame)
         self.status.setObjectName(u"status")
         self.status.setGeometry(QRect(690, 20, 91, 41))
         self.status.setFont(font10)
         self.status.setStyleSheet(u"background-color: rgba(18, 137, 131, 0.15);\n"
-"color: #128983; text-align: center;\n"
-"")
+        "color: #128983; text-align: center;\n")
         self.status.setAlignment(Qt.AlignCenter)
         self.req_detail_label = QLabel(self.background)
         self.req_detail_label.setObjectName(u"req_detail_label")
         self.req_detail_label.setGeometry(QRect(990, 150, 571, 41))
         self.req_detail_label.setFont(font)
-        self.req_detail_label.setStyleSheet(u"border : none;\n"
-"")
+        self.req_detail_label.setStyleSheet(u"border : none;\n")
         self.view_feedback_btn = QPushButton(self.background)
         self.view_feedback_btn.setObjectName(u"view_feedback_btn")
         self.view_feedback_btn.setGeometry(QRect(60, 220, 801, 51))
@@ -398,6 +394,7 @@ class ViewClinicWidget(QWidget):
         self.verticalLayout = QVBoxLayout(self.layoutWidget_2)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        
         self.home_navigation = QToolButton(self.layoutWidget_2)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
@@ -421,7 +418,7 @@ class ViewClinicWidget(QWidget):
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
 
         self.clinic_navigation = QToolButton(self.layoutWidget_2)
@@ -457,7 +454,7 @@ class ViewClinicWidget(QWidget):
         self.feedback_navigation.setIcon(icon3)
         self.feedback_navigation.setIconSize(QSize(70, 70))
         self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.feedback_navigation.clicked.connect(self.emitFeedbackBtn)
         self.verticalLayout.addWidget(self.feedback_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_2)
@@ -544,3 +541,10 @@ class ViewClinicWidget(QWidget):
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
 
+    @pyqtSlot()
+    def emitFeedbackBtn(self):
+        self.feedback_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        self.home_btn_clicked.emit()
