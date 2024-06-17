@@ -59,9 +59,9 @@
      <property name="geometry">
       <rect>
        <x>550</x>
-       <y>290</y>
-       <width>661</width>
-       <height>471</height>
+       <y>280</y>
+       <width>658</width>
+       <height>511</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -73,7 +73,7 @@
      <property name="styleSheet">
       <string notr="true"/>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
@@ -88,7 +88,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="New_pw">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -104,7 +104,7 @@
          <string notr="true">color:rgb(21, 48, 96)</string>
         </property>
         <property name="text">
-         <string>Forgot Password</string>
+         <string>New Password</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -136,7 +136,7 @@
          <string notr="true">color: rgb(130, 130, 130);</string>
         </property>
         <property name="text">
-         <string>Enter your email for the verification processes, we will </string>
+         <string>Set the new password for your account so you can login</string>
         </property>
        </widget>
       </item>
@@ -152,7 +152,7 @@
          <string notr="true">color: rgb(130, 130, 130);</string>
         </property>
         <property name="text">
-         <string>send 4 digit codes to your email</string>
+         <string>and access all features.</string>
         </property>
        </widget>
       </item>
@@ -170,9 +170,6 @@
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2"/>
-      </item>
-      <item>
        <widget class="QLabel" name="label_">
         <property name="font">
          <font>
@@ -184,31 +181,20 @@
          <string notr="true">color: rgb(21, 48, 96);</string>
         </property>
         <property name="text">
-         <string>Email</string>
+         <string>Enter new password</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="email">
+       <widget class="QLineEdit" name="lineEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
           <height>40</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -226,7 +212,49 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="Continue">
+       <widget class="QLabel" name="label_1">
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(21, 48, 96);</string>
+        </property>
+        <property name="text">
+         <string>Confirm password</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_2">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>17</width>
+          <height>6</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="updatepw">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -235,22 +263,39 @@
         </property>
         <property name="font">
          <font>
-          <family>Consolas</family>
-          <pointsize>12</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(182, 208, 226);
 border-radius: 10px;
-border: none
-</string>
+border: none</string>
         </property>
         <property name="text">
-         <string>Continue</string>
+         <string>Update Password</string>
         </property>
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QLabel" name="logo">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>-50</y>
+       <width>281</width>
+       <height>261</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../Images/call a doctor.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QLabel" name="label_7">
      <property name="geometry">
@@ -262,54 +307,16 @@ border: none
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 2px solid rgb(182, 208, 226);
+      <string notr="true">border: 2px solid #B6D0E2;
 border-radius: 10px;</string>
      </property>
      <property name="text">
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="back_button">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>181</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Consolas</family>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgba(182, 208, 226,0.8);
-color: rgb(255, 255, 255);
-border-radius: 10px;</string>
-     </property>
-     <property name="text">
-      <string>&lt; Back</string>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>70</width>
-       <height>70</height>
-      </size>
-     </property>
-    </widget>
+    <zorder>logo</zorder>
     <zorder>label_7</zorder>
     <zorder>widget</zorder>
-    <zorder>back_button</zorder>
    </widget>
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">

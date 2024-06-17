@@ -8,7 +8,7 @@ from connection import db
 
 
 class LoginWidget(QWidget):
-    login_successful = pyqtSignal()
+    login_successful = pyqtSignal(int)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -163,7 +163,7 @@ class LoginWidget(QWidget):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.logintext.setText(QCoreApplication.translate("Form", u"Login", None))
-        self.ic.setText(QCoreApplication.translate("Form", u"IC Number", None))
+        self.ic.setText(QCoreApplication.translate("Form", u"IC/ID Number", None))
         self.password.setText(QCoreApplication.translate("Form", u"Password", None))
         self.forgetpassbutton.setText(QCoreApplication.translate("Form", u"Forgot Password", None))
 #if QT_CONFIG(tooltip)
@@ -179,18 +179,40 @@ class LoginWidget(QWidget):
         password = self.password_input.text()
 
         if not ic or not password:
-            self.showMessageBox('Error', 'IC number and password cannot be empty.')
+            self.showMessageBox('Error', 'IC/ID number and password cannot be empty.')
             return
 
-        # Fetch data from Firebase
-        patients = db.child('patients').get()
-        for patient in patients.each():
-            patient_data = patient.val()
-            if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
-                self.showMessageBox('Success', 'Login successful!', success=True)
-                return
+        try:
+            # Fetch data from Firebase for patients
+            patients = db.child('patients').get()
+            for patient in patients.each():
+                patient_data = patient.val()
+                if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
+                    rights = patient_data.get('rights', 0)
+                    self.showMessageBox('Info', 'Patient login successful')
+                    self.login_successful.emit(rights)
+                    return
+        except Exception as e:
+            self.showMessageBox('Error', f"Error fetching patient data: {e}")
 
-        self.showMessageBox('Error', 'Invalid IC number or password.')
+        try:
+            # Fetch data from Firebase for pa
+            pa_admins = db.child('project_admin').get()
+            if pa_admins.each() is not None:
+                for admin in pa_admins.each():
+                    admin_data = admin.val()
+                    if admin_data['pa_id'] == ic and admin_data['pa_pass'] == password:
+                        rights = admin_data.get('rights', 4)
+                        self.showMessageBox('Info', 'Admin login successful')
+                        self.login_successful.emit(rights)
+                        return
+            else:
+                self.showMessageBox('Error', 'No admin data found')
+        except Exception as e:
+            self.showMessageBox('Error', f"Error fetching admin data: {e}")
+
+        self.showMessageBox('Error', 'Invalid IC/ID number or password.')
+
 
     def showMessageBox(self, title, message, success=False):
         msgBox = QMessageBox()
@@ -198,8 +220,7 @@ class LoginWidget(QWidget):
         msgBox.setWindowTitle(title)
         msgBox.setText(message)
         msgBox.setStandardButtons(QMessageBox.Ok)
-        if msgBox.exec() == QMessageBox.Ok and success:
-            self.login_successful.emit()
+        msgBox.exec()
 
 
 

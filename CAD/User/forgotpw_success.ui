@@ -59,9 +59,9 @@
      <property name="geometry">
       <rect>
        <x>550</x>
-       <y>290</y>
-       <width>661</width>
-       <height>471</height>
+       <y>540</y>
+       <width>658</width>
+       <height>248</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -73,20 +73,7 @@
      <property name="styleSheet">
       <string notr="true"/>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>638</width>
-          <height>44</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QLabel" name="label">
         <property name="enabled">
@@ -104,7 +91,7 @@
          <string notr="true">color:rgb(21, 48, 96)</string>
         </property>
         <property name="text">
-         <string>Forgot Password</string>
+         <string>Successfully</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -136,65 +123,10 @@
          <string notr="true">color: rgb(130, 130, 130);</string>
         </property>
         <property name="text">
-         <string>Enter your email for the verification processes, we will </string>
+         <string>Your password has been reset successfully</string>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(130, 130, 130);</string>
-        </property>
-        <property name="text">
-         <string>send 4 digit codes to your email</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>14</width>
-          <height>43</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_">
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(21, 48, 96);</string>
-        </property>
-        <property name="text">
-         <string>Email</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>40</height>
-         </size>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -212,7 +144,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="Con_Login">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -222,11 +154,14 @@
         <property name="font">
          <font>
           <family>Consolas</family>
-          <pointsize>10</pointsize>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(182, 208, 226);</string>
+         <string notr="true">background-color: rgb(182, 208, 226);
+border-radius: 10px;
+border: none
+</string>
         </property>
         <property name="text">
          <string>Continue</string>
@@ -234,25 +169,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>-50</y>
-       <width>281</width>
-       <height>261</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>../Images/call a doctor.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
     </widget>
     <widget class="QLabel" name="label_7">
      <property name="geometry">
@@ -264,16 +180,44 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 2px solid green;
+      <string notr="true">border: 2px solid rgb(182, 208, 226);
 border-radius: 10px;</string>
      </property>
      <property name="text">
       <string/>
      </property>
     </widget>
-    <zorder>label_4</zorder>
+    <widget class="QLabel" name="label_3">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>730</x>
+       <y>280</y>
+       <width>301</width>
+       <height>261</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../Images/icon/Successful_icon.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+    </widget>
     <zorder>label_7</zorder>
     <zorder>widget</zorder>
+    <zorder>label_3</zorder>
    </widget>
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">
