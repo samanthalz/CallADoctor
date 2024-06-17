@@ -325,17 +325,17 @@ class FindClinicWidget(QWidget):
                 if isinstance(clinic, dict):
                         state = clinic.get("clinic_state", "")
                         name = clinic.get("clinic_name", "")
-                        #print(f"State of clinic {i}: {state}, Name of clinic {i}: {name}")
+                        print(f"State of clinic {i}: {state}, Name of clinic {i}: {name}")
 
                 if self.selected_state and state.lower() != self.selected_state.lower():
-                        #print(f"Skipping clinic {i} frame due to state.")
+                        print(f"Skipping clinic {i} frame due to state.")
                         continue
                 
                 if self.selected_clinic and name.lower() != self.selected_clinic.lower():
-                        #print(f"Skipping clinic {i} frame due to clinic name.")
+                        print(f"Skipping clinic {i} frame due to clinic name.")
                         continue
 
-                #print(f"Adding clinic {i} to layout.")
+                print(f"Adding clinic {i} to layout.")
                 clinic_outer = self.create_clinic_frame(clinic)
                 if clinic_outer:
                         visible_clinics.append(clinic_outer)
@@ -470,13 +470,19 @@ class FindClinicWidget(QWidget):
         self.state_dropdown.addItems(states)
 
     def load_clinics(self):
-        clinics = [
-            "Search or Select a Clinic",
-            "ABC Clinic",
-            "XYZ Clinic",
-            "O2 Clinic",
-            "Lam Wah Ee"
-        ]
+        # The first item in the dropdown list
+        clinics = ["Search or Select a Clinic"]
+
+        try:
+                clinics_data = db.child("clinic").get()
+                
+                clinic_names = [clinic.val().get("clinic_name") for clinic in clinics_data.each()]
+                clinic_names.sort() 
+                clinics.extend(clinic_names)
+
+        except Exception as e:
+                print(f"An error occurred while fetching clinic names: {e}")
+                
         self.clinic_dropdown.addItems(clinics)
 
     
