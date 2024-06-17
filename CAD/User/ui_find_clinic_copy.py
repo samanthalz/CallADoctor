@@ -91,7 +91,6 @@ class FindClinicWidget(QWidget):
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.scrollAreaWidgetContents.setLayout(self.gridLayout)
 
-        
         self.layoutWidget1 = QWidget(self.whitebg)
         self.layoutWidget1.setObjectName(u"layoutWidget1")
         self.layoutWidget1.setGeometry(QRect(80, 140, 1381, 48))
@@ -379,7 +378,6 @@ class FindClinicWidget(QWidget):
         font = QFont("Consolas", 10)
         view_clinic_btn.setFont(font)
         
-
         horizontalLayout.addWidget(view_clinic_btn)
 
         make_appt_btn = QPushButton(layoutWidget)

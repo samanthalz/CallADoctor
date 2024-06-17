@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from connection import db
 
 
 class FindDoctorWidget(QWidget):
@@ -11,7 +12,12 @@ class FindDoctorWidget(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.clinic_data_list = []
+        self.selected_clinic = ""
+        self.selected_specialization = ""
+        self.selected_doctor = ""
         self.setupUi(self)
+        self.fetch_clinic_data()
     
     def setupUi(self, Form):
         if Form.objectName():
@@ -67,100 +73,26 @@ class FindDoctorWidget(QWidget):
         font1.setPointSize(16)
         self.profile_btn.setFont(font1)
         self.profile_btn.setStyleSheet(u"border: none")
+        
+        
         self.scrollArea = QScrollArea(self.whitebg)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setGeometry(QRect(80, 240, 1641, 841))
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollArea.setGeometry(QRect(80, 240, 1640, 800))
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1641, 841))
-        self.doc_info_outer = QFrame(self.scrollAreaWidgetContents)
-        self.doc_info_outer.setObjectName(u"doc_info_outer")
-        self.doc_info_outer.setGeometry(QRect(0, 0, 388, 535))
-        self.doc_info_outer.setStyleSheet(u"border: 1px solid black; \n"
-"border-radius: 24px; ")
-        self.doc_info_outer.setFrameShape(QFrame.StyledPanel)
-        self.doc_info_outer.setFrameShadow(QFrame.Raised)
-        self.doc_info_inner = QFrame(self.doc_info_outer)
-        self.doc_info_inner.setObjectName(u"doc_info_inner")
-        self.doc_info_inner.setGeometry(QRect(-1, 0, 401, 541))
-        self.doc_info_inner.setStyleSheet(u"border: none; background-color: transparent;")
-        self.doc_info_inner.setFrameShape(QFrame.StyledPanel)
-        self.doc_info_inner.setFrameShadow(QFrame.Raised)
-        self.layoutWidget = QWidget(self.doc_info_inner)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(1, 480, 396, 57))
-        self.btnlayout = QHBoxLayout(self.layoutWidget)
-        self.btnlayout.setObjectName(u"btnlayout")
-        self.btnlayout.setContentsMargins(0, 0, 0, 0)
-        self.view_profile_btn = QPushButton(self.layoutWidget)
-        self.view_profile_btn.setObjectName(u"view_profile_btn")
-        self.view_profile_btn.setMinimumSize(QSize(194, 55))
-        self.view_profile_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1640, 800))
 
-        self.btnlayout.addWidget(self.view_profile_btn)
-
-        self.make_appt_btn = QPushButton(self.layoutWidget)
-        self.make_appt_btn.setObjectName(u"make_appt_btn")
-        self.make_appt_btn.setMinimumSize(QSize(194, 55))
-        self.make_appt_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
-
-        self.btnlayout.addWidget(self.make_appt_btn)
-
-        self.layoutWidget1 = QWidget(self.doc_info_inner)
-        self.layoutWidget1.setObjectName(u"layoutWidget1")
-        self.layoutWidget1.setGeometry(QRect(30, 31, 326, 451))
-        self.verticalLayout = QVBoxLayout(self.layoutWidget1)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.doc_img = QLabel(self.layoutWidget1)
-        self.doc_img.setObjectName(u"doc_img")
-        self.doc_img.setMinimumSize(QSize(160, 160))
-        self.doc_img.setStyleSheet(u"text-align: center; border: none;")
-
-        self.verticalLayout.addWidget(self.doc_img)
-
-        self.verticalSpacer_3 = QSpacerItem(20, 28, QSizePolicy.Minimum, QSizePolicy.Fixed)
-
-        self.verticalLayout.addItem(self.verticalSpacer_3)
-
-        self.doc_name = QLabel(self.layoutWidget1)
-        self.doc_name.setObjectName(u"doc_name")
-        self.doc_name.setStyleSheet(u"text-align: center; border: none;")
-
-        self.verticalLayout.addWidget(self.doc_name)
-
-        self.doc_speciality = QLabel(self.layoutWidget1)
-        self.doc_speciality.setObjectName(u"doc_speciality")
-        self.doc_speciality.setStyleSheet(u"text-align: center; border: none;")
-
-        self.verticalLayout.addWidget(self.doc_speciality)
-
-        self.verticalSpacer = QSpacerItem(20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer)
-
-        self.line = QFrame(self.layoutWidget1)
-        self.line.setObjectName(u"line")
-        self.line.setMinimumSize(QSize(324, 3))
-        self.line.setMaximumSize(QSize(16777215, 3))
-        self.line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
-        self.line.setFrameShape(QFrame.StyledPanel)
-        self.line.setFrameShadow(QFrame.Raised)
-
-        self.verticalLayout.addWidget(self.line)
-
-        self.clinic_name = QLabel(self.layoutWidget1)
-        self.clinic_name.setObjectName(u"clinic_name")
-        self.clinic_name.setStyleSheet(u"text-align: center; border: none;")
-
-        self.verticalLayout.addWidget(self.clinic_name)
-
-        self.verticalSpacer_2 = QSpacerItem(20, 38, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer_2)
+        self.gridLayout = QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout.setObjectName("gridLayout")
+        self.gridLayout.setAlignment(Qt.AlignTop)
+        self.gridLayout.setHorizontalSpacing(150)  
+        self.gridLayout.setVerticalSpacing(50)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.scrollAreaWidgetContents.setLayout(self.gridLayout)
+        
         self.layoutWidget2 = QWidget(self.whitebg)
         self.layoutWidget2.setObjectName(u"layoutWidget2")
         self.layoutWidget2.setGeometry(QRect(81, 141, 1641, 48))
@@ -168,9 +100,10 @@ class FindDoctorWidget(QWidget):
         self.seopdown_layout.setSpacing(80)
         self.seopdown_layout.setObjectName(u"seopdown_layout")
         self.seopdown_layout.setContentsMargins(0, 0, 0, 0)
+        
+        
         self.clinic_dropdown = QComboBox(self.layoutWidget2)
-        self.clinic_dropdown.addItem(u"Search or Select a Clinic")
-        self.clinic_dropdown.addItem("")
+        self.clinic_dropdown.setEditable(False)
         self.clinic_dropdown.setObjectName(u"clinic_dropdown")
         self.clinic_dropdown.setMinimumSize(QSize(321, 41))
         font2 = QFont()
@@ -178,52 +111,53 @@ class FindDoctorWidget(QWidget):
         font2.setPointSize(11)
         self.clinic_dropdown.setFont(font2)
         self.clinic_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-"border-radius: 5px; \n"
-"background-color: #FFFFFF; \n"
-"padding: 10px; \n"
-"font-family: Consolas;\n"
-"font-size: 11pt;")
-        self.clinic_dropdown.setEditable(True)
+        "border-radius: 5px; \n"
+        "background-color: #FFFFFF; \n"
+        "padding: 10px; \n"
+        "font-family: Consolas;\n"
+        "font-size: 11pt;")
         self.clinic_dropdown.setIconSize(QSize(50, 50))
         self.clinic_dropdown.setFrame(True)
-
+        self.clinic_dropdown.currentIndexChanged.connect(self.updateSelectedClinic)
         self.seopdown_layout.addWidget(self.clinic_dropdown)
-
+        
+        self.load_clinics()
+        
         self.speciality_dropdown = QComboBox(self.layoutWidget2)
-        self.speciality_dropdown.addItem(u"Search or Select a Specialities")
-        self.speciality_dropdown.addItem("")
         self.speciality_dropdown.setObjectName(u"speciality_dropdown")
         self.speciality_dropdown.setMinimumSize(QSize(321, 41))
         self.speciality_dropdown.setFont(font2)
         self.speciality_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-"border-radius: 5px; \n"
-"background-color: #FFFFFF; \n"
-"padding: 10px; \n"
-"font-family: Consolas;\n"
-"font-size: 11pt;")
-        self.speciality_dropdown.setEditable(True)
+        "border-radius: 5px; \n"
+        "background-color: #FFFFFF; \n"
+        "padding: 10px; \n"
+        "font-family: Consolas;\n"
+        "font-size: 11pt;")
+        self.speciality_dropdown.setEditable(False)
         self.speciality_dropdown.setIconSize(QSize(50, 50))
         self.speciality_dropdown.setFrame(True)
-
+        self.speciality_dropdown.currentIndexChanged.connect(self.updateSelectedSpecialization)
         self.seopdown_layout.addWidget(self.speciality_dropdown)
+        
+        self.load_specializations()
 
         self.doc_dropdown = QComboBox(self.layoutWidget2)
-        self.doc_dropdown.addItem(u"Search or Select a Doctor")
-        self.doc_dropdown.addItem("")
         self.doc_dropdown.setObjectName(u"doc_dropdown")
         self.doc_dropdown.setMinimumSize(QSize(321, 41))
         self.doc_dropdown.setFont(font2)
         self.doc_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-"border-radius: 5px; \n"
-"background-color: #FFFFFF; \n"
-"padding: 10px; \n"
-"font-family: Consolas;\n"
-"font-size: 11pt;")
-        self.doc_dropdown.setEditable(True)
+        "border-radius: 5px; \n"
+        "background-color: #FFFFFF; \n"
+        "padding: 10px; \n"
+        "font-family: Consolas;\n"
+        "font-size: 11pt;")
+        self.doc_dropdown.setEditable(False)
         self.doc_dropdown.setIconSize(QSize(50, 50))
         self.doc_dropdown.setFrame(True)
-
+        self.doc_dropdown.currentIndexChanged.connect(self.updateSelectedDoctor)
         self.seopdown_layout.addWidget(self.doc_dropdown)
+        
+        self.load_doctors()
 
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
@@ -339,18 +273,6 @@ class FindDoctorWidget(QWidget):
         self.fad_title.setText(QCoreApplication.translate("Form", u"Find A Doctor", None))
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
-        self.view_profile_btn.setText(QCoreApplication.translate("Form", u"View Profile", None))
-        self.make_appt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
-        self.doc_img.setText(QCoreApplication.translate("Form", u"TextLabel", None))
-        self.doc_name.setText(QCoreApplication.translate("Form", u"Doc Name", None))
-        self.doc_speciality.setText(QCoreApplication.translate("Form", u"Speciality", None))
-        self.clinic_name.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        self.clinic_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
-
-        self.speciality_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
-
-        self.doc_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
-
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))
         self.services_navigation.setText(QCoreApplication.translate("Form", u"Services", None))
@@ -362,3 +284,270 @@ class FindDoctorWidget(QWidget):
     def emitServiceBtn(self):
         # Emit the custom signal
         self.service_btn_clicked.emit()
+        
+    def fetch_clinic_data(self):
+        try:
+            clinics = db.child("clinic").get()
+            
+            if clinics.each():
+                self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
+                #print("Fetched Clinics Data:", self.clinic_data_list)  # Debug: Print the fetched data
+                self.populate_doc_info()
+            else:
+                print("No clinics data found.")
+        except Exception as e:
+            print(f"An error occurred while fetching data: {e}")
+            
+    def clear_layout(self):
+        while self.gridLayout.count():
+                item = self.gridLayout.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                        widget.deleteLater()
+        
+    def populate_doc_info(self):
+        # Clear existing items from the layout
+        self.clear_layout()
+        
+        visible_doctors = []
+        
+        for clinic in self.clinic_data_list:
+            if isinstance(clinic, dict):
+                clinic_name = clinic.get("clinic_name", "")
+                doctors = clinic.get("doctors", {})
+                
+                for doc_id, doctor in doctors.items():
+                    doctor_name = doctor.get("doctor_name", "")
+                    specialization = doctor.get("specialization", "")
+                    #print(f"Clinic: {clinic_name}, Doctor: {doctor_name}, Specialization: {specialization}")
+
+                    # Check the selected clinic
+                    if self.selected_clinic and clinic_name.lower() != self.selected_clinic.lower():
+                        #print(f"Skipping doctor {doctor_name} in clinic {clinic_name} due to clinic name.")
+                        continue
+
+                    # Check the selected specialization
+                    if self.selected_specialization and specialization.lower() != self.selected_specialization.lower():
+                        #print(f"Skipping doctor {doctor_name} in clinic {clinic_name} due to specialization.")
+                        continue
+
+                    # Check the selected doctor
+                    if self.selected_doctor and doctor_name.lower() != self.selected_doctor.lower():
+                        #print(f"Skipping doctor {doctor_name} due to doctor name.")
+                        continue
+
+                    #print(f"Adding doctor {doctor_name} in clinic {clinic_name} to layout.")
+                    doctor_outer = self.create_doctor_frame(clinic, doctor)
+                    if doctor_outer:
+                        visible_doctors.append(doctor_outer)
+
+        # Add visible doctors to the layout
+        for i, doctor_outer in enumerate(visible_doctors):
+            row = i // 3
+            col = i % 3
+            self.gridLayout.addWidget(doctor_outer, row, col)
+
+        # Refresh the layout after adding all frames
+        self.gridLayout.update()
+        self.scrollAreaWidgetContents.update()
+
+    def load_clinics(self):
+        try:
+                clinics_data = db.child("clinic").get()
+                clinic_names = [clinic.val().get("clinic_name", "") for clinic in clinics_data.each()]
+                clinic_names = sorted(set(clinic_names))  # Sort and remove duplicates
+                clinic_names.insert(0, "Search or Select a Clinic")  
+                self.clinic_dropdown.addItems(clinic_names)
+        except Exception as e:
+                print(f"An error occurred while loading clinics: {e}")
+
+    def load_specializations(self):
+        try:
+                doctors_data = db.child("clinic").get()
+                specializations = []
+
+                for clinic in doctors_data.each():
+                        doctors = clinic.val().get("doctors", {})
+                        for doctor_id, doctor_info in doctors.items():
+                                if "specialization" in doctor_info:
+                                        specialization = doctor_info["specialization"]
+                                        specializations.append(specialization)
+                                else:
+                                        print("specialization not found")
+                                        
+                        
+                # Sort and remove duplicates
+                specializations = sorted(set(specializations))
+                specializations.insert(0, "Search or Select a Specialization")  
+                #print(f"final sorted specialixation {specialization}")
+                self.speciality_dropdown.addItems(specializations)
+        except Exception as e:
+                print(f"An error occurred while loading specializations: {e}")
+                
+    def load_doctors(self):
+        try:
+                doctors_data = db.child("clinic").get()
+                doctor_names = []
+
+                for clinic in doctors_data.each():
+                        doctors = clinic.val().get("doctors", {})
+                        for doctor_id, doctor in doctors.items():
+                                doctor_name = doctor.get("doctor_name", "")
+                                if doctor_name:
+                                        doctor_names.append(doctor_name)
+                
+                # Sort and remove duplicates
+                doctor_names = sorted(set(doctor_names))
+                doctor_names.insert(0, "Search or Select a Doctor")  
+                self.doc_dropdown.addItems(doctor_names)
+        except Exception as e:
+                print(f"An error occurred while loading doctors: {e}")
+          
+    def updateSelectedClinic(self, index):
+        #print("Activated signal received.")
+        selected_text = self.clinic_dropdown.itemText(index)
+        #print("Selected clinic text:", selected_text)
+
+        if index == 0:
+            self.selected_clinic = ""
+        else:
+            self.selected_clinic = selected_text
+
+        #print("Updated selected clinic:", self.selected_clinic)
+        self.populate_doc_info()
+
+    def updateSelectedSpecialization(self, index):
+        print("Activated signal received.")
+        selected_text = self.speciality_dropdown.itemText(index)
+        print("Selected specialization text:", selected_text)
+
+        if index == 0:
+            self.selected_specialization = ""
+        else:
+            self.selected_specialization = selected_text
+
+        print("Updated selected specialization:", self.selected_specialization)
+        self.populate_doc_info()
+        
+    def updateSelectedDoctor(self, index):
+        print("Activated signal received.")
+        selected_text = self.doc_dropdown.itemText(index)
+        print("Selected doctor text:", selected_text)
+
+        if index == 0:
+                self.selected_doctor = ""
+        else:
+                self.selected_doctor = selected_text
+
+        print("Updated selected doctor:", self.selected_doctor)
+        self.populate_doc_info()
+
+    def create_doctor_frame(self, clinic, doctor):
+        doc_info_outer = QFrame()
+        doc_info_outer.setObjectName(u"doc_info_outer")
+        doc_info_outer.setGeometry(QRect(0, 0, 388, 535))
+        doc_info_outer.setStyleSheet(u"border: 1px solid black; \n""border-radius: 24px; ")
+        doc_info_outer.setFrameShape(QFrame.StyledPanel)
+        doc_info_outer.setFrameShadow(QFrame.Raised)
+        doc_info_outer.setMinimumSize(QSize(388, 535))
+        doc_info_outer.setMaximumSize(QSize(388, 535))
+        
+        doc_info_inner = QFrame(doc_info_outer)
+        doc_info_inner.setObjectName(u"doc_info_inner")
+        doc_info_inner.setGeometry(QRect(0, 0, 388, 535))
+        doc_info_inner.setStyleSheet(u"border: none; background-color: transparent;")
+        doc_info_inner.setFrameShape(QFrame.StyledPanel)
+        doc_info_inner.setFrameShadow(QFrame.Raised)
+        
+        layoutWidget = QWidget(doc_info_inner)
+        layoutWidget.setObjectName(u"layoutWidget")
+        layoutWidget.setGeometry(QRect(1, 480, 396, 55))
+        
+        btnlayout = QHBoxLayout(layoutWidget)
+        btnlayout.setObjectName(u"btnlayout")
+        btnlayout.setContentsMargins(0, 0, 0, 0)
+        
+        view_profile_btn = QPushButton(layoutWidget)
+        view_profile_btn.setObjectName(u"view_profile_btn")
+        view_profile_btn.setMinimumSize(QSize(193, 55))
+        view_profile_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+        view_profile_btn.setText("View Profile")
+        font = QFont("Consolas", 10)
+        view_profile_btn.setFont(font)
+
+        btnlayout.addWidget(view_profile_btn)
+
+        make_appt_btn = QPushButton(layoutWidget)
+        make_appt_btn.setObjectName(u"make_appt_btn")
+        make_appt_btn.setMinimumSize(QSize(193, 55))
+        make_appt_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+        make_appt_btn.setText("Make Appointment")
+        font = QFont("Consolas", 10)
+        make_appt_btn.setFont(font)
+
+        btnlayout.addWidget(make_appt_btn)
+
+        layoutWidget1 = QWidget(doc_info_inner)
+        layoutWidget1.setObjectName(u"layoutWidget1")
+        layoutWidget1.setGeometry(QRect(30, 30, 326, 451))
+        
+        verticalLayout = QVBoxLayout(layoutWidget1)
+        verticalLayout.setObjectName(u"verticalLayout")
+        verticalLayout.setContentsMargins(0, 0, 0, 0)
+        
+        doc_img = QLabel(layoutWidget1)
+        doc_img.setObjectName(u"doc_img")
+        doc_img.setMinimumSize(QSize(324, 160))
+        doc_img.setStyleSheet(u"border: none;")
+        doc_img.setAlignment(Qt.AlignCenter)
+        
+        doc_img_path = doctor.get("doctor_img", "")
+        if doc_img_path:
+                pixmap = QPixmap(doc_img_path)
+                doc_img.setPixmap(pixmap.scaled(doc_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+        verticalLayout.addWidget(doc_img)
+        verticalSpacer_3 = QSpacerItem(20, 28, QSizePolicy.Minimum, QSizePolicy.Fixed)
+        verticalLayout.addItem(verticalSpacer_3)
+
+        doc_name = QLabel(layoutWidget1)
+        doc_name.setObjectName(u"doc_name")
+        doc_name.setStyleSheet(u"text-align: center; border: none;")
+        doc_name.setText(doctor.get("doctor_name", "Unknown"))
+        font = QFont("Consolas", 12, QFont.Bold)
+        doc_name.setFont(font)
+
+        verticalLayout.addWidget(doc_name)
+
+        doc_speciality = QLabel(layoutWidget1)
+        doc_speciality.setObjectName(u"doc_speciality")
+        doc_speciality.setStyleSheet(u"text-align: center; border: none;")
+        doc_speciality.setText(doctor.get("specialization", "Unknown"))
+        font = QFont("Consolas", 12, QFont.Bold)
+        doc_speciality.setFont(font)
+
+        verticalLayout.addWidget(doc_speciality)
+        verticalSpacer = QSpacerItem(20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        verticalLayout.addItem(verticalSpacer)
+
+        line = QFrame(layoutWidget1)
+        line.setObjectName(u"line")
+        line.setMinimumSize(QSize(324, 3))
+        line.setMaximumSize(QSize(324, 3))
+        line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
+        line.setFrameShape(QFrame.HLine)
+        line.setFrameShadow(QFrame.Sunken)
+        verticalLayout.addWidget(line)
+
+        clinic_name = QLabel(layoutWidget1)
+        clinic_name.setObjectName(u"clinic_name")
+        clinic_name.setStyleSheet(u"text-align: center; border: none;")
+        clinic_name.setText(clinic.get("clinic_name", "Unknown"))
+        font = QFont("Consolas", 12, QFont.Bold)
+        clinic_name.setFont(font)
+
+        verticalLayout.addWidget(clinic_name)
+        verticalSpacer_2 = QSpacerItem(20, 38, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        verticalLayout.addItem(verticalSpacer_2)
+        
+        return doc_info_outer
