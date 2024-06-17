@@ -75,7 +75,7 @@ border-top-left-radius: 30px;
      </font>
     </property>
     <property name="text">
-     <string>Doctor Profile</string>
+     <string>Clinic Profile</string>
     </property>
    </widget>
    <widget class="QFrame" name="user_frame">
@@ -147,7 +147,7 @@ border-top-left-radius: 30px;
       <x>60</x>
       <y>150</y>
       <width>1661</width>
-      <height>691</height>
+      <height>880</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -190,23 +190,23 @@ border-top-left-radius: 30px;
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>625</x>
        <y>68</y>
        <width>1011</width>
-       <height>601</height>
+       <height>511</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QVBoxLayout" name="speciality_layout">
+       <layout class="QVBoxLayout" name="location_layout">
         <property name="spacing">
          <number>10</number>
         </property>
         <item>
-         <widget class="QLabel" name="doc_speciality_label">
+         <widget class="QLabel" name="location_label">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -231,12 +231,12 @@ border-top-left-radius: 30px;
            <string notr="true">text-align: center; border: none;</string>
           </property>
           <property name="text">
-           <string>Speciality</string>
+           <string>Location</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="speciality_display">
+         <widget class="QLabel" name="location_display">
           <property name="minimumSize">
            <size>
             <width>1000</width>
@@ -269,12 +269,12 @@ border-top-left-radius: 30px;
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="hour_layout">
+       <layout class="QVBoxLayout" name="intro_layout">
         <property name="spacing">
          <number>10</number>
         </property>
         <item>
-         <widget class="QLabel" name="available_hour_label">
+         <widget class="QLabel" name="intro_label">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -299,12 +299,12 @@ border-top-left-radius: 30px;
            <string notr="true">text-align: center; border: none;</string>
           </property>
           <property name="text">
-           <string>Available Hours</string>
+           <string>Introduction</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="hour_display">
+         <widget class="QLabel" name="intro_display">
           <property name="minimumSize">
            <size>
             <width>1000</width>
@@ -337,12 +337,12 @@ border-top-left-radius: 30px;
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="qualification_layout">
+       <layout class="QVBoxLayout" name="ophour_layout">
         <property name="spacing">
          <number>10</number>
         </property>
         <item>
-         <widget class="QLabel" name="qualification_label">
+         <widget class="QLabel" name="ophour_label">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -367,22 +367,22 @@ border-top-left-radius: 30px;
            <string notr="true">text-align: center; border: none;</string>
           </property>
           <property name="text">
-           <string>Qualifications</string>
+           <string>Operating Hours</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="qualification_display">
+         <widget class="QLabel" name="ophour_display">
           <property name="minimumSize">
            <size>
             <width>1000</width>
-            <height>150</height>
+            <height>80</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>1000</width>
-            <height>150</height>
+            <height>80</height>
            </size>
           </property>
           <property name="font">
@@ -406,109 +406,120 @@ border-top-left-radius: 30px;
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QLabel" name="doctors_available_label">
      <property name="geometry">
       <rect>
-       <x>51</x>
-       <y>381</y>
-       <width>451</width>
-       <height>301</height>
+       <x>80</x>
+       <y>640</y>
+       <width>1491</width>
+       <height>50</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QLabel" name="doc_name">
-        <property name="minimumSize">
-         <size>
-          <width>400</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>14</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">text-align: center; border: none;</string>
-        </property>
-        <property name="text">
-         <string>Doc Name</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="clinic_name">
-        <property name="minimumSize">
-         <size>
-          <width>400</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">text-align: center; border: none;</string>
-        </property>
-        <property name="text">
-         <string>Clinic Name</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="make_appt_btn">
-        <property name="minimumSize">
-         <size>
-          <width>400</width>
-          <height>55</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>55</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;</string>
-        </property>
-        <property name="text">
-         <string>Make Appointment</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">text-align: center; border: none;</string>
+     </property>
+     <property name="text">
+      <string>Doctors Available</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QFrame" name="line">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>610</y>
+       <width>1491</width>
+       <height>3</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>3</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>3</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #B6D0E2; border: none;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="clinic_name">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>430</y>
+       <width>400</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>100</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">text-align: center; border: none;</string>
+     </property>
+     <property name="text">
+      <string>Clinic Name</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </widget>
   </widget>
