@@ -13,8 +13,10 @@ class ViewClinicWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.clinic_data_list = []
+        self.selected_state = ""
         self.setupUi(self)
         self.fetch_clinic_data()
+        self.clinic_details_frame = None
         
     def setupUi(self, Form):
         if Form.objectName():
@@ -60,6 +62,7 @@ class ViewClinicWidget(QWidget):
         font.setPointSize(16)
         self.profile_btn.setFont(font)
         self.profile_btn.setStyleSheet(u"border: none")
+        
         self.search_clinic = QLineEdit(self.background)
         self.search_clinic.setObjectName(u"search_clinic")
         self.search_clinic.setGeometry(QRect(40, 40, 681, 71))
@@ -77,16 +80,16 @@ class ViewClinicWidget(QWidget):
         
         
         self.filter = QComboBox(self.background)
-        self.filter.addItem("")
-        self.filter.addItem("")
         self.filter.setObjectName(u"filter")
         self.filter.setGeometry(QRect(710, 170, 151, 31))
         font8 = QFont()
         font8.setFamily(u"Consolas")
         font8.setPointSize(12)
         self.filter.setFont(font8)
-        self.filter.setStyleSheet(u"\n"
-"border: 1px solid gray;")
+        self.filter.setStyleSheet(u"border: 1px solid gray;")
+        self.filter.activated.connect(self.updateSelectedState)
+        self.load_states()
+        
         self.clinic_list_label = QLabel(self.background)
         self.clinic_list_label.setObjectName(u"clinic_list_label")
         self.clinic_list_label.setGeometry(QRect(50, 160, 341, 41))
@@ -112,6 +115,7 @@ class ViewClinicWidget(QWidget):
         font10.setWeight(75)
         self.add_clinic_btn.setFont(font10)
         self.add_clinic_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        
         self.clear_btn = QPushButton(self.background)
         self.clear_btn.setObjectName(u"clear_btn")
         self.clear_btn.setGeometry(QRect(760, 50, 140, 51))
@@ -122,11 +126,14 @@ class ViewClinicWidget(QWidget):
         font11.setWeight(50)
         self.clear_btn.setFont(font11)
         self.clear_btn.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 10px; color: black; border: 1px solid gray;")
+        self.clear_btn.clicked.connect(self.clear_search)
+        
         self.search_btn = QPushButton(self.background)
         self.search_btn.setObjectName(u"search_btn")
         self.search_btn.setGeometry(QRect(930, 50, 140, 51))
         self.search_btn.setFont(font11)
         self.search_btn.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 10px; color: black; border: 1px solid gray;")
+        self.search_btn.clicked.connect(self.search_clinics)
         
         self.scrollArea = QScrollArea(self.background)
         self.scrollArea.setObjectName(u"scrollArea")
@@ -265,10 +272,7 @@ class ViewClinicWidget(QWidget):
         self.noti_icon.setText("")
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"Admin", None))
-        self.search_clinic.setText("")
         self.search_clinic.setPlaceholderText(QCoreApplication.translate("Form", u"Search Clinic Name", None))
-        self.filter.setItemText(0, QCoreApplication.translate("Form", u"Recent", None))
-        self.filter.setItemText(1, QCoreApplication.translate("Form", u"Oldest", None))
 
         self.clinic_list_label.setText(QCoreApplication.translate("Form", u"Clinic List", None))
         self.req_detail_label.setText(QCoreApplication.translate("Form", u"Clinic Details", None))
@@ -358,18 +362,36 @@ class ViewClinicWidget(QWidget):
         return clinic_frame
 
 
-    # Populate clinic info
-    def populate_clinic_info(self):
+    def populate_clinic_info(self, search_query=None):
         self.clear_layout()
 
-        # Add clinic frames to the layout
-        for clinic_data in self.clinic_data_list:
-                clinic_frame = self.create_clinic_list_frame(clinic_data)
-                if clinic_frame:
-                        self.vLayout.addWidget(clinic_frame)
+        visible_clinics = []
 
-        # Set the vertical layout as the layout for the scroll area
+        for i, clinic_data in enumerate(self.clinic_data_list):
+                if isinstance(clinic_data, dict):
+                        clinic_name = clinic_data.get("clinic_name", "").lower()
+                        clinic_state = clinic_data.get("clinic_state", "").lower()
+
+
+                if self.selected_state and clinic_state.lower() != self.selected_state.lower():
+                        continue
+
+                # Check search query if provided
+                if not search_query or search_query.lower() in clinic_name:
+                        clinic_frame = self.create_clinic_list_frame(clinic_data)
+                        if clinic_frame:
+                                visible_clinics.append(clinic_frame)
+
+        # Add visible clinics to the layout
+        for clinic_frame in visible_clinics:
+                self.vLayout.addWidget(clinic_frame)
+
         self.scrollAreaWidgetContents.setLayout(self.vLayout)
+
+        self.vLayout.update()
+        self.scrollAreaWidgetContents.update()
+
+
 
     def create_clinic_details_frame(self, clinic_data):
         request_detail_outer = QFrame(self.background)
@@ -590,23 +612,91 @@ class ViewClinicWidget(QWidget):
 
         verticalLayout_2.addLayout(date_req_layout)
 
-        remove_clinic_btn = QPushButton(request_detail_outer)
-        remove_clinic_btn.setObjectName(u"remove_clinic_btn")
-        remove_clinic_btn.setGeometry(QRect(550, 790, 181, 41))
+        #if status is pending display btn
+        reject_clinic_btn = QPushButton(request_detail_outer)
+        reject_clinic_btn.setObjectName(u"reject_clinic_btn")
+        reject_clinic_btn.setGeometry(QRect(550, 790, 181, 41))
         font7 = QFont()
         font7.setFamily(u"Consolas")
         font7.setPointSize(10)
         font7.setBold(True)
         font7.setWeight(75)
-        remove_clinic_btn.setFont(font7)
-        remove_clinic_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        reject_clinic_btn.setFont(font7)
+        reject_clinic_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        reject_clinic_btn.setText("Reject Clinic")
+        
+        approve_clinic_btn = QPushButton(request_detail_outer)
+        approve_clinic_btn.setObjectName(u"approve_clinic_btn")
+        approve_clinic_btn.setGeometry(QRect(340, 790, 181, 41))
+        approve_clinic_btn.setFont(font7)
+        approve_clinic_btn.setStyleSheet(u"background-color: #528265; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        approve_clinic_btn.setText("Approve Clinic")
         
         return request_detail_outer
 
-
     def create_popup_widget(self, clinic_data):
-        clinic_details_frame = self.create_clinic_details_frame(clinic_data)
-        clinic_details_frame.setVisible(True)
+        self.clinic_details_frame = self.create_clinic_details_frame(clinic_data)
+        self.clinic_details_frame.setVisible(True)
+
+    def search_clinics(self):
+        search_text = self.search_clinic.text().strip().lower()
+        if search_text:
+                self.hide_clinic_details_frame()
+                self.populate_clinic_info(search_text)
+                self.hide_clinic_details_frame()
+                
+        else:
+                self.hide_clinic_details_frame()
+                self.populate_clinic_info()
+                self.hide_clinic_details_frame()
+
+    def clear_search(self):
+        self.search_clinic.clear()
+        self.hide_clinic_details_frame()
+        self.populate_clinic_info()
+        self.hide_clinic_details_frame()
+
+    def hide_clinic_details_frame(self):
+        if self.clinic_details_frame:
+            self.clinic_details_frame.setVisible(False)
+
+    def load_states(self):
+        states = [
+            "All",
+            "Johor",
+            "Kedah",
+            "Kelantan",
+            "Kuala Lumpur",
+            "Labuan",
+            "Melaka",
+            "Negeri Sembilan",
+            "Pahang",
+            "Perak",
+            "Perlis",
+            "Penang",
+            "Putrajaya",
+            "Sabah",
+            "Sarawak",
+            "Selangor",
+            "Terengganu"
+        ]
+        self.filter.addItems(states)
+
+    def updateSelectedState(self, index):
+        selected_text = self.filter.itemText(index)
+
+        if index == 0:
+                self.selected_state = ""
+        else:
+                self.selected_state = selected_text
+        self.hide_clinic_details_frame()
+        self.populate_clinic_info()
+
+
+
+
+
+
 
 
 
