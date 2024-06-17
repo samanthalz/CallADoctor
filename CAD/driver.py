@@ -9,7 +9,7 @@ from User.ui_home import HomeWidget
 from login import LoginWidget
 from register import RegisterWidget
 from User.ui_find_clinic import FindClinicWidget
-#from User.ui_find_clinic_copy import FindClinicWidget
+from User.ui_find_clinic_copy import ViewClinicWidget
 from User.ui_view_doctor_profile import ViewDoctorProfileWidget
 from User.ui_view_clinic_profile import ViewClinicProfileWidget
 from User.ui_find_doctor import FindDoctorWidget
@@ -18,7 +18,7 @@ from User.ui_services import ServicesWidget
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from Project_Admin.ui_add_clinic import AddClinicWidget
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
-from Project_Admin.ui_view_clinic import ViewClinicWidget
+#from Project_Admin.ui_view_clinic import ViewClinicWidget
 from Project_Admin.ui_view_feedback import ViewFeedbackWidget
 
 class Ui_MainWindow(QMainWindow):

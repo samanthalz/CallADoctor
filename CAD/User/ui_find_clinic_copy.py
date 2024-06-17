@@ -1,58 +1,46 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot, QEvent)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
+    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,QMouseEvent,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 from connection import db
 
-class FindClinicWidget(QWidget):
-    service_btn_clicked = pyqtSignal()
+class ViewClinicWidget(QWidget):
+    feedback_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
         self.clinic_data_list = []
-        self.selected_state = ""
-        self.selected_clinic = ""
         self.setupUi(self)
         self.fetch_clinic_data()
-        
         
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        
+       
         Form.setAutoFillBackground(True)
         p = Form.palette()
         p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
         Form.setPalette(p)
         
-        self.whitebg = QWidget(Form)
-        self.whitebg.setObjectName(u"whitebg")
-        self.whitebg.setGeometry(QRect(150, 0, 1771, 1080))
-        self.whitebg.setCursor(QCursor(Qt.ArrowCursor))
-        self.whitebg.setStyleSheet(u"background-color: #F8F8F8;\n"
+        self.background = QWidget(Form)
+        self.background.setObjectName(u"background")
+        self.background.setGeometry(QRect(150, 0, 1771, 1061))
+        self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
 "border-bottom-left-radius: 30px;\n"
 "border-top-left-radius: 30px;\n"
-"")
-        self.noti_icon = QPushButton(self.whitebg)
+"text-align: center;")
+        self.noti_icon = QPushButton(self.background)
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
         icon = QIcon()
         icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
         self.noti_icon.setIcon(icon)
         self.noti_icon.setIconSize(QSize(40, 40))
-        self.fac_title = QLabel(self.whitebg)
-        self.fac_title.setObjectName(u"fac_title")
-        self.fac_title.setGeometry(QRect(60, 40, 481, 81))
-        font = QFont()
-        font.setFamily(u"Consolas")
-        font.setPointSize(28)
-        font.setBold(True)
-        font.setWeight(75)
-        self.fac_title.setFont(font)
-        self.user_frame = QFrame(self.whitebg)
+        self.user_frame = QFrame(self.background)
         self.user_frame.setObjectName(u"user_frame")
         self.user_frame.setGeometry(QRect(1480, 30, 251, 80))
         self.user_frame.setStyleSheet(u"border-radius: 20px; border: 2px solid #808080")
@@ -66,98 +54,109 @@ class FindClinicWidget(QWidget):
         self.profile_icon.setScaledContents(True)
         self.profile_btn = QPushButton(self.user_frame)
         self.profile_btn.setObjectName(u"profile_btn")
-        self.profile_btn.setGeometry(QRect(120, 25, 71, 31))
+        self.profile_btn.setGeometry(QRect(100, 25, 121, 31))
+        font = QFont()
+        font.setFamily(u"Consolas")
+        font.setPointSize(16)
+        self.profile_btn.setFont(font)
+        self.profile_btn.setStyleSheet(u"border: none")
+        self.search_clinic = QLineEdit(self.background)
+        self.search_clinic.setObjectName(u"search_clinic")
+        self.search_clinic.setGeometry(QRect(40, 40, 681, 71))
         font1 = QFont()
         font1.setFamily(u"Consolas")
-        font1.setPointSize(16)
-        self.profile_btn.setFont(font1)
-        self.profile_btn.setStyleSheet(u"border: none")
+        font1.setPointSize(11)
+        self.search_clinic.setFont(font1)
+        self.search_clinic.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 60px; color: Black;\n"
+        " background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
+        "background-repeat: no-repeat; \n"
+        "background-position: left center; \n"
+        "border: 1px solid gray;\n"
+        "")
+        self.search_clinic.setClearButtonEnabled(False)
         
-        self.scrollArea = QScrollArea(self.whitebg)
-        self.scrollArea.setObjectName("scrollArea")
-        self.scrollArea.setGeometry(QRect(80, 240, 1640, 800))
+        
+        self.filter = QComboBox(self.background)
+        self.filter.addItem("")
+        self.filter.addItem("")
+        self.filter.setObjectName(u"filter")
+        self.filter.setGeometry(QRect(710, 170, 151, 31))
+        font8 = QFont()
+        font8.setFamily(u"Consolas")
+        font8.setPointSize(12)
+        self.filter.setFont(font8)
+        self.filter.setStyleSheet(u"\n"
+"border: 1px solid gray;")
+        self.clinic_list_label = QLabel(self.background)
+        self.clinic_list_label.setObjectName(u"clinic_list_label")
+        self.clinic_list_label.setGeometry(QRect(50, 160, 341, 41))
+        font9 = QFont()
+        font9.setFamily(u"Consolas")
+        font9.setPointSize(16)
+        self.clinic_list_label.setFont(font9)
+        self.clinic_list_label.setStyleSheet(u"border : none;\n"
+"")
+        self.req_detail_label = QLabel(self.background)
+        self.req_detail_label.setObjectName(u"req_detail_label")
+        self.req_detail_label.setGeometry(QRect(990, 150, 571, 41))
+        self.req_detail_label.setFont(font)
+        self.req_detail_label.setStyleSheet(u"border : none;\n"
+"")
+        self.add_clinic_btn = QPushButton(self.background)
+        self.add_clinic_btn.setObjectName(u"add_clinic_btn")
+        self.add_clinic_btn.setGeometry(QRect(60, 220, 801, 51))
+        font10 = QFont()
+        font10.setFamily(u"Consolas")
+        font10.setPointSize(12)
+        font10.setBold(True)
+        font10.setWeight(75)
+        self.add_clinic_btn.setFont(font10)
+        self.add_clinic_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.clear_btn = QPushButton(self.background)
+        self.clear_btn.setObjectName(u"clear_btn")
+        self.clear_btn.setGeometry(QRect(760, 50, 140, 51))
+        font11 = QFont()
+        font11.setFamily(u"Consolas")
+        font11.setPointSize(12)
+        font11.setBold(False)
+        font11.setWeight(50)
+        self.clear_btn.setFont(font11)
+        self.clear_btn.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 10px; color: black; border: 1px solid gray;")
+        self.search_btn = QPushButton(self.background)
+        self.search_btn.setObjectName(u"search_btn")
+        self.search_btn.setGeometry(QRect(930, 50, 140, 51))
+        self.search_btn.setFont(font11)
+        self.search_btn.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 10px; color: black; border: 1px solid gray;")
+        
+        self.scrollArea = QScrollArea(self.background)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setGeometry(QRect(50, 290, 821, 731))
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1640, 800))
-
-        self.gridLayout = QGridLayout(self.scrollAreaWidgetContents)
-        self.gridLayout.setObjectName("gridLayout")
-        self.gridLayout.setAlignment(Qt.AlignTop)
-        self.gridLayout.setHorizontalSpacing(150)  
-        self.gridLayout.setVerticalSpacing(50)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 821, 731))
+        
+        self.vLayout = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.vLayout.setSpacing(10)
+        self.vLayout.setObjectName(u"vlayout")
+        self.vLayout.setContentsMargins(0, 0, 0, 0)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.scrollAreaWidgetContents.setLayout(self.gridLayout)
+        self.scrollAreaWidgetContents.setLayout(self.vLayout)
 
-        self.layoutWidget1 = QWidget(self.whitebg)
-        self.layoutWidget1.setObjectName(u"layoutWidget1")
-        self.layoutWidget1.setGeometry(QRect(80, 140, 1381, 48))
-        self.horizontalLayout_4 = QHBoxLayout(self.layoutWidget1)
-        self.horizontalLayout_4.setSpacing(250)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         
-        self.state_dropdown = QComboBox(self.layoutWidget1)
-        self.state_dropdown.setEditable(False)
-        self.state_dropdown.setObjectName("state_dropdown")
-        self.state_dropdown.setMinimumSize(QSize(321, 41))
-        font2 = QFont()
-        font2.setFamily("Consolas")
-        font2.setPointSize(11)
-        self.state_dropdown.setFont(font2)
-        self.state_dropdown.setStyleSheet(
-            "border: 1px solid #000000;\n"
-            "border-radius: 5px; \n"
-            "background-color: #FFFFFF; \n"
-            "padding: 10px; \n"
-            "font-family: Consolas;\n"
-            "font-size: 11pt;"
-        )
-        self.state_dropdown.setIconSize(QSize(50, 50))
-        self.state_dropdown.setFrame(True)
-        self.state_dropdown.activated.connect(self.updateSelectedState)
-        self.horizontalLayout_4.addWidget(self.state_dropdown)
-
-        # Load states into state dropdown
-        self.load_states()
-
-        # Create clinic dropdown
-        self.clinic_dropdown = QComboBox(self.layoutWidget1)
-        self.clinic_dropdown.setEditable(False)
-        self.clinic_dropdown.setObjectName("clinic_dropdown")
-        self.clinic_dropdown.setMinimumSize(QSize(321, 41))
-        self.clinic_dropdown.setFont(font2)
-        self.clinic_dropdown.setStyleSheet(
-            "border: 1px solid #000000;\n"
-            "border-radius: 5px; \n"
-            "background-color: #FFFFFF; \n"
-            "padding: 10px; \n"
-            "font-family: Consolas;\n"
-            "font-size: 11pt;"
-        )
-        self.clinic_dropdown.setIconSize(QSize(50, 50))
-        self.clinic_dropdown.setFrame(True)
-        self.clinic_dropdown.activated.connect(self.updateSelectedClinic)
-        self.horizontalLayout_4.addWidget(self.clinic_dropdown)
-
-        # Load clinics into clinic dropdown
-        self.load_clinics()
-
-
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
-        self.layoutWidget_4 = QWidget(self.frame)
-        self.layoutWidget_4.setObjectName(u"layoutWidget_4")
-        self.layoutWidget_4.setGeometry(QRect(30, 19, 87, 871))
-        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget_4)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.home_navigation = QToolButton(self.layoutWidget_4)
+        self.layoutWidget_2 = QWidget(self.frame)
+        self.layoutWidget_2.setObjectName(u"layoutWidget_2")
+        self.layoutWidget_2.setGeometry(QRect(31, 20, 87, 851))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget_2)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.home_navigation = QToolButton(self.layoutWidget_2)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -167,59 +166,66 @@ class FindClinicWidget(QWidget):
         self.home_navigation.setSizePolicy(sizePolicy)
         self.home_navigation.setMinimumSize(QSize(85, 96))
         self.home_navigation.setMaximumSize(QSize(85, 96))
-        font3 = QFont()
-        font3.setFamily(u"Source Sans Pro Semibold")
-        font3.setPointSize(10)
-        font3.setBold(True)
-        font3.setWeight(75)
-        self.home_navigation.setFont(font3)
-        self.home_navigation.setStyleSheet(u"border: none; \ncolor: white;")
+        font13 = QFont()
+        font13.setFamily(u"Source Sans Pro Semibold")
+        font13.setPointSize(10)
+        font13.setBold(True)
+        font13.setWeight(75)
+        self.home_navigation.setFont(font13)
+        self.home_navigation.setStyleSheet(u"border: none; \n"
+"color: white;")
         icon1 = QIcon()
         icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.home_navigation)
+        self.verticalLayout.addWidget(self.home_navigation)
 
-        self.appointments_navigation = QToolButton(self.layoutWidget_4)
-        self.appointments_navigation.setObjectName(u"appointments_navigation")
-        self.appointments_navigation.setEnabled(True)
-        sizePolicy.setHeightForWidth(self.appointments_navigation.sizePolicy().hasHeightForWidth())
-        self.appointments_navigation.setSizePolicy(sizePolicy)
-        self.appointments_navigation.setFont(font3)
-        self.appointments_navigation.setStyleSheet(u"border: none; \n"
+        self.clinic_navigation = QToolButton(self.layoutWidget_2)
+        self.clinic_navigation.setObjectName(u"clinic_navigation")
+        self.clinic_navigation.setEnabled(True)
+        sizePolicy.setHeightForWidth(self.clinic_navigation.sizePolicy().hasHeightForWidth())
+        self.clinic_navigation.setSizePolicy(sizePolicy)
+        self.clinic_navigation.setMinimumSize(QSize(85, 96))
+        self.clinic_navigation.setMaximumSize(QSize(85, 96))
+        self.clinic_navigation.setFont(font13)
+        self.clinic_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
-        icon2.addFile(u"CAD/Images/nav_images/appointment_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.appointments_navigation.setIcon(icon2)
-        self.appointments_navigation.setIconSize(QSize(70, 70))
-        self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        icon2.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.clinic_navigation.setIcon(icon2)
+        self.clinic_navigation.setIconSize(QSize(70, 70))
+        self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.appointments_navigation)
+        self.verticalLayout.addWidget(self.clinic_navigation)
 
-        self.services_navigation = QToolButton(self.layoutWidget_4)
-        self.services_navigation.setObjectName(u"services_navigation")
-        self.services_navigation.setEnabled(True)
-        sizePolicy.setHeightForWidth(self.services_navigation.sizePolicy().hasHeightForWidth())
-        self.services_navigation.setSizePolicy(sizePolicy)
-        self.services_navigation.setFont(font3)
-        self.services_navigation.setStyleSheet(u"border: none; \n"
+        self.feedback_navigation = QToolButton(self.layoutWidget_2)
+        self.feedback_navigation.setObjectName(u"feedback_navigation")
+        self.feedback_navigation.setEnabled(True)
+        sizePolicy.setHeightForWidth(self.feedback_navigation.sizePolicy().hasHeightForWidth())
+        self.feedback_navigation.setSizePolicy(sizePolicy)
+        self.feedback_navigation.setMinimumSize(QSize(85, 96))
+        self.feedback_navigation.setMaximumSize(QSize(85, 96))
+        self.feedback_navigation.setFont(font13)
+        self.feedback_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
-        icon3.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.services_navigation.setIcon(icon3)
-        self.services_navigation.setIconSize(QSize(70, 70))
-        self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        icon3.addFile(u"CAD/Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.feedback_navigation.setIcon(icon3)
+        self.feedback_navigation.setIconSize(QSize(70, 70))
+        self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.services_navigation)
+        self.verticalLayout.addWidget(self.feedback_navigation)
 
-        self.settings_navigation = QToolButton(self.layoutWidget_4)
+        self.settings_navigation = QToolButton(self.layoutWidget_2)
         self.settings_navigation.setObjectName(u"settings_navigation")
         self.settings_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
         self.settings_navigation.setSizePolicy(sizePolicy)
-        self.settings_navigation.setFont(font3)
+        self.settings_navigation.setMinimumSize(QSize(85, 96))
+        self.settings_navigation.setMaximumSize(QSize(85, 96))
+        self.settings_navigation.setFont(font13)
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
@@ -228,14 +234,16 @@ class FindClinicWidget(QWidget):
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.settings_navigation)
+        self.verticalLayout.addWidget(self.settings_navigation)
 
-        self.logout_navigation = QToolButton(self.layoutWidget_4)
+        self.logout_navigation = QToolButton(self.layoutWidget_2)
         self.logout_navigation.setObjectName(u"logout_navigation")
         self.logout_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
         self.logout_navigation.setSizePolicy(sizePolicy)
-        self.logout_navigation.setFont(font3)
+        self.logout_navigation.setMinimumSize(QSize(85, 96))
+        self.logout_navigation.setMaximumSize(QSize(85, 96))
+        self.logout_navigation.setFont(font13)
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon5 = QIcon()
@@ -244,7 +252,7 @@ class FindClinicWidget(QWidget):
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_2.addWidget(self.logout_navigation)
+        self.verticalLayout.addWidget(self.logout_navigation)
 
 
         self.retranslateUi(Form)
@@ -255,44 +263,25 @@ class FindClinicWidget(QWidget):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.noti_icon.setText("")
-        self.fac_title.setText(QCoreApplication.translate("Form", u"Find A Clinic", None))
         self.profile_icon.setText("")
-        self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
+        self.profile_btn.setText(QCoreApplication.translate("Form", u"Admin", None))
+        self.search_clinic.setText("")
+        self.search_clinic.setPlaceholderText(QCoreApplication.translate("Form", u"Search Clinic Name", None))
+        self.filter.setItemText(0, QCoreApplication.translate("Form", u"Recent", None))
+        self.filter.setItemText(1, QCoreApplication.translate("Form", u"Oldest", None))
+
+        self.clinic_list_label.setText(QCoreApplication.translate("Form", u"Clinic List", None))
+        self.req_detail_label.setText(QCoreApplication.translate("Form", u"Clinic Details", None))
+        self.add_clinic_btn.setText(QCoreApplication.translate("Form", u"Add New Clinic", None))
+        self.clear_btn.setText(QCoreApplication.translate("Form", u"Clear", None))
+        self.search_btn.setText(QCoreApplication.translate("Form", u"Search", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
-        self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))
-        self.services_navigation.setText(QCoreApplication.translate("Form", u"Services", None))
+        self.clinic_navigation.setText(QCoreApplication.translate("Form", u"Clinics", None))
+        self.feedback_navigation.setText(QCoreApplication.translate("Form", u"Feedback", None))
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
-    
-    def updateSelectedClinic(self, index):
-        print("Clinic dropdown activated signal received.")
-        selected_text = self.clinic_dropdown.itemText(index)
-        print("Selected clinic text:", selected_text)
 
-        if index == 0:
-                self.selected_clinic = ""
-        else:
-                self.selected_clinic = selected_text
-
-        print("Updated selected clinic:", self.selected_clinic)
-        self.populate_clinic_info()
-
-
-    def updateSelectedState(self, index):
-        print("Activated signal received.")
-        selected_text = self.state_dropdown.itemText(index)
-        print("Selected state text:", selected_text)
-
-        if index == 0:
-                self.selected_state = ""
-        else:
-                self.selected_state = selected_text
-
-        print("Updated selected state:", self.selected_state)
-        self.populate_clinic_info()
-        
-    
     def fetch_clinic_data(self):
         try:
             clinics = db.child("clinic").get()
@@ -306,181 +295,319 @@ class FindClinicWidget(QWidget):
         except Exception as e:
             print(f"An error occurred while fetching data: {e}")
             
-        
     def clear_layout(self):
-        while self.gridLayout.count():
-                item = self.gridLayout.takeAt(0)
+        while self.vLayout.count():
+                item = self.vLayout.takeAt(0) 
                 widget = item.widget()
                 if widget is not None:
                         widget.deleteLater()
 
-    def populate_clinic_info(self):
-        # Clear existing items from the layout
-        self.clear_layout()
 
-        visible_clinics = []
+    def create_clinic_list_frame(self, clinic_data):
+        clinic_frame = QFrame(self.scrollAreaWidgetContents)
+        clinic_frame.setObjectName(u"clinic_frame")
+        clinic_frame.setGeometry(QRect(10, 10, 800, 80))
+        font12 = QFont()
+        font12.setFamily(u"Consolas")
+        font12.setPointSize(10)
+        clinic_frame.setFont(font12)
+        clinic_frame.setStyleSheet(u"border: 1px solid gray; border-radius: 10px;")
+        clinic_frame.setFrameShape(QFrame.StyledPanel)
+        clinic_frame.setFrameShadow(QFrame.Raised)
+        clinic_frame.setMaximumSize(800, 80)
+        clinic_frame.setMinimumSize(800, 80)
+
+        clinic_name_label = QLabel(clinic_frame)
+        clinic_name_label.setObjectName(u"clinic_name_label")
+        clinic_name_label.setGeometry(QRect(90, 30, 520, 21))
+        font2 = QFont()
+        font2.setFamily(u"Consolas")
+        font2.setPointSize(10)
+        clinic_name_label.setFont(font2)
+        clinic_name_label.setStyleSheet(u"border : none;")
+        clinic_name_label.setText(clinic_data.get("clinic_name", "Unknown"))
         
-        for i, clinic in enumerate(self.clinic_data_list):
-                if isinstance(clinic, dict):
-                        state = clinic.get("clinic_state", "")
-                        name = clinic.get("clinic_name", "")
-                        print(f"State of clinic {i}: {state}, Name of clinic {i}: {name}")
+        clinic_name_label.mousePressEvent = lambda event, clinic=clinic_data: self.create_popup_widget(clinic)
 
-                if self.selected_state and state.lower() != self.selected_state.lower():
-                        print(f"Skipping clinic {i} frame due to state.")
-                        continue
-                
-                if self.selected_clinic and name.lower() != self.selected_clinic.lower():
-                        print(f"Skipping clinic {i} frame due to clinic name.")
-                        continue
-
-                print(f"Adding clinic {i} to layout.")
-                clinic_outer = self.create_clinic_frame(clinic)
-                if clinic_outer:
-                        visible_clinics.append(clinic_outer)
-
-        # Add visible clinics to the layout
-        for i, clinic_outer in enumerate(visible_clinics):
-                row = i // 3
-                col = i % 3
-                self.gridLayout.addWidget(clinic_outer, row, col)
-
-        # Refresh the layout after adding all frames
-        self.gridLayout.update()
-        self.scrollAreaWidgetContents.update()
-
-
-    def create_clinic_frame(self, clinic):
-        clinic_outer = QFrame()
-        clinic_outer.setObjectName("clinic_info_outer")
-        clinic_outer.setStyleSheet("border: 1px solid black; \nborder-radius: 24px; ")
-        clinic_outer.setMinimumSize(QSize(388, 535))
-        clinic_outer.setMaximumSize(QSize(388, 535))
-
-        clinic_inner = QFrame(clinic_outer)
-        clinic_inner.setObjectName("clinic_info_inner")
-        clinic_inner.setGeometry(QRect(0, 0, 388, 535))
-        clinic_inner.setStyleSheet("border: none; background-color: transparent;")
-
-        layoutWidget = QWidget(clinic_inner)
-        layoutWidget.setObjectName("layoutWidget")
-        layoutWidget.setGeometry(QRect(1, 480, 386, 55))
-
-        horizontalLayout = QHBoxLayout(layoutWidget)
-        horizontalLayout.setObjectName("horizontalLayout")
-        horizontalLayout.setContentsMargins(0, 0, 0, 0)
-
-        view_clinic_btn = QPushButton(layoutWidget)
-        view_clinic_btn.setObjectName("view_clinic_btn")
-        view_clinic_btn.setMinimumSize(QSize(193, 55))
-        view_clinic_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
-        view_clinic_btn.setText("View Clinic")
-        font = QFont("Consolas", 10)
-        view_clinic_btn.setFont(font)
-        
-        horizontalLayout.addWidget(view_clinic_btn)
-
-        make_appt_btn = QPushButton(layoutWidget)
-        make_appt_btn.setObjectName("make_appt_btn")
-        make_appt_btn.setMinimumSize(QSize(193, 55))
-        make_appt_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
-        make_appt_btn.setText("Make Appointment")
-        font = QFont("Consolas", 10)
-        make_appt_btn.setFont(font)
-
-        horizontalLayout.addWidget(make_appt_btn)
-
-        layoutWidget_2 = QWidget(clinic_inner)
-        layoutWidget_2.setObjectName("layoutWidget_2")
-        layoutWidget_2.setGeometry(QRect(30, 30, 326, 451))
-
-        verticalLayout = QVBoxLayout(layoutWidget_2)
-        verticalLayout.setObjectName("verticalLayout")
-        verticalLayout.setContentsMargins(0, 0, 0, 0)
-
-        clinic_logo_label = QLabel(layoutWidget_2)
-        clinic_logo_label.setObjectName("clinic_logo")
-        clinic_logo_label.setMinimumSize(QSize(324, 160))
-        clinic_logo_label.setStyleSheet("border: none;") 
-
+        clinic_logo_label = QLabel(clinic_frame)
+        clinic_logo_label.setObjectName(u"clinic_logo_label")
+        clinic_logo_label.setGeometry(QRect(10, 10, 60, 60))
+        clinic_logo_label.setStyleSheet(u"border : none;"
+                                        "border-radius: 25px; "
+                                        "width: 60px; "
+                                        "height: 60px; ")
         clinic_logo_label.setAlignment(Qt.AlignCenter)
-
-        clinic_img_path = clinic.get("clinic_img", "")
+        
+        clinic_img_path = clinic_data.get("clinic_img", "Path Not Found")
         if clinic_img_path:
                 pixmap = QPixmap(clinic_img_path)
                 clinic_logo_label.setPixmap(pixmap.scaled(clinic_logo_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
 
-        verticalLayout.addWidget(clinic_logo_label)
 
-        verticalSpacer_3 = QSpacerItem(20, 28, QSizePolicy.Minimum, QSizePolicy.Fixed)
-        verticalLayout.addItem(verticalSpacer_3)
+        status = QLabel(clinic_frame)
+        status.setObjectName(u"status")
+        status.setGeometry(QRect(690, 20, 91, 41))
+        status.setFont(font12)
+        status.setStyleSheet(u"background-color: rgba(12, 89, 83, 0.15); "
+                                "color: #128983; "
+                                "text-align: center; "
+                                "border: none;")
+        status.setAlignment(Qt.AlignCenter)
+        status.setText(clinic_data.get("clinic_status", "Unknown"))
 
-        clinic_name_label = QLabel(layoutWidget_2)
-        clinic_name_label.setObjectName("clinic_name")
-        clinic_name_label.setStyleSheet("text-align: center; border: none;")
-        clinic_name_label.setText(clinic.get("clinic_name", "Unknown"))
-        font = QFont("Consolas", 12, QFont.Bold)
-        clinic_name_label.setFont(font)
+        return clinic_frame
 
-        verticalLayout.addWidget(clinic_name_label)
+
+    # Populate clinic info
+    def populate_clinic_info(self):
+        self.clear_layout()
+
+        # Add clinic frames to the layout
+        for clinic_data in self.clinic_data_list:
+                clinic_frame = self.create_clinic_list_frame(clinic_data)
+                if clinic_frame:
+                        self.vLayout.addWidget(clinic_frame)
+
+        # Set the vertical layout as the layout for the scroll area
+        self.scrollAreaWidgetContents.setLayout(self.vLayout)
+
+    def create_clinic_details_frame(self, clinic_data):
+        request_detail_outer = QFrame(self.background)
+        request_detail_outer.setObjectName(u"request_detail_outer")
+        request_detail_outer.setGeometry(QRect(979, 200, 751, 841))
+        request_detail_outer.setStyleSheet(u"background-color : #ffffff;")
+        request_detail_outer.setFrameShape(QFrame.StyledPanel)
+        request_detail_outer.setFrameShadow(QFrame.Raised)
         
-        line = QFrame(layoutWidget_2)
-        line.setObjectName("line")
-        line.setMinimumSize(QSize(324, 3))
-        line.setMaximumSize(QSize(324, 3))
-        line.setStyleSheet("background-color: #B6D0E2; border: none;")
-        line.setFrameShape(QFrame.HLine)
-        line.setFrameShadow(QFrame.Sunken)
+        clinic_details_inner = QFrame(request_detail_outer)
+        clinic_details_inner.setObjectName(u"clinic_details_inner")
+        clinic_details_inner.setGeometry(QRect(20, 20, 711, 771))
+        clinic_details_inner.setFrameShape(QFrame.StyledPanel)
+        clinic_details_inner.setFrameShadow(QFrame.Raised)
+        
+        clinic_name = QLabel(clinic_details_inner)
+        clinic_name.setObjectName(u"clinic_name")
+        clinic_name.setGeometry(QRect(100, 30, 570, 20))
+        font2 = QFont()
+        font2.setFamily(u"Consolas")
+        font2.setPointSize(10)
+        clinic_name.setFont(font2)
+        clinic_name.setStyleSheet(u"border : none;\n")
+        clinic_name.setText(clinic_data.get("clinic_name", "Unknown"))
+        
+        clinic_logo = QLabel(clinic_details_inner)
+        clinic_logo.setObjectName(u"clinic_logo")
+        clinic_logo.setGeometry(QRect(10, 10, 60, 60))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(9)
+        clinic_logo.setFont(font3)
+        clinic_logo.setStyleSheet(u"border-radius: 25px;"
+        "border: none; "
+        "min-width: 60px; "
+        "min-height: 60px; "
+        "max-width: 60px; "
+        "max-height: 60px;")
+        clinic_logo.setAlignment(Qt.AlignCenter)
+        
+        clinic_img_path = clinic_data.get("clinic_img", "")
+        if clinic_img_path:
+                pixmap = QPixmap(clinic_img_path)
+                clinic_logo.setPixmap(pixmap.scaled(clinic_logo.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        
+        
+        line = QFrame(clinic_details_inner)
+        line.setObjectName(u"line")
+        line.setGeometry(QRect(20, 100, 671, 3))
+        line.setMinimumSize(QSize(357, 3))
+        line.setMaximumSize(QSize(16777215, 3))
+        line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
+        line.setFrameShape(QFrame.StyledPanel)
+        line.setFrameShadow(QFrame.Raised)
+        
+        layoutWidget = QWidget(clinic_details_inner)
+        layoutWidget.setObjectName(u"layoutWidget")
+        layoutWidget.setGeometry(QRect(3, 123, 701, 641))
+        verticalLayout_2 = QVBoxLayout(layoutWidget)
+        verticalLayout_2.setObjectName(u"verticalLayout_2")
+        verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        
+        phone_layout = QHBoxLayout()
+        phone_layout.setObjectName(u"phone_layout")
+        phone_label = QLabel(layoutWidget)
+        phone_label.setObjectName(u"phone_label")
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(11)
+        font4.setBold(True)
+        font4.setWeight(75)
+        phone_label.setFont(font4)
+        phone_label.setStyleSheet(u"border: none;")
+        phone_label.setLineWidth(0)
+        phone_label.setText("Phone Number: ")
+        phone_layout.addWidget(phone_label)
 
-        verticalLayout.addWidget(line)
+        phone_display = QLabel(layoutWidget)
+        phone_display.setObjectName(u"phone_display")
+        phone_display.setMinimumSize(QSize(390, 102))
+        font5 = QFont()
+        font5.setFamily(u"Consolas")
+        font5.setPointSize(11)
+        font5.setBold(False)
+        font5.setWeight(50)
+        phone_display.setFont(font5)
+        phone_display.setStyleSheet(u"border: none;")
+        phone_display.setText(clinic_data.get("clinic_phone", "Unknown"))
+        phone_layout.addWidget(phone_display)
 
-        location_label = QLabel(layoutWidget_2)
-        location_label.setObjectName("location")
-        location_label.setStyleSheet("text-align: center; border: none;")
-        location_text = f"<b>Location:</b> {clinic.get('clinic_add', 'Unknown')}"
-        location_label.setText(location_text)
-        font = QFont("Consolas", 11)
-        location_label.setFont(font)
+        verticalLayout_2.addLayout(phone_layout)
 
-        verticalLayout.addWidget(location_label)
-        return clinic_outer
+        email_layout = QHBoxLayout()
+        email_layout.setObjectName(u"email_layout")
+        email_label = QLabel(layoutWidget)
+        email_label.setObjectName(u"email_label")
+        email_label.setFont(font4)
+        email_label.setStyleSheet(u"border: none;")
+        email_label.setText("Email: ")
+        email_layout.addWidget(email_label)
 
-    def load_states(self):
-        states = [
-            "Search or Select a State",
-            "Johor",
-            "Kedah",
-            "Kelantan",
-            "Kuala Lumpur",
-            "Labuan",
-            "Melaka",
-            "Negeri Sembilan",
-            "Pahang",
-            "Perak",
-            "Perlis",
-            "Penang",
-            "Putrajaya",
-            "Sabah",
-            "Sarawak",
-            "Selangor",
-            "Terengganu"
-        ]
-        self.state_dropdown.addItems(states)
+        email_display = QLabel(layoutWidget)
+        email_display.setObjectName(u"email_display")
+        email_display.setMinimumSize(QSize(390, 102))
+        email_display.setFont(font5)
+        email_display.setStyleSheet(u"border: none;")
+        email_display.setText(clinic_data.get("clinic_email", "Unknown"))
+        email_layout.addWidget(email_display)
 
-    def load_clinics(self):
-        # The first item in the dropdown list
-        clinics = ["Search or Select a Clinic"]
 
-        try:
-                clinics_data = db.child("clinic").get()
-                
-                clinic_names = [clinic.val().get("clinic_name") for clinic in clinics_data.each()]
-                clinic_names.sort() 
-                clinics.extend(clinic_names)
+        verticalLayout_2.addLayout(email_layout)
 
-        except Exception as e:
-                print(f"An error occurred while fetching clinic names: {e}")
-                
-        self.clinic_dropdown.addItems(clinics)
+        add_layout = QHBoxLayout()
+        add_layout.setSpacing(135)
+        add_layout.setObjectName(u"add_layout")
+        add_label = QLabel(layoutWidget)
+        add_label.setObjectName(u"add_label")
+        add_label.setFont(font4)
+        add_label.setStyleSheet(u"border: none;")
+        add_label.setText("Address: ")
+        add_label.setMinimumSize(172, 98)
+        add_label.setMaximumSize(172, 98)
+        add_layout.addWidget(add_label)
 
-    
+        add_display = QLabel(layoutWidget)
+        add_display.setObjectName(u"add_display")
+        add_display.setFont(font5)
+        add_display.setStyleSheet(u"border: none;")
+        add_display.setScaledContents(False)
+        add_display.setWordWrap(True)
+        add_display.setText(clinic_data.get("clinic_add", "Unknown"))
+        add_layout.addWidget(add_display)
+
+
+        verticalLayout_2.addLayout(add_layout)
+
+        opening_hr_layout = QHBoxLayout()
+        opening_hr_layout.setObjectName(u"opening_hr_layout")
+        opening_hr_layout.setSizeConstraint(QLayout.SetFixedSize)
+        opening_hr_label = QLabel(layoutWidget)
+        opening_hr_label.setObjectName(u"opening_hr_label")
+        opening_hr_label.setFont(font4)
+        opening_hr_label.setStyleSheet(u"border: none;")
+        opening_hr_label.setWordWrap(True)
+        opening_hr_label.setText("Operating Hours: ")
+        opening_hr_layout.addWidget(opening_hr_label)
+
+        hour_display = QLabel(layoutWidget)
+        hour_display.setObjectName(u"hour_display")
+        hour_display.setMinimumSize(QSize(390, 0))
+        hour_display.setFont(font5)
+        hour_display.setStyleSheet(u"border: none;")
+        hour_display.setScaledContents(False)
+        hour_display.setWordWrap(True)
+        hour_display.setText(clinic_data.get("clinic_operating_hr", "Unknown"))
+        opening_hr_layout.addWidget(hour_display)
+
+
+        verticalLayout_2.addLayout(opening_hr_layout)
+
+        doc_layout = QHBoxLayout()
+        doc_layout.setSpacing(0)
+        doc_layout.setObjectName(u"doc_layout")
+        doc_label = QLabel(layoutWidget)
+        doc_label.setObjectName(u"doc_label")
+        doc_label.setFont(font4)
+        doc_label.setStyleSheet(u"border: none;")
+        doc_label.setWordWrap(True)
+        doc_label.setText("Documents: ")
+        doc_layout.addWidget(doc_label)
+
+        doc_display = QLabel(layoutWidget)
+        doc_display.setObjectName(u"doc_display")
+        doc_display.setMinimumSize(QSize(200, 0))
+        doc_display.setMaximumSize(QSize(50, 16777215))
+        doc_display.setFont(font5)
+        doc_display.setStyleSheet(u"border: none;")
+        doc_display.setScaledContents(False)
+        doc_display.setWordWrap(True)
+        doc_display.setText(clinic_data.get("uploadDoc_status", "Unknown"))
+        doc_layout.addWidget(doc_display)
+
+        view_doc_btn = QPushButton(layoutWidget)
+        view_doc_btn.setObjectName(u"view_doc_btn")
+        view_doc_btn.setMaximumSize(QSize(190, 16777215))
+        font6 = QFont()
+        font6.setFamily(u"Consolas")
+        font6.setPointSize(9)
+        font6.setUnderline(True)
+        view_doc_btn.setFont(font6)
+        view_doc_btn.setStyleSheet(u"color: #007E85; border: none;")
+
+        doc_layout.addWidget(view_doc_btn)
+
+
+        verticalLayout_2.addLayout(doc_layout)
+
+        date_req_layout = QHBoxLayout()
+        date_req_layout.setObjectName(u"date_req_layout")
+        date_req_label = QLabel(layoutWidget)
+        date_req_label.setObjectName(u"date_req_label")
+        date_req_label.setFont(font4)
+        date_req_label.setStyleSheet(u"border: none;")
+        date_req_label.setWordWrap(True)
+        date_req_label.setText("Date of request: ")
+        date_req_layout.addWidget(date_req_label)
+
+        date_req_display = QLabel(layoutWidget)
+        date_req_display.setObjectName(u"date_req_display")
+        date_req_display.setMinimumSize(QSize(390, 0))
+        date_req_display.setFont(font5)
+        date_req_display.setStyleSheet(u"border: none;")
+        date_req_display.setScaledContents(False)
+        date_req_display.setWordWrap(True)
+        date_req_display.setText(clinic_data.get("clinic_dor", "Unknown"))
+        date_req_layout.addWidget(date_req_display)
+
+
+        verticalLayout_2.addLayout(date_req_layout)
+
+        remove_clinic_btn = QPushButton(request_detail_outer)
+        remove_clinic_btn.setObjectName(u"remove_clinic_btn")
+        remove_clinic_btn.setGeometry(QRect(550, 790, 181, 41))
+        font7 = QFont()
+        font7.setFamily(u"Consolas")
+        font7.setPointSize(10)
+        font7.setBold(True)
+        font7.setWeight(75)
+        remove_clinic_btn.setFont(font7)
+        remove_clinic_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        
+        return request_detail_outer
+
+
+    def create_popup_widget(self, clinic_data):
+        clinic_details_frame = self.create_clinic_details_frame(clinic_data)
+        clinic_details_frame.setVisible(True)
+
+
+
+
