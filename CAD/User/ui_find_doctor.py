@@ -417,29 +417,29 @@ class FindDoctorWidget(QWidget):
         self.populate_doc_info()
 
     def updateSelectedSpecialization(self, index):
-        print("Activated signal received.")
+        #print("Activated signal received.")
         selected_text = self.speciality_dropdown.itemText(index)
-        print("Selected specialization text:", selected_text)
+        #print("Selected specialization text:", selected_text)
 
         if index == 0:
             self.selected_specialization = ""
         else:
             self.selected_specialization = selected_text
 
-        print("Updated selected specialization:", self.selected_specialization)
+        #print("Updated selected specialization:", self.selected_specialization)
         self.populate_doc_info()
         
     def updateSelectedDoctor(self, index):
-        print("Activated signal received.")
+        #print("Activated signal received.")
         selected_text = self.doc_dropdown.itemText(index)
-        print("Selected doctor text:", selected_text)
+        #print("Selected doctor text:", selected_text)
 
         if index == 0:
                 self.selected_doctor = ""
         else:
                 self.selected_doctor = selected_text
 
-        print("Updated selected doctor:", self.selected_doctor)
+        #print("Updated selected doctor:", self.selected_doctor)
         self.populate_doc_info()
 
     def create_doctor_frame(self, clinic, doctor):

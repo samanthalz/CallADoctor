@@ -267,30 +267,30 @@ class FindClinicWidget(QWidget):
     # retranslateUi
     
     def updateSelectedClinic(self, index):
-        print("Clinic dropdown activated signal received.")
+        #print("Clinic dropdown activated signal received.")
         selected_text = self.clinic_dropdown.itemText(index)
-        print("Selected clinic text:", selected_text)
+        #print("Selected clinic text:", selected_text)
 
         if index == 0:
                 self.selected_clinic = ""
         else:
                 self.selected_clinic = selected_text
 
-        print("Updated selected clinic:", self.selected_clinic)
+        #print("Updated selected clinic:", self.selected_clinic)
         self.populate_clinic_info()
 
 
     def updateSelectedState(self, index):
-        print("Activated signal received.")
+        #print("Activated signal received.")
         selected_text = self.state_dropdown.itemText(index)
-        print("Selected state text:", selected_text)
+        #print("Selected state text:", selected_text)
 
         if index == 0:
                 self.selected_state = ""
         else:
                 self.selected_state = selected_text
 
-        print("Updated selected state:", self.selected_state)
+        #print("Updated selected state:", self.selected_state)
         self.populate_clinic_info()
         
     
@@ -325,17 +325,17 @@ class FindClinicWidget(QWidget):
                 if isinstance(clinic, dict):
                         state = clinic.get("clinic_state", "")
                         name = clinic.get("clinic_name", "")
-                        print(f"State of clinic {i}: {state}, Name of clinic {i}: {name}")
+                        #print(f"State of clinic {i}: {state}, Name of clinic {i}: {name}")
 
                 if self.selected_state and state.lower() != self.selected_state.lower():
-                        print(f"Skipping clinic {i} frame due to state.")
+                        #print(f"Skipping clinic {i} frame due to state.")
                         continue
                 
                 if self.selected_clinic and name.lower() != self.selected_clinic.lower():
-                        print(f"Skipping clinic {i} frame due to clinic name.")
+                        #print(f"Skipping clinic {i} frame due to clinic name.")
                         continue
 
-                print(f"Adding clinic {i} to layout.")
+                #print(f"Adding clinic {i} to layout.")
                 clinic_outer = self.create_clinic_frame(clinic)
                 if clinic_outer:
                         visible_clinics.append(clinic_outer)
