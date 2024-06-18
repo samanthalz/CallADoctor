@@ -4,13 +4,16 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from connection import db
 
 class MakeApptWidget(QWidget):
     service_btn_clicked = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.clinic_data_list = []
         self.setupUi(self)
+        self.fetch_clinic_data()
     
     def setupUi(self, Form):
         if Form.objectName():
@@ -114,8 +117,6 @@ class MakeApptWidget(QWidget):
         self.clinic_layout.addWidget(self.clinic_label)
 
         self.clinic_dropdown = QComboBox(self.layoutWidget)
-        self.clinic_dropdown.addItem(u"Search or Select a Clinic")
-        self.clinic_dropdown.addItem("")
         self.clinic_dropdown.setObjectName(u"clinic_dropdown")
         self.clinic_dropdown.setMinimumSize(QSize(321, 41))
         self.clinic_dropdown.setMaximumSize(QSize(321, 41))
@@ -124,18 +125,20 @@ class MakeApptWidget(QWidget):
         font4.setPointSize(11)
         self.clinic_dropdown.setFont(font4)
         self.clinic_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-"border-radius: 5px; \n"
-"background-color: #FFFFFF; \n"
-"padding: 10px; \n"
-"font-family: Consolas;\n"
-"font-size: 11pt;")
-        self.clinic_dropdown.setEditable(True)
+        "border-radius: 5px; \n"
+        "background-color: #FFFFFF; \n"
+        "padding: 10px; \n"
+        "font-family: Consolas;\n"
+        "font-size: 11pt;")
+        self.clinic_dropdown.setEditable(False)
         self.clinic_dropdown.setIconSize(QSize(50, 50))
         self.clinic_dropdown.setFrame(True)
 
         self.clinic_layout.addWidget(self.clinic_dropdown)
-
-
+        
+        self.load_clinics()
+        self.clinic_dropdown.currentIndexChanged.connect(self.load_doctors)
+        
         self.verticalLayout.addLayout(self.clinic_layout)
 
         self.doc_layout = QVBoxLayout()
@@ -148,23 +151,38 @@ class MakeApptWidget(QWidget):
         self.doc_layout.addWidget(self.doc_label)
 
         self.doc_dropdown = QComboBox(self.layoutWidget)
-        self.doc_dropdown.addItem(u"Search or Select a Doctor")
-        self.doc_dropdown.addItem("")
         self.doc_dropdown.setObjectName(u"doc_dropdown")
         self.doc_dropdown.setMinimumSize(QSize(321, 41))
         self.doc_dropdown.setMaximumSize(QSize(321, 41))
         self.doc_dropdown.setFont(font4)
         self.doc_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-"border-radius: 5px; \n"
-"background-color: #FFFFFF; \n"
-"padding: 10px; \n"
-"font-family: Consolas;\n"
-"font-size: 11pt;")
-        self.doc_dropdown.setEditable(True)
+        "border-radius: 5px; \n"
+        "background-color: #FFFFFF; \n"
+        "padding: 10px; \n"
+        "font-family: Consolas;\n"
+        "font-size: 11pt;")
+        self.doc_dropdown.setEditable(False)
         self.doc_dropdown.setIconSize(QSize(50, 50))
         self.doc_dropdown.setFrame(True)
-
+        self.load_doctors()
         self.doc_layout.addWidget(self.doc_dropdown)
+
+        self.checkBox = QCheckBox(self.layoutWidget)
+        self.checkBox.setObjectName(u"checkBox")
+        self.checkBox.setMinimumSize(QSize(0, 40))
+        self.checkBox.setIconSize(QSize(50, 50))
+        self.checkBox.setText("Allow admin to reassign doctor")
+
+        self.doc_layout.addWidget(self.checkBox)
+        
+        self.checkBoxLabel = QLabel(self.layoutWidget)
+        self.checkBoxLabel.setObjectName(u"checkBoxLabel")
+        self.checkBoxLabel.setMinimumSize(QSize(0, 50))
+        self.checkBoxLabel.setMaximumSize(QSize(16777215, 50))
+        self.checkBoxLabel.setWordWrap(True)
+        self.checkBoxLabel.setText("Allow admin to reassign new doctor if chosen doctor is unavailable. If this is not checked, the appointment will be rejected if the chosen doctors is unavailable.")
+
+        self.doc_layout.addWidget(self.checkBoxLabel)
 
 
         self.verticalLayout.addLayout(self.doc_layout)
@@ -179,8 +197,6 @@ class MakeApptWidget(QWidget):
         self.time_layout.addWidget(self.time_label)
 
         self.time_dropdown = QComboBox(self.layoutWidget)
-        self.time_dropdown.addItem(u"Select")
-        self.time_dropdown.addItem("")
         self.time_dropdown.setObjectName(u"time_dropdown")
         self.time_dropdown.setMinimumSize(QSize(321, 41))
         self.time_dropdown.setMaximumSize(QSize(321, 41))
@@ -210,19 +226,17 @@ class MakeApptWidget(QWidget):
         self.speciality_layout.addWidget(self.speciality_label)
 
         self.speciality_dropdown = QComboBox(self.layoutWidget)
-        self.speciality_dropdown.addItem(u"Search or Select a Specialities")
-        self.speciality_dropdown.addItem("")
         self.speciality_dropdown.setObjectName(u"speciality_dropdown")
         self.speciality_dropdown.setMinimumSize(QSize(321, 41))
         self.speciality_dropdown.setMaximumSize(QSize(321, 41))
         self.speciality_dropdown.setFont(font4)
         self.speciality_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-"border-radius: 5px; \n"
-"background-color: #FFFFFF; \n"
-"padding: 10px; \n"
-"font-family: Consolas;\n"
-"font-size: 11pt;")
-        self.speciality_dropdown.setEditable(True)
+        "border-radius: 5px; \n"
+        "background-color: #FFFFFF; \n"
+        "padding: 10px; \n"
+        "font-family: Consolas;\n"
+        "font-size: 11pt;")
+        self.speciality_dropdown.setEditable(False)
         self.speciality_dropdown.setIconSize(QSize(50, 50))
         self.speciality_dropdown.setFrame(True)
 
@@ -241,19 +255,17 @@ class MakeApptWidget(QWidget):
         self.med_layout.addWidget(self.med_label)
 
         self.med_dropdown = QComboBox(self.layoutWidget)
-        self.med_dropdown.addItem(u"Select")
-        self.med_dropdown.addItem("")
         self.med_dropdown.setObjectName(u"med_dropdown")
         self.med_dropdown.setMinimumSize(QSize(321, 41))
         self.med_dropdown.setMaximumSize(QSize(405, 46))
         self.med_dropdown.setFont(font4)
         self.med_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-"border-radius: 5px; \n"
-"background-color: #FFFFFF; \n"
-"padding: 10px; \n"
-"font-family: Consolas;\n"
-"font-size: 11pt;")
-        self.med_dropdown.setEditable(True)
+        "border-radius: 5px; \n"
+        "background-color: #FFFFFF; \n"
+        "padding: 10px; \n"
+        "font-family: Consolas;\n"
+        "font-size: 11pt;")
+        self.med_dropdown.setEditable(False)
         self.med_dropdown.setIconSize(QSize(50, 50))
         self.med_dropdown.setFrame(True)
 
@@ -379,20 +391,20 @@ class MakeApptWidget(QWidget):
         self.label.setText(QCoreApplication.translate("Form", u"Choose a Date*", None))
         self.cancel_btn.setText(QCoreApplication.translate("Form", u"Cancel", None))
         self.makeapt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
+        
         self.clinic_label.setText(QCoreApplication.translate("Form", u"Select Clinic*", None))
-        self.clinic_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
+        #self.clinic_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
 
         self.doc_label.setText(QCoreApplication.translate("Form", u"Select Doctor*", None))
-        self.doc_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
 
         self.time_label.setText(QCoreApplication.translate("Form", u"Select Time*", None))
-        self.time_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
+        #self.time_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
 
         self.speciality_label.setText(QCoreApplication.translate("Form", u"Select Specialities*", None))
-        self.speciality_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
+        #self.speciality_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
 
         self.med_label.setText(QCoreApplication.translate("Form", u"Medical Concern / Requests*", None))
-        self.med_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
+        #self.med_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
 
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))
@@ -405,3 +417,56 @@ class MakeApptWidget(QWidget):
     def emitServiceBtn(self):
         # Emit the custom signal
         self.service_btn_clicked.emit()
+        
+    def fetch_clinic_data(self):
+        try:
+            clinics = db.child("clinic").get()
+            
+            if clinics.each():
+                self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
+                #print("Fetched Clinics Data:", self.clinic_data_list)  # Debug: Print the fetched data
+                #self.populate_clinic_info()
+            else:
+                print("No clinics data found.")
+        except Exception as e:
+            print(f"An error occurred while fetching data: {e}")
+            
+            
+            
+    def load_clinics(self):
+        try:
+                clinics_data = db.child("clinic").get()
+                clinic_names = [clinic.val().get("clinic_name", "") for clinic in clinics_data.each()]
+                clinic_names = sorted(set(clinic_names))  # Sort and remove duplicates
+                clinic_names.insert(0, "Search or Select a Clinic")  
+                self.clinic_dropdown.addItems(clinic_names)
+        except Exception as e:
+                print(f"An error occurred while loading clinics: {e}")
+                
+    def load_doctors(self):
+        selected_clinic = self.clinic_dropdown.currentText()
+
+        try:
+                doctors_data = db.child("clinic").get()
+                doctor_names = []
+
+                for clinic in doctors_data.each():
+                        if selected_clinic == "Search or Select a Clinic" or clinic.val().get("clinic_name", "") == selected_clinic:
+                                doctors = clinic.val().get("doctors", {})
+                                for doctor_id, doctor in doctors.items():
+                                        doctor_name = doctor.get("doctor_name", "")
+                                        if doctor_name:
+                                                doctor_names.append(doctor_name)
+                                if selected_clinic != "Search or Select a Clinic":
+                                        break  # No need to continue once the selected clinic is found
+
+                # Sort and remove duplicates
+                doctor_names = sorted(set(doctor_names))
+                doctor_names.insert(0, "Search or Select a Doctor")
+                self.doc_dropdown.clear()
+                self.doc_dropdown.addItems(doctor_names)
+        except Exception as e:
+                print(f"An error occurred while loading doctors: {e}")
+
+                
+                
