@@ -172,7 +172,6 @@ class Ui_MainWindow(QMainWindow):
 
     
     def set_user_id(self, user_id):  
-        #self.homeWidget.user_id = user_id
         self.homeWidget.set_user_id(user_id)
 
         

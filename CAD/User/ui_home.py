@@ -674,11 +674,9 @@ class HomeWidget(QWidget):
         current_date = today.strftime("%y%m%d")
         if appointment_data: 
             for appt_id, appt_info in appointment_data.items():
-                if appt_info.get('patient_ic') == self.user_id and appt_info.get('date') >= current_date:
+                if int(appt_info.get('patient_id')) == int(self.user_id) and int(appt_info.get('date')) >= int(current_date):
                     num_upcoming_appt += 1
                     upcoming_appt_info.append(appt_info)
-        print(num_upcoming_appt)
-        print(upcoming_appt_info)
         return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
     
     
@@ -698,9 +696,15 @@ class HomeWidget(QWidget):
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
-        # Assign values after usre_id is initialized
+        # Assign values after user_id is initialized
         self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
-        # assign the text num_upcoming appt in the QLabel 
+        # update num_appt_number_label with the value
+        self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
+
+
+    def upcoming_appt_ui(self):
+        # to set the text and display upcoming appointments widgets
+        pass
 
 
 
