@@ -6,7 +6,6 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 from connection import db
 
-
 class FindDoctorWidget(QWidget):
     service_btn_clicked = pyqtSignal()
 
