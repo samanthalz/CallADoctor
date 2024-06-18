@@ -47,6 +47,7 @@ class Ui_MainWindow(QMainWindow):
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
+        #self.makeApptWidget.redirect_appt.connect(self.showAppointmetWidget) to be modified
 
         self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
         
@@ -146,11 +147,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showNewPassword(self):
         self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
-
-    @pyqtSlot()
-    def showForgotPassword(self):
-        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)  
-
+        
     @pyqtSlot()
     def showFindClinicWidget(self):
         self.stackedWidget.setCurrentWidget(self.findClinicWidget)
@@ -178,6 +175,7 @@ class Ui_MainWindow(QMainWindow):
     
     def set_user_id(self, user_id):  
         self.homeWidget.set_user_id(user_id)
+        self.makeApptWidget.set_user_id(user_id)
 
         
         
