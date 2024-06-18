@@ -7,7 +7,6 @@ from User.forgotpw_newpw import ForgotPw_newpwWidget
 from User.forgotpw_verification import ForgotPw_verificationWidget
 from User.ui_home import HomeWidget
 from login import LoginWidget
-#from logout import LogoutWidget
 from register import RegisterWidget
 from User.ui_find_clinic import FindClinicWidget
 from User.ui_find_clinic_copy import ViewClinicWidget
@@ -31,8 +30,6 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
         self.loginWidget.login_successful.connect(self.handle_login_success)
         self.loginWidget.user_id.connect(self.set_user_id)
-
-        #self.logoutWidget.redirecttologin.connect(self.showLoginWidget)
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
         self.registerWidget.registration_successful.connect(self.showLoginWidget)
@@ -40,28 +37,35 @@ class Ui_MainWindow(QMainWindow):
         self.servicesWidget.fad_btn_clicked.connect(self.showFindDocWidget)
         self.servicesWidget.fac_btn_clicked.connect(self.showFindClinicWidget)
         self.servicesWidget.makeAppt_btn_clicked.connect(self.showMakeApptWidget)
+        self.servicesWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.homeWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.homeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.findClinicWidget.service_btn_clicked.connect(self.showServicesWidget)
+        self.findClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.findDocWidget.service_btn_clicked.connect(self.showServicesWidget)
+        self.findDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
+        self.makeApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         #self.makeApptWidget.redirect_appt.connect(self.showAppointmetWidget) to be modified
 
         self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
         
         self.paHomeWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paHomeWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
+        self.paHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.paFeedbackInboxWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paFeedbackInboxWidget.home_btn_clicked.connect(self.showPAHomeWidget)
+        self.paFeedbackInboxWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.paViewClinicWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
         self.paViewClinicWidget.home_btn_clicked.connect(self.showPAHomeWidget)
+        self.paViewClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
 
     def setupUi(self, MainWindow):
@@ -78,7 +82,6 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.loginWidget = LoginWidget()
-        #self.logoutWidget = LogoutWidget()
         self.forgotPwWidget = ForgotPwWidget()
         self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
         self.forgotPw_newpwWidget = ForgotPw_newpwWidget()
@@ -96,7 +99,6 @@ class Ui_MainWindow(QMainWindow):
          
 
         self.stackedWidget.addWidget(self.loginWidget)
-        #self.stackedWidget.addWidget(self.logoutWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.forgotPw_newpwWidget)
         self.stackedWidget.addWidget(self.forgotPw_verificationWidget)
@@ -179,11 +181,7 @@ class Ui_MainWindow(QMainWindow):
     def showPAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
     
-    @pyqtSlot()
-    def showLogoutWidget(self):
-        #self.stackedWidget.setCurrentWidget(self.logoutWidget)
-        pass
-    
+
     def set_user_id(self, user_id):  
         self.homeWidget.set_user_id(user_id)
         self.makeApptWidget.set_user_id(user_id)
