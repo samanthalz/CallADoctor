@@ -2,7 +2,7 @@ from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
     QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot, QDate)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
+    QRadialGradient, QTextCharFormat)
 from PyQt5.QtWidgets import *
 from datetime import datetime, timedelta
 from connection import db
@@ -86,7 +86,7 @@ class MakeApptWidget(QWidget):
         self.calendarWidget.setStyleSheet(u"color: black; ")
         self.calendarWidget.setGridVisible(True)
         self.calendarWidget.setNavigationBarVisible(True)
-        self.calendarWidget.setDateEditEnabled(True)
+        self.calendarWidget.setDateEditEnabled(False)
         
         # Calculate tomorrow's date
         tomorrow = QDate.currentDate().addDays(1)
@@ -99,16 +99,18 @@ class MakeApptWidget(QWidget):
         self.calendarWidget.setMaximumDate(six_months_later)
         
         # Iterate through the dates and disable those outside the range
-        date = tomorrow
-        while date <= six_months_later:
-                if date < QDate.currentDate() or date > six_months_later:
-                        self.calendarWidget.setDateTextFormat(date, self.calendarWidget.dateTextFormat(date).setForeground(Qt.gray))
-                date = date.addDays(1)
+        date = self.calendarWidget.minimumDate()
+        while date <= self.calendarWidget.maximumDate():
+                # If the date is before tomorrow, change its foreground color to gray
+                if date < tomorrow:
+                        text_format = self.calendarWidget.dateTextFormat(date)
+                        text_format.setForeground(Qt.gray)
+                        self.calendarWidget.setDateTextFormat(date, text_format)
 
         # Apply a style sheet to visually indicate disabled dates
         self.calendarWidget.setStyleSheet(
         """
-        QCalendarWidget QAbstractItemView:disabled {
+        QAbstractItemView:disabled {
                 color: gray;
         }
         """
