@@ -15,8 +15,10 @@ class HomeWidget(QWidget):
         
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setupUi(self)
         self.user_id = 0
+        self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
+        self.setupUi(self)
+        
         
     def setupUi(self, Form):
         if Form.objectName():
@@ -608,7 +610,7 @@ class HomeWidget(QWidget):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.num_upcoming_appt_label.setText(QCoreApplication.translate("Form", u"Number of upcoming appointments :", None))
-        self.num_appt_number_label.setText(QCoreApplication.translate("Form", u"2", None))
+        self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
         self.upcoming_label.setText(QCoreApplication.translate("Form", u"Upcoming", None))
         self.clinic_name_label.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
         self.clinic_logo_label.setText(QCoreApplication.translate("Form", u"A", None))
@@ -668,19 +670,17 @@ class HomeWidget(QWidget):
         appointment_data = db.child("appointment").get().val()
         num_upcoming_appt = 0 # Initialize as 0
         upcoming_appt_info = []
-        user_id = 111111111111 # placeholder user id
         today = date.today()
         current_date = today.strftime("%y%m%d")
         if appointment_data: 
             for appt_id, appt_info in appointment_data.items():
-                if appt_info.get('patient_id') == user_id and appt_info.get('date') >= current_date:
+                if appt_info.get('patient_ic') == self.user_id and appt_info.get('date') >= current_date:
                     num_upcoming_appt += 1
                     upcoming_appt_info.append(appt_info)
-        return num_upcoming_appt, appt_info # appt info is a list of dictionaries
+        print(num_upcoming_appt)
+        print(upcoming_appt_info)
+        return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
     
-    def get_num_upcoming_appt(self):
-        num_upcoming_appt, _ = self.get_upcoming_appt_data()
-        return num_upcoming_appt
     
     def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
         day = date_str[-2:]
@@ -698,10 +698,10 @@ class HomeWidget(QWidget):
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
-        print('Test')
-        print(self.user_id)
+        # Assign values after usre_id is initialized
+        self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
+        # assign the text num_upcoming appt in the QLabel 
 
 
-if __name__ == '__main__': # for testing
-    pass
+
         
