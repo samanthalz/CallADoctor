@@ -7,8 +7,35 @@ from PyQt5.QtWidgets import *
 from datetime import datetime, timedelta
 from connection import db
 
+class CustomCalendarWidget(QCalendarWidget):
+        
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        # Set the minimum and maximum selectable dates
+        self.tomorrow = QDate.currentDate().addDays(1)
+        self.setMinimumDate(self.tomorrow)
+        self.setMaximumDate(self.tomorrow.addMonths(6))
+        self.custom_font = QFont("Consolas", 11)
+
+    def paintCell(self, painter, rect, date):
+        # Clear the cell
+        painter.fillRect(rect, self.palette().base())
+
+        # Set custom font
+        painter.setFont(self.custom_font)
+
+        # Set the pen color based on the date
+        if date < self.tomorrow:
+            painter.setPen(QColor(Qt.gray))
+        else:
+            painter.setPen(QColor(Qt.black))
+
+        # Draw the date
+        painter.drawText(rect, Qt.AlignCenter, str(date.day()))
+
 class MakeApptWidget(QWidget):
     service_btn_clicked = pyqtSignal()
+    cancel_btn_clicked = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -81,37 +108,14 @@ class MakeApptWidget(QWidget):
         font2.setWeight(75)
         self.label.setFont(font2)
         
-        self.calendarWidget = QCalendarWidget(self.whitebg)
+        self.calendarWidget = CustomCalendarWidget(self.whitebg)
         self.calendarWidget.setObjectName(u"calendarWidget")
         self.calendarWidget.setGeometry(QRect(690, 250, 1021, 631))
-        self.calendarWidget.setStyleSheet(u"color: black; ")
+        #self.calendarWidget.setStyleSheet(u"color: black; ")
         self.calendarWidget.setGridVisible(True)
         self.calendarWidget.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
         self.calendarWidget.setNavigationBarVisible(True)
         self.calendarWidget.setDateEditEnabled(False)
-        
-        # Calculate tomorrow's date
-        tomorrow = QDate.currentDate().addDays(1)
-
-        # Calculate the date 6 months from tomorrow
-        six_months_later = tomorrow.addMonths(6)
-
-        # Set the minimum and maximum selectable dates
-        self.calendarWidget.setMinimumDate(tomorrow)
-        self.calendarWidget.setMaximumDate(six_months_later)
-        
-        # Iterate through the dates and disable those outside the range
-        date = self.calendarWidget.minimumDate()
-        while date <= self.calendarWidget.maximumDate():
-                # If the date is before tomorrow, change its foreground color to gray
-                if date < tomorrow:
-                        text_format = self.calendarWidget.dateTextFormat(date)
-                        font = text_format.font()
-                        font.setItalic(True)
-                        text_format.setFont(font)
-                        self.calendarWidget.setDateTextFormat(date, text_format)
-                date = date.addDays(1)
-
         
         self.cancel_btn = QPushButton(self.whitebg)
         self.cancel_btn.setObjectName(u"cancel_btn")
@@ -121,6 +125,8 @@ class MakeApptWidget(QWidget):
         font3.setPointSize(10)
         self.cancel_btn.setFont(font3)
         self.cancel_btn.setStyleSheet(u"background-color: \"#D3D3D3\"; border-radius: 10px;")
+        self.cancel_btn.clicked.connect(self.emitCancelBtn)
+        
         self.makeapt_btn = QPushButton(self.whitebg)
         self.makeapt_btn.setObjectName(u"makeapt_btn")
         self.makeapt_btn.setGeometry(QRect(1360, 940, 321, 50))
@@ -203,7 +209,8 @@ class MakeApptWidget(QWidget):
         self.checkBox.setMinimumSize(QSize(0, 40))
         self.checkBox.setIconSize(QSize(50, 50))
         self.checkBox.setText("Allow admin to reassign doctor")
-
+        self.checkBox.setFont(font4)
+        
         self.doc_layout.addWidget(self.checkBox)
         
         self.checkBoxLabel = QLabel(self.layoutWidget)
@@ -211,8 +218,11 @@ class MakeApptWidget(QWidget):
         self.checkBoxLabel.setMinimumSize(QSize(0, 50))
         self.checkBoxLabel.setMaximumSize(QSize(16777215, 50))
         self.checkBoxLabel.setWordWrap(True)
-        self.checkBoxLabel.setText("Allow admin to reassign new doctor if chosen doctor is unavailable. If this is not checked, the appointment will be rejected if the chosen doctors is unavailable.")
-
+        self.checkBoxLabel.setText("Allow admin to reassign new doctor if chosen doctor is unavailable. If this is not checked, the appointment will be rejected if the chosen doctor is unavailable.")
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(9)
+        self.checkBoxLabel.setFont(font3)
         self.doc_layout.addWidget(self.checkBoxLabel)
 
 
@@ -355,8 +365,7 @@ class MakeApptWidget(QWidget):
         sizePolicy.setHeightForWidth(self.services_navigation.sizePolicy().hasHeightForWidth())
         self.services_navigation.setSizePolicy(sizePolicy)
         self.services_navigation.setFont(font5)
-        self.services_navigation.setStyleSheet(u"border: none; \n"
-"color: white;")
+        self.services_navigation.setStyleSheet(u"border: none; \n""color: white;")
         icon3 = QIcon()
         icon3.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.services_navigation.setIcon(icon3)
@@ -372,8 +381,7 @@ class MakeApptWidget(QWidget):
         sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
         self.settings_navigation.setSizePolicy(sizePolicy)
         self.settings_navigation.setFont(font5)
-        self.settings_navigation.setStyleSheet(u"border: none; \n"
-"color: white;")
+        self.settings_navigation.setStyleSheet(u"border: none; \n""color: white;")
         icon4 = QIcon()
         icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon4)
@@ -432,6 +440,11 @@ class MakeApptWidget(QWidget):
         # Emit the custom signal
         self.service_btn_clicked.emit()
         
+    @pyqtSlot()
+    def emitCancelBtn(self):
+        # Emit the custom signal
+        self.cancel_btn_clicked.emit()
+        
     def fetch_clinic_data(self):
         try:
             clinics = db.child("clinic").get()
@@ -443,9 +456,7 @@ class MakeApptWidget(QWidget):
             else:
                 print("No clinics data found.")
         except Exception as e:
-            print(f"An error occurred while fetching data: {e}")
-            
-            
+            print(f"An error occurred while fetching data: {e}")    
             
     def load_clinics(self):
         try:
