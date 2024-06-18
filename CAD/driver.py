@@ -139,6 +139,8 @@ class Ui_MainWindow(QMainWindow):
         
     @pyqtSlot()
     def showLoginWidget(self):
+        self.loginWidget.ic_input.clear()
+        self.loginWidget.password_input.clear()
         self.stackedWidget.setCurrentWidget(self.loginWidget)
 
     @pyqtSlot()
