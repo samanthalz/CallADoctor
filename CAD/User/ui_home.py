@@ -16,6 +16,7 @@ class HomeWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self.user_id = 0
         
     def setupUi(self, Form):
         if Form.objectName():

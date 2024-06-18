@@ -29,6 +29,7 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
         self.loginWidget.login_successful.connect(self.handle_login_success)
+        self.loginWidget.user_id.connect(self.set_user_id)
 
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
@@ -168,6 +169,10 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showPAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
+
+    @pyqtSlot()
+    def set_user_id(self, user_id):
+        self.homeWidget.set_user_id(user_id)
         
         
         

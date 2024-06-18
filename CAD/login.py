@@ -9,6 +9,7 @@ from connection import db
 
 class LoginWidget(QWidget):
     login_successful = pyqtSignal(int)
+    user_id = pyqtSignal(str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -205,6 +206,7 @@ class LoginWidget(QWidget):
                         rights = admin_data.get('rights', 4)
                         self.showMessageBox('Info', 'Admin login successful')
                         self.login_successful.emit(rights)
+                        self.user_id.emit(ic)
                         return
             else:
                 self.showMessageBox('Error', 'No admin data found')
