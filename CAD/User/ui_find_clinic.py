@@ -17,7 +17,6 @@ class FindClinicWidget(QWidget):
         self.setupUi(self)
         self.fetch_clinic_data()
         
-        
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")

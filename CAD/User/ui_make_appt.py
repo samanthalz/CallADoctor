@@ -15,6 +15,7 @@ class MakeApptWidget(QWidget):
         self.clinic_data_list = []
         self.setupUi(self)
         self.fetch_clinic_data()
+        
     
     def setupUi(self, Form):
         if Form.objectName():
@@ -85,6 +86,7 @@ class MakeApptWidget(QWidget):
         self.calendarWidget.setGeometry(QRect(690, 250, 1021, 631))
         self.calendarWidget.setStyleSheet(u"color: black; ")
         self.calendarWidget.setGridVisible(True)
+        self.calendarWidget.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
         self.calendarWidget.setNavigationBarVisible(True)
         self.calendarWidget.setDateEditEnabled(False)
         
@@ -104,18 +106,12 @@ class MakeApptWidget(QWidget):
                 # If the date is before tomorrow, change its foreground color to gray
                 if date < tomorrow:
                         text_format = self.calendarWidget.dateTextFormat(date)
-                        text_format.setForeground(Qt.gray)
+                        font = text_format.font()
+                        font.setItalic(True)
+                        text_format.setFont(font)
                         self.calendarWidget.setDateTextFormat(date, text_format)
+                date = date.addDays(1)
 
-        # Apply a style sheet to visually indicate disabled dates
-        self.calendarWidget.setStyleSheet(
-        """
-        QAbstractItemView:disabled {
-                color: gray;
-        }
-        """
-        )
-                
         
         self.cancel_btn = QPushButton(self.whitebg)
         self.cancel_btn.setObjectName(u"cancel_btn")
