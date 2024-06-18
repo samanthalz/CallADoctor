@@ -662,18 +662,37 @@ class HomeWidget(QWidget):
         # Emit the custom signal
         self.service_btn_clicked.emit()
 
-
-    def get_num_appt():
+    
+    def get_upcoming_appt_data(self):
         appointment_data = db.child("appointment").get().val()
         num_upcoming_appt = 0 # Initialize as 0
+        upcoming_appt_info = []
         user_id = 111111111111 # placeholder user id
         today = date.today()
         current_date = today.strftime("%d%m%y")
         if appointment_data: 
-            for appt_id, appt_info in appointment_data.each():
+            for appt_id, appt_info in appointment_data.items():
                 if appt_info.get('patient_id') == user_id and appt_info.get('date') >= current_date:
                     num_upcoming_appt += 1
+                    upcoming_appt_info.append(appt_info)
+        return num_upcoming_appt, appt_info # appt info is a list of dictionaries
+    
+    def get_num_upcoming_appt(self):
+        num_upcoming_appt, _ = self.get_upcoming_appt_data()
         return num_upcoming_appt
+    
+    def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info
+        day = date_str[:2]
+        month = date_str[2:4]
+        year = '20' + date_str[-2:]
+
+        monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        
+        month = monthList[int(month) - 1]
+
+        date_str = day + " " + month + " " + year
+
+        return date_str
 
 
 if __name__ == '__main__': # for testing
