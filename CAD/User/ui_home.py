@@ -698,21 +698,7 @@ class HomeWidget(QWidget):
         self.user_id = user_id
         # Assign values after user_id is initialized
         self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
-        # update num_appt_number_label with the value
         self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
-
-
-    def upcoming_appt_ui(self):
-        for appt_details in self.upcoming_appt_info: # appt_details = dictionary
-            # {'clinic_id': 'clinic1', 'date': '240620', 'doctor_id': 'doctor1', 'patient_id': 111111111111, 'record_id': 1, 'time': '1310'}
-            clinic_id = appt_details['clinic_id']
-            date = appt_details['date']
-            doctor_id = appt_details['doctor_id']
-            patient_id = appt_details['patient_id']
-            record_id = appt_details['record_id']
-            
-        # to set the text and display upcoming appointments widgets
-        pass
 
 
 
