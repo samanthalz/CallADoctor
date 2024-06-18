@@ -5,6 +5,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient, QTextCharFormat)
 from PyQt5.QtWidgets import *
 from datetime import datetime, timedelta
+import re
 from connection import db
 
 class CustomCalendarWidget(QCalendarWidget):
@@ -587,16 +588,20 @@ class MakeApptWidget(QWidget):
                                 if doctor.get("doctor_name", "") == selected_doctor:
                                         specialization = doctor.get("specialization", "")
                                         if specialization:
-                                                specialties.append(specialization)
+                                                # Split multiple specializations by comma and 'and'
+                                                for spec in re.split(',| and ', specialization):
+                                                        if spec.strip():
+                                                                specialties.append(spec.strip())
                                         break  # No need to continue once the selected doctor is found
 
-                # Sort and remove duplicates
+                # Remove duplicates and sort
                 specialties = sorted(set(specialties))
                 specialties.insert(0, "Select a Specialty")
                 self.speciality_dropdown.clear()
                 self.speciality_dropdown.addItems(specialties)
         except Exception as e:
                 print(f"An error occurred while loading specialties: {e}")
+
 
     def get_selected_data(self):
         clinic = self.clinic_dropdown.currentText()
