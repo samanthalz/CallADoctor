@@ -669,7 +669,7 @@ class HomeWidget(QWidget):
         upcoming_appt_info = []
         user_id = 111111111111 # placeholder user id
         today = date.today()
-        current_date = today.strftime("%d%m%y")
+        current_date = today.strftime("%y%m%d")
         if appointment_data: 
             for appt_id, appt_info in appointment_data.items():
                 if appt_info.get('patient_id') == user_id and appt_info.get('date') >= current_date:
@@ -681,10 +681,10 @@ class HomeWidget(QWidget):
         num_upcoming_appt, _ = self.get_upcoming_appt_data()
         return num_upcoming_appt
     
-    def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info
-        day = date_str[:2]
+    def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
+        day = date_str[-2:]
         month = date_str[2:4]
-        year = '20' + date_str[-2:]
+        year = '20' + date_str[:2] 
 
         monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         
@@ -693,6 +693,10 @@ class HomeWidget(QWidget):
         date_str = day + " " + month + " " + year
 
         return date_str
+    
+
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
 
 
 if __name__ == '__main__': # for testing
