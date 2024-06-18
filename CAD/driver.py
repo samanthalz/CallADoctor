@@ -46,6 +46,7 @@ class Ui_MainWindow(QMainWindow):
         self.findDocWidget.service_btn_clicked.connect(self.showServicesWidget)
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
+        self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
 
         self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
         
