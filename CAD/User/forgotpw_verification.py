@@ -1,10 +1,6 @@
-from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt,pyqtSignal, pyqtSlot)
-from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
-from PyQt5.QtWidgets import *
-
+from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, Qt, pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QFont, QPixmap
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QSizePolicy, QSpacerItem, QFrame
 
 class ForgotPw_verificationWidget(QWidget):
     continue_successful = pyqtSignal()
@@ -12,8 +8,12 @@ class ForgotPw_verificationWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        
+
     def setupUi(self, Form):
+        # Setup UI components
+        self.continueButton = QPushButton('Continue', self)
+        self.continueButton.clicked.connect(self.emitContinue)  # Ensure this connects to emitContinue
+
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1938, 1098)
@@ -55,7 +55,7 @@ class ForgotPw_verificationWidget(QWidget):
         font.setWeight(75)
         self.verification.setFont(font)
         self.verification.setStyleSheet(u"color:rgb(21, 48, 96)")
-        self.verification.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
+        self.verification.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
 
         self.verticalLayout.addWidget(self.verification)
 
@@ -110,7 +110,6 @@ class ForgotPw_verificationWidget(QWidget):
 
         self.horizontalLayout_2.addWidget(self.lineEdit_4)
 
-
         self.verticalLayout.addWidget(self.noboxline)
 
         self.verticalSpacer_5 = QSpacerItem(14, 44, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -125,8 +124,8 @@ class ForgotPw_verificationWidget(QWidget):
         font2.setPointSize(10)
         self.Continuebutton.setFont(font2)
         self.Continuebutton.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
-"border-radius: 10px;\n"
-"border: none")
+                                          "border-radius: 10px;\n"
+                                          "border: none")
         self.Continuebutton.clicked.connect(self.emitContinue)
 
         self.verticalLayout.addWidget(self.Continuebutton)
@@ -152,7 +151,7 @@ class ForgotPw_verificationWidget(QWidget):
         self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(540, 270, 681, 531))
         self.label_7.setStyleSheet(u"border: 2px solid #B6D0E2;\n"
-"border-radius: 10px;")
+                                   "border-radius: 10px;")
         self.Logo.raise_()
         self.label_7.raise_()
         self.widget.raise_()
@@ -166,11 +165,9 @@ class ForgotPw_verificationWidget(QWidget):
 
         self.horizontalLayout.addWidget(self.bg)
 
-
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
-    # setupUi
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
@@ -181,13 +178,9 @@ class ForgotPw_verificationWidget(QWidget):
         self.no1.setInputMask(QCoreApplication.translate("Form", u"9", None))
         self.lineEdit_4.setInputMask(QCoreApplication.translate("Form", u"9", None))
         self.Continuebutton.setText(QCoreApplication.translate("Form", u"Continue", None))
-        self.text2.setText(QCoreApplication.translate("Form", u"If you didn't receive a code ! Resend", None))
-        self.Logo.setText("")
-        self.label_7.setText("")
-    # retranslateUi
+        self.text2.setText(QCoreApplication.translate("Form", u"If you didn't receive a code! Resend", None))
 
     @pyqtSlot()
     def emitContinue(self):
         # Emit the custom signal
         self.continue_successful.emit()
-

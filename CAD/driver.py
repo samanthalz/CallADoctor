@@ -145,7 +145,11 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showNewPassword(self):
         self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
-        
+
+    @pyqtSlot()
+    def showForgotPassword(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)  
+
     @pyqtSlot()
     def showFindClinicWidget(self):
         self.stackedWidget.setCurrentWidget(self.findClinicWidget)
