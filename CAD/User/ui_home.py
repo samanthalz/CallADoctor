@@ -6,6 +6,10 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 
 
+from connection import db
+from datetime import date
+
+
 class HomeWidget(QWidget):
     service_btn_clicked = pyqtSignal()
         
@@ -657,3 +661,30 @@ class HomeWidget(QWidget):
     def emitServiceBtn(self):
         # Emit the custom signal
         self.service_btn_clicked.emit()
+
+
+    def get_num_appt():
+        appointment_data = db.child("appointment").get()
+        num_upcoming_appt = 0 # Initialize as 0
+        user_id = 111111111111
+        today = date.today()
+        current_date = today.strftime("%d%m%y")
+        if appointment_data: 
+            for appt_id, appt_info in appointment_data.each():
+                if appt_info.get('patient_id') == user_id and appt_info.get('date') >= current_date:
+                    num_upcoming_appt += 1
+        return num_upcoming_appt
+
+
+# if __name__ == '__main__': # for testing
+#     appointment_data = db.child("appointment").get()
+#     num_upcoming_appt = 0 # Initialize as 0
+#     user_id = 111111111111
+#     today = date.today()
+#     current_date = today.strftime("%d%m%y")
+#     if appointment_data: 
+#         for appt_id, appt_info in appointment_data.each():
+#             if appt_info.get('patient_id') == user_id and appt_info.get('date') >= current_date:
+#                 num_upcoming_appt += 1
+        
+#     print(num_upcoming_appt)
