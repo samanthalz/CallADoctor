@@ -698,7 +698,13 @@ class HomeWidget(QWidget):
         self.user_id = user_id
         # Assign values after user_id is initialized
         self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
+        # update num_appt_number_label with the value
         self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
+
+
+    def upcoming_appt_ui(self):
+        # to set the text and display upcoming appointments widgets
+        pass
 
 
 
