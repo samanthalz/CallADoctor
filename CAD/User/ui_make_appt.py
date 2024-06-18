@@ -1,9 +1,10 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot, QDate)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from datetime import datetime, timedelta
 from connection import db
 
 class MakeApptWidget(QWidget):
@@ -78,6 +79,7 @@ class MakeApptWidget(QWidget):
         font2.setBold(True)
         font2.setWeight(75)
         self.label.setFont(font2)
+        
         self.calendarWidget = QCalendarWidget(self.whitebg)
         self.calendarWidget.setObjectName(u"calendarWidget")
         self.calendarWidget.setGeometry(QRect(690, 250, 1021, 631))
@@ -85,6 +87,34 @@ class MakeApptWidget(QWidget):
         self.calendarWidget.setGridVisible(True)
         self.calendarWidget.setNavigationBarVisible(True)
         self.calendarWidget.setDateEditEnabled(True)
+        
+        # Calculate tomorrow's date
+        tomorrow = QDate.currentDate().addDays(1)
+
+        # Calculate the date 6 months from tomorrow
+        six_months_later = tomorrow.addMonths(6)
+
+        # Set the minimum and maximum selectable dates
+        self.calendarWidget.setMinimumDate(tomorrow)
+        self.calendarWidget.setMaximumDate(six_months_later)
+        
+        # Iterate through the dates and disable those outside the range
+        date = tomorrow
+        while date <= six_months_later:
+                if date < QDate.currentDate() or date > six_months_later:
+                        self.calendarWidget.setDateTextFormat(date, self.calendarWidget.dateTextFormat(date).setForeground(Qt.gray))
+                date = date.addDays(1)
+
+        # Apply a style sheet to visually indicate disabled dates
+        self.calendarWidget.setStyleSheet(
+        """
+        QCalendarWidget QAbstractItemView:disabled {
+                color: gray;
+        }
+        """
+        )
+                
+        
         self.cancel_btn = QPushButton(self.whitebg)
         self.cancel_btn.setObjectName(u"cancel_btn")
         self.cancel_btn.setGeometry(QRect(950, 940, 321, 50))
@@ -138,7 +168,9 @@ class MakeApptWidget(QWidget):
         
         self.load_clinics()
         self.clinic_dropdown.currentIndexChanged.connect(self.load_doctors)
+        self.clinic_dropdown.currentIndexChanged.connect(self.load_time_slots)
         
+
         self.verticalLayout.addLayout(self.clinic_layout)
 
         self.doc_layout = QVBoxLayout()
@@ -165,6 +197,7 @@ class MakeApptWidget(QWidget):
         self.doc_dropdown.setIconSize(QSize(50, 50))
         self.doc_dropdown.setFrame(True)
         self.load_doctors()
+        self.doc_dropdown.currentIndexChanged.connect(self.load_specialties)
         self.doc_layout.addWidget(self.doc_dropdown)
 
         self.checkBox = QCheckBox(self.layoutWidget)
@@ -202,17 +235,17 @@ class MakeApptWidget(QWidget):
         self.time_dropdown.setMaximumSize(QSize(321, 41))
         self.time_dropdown.setFont(font4)
         self.time_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-"border-radius: 5px; \n"
-"background-color: #FFFFFF; \n"
-"padding: 10px; \n"
-"font-family: Consolas;\n"
-"font-size: 11pt;")
+        "border-radius: 5px; \n"
+        "background-color: #FFFFFF; \n"
+        "padding: 10px; \n"
+        "font-family: Consolas;\n"
+        "font-size: 11pt;")
         self.time_dropdown.setEditable(False)
         self.time_dropdown.setIconSize(QSize(50, 50))
         self.time_dropdown.setFrame(True)
 
         self.time_layout.addWidget(self.time_dropdown)
-
+        self.load_time_slots()
 
         self.verticalLayout.addLayout(self.time_layout)
 
@@ -239,7 +272,7 @@ class MakeApptWidget(QWidget):
         self.speciality_dropdown.setEditable(False)
         self.speciality_dropdown.setIconSize(QSize(50, 50))
         self.speciality_dropdown.setFrame(True)
-
+        self.load_specialties()
         self.speciality_layout.addWidget(self.speciality_dropdown)
 
 
@@ -254,22 +287,13 @@ class MakeApptWidget(QWidget):
 
         self.med_layout.addWidget(self.med_label)
 
-        self.med_dropdown = QComboBox(self.layoutWidget)
-        self.med_dropdown.setObjectName(u"med_dropdown")
-        self.med_dropdown.setMinimumSize(QSize(321, 41))
-        self.med_dropdown.setMaximumSize(QSize(405, 46))
-        self.med_dropdown.setFont(font4)
-        self.med_dropdown.setStyleSheet(u"border: 1px solid #000000;\n"
-        "border-radius: 5px; \n"
-        "background-color: #FFFFFF; \n"
-        "padding: 10px; \n"
-        "font-family: Consolas;\n"
-        "font-size: 11pt;")
-        self.med_dropdown.setEditable(False)
-        self.med_dropdown.setIconSize(QSize(50, 50))
-        self.med_dropdown.setFrame(True)
-
-        self.med_layout.addWidget(self.med_dropdown)
+        self.med_input = QLineEdit(self.layoutWidget)
+        self.med_input.setObjectName(u"med_input")
+        self.med_input.setMinimumSize(QSize(0, 60))
+        self.med_input.setMaximumSize(QSize(16777215, 120))
+        self.med_input.setStyleSheet(u"border: 1px solid; border-radius: 0;")
+        self.med_input.setPlaceholderText("Type here...")
+        self.med_layout.addWidget(self.med_input)
 
 
         self.verticalLayout.addLayout(self.med_layout)
@@ -393,18 +417,10 @@ class MakeApptWidget(QWidget):
         self.makeapt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
         
         self.clinic_label.setText(QCoreApplication.translate("Form", u"Select Clinic*", None))
-        #self.clinic_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
-
         self.doc_label.setText(QCoreApplication.translate("Form", u"Select Doctor*", None))
-
         self.time_label.setText(QCoreApplication.translate("Form", u"Select Time*", None))
-        #self.time_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
-
         self.speciality_label.setText(QCoreApplication.translate("Form", u"Select Specialities*", None))
-        #self.speciality_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
-
         self.med_label.setText(QCoreApplication.translate("Form", u"Medical Concern / Requests*", None))
-        #self.med_dropdown.setItemText(1, QCoreApplication.translate("Form", u"test", None))
 
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))
@@ -467,6 +483,72 @@ class MakeApptWidget(QWidget):
                 self.doc_dropdown.addItems(doctor_names)
         except Exception as e:
                 print(f"An error occurred while loading doctors: {e}")
+                
+    def load_time_slots(self):
+        selected_clinic = self.clinic_dropdown.currentText()
 
+        if selected_clinic == "Search or Select a Clinic":
+                self.time_dropdown.clear()
+                self.time_dropdown.addItem("Select a Time Slot")
+                return
+
+        try:
+                clinics_data = db.child("clinic").get()
+                clinic_operating_hours = None
+
+                for clinic in clinics_data.each():
+                        if clinic.val().get("clinic_name", "") == selected_clinic:
+                                clinic_operating_hours = clinic.val().get("clinic_operating_hr", "")
+                                break
+
+                if not clinic_operating_hours:
+                        raise ValueError(f"No operating hours found for clinic: {selected_clinic}")
+
+                # Parse the operating hours
+                start_time_str, end_time_str = clinic_operating_hours.lower().replace(' ', '').split('to')
+                start_time = datetime.strptime(start_time_str, '%I%p')
+                end_time = datetime.strptime(end_time_str, '%I%p')
                 
-                
+                # Generate the list of time slots with one-hour intervals
+                time_slots = []
+                current_time = start_time
+                while current_time <= end_time:
+                        time_slots.append(current_time.strftime('%I:%M %p').lower())
+                        current_time += timedelta(hours=1)
+
+                self.time_dropdown.clear()
+                self.time_dropdown.addItems(time_slots)
+        except Exception as e:
+                print(f"An error occurred while loading time slots: {e}")
+
+    def load_specialties(self):
+        selected_doctor = self.doc_dropdown.currentText()
+
+        if selected_doctor == "Search or Select a Doctor":
+                self.speciality_dropdown.clear()
+                self.speciality_dropdown.addItem("Select a Specialty")
+                return
+
+        try:
+                doctors_data = db.child("clinic").get()
+                specialties = []
+
+                for clinic in doctors_data.each():
+                        doctors = clinic.val().get("doctors", {})
+                        for doctor_id, doctor in doctors.items():
+                                if doctor.get("doctor_name", "") == selected_doctor:
+                                        specialization = doctor.get("specialization", "")
+                                        if specialization:
+                                                specialties.append(specialization)
+                                        break  # No need to continue once the selected doctor is found
+
+                # Sort and remove duplicates
+                specialties = sorted(set(specialties))
+                specialties.insert(0, "Select a Specialty")
+                self.speciality_dropdown.clear()
+                self.speciality_dropdown.addItems(specialties)
+        except Exception as e:
+                print(f"An error occurred while loading specialties: {e}")
+
+
+
