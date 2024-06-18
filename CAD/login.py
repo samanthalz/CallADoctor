@@ -192,6 +192,7 @@ class LoginWidget(QWidget):
                     rights = patient_data.get('rights', 0)
                     self.showMessageBox('Info', 'Patient login successful')
                     self.login_successful.emit(rights)
+                    self.user_id.emit(ic)
                     return
         except Exception as e:
             self.showMessageBox('Error', f"Error fetching patient data: {e}")
@@ -206,7 +207,7 @@ class LoginWidget(QWidget):
                         rights = admin_data.get('rights', 4)
                         self.showMessageBox('Info', 'Admin login successful')
                         self.login_successful.emit(rights)
-                        self.user_id.emit(ic)
+                    
                         return
             else:
                 self.showMessageBox('Error', 'No admin data found')

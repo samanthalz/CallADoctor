@@ -698,6 +698,8 @@ class HomeWidget(QWidget):
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
+        print('Test')
+        print(self.user_id)
 
 
 if __name__ == '__main__': # for testing

@@ -170,9 +170,11 @@ class Ui_MainWindow(QMainWindow):
     def showPAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
 
-    @pyqtSlot()
-    def set_user_id(self, user_id):
-        self.homeWidget.set_user_id(user_id)
+    
+    def set_user_id(self, user_id):  
+        self.homeWidget.user_id = user_id
+
+        
         
         
         
