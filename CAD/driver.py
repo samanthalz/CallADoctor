@@ -49,6 +49,10 @@ class Ui_MainWindow(QMainWindow):
         self.findDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.findDocWidget.viewDoctorProfileRequested.connect(self.showViewDoctorProfileWidget)
         
+        self.viewDoctorProfile.service_btn_clicked.connect(self.showServicesWidget)
+        self.viewDoctorProfile.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.viewDoctorProfile.back_btn_clicked.connect(self.showFindDocWidget)
+        
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -196,9 +200,9 @@ class Ui_MainWindow(QMainWindow):
     def showPAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
         
-    @pyqtSlot()
-    def showViewDoctorProfileWidget(self):
+    def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
+        self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
     
 
     def set_user_id(self, user_id):  
