@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
+    <width>1938</width>
+    <height>1098</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -236,7 +236,9 @@
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(182, 208, 226);</string>
+           <string notr="true">background-color: rgb(182, 208, 226);
+border-radius: 10px;
+border: none</string>
           </property>
           <property name="text">
            <string>Continue</string>
@@ -306,7 +308,7 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid green;
+        <string notr="true">border: 2px solid #B6D0E2;
 border-radius: 10px;</string>
        </property>
        <property name="text">

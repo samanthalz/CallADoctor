@@ -285,6 +285,7 @@ class RegisterWidget(QWidget, QObject):
             QMessageBox.warning(self, "Validation Error", "Passwords do not match.")
             return
         
+        #need change
         birth_year_str = ic[:2] if len(ic) >= 2 else '00'
         birth_year = int(birth_year_str) + 1900  # Assuming the IC represents the birth year in YY format
         current_year = datetime.now().year
@@ -306,10 +307,10 @@ class RegisterWidget(QWidget, QObject):
         # Get a reference to the 'patients' node
         patients_ref = db.child('patients')
 
-        # Add the data to the 'patients' node in Realtime Database
-        new_patient_ref = patients_ref.push(patient_data)
-        print(f"Data added to the database with key: {new_patient_ref['name']}")
-        
+        # Add the data to the 'patients' node in Realtime Database using the patient IC number as the key
+        patients_ref.child(ic).set(patient_data)
+        print(f"Data added to the database with key: {ic}")
+
         QMessageBox.information(self, "Success", "Registration Successful!")
         self.registration_successful.emit()  # Emit the signal to switch views
 

@@ -189,12 +189,26 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="email">
         <property name="minimumSize">
          <size>
           <width>0</width>
           <height>40</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frame">
+         <bool>true</bool>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Normal</enum>
         </property>
        </widget>
       </item>
@@ -212,7 +226,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="Continue">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -221,11 +235,15 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <family>Consolas</family>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(182, 208, 226);</string>
+         <string notr="true">background-color: rgb(182, 208, 226);
+border-radius: 10px;
+border: none
+</string>
         </property>
         <property name="text">
          <string>Continue</string>
@@ -233,25 +251,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-    <widget class="QLabel" name="logo">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>-50</y>
-       <width>281</width>
-       <height>261</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>../Images/call a doctor.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
     </widget>
     <widget class="QLabel" name="label_7">
      <property name="geometry">
@@ -263,16 +262,54 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 2px solid green;
+      <string notr="true">border: 2px solid rgb(182, 208, 226);
 border-radius: 10px;</string>
      </property>
      <property name="text">
       <string/>
      </property>
     </widget>
-    <zorder>logo</zorder>
+    <widget class="QPushButton" name="back_button">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>181</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(182, 208, 226,0.8);
+color: rgb(255, 255, 255);
+border-radius: 10px;</string>
+     </property>
+     <property name="text">
+      <string>&lt; Back</string>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>70</width>
+       <height>70</height>
+      </size>
+     </property>
+    </widget>
     <zorder>label_7</zorder>
     <zorder>widget</zorder>
+    <zorder>back_button</zorder>
    </widget>
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">

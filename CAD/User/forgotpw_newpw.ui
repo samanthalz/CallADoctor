@@ -254,7 +254,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="updatepw">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -267,7 +267,9 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(182, 208, 226);</string>
+         <string notr="true">background-color: rgb(182, 208, 226);
+border-radius: 10px;
+border: none</string>
         </property>
         <property name="text">
          <string>Update Password</string>
@@ -305,7 +307,7 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 2px solid green;
+      <string notr="true">border: 2px solid #B6D0E2;
 border-radius: 10px;</string>
      </property>
      <property name="text">

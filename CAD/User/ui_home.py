@@ -1,36 +1,35 @@
-
-
-
-from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
     QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
+from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
+    QRadialGradient)
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+
+
+from connection import db
+from datetime import date
+
 
 class HomeWidget(QWidget):
     service_btn_clicked = pyqtSignal()
-                
+    logout_btn_clicked = pyqtSignal()
+        
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.user_id = 0
+        self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
-
-
+        
+        
     def setupUi(self, Form):
         if Form.objectName():
-                Form.setObjectName(u"Form")
+            Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
-        Form.setSizePolicy(sizePolicy)
-        Form.setMinimumSize(QSize(0, 1))
-        Form.setLayoutDirection(Qt.RightToLeft)
-        Form.setAutoFillBackground(False)
-        Form.setStyleSheet(u"background-color: #B6D0E2;")
-        self.mainWidget = QWidget(Form)
-        self.mainWidget.setObjectName(u"mainWidget")
-        self.background = QWidget(self.mainWidget)
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
         self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
@@ -501,21 +500,27 @@ class HomeWidget(QWidget):
         font6.setPointSize(16)
         self.profile_btn.setFont(font6)
         self.profile_btn.setStyleSheet(u"border: none")
-        self.frame = QFrame(self.mainWidget)
+        self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(0, 90, 121, 891))
+        self.frame.setGeometry(QRect(0, 90, 141, 891))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
-        self.verticalLayout = QVBoxLayout(self.frame)
+        self.widget = QWidget(self.frame)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(30, 19, 87, 871))
+        self.verticalLayout = QVBoxLayout(self.widget)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.home_navigation = QToolButton(self.frame)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.home_navigation = QToolButton(self.widget)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.home_navigation.sizePolicy().hasHeightForWidth())
-        self.home_navigation.setSizePolicy(sizePolicy1)
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.home_navigation.sizePolicy().hasHeightForWidth())
+        self.home_navigation.setSizePolicy(sizePolicy)
+        self.home_navigation.setMinimumSize(QSize(85, 96))
+        self.home_navigation.setMaximumSize(QSize(85, 96))
         font7 = QFont()
         font7.setFamily(u"Source Sans Pro Semibold")
         font7.setPointSize(10)
@@ -532,11 +537,11 @@ class HomeWidget(QWidget):
 
         self.verticalLayout.addWidget(self.home_navigation)
 
-        self.appointments_navigation = QToolButton(self.frame)
+        self.appointments_navigation = QToolButton(self.widget)
         self.appointments_navigation.setObjectName(u"appointments_navigation")
         self.appointments_navigation.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.appointments_navigation.sizePolicy().hasHeightForWidth())
-        self.appointments_navigation.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.appointments_navigation.sizePolicy().hasHeightForWidth())
+        self.appointments_navigation.setSizePolicy(sizePolicy)
         self.appointments_navigation.setFont(font7)
         self.appointments_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
@@ -548,11 +553,11 @@ class HomeWidget(QWidget):
 
         self.verticalLayout.addWidget(self.appointments_navigation)
 
-        self.services_navigation = QToolButton(self.frame)
+        self.services_navigation = QToolButton(self.widget)
         self.services_navigation.setObjectName(u"services_navigation")
         self.services_navigation.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.services_navigation.sizePolicy().hasHeightForWidth())
-        self.services_navigation.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.services_navigation.sizePolicy().hasHeightForWidth())
+        self.services_navigation.setSizePolicy(sizePolicy)
         self.services_navigation.setFont(font7)
         self.services_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
@@ -561,14 +566,15 @@ class HomeWidget(QWidget):
         self.services_navigation.setIcon(icon3)
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.services_navigation.clicked.connect(self.emitServiceBtn)
 
         self.verticalLayout.addWidget(self.services_navigation)
 
-        self.settings_navigation = QToolButton(self.frame)
+        self.settings_navigation = QToolButton(self.widget)
         self.settings_navigation.setObjectName(u"settings_navigation")
         self.settings_navigation.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
-        self.settings_navigation.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
+        self.settings_navigation.setSizePolicy(sizePolicy)
         self.settings_navigation.setFont(font7)
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
@@ -580,11 +586,11 @@ class HomeWidget(QWidget):
 
         self.verticalLayout.addWidget(self.settings_navigation)
 
-        self.logout_navigation = QToolButton(self.frame)
+        self.logout_navigation = QToolButton(self.widget)
         self.logout_navigation.setObjectName(u"logout_navigation")
         self.logout_navigation.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
-        self.logout_navigation.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
+        self.logout_navigation.setSizePolicy(sizePolicy)
         self.logout_navigation.setFont(font7)
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
@@ -593,18 +599,20 @@ class HomeWidget(QWidget):
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
+        
         self.verticalLayout.addWidget(self.logout_navigation)
+
 
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
-# setupUi
+    # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Call A Doctor", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.num_upcoming_appt_label.setText(QCoreApplication.translate("Form", u"Number of upcoming appointments :", None))
-        self.num_appt_number_label.setText(QCoreApplication.translate("Form", u"2", None))
+        self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
         self.upcoming_label.setText(QCoreApplication.translate("Form", u"Upcoming", None))
         self.clinic_name_label.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
         self.clinic_logo_label.setText(QCoreApplication.translate("Form", u"A", None))
@@ -652,58 +660,53 @@ class HomeWidget(QWidget):
         self.services_navigation.setText(QCoreApplication.translate("Form", u"Services", None))
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
-# retranslateUi
-        _translate = QtCore.QCoreApplication.translate
-        self.num_upcoming_appt_label.setText(_translate("Form", "Number of upcoming appointments :"))
-        self.num_appt_number_label.setText(_translate("Form", "2"))
-        self.upcoming_label.setText(_translate("Form", "Upcoming"))
-        self.clinic_name_label.setText(_translate("Form", "Clinic Name"))
-        self.clinic_logo_label.setText(_translate("Form", "A"))
-        self.toa_label.setText(_translate("Form", "Type of Appointment"))
-        self.date_label.setText(_translate("Form", "Date"))
-        self.time_label.setText(_translate("Form", "Time"))
-        self.clinic_name_label_2.setText(_translate("Form", "Clinic Name"))
-        self.clinic_logo_label_2.setText(_translate("Form", "A"))
-        self.toa_label_2.setText(_translate("Form", "Type of Appointment"))
-        self.date_label_2.setText(_translate("Form", "Date"))
-        self.time_label_2.setText(_translate("Form", "Time"))
-        self.clinic_name_label_3.setText(_translate("Form", "Clinic Name"))
-        self.clinic_logo_label_3.setText(_translate("Form", "A"))
-        self.toa_label_3.setText(_translate("Form", "Type of Appointment"))
-        self.date_label_3.setText(_translate("Form", "Date"))
-        self.time_label_3.setText(_translate("Form", "Time"))
-        self.upcoming_label_2.setText(_translate("Form", "Past"))
-        self.clinic_name_label_4.setText(_translate("Form", "Clinic Name"))
-        self.clinic_logo_label_4.setText(_translate("Form", "A"))
-        self.toa_label_4.setText(_translate("Form", "Type of Appointment"))
-        self.date_label_4.setText(_translate("Form", "Date"))
-        self.time_label_4.setText(_translate("Form", "Time"))
-        self.clinic_name_label_5.setText(_translate("Form", "Clinic Name"))
-        self.clinic_logo_label_5.setText(_translate("Form", "A"))
-        self.toa_label_5.setText(_translate("Form", "Type of Appointment"))
-        self.date_label_5.setText(_translate("Form", "Date"))
-        self.time_label_5.setText(_translate("Form", "Time"))
-        self.clinic_name_label_6.setText(_translate("Form", "Clinic Name"))
-        self.clinic_logo_label_6.setText(_translate("Form", "A"))
-        self.toa_label_6.setText(_translate("Form", "Type of Appointment"))
-        self.date_label_6.setText(_translate("Form", "Date"))
-        self.time_label_6.setText(_translate("Form", "Time"))
-        self.active_pres_label.setText(_translate("Form", "Active Prescriptions"))
-        self.medicineName_label.setText(_translate("Form", "Medicine Name"))
-        self.medicine_quantity_label.setText(_translate("Form", "Quantity"))
-        self.medicineName_label_2.setText(_translate("Form", "Medicine Name"))
-        self.medicine_quantity_label_2.setText(_translate("Form", "Quantity"))
-        self.medicineName_label_3.setText(_translate("Form", "Medicine Name"))
-        self.medicine_quantity_label_3.setText(_translate("Form", "Quantity"))
-        self.profile_btn.setText(_translate("Form", "User"))
-        self.home_navigation.setText(_translate("Form", "Home"))
-        self.appointments_navigation.setText(_translate("Form", "Schedule"))
-        self.services_navigation.setText(_translate("Form", "Services"))
-        self.settings_navigation.setText(_translate("Form", "Settings"))
-        self.logout_navigation.setText(_translate("Form", "Logout"))
+    # retranslateUi
 
-        @pyqtSlot()
-        def emitServiceBtn(self):
-                # Emit the custom signal
-                self.service_btn_clicked.emit()
+    @pyqtSlot()
+    def emitServiceBtn(self):
+        # Emit the custom signal
+        self.service_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+
+    
+    def get_upcoming_appt_data(self):
+        appointment_data = db.child("appointment").get().val()
+        num_upcoming_appt = 0 # Initialize as 0
+        upcoming_appt_info = []
+        today = date.today()
+        current_date = today.strftime("%y%m%d")
+        if appointment_data: 
+            for appt_id, appt_info in appointment_data.items():
+                if int(appt_info.get('patient_id')) == int(self.user_id) and int(appt_info.get('date')) >= int(current_date):
+                    num_upcoming_appt += 1
+                    upcoming_appt_info.append(appt_info)
+        return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
+    
+    
+    def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
+        day = date_str[-2:]
+        month = date_str[2:4]
+        year = '20' + date_str[:2] 
+
+        monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        
+        month = monthList[int(month) - 1]
+
+        date_str = day + " " + month + " " + year
+
+        return date_str
+    
+
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
+        # Assign values after user_id is initialized
+        self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
+        self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
+
+
+
         
