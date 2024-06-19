@@ -611,7 +611,22 @@ class MakeApptWidget(QWidget):
         except Exception as e:
                 print(f"An error occurred while loading specialties: {e}")
 
+    def prefill_appointment_form(self, clinic_name, doctor_name):
+        # Pre-fill the clinic dropdown
+        clinic_index = self.clinic_dropdown.findText(clinic_name)
+        if clinic_index != -1:
+            self.clinic_dropdown.setCurrentIndex(clinic_index)
 
+        # Load the doctors for the selected clinic
+        self.load_doctors()
+
+        # Pre-fill the doctor dropdown
+        doctor_index = self.doc_dropdown.findText(doctor_name)
+        if doctor_index != -1:
+            self.doc_dropdown.setCurrentIndex(doctor_index)
+
+            
+            
     def get_selected_data(self):
         clinic = self.clinic_dropdown.currentText()
         doctor = self.doc_dropdown.currentText()

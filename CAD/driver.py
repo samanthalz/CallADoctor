@@ -53,6 +53,7 @@ class Ui_MainWindow(QMainWindow):
         self.viewDoctorProfile.service_btn_clicked.connect(self.showServicesWidget)
         self.viewDoctorProfile.logout_btn_clicked.connect(self.showLogoutPopup)
         self.viewDoctorProfile.back_btn_clicked.connect(self.showFindDocWidget)
+        self.viewDoctorProfile.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
@@ -191,6 +192,10 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showMakeApptWidget(self):
         self.stackedWidget.setCurrentWidget(self.makeApptWidget)
+        
+    def showPrefillMakeApptWidget(self, clinic_name, doctor_name):
+        self.stackedWidget.setCurrentWidget(self.makeApptWidget)
+        self.makeApptWidget.prefill_appointment_form(clinic_name, doctor_name)
         
     @pyqtSlot()
     def showServicesWidget(self):

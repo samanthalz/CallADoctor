@@ -11,6 +11,7 @@ class ViewDoctorProfileWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
     back_btn_clicked = pyqtSignal()
+    makeAppointmentRequested = pyqtSignal(str, str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -229,6 +230,8 @@ class ViewDoctorProfileWidget(QWidget):
         font4.setPointSize(10)
         self.make_appt_btn.setFont(font4)
         self.make_appt_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+        self.make_appt_btn.clicked.connect(self.on_make_appointment_button_clicked)
+
 
         self.verticalLayout_3.addWidget(self.make_appt_btn)
 
@@ -362,6 +365,7 @@ class ViewDoctorProfileWidget(QWidget):
     def fetch_doctor_info_from_db(self, doctor_id, clinic_name):
         # Fetch doctor info from the database using the doctor ID and clinic name
         try:
+           
             # Modify the database query as per your actual database structure
             clinic_data = db.child("clinic").get().val()
 
@@ -385,21 +389,33 @@ class ViewDoctorProfileWidget(QWidget):
                 raise ValueError(f"Clinic with ID '{clinic_id}' not found in the database.")
 
             #print(f"Passed Doctor ID: {doctor_id}, Clinic Name: {clinic_name}, Clinic ID: {clinic_id}")
-
+            
             doctors_data = clinic.get("doctors", {})
 
             if doctor_id in doctors_data:
                 doctor_info = doctors_data[doctor_id]
                 doctor_info["clinic_name"] = clinic_name
                 #print(f"Doctor info is {doctor_info}")
+                
+                self.make_appt_btn.setProperty("clinic_name", clinic_name)  # Store the clinic ID as a property of the button
+                self.make_appt_btn.setProperty("doctor_name", doctor_info.get("doctor_name", "Unknown"))  # Store the doctor name as a property of the button
+            
                 return doctor_info
             else:
                 raise ValueError(f"Doctor with ID '{doctor_id}' not found in clinic '{clinic_name}'.")
+            
 
         except Exception as e:
             print(f"An error occurred while fetching doctor data: {e}")
             return {}
 
+
+    def on_make_appointment_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
+        doctor_name = button.property("doctor_name")  # Retrieve the doctor name from the button's property
+        if clinic_name and doctor_name:
+            self.makeAppointmentRequested.emit(clinic_name, doctor_name)
 
     def update_ui_with_doctor_info(self, doctor_info):
         # Update the UI with the fetched doctor info
