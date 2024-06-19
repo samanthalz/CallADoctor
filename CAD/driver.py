@@ -16,6 +16,7 @@ from User.ui_find_doctor import FindDoctorWidget
 from User.ui_make_appt import MakeApptWidget
 from User.ui_services import ServicesWidget
 from Project_Admin.ui_pa_homepage import PAHomeWidget
+from Project_Admin.
 from Project_Admin.ui_add_clinic import AddClinicWidget
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
 #from Project_Admin.ui_view_clinic import ViewClinicWidget
