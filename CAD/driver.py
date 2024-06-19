@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, 
 from User.forgotpw import ForgotPwWidget
 from User.forgotpw_newpw import ForgotPw_newpwWidget
 from User.forgotpw_verification import ForgotPw_verificationWidget
+from User.forgotpw_success import ForgotPw_successWidget
 from User.ui_home import HomeWidget
 from login import LoginWidget
 from register import RegisterWidget
@@ -58,10 +59,15 @@ class Ui_MainWindow(QMainWindow):
         self.makeApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         #self.makeApptWidget.redirect_appt.connect(self.showAppointmetWidget) to be modified
 
+<<<<<<< HEAD
+        self.forgotPwWidget.continue_successful.connect(self.showForgotPw_verificationWidget)
+=======
         #self.forgotPwWidget.continue_successful.connect(self.showverification)
+>>>>>>> 04ec4544736fa48284d60672d80a93c093decf75
         self.forgotPwWidget.back_successful.connect(self.showLoginWidget)       
-        self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
-        
+        self.forgotPw_verificationWidget.continue_successful.connect(self.showForgotPw_newpwWidget)
+        self.forgotPw_newpwWidget.update_successful.connect(self.showForgotPw_successWidget)
+
         self.paHomeWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paHomeWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
         self.paHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -89,9 +95,10 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.loginWidget = LoginWidget()
-        self.forgotPwWidget = ForgotPwWidget()
+        self.forgotPwWidget = ForgotPwWidget(self.centralwidget)
         self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
         self.forgotPw_newpwWidget = ForgotPw_newpwWidget()
+        self.forgotPw_successWidget = ForgotPw_successWidget()
         self.registerWidget = RegisterWidget()
         self.homeWidget = HomeWidget()
         self.findClinicWidget = FindClinicWidget()
@@ -112,6 +119,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.forgotPw_newpwWidget)
         self.stackedWidget.addWidget(self.forgotPw_verificationWidget)
+        self.stackedWidget.addWidget(self.forgotPw_successWidget)
         self.stackedWidget.addWidget(self.registerWidget)
         self.stackedWidget.addWidget(self.homeWidget)
         self.stackedWidget.addWidget(self.servicesWidget)
@@ -145,14 +153,18 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
+    
+    @pyqtSlot()
+    def showForgotPw_verificationWidget(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)
 
     @pyqtSlot()
     def showForgotPw_newpwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
 
     @pyqtSlot()
-    def showForgotPw_verificationWidget(self):
-        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)
+    def showForgotPw_successWidget(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_successWidget)
 
     @pyqtSlot()
     def showRegisterWidget(self):
