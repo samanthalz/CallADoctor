@@ -177,14 +177,17 @@ class ViewClinicProfileWidget(QWidget):
 
         self.layoutWidget_5 = QWidget(self.profile_display_frame)
         self.layoutWidget_5.setObjectName(u"layoutWidget_5")
-        self.layoutWidget_5.setGeometry(QRect(100, 350, 402, 179))
+        self.layoutWidget_5.setGeometry(QRect(100, 350, 400, 210))
+        
         self.verticalLayout_3 = QVBoxLayout(self.layoutWidget_5)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setSpacing(15)
+        
         self.clinic_name = QLabel(self.layoutWidget_5)
         self.clinic_name.setObjectName(u"clinic_name")
         self.clinic_name.setMinimumSize(QSize(400, 100))
-        self.clinic_name.setMaximumSize(QSize(16777215, 16777215))
+        self.clinic_name.setMaximumSize(QSize(400, 100))
         self.clinic_name.setFont(font2)
         self.clinic_name.setStyleSheet(u"text-align: center; border: none;")
         self.clinic_name.setAlignment(Qt.AlignCenter)
@@ -192,10 +195,22 @@ class ViewClinicProfileWidget(QWidget):
 
         self.verticalLayout_3.addWidget(self.clinic_name)
 
+        self.view_doc_btn = QPushButton(self.layoutWidget_5)
+        self.view_doc_btn.setObjectName(u"view_doc_btn")
+        self.view_doc_btn.setMinimumSize(QSize(400, 55))
+        self.view_doc_btn.setMaximumSize(QSize(400, 55))
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(10)
+        self.view_doc_btn.setFont(font4)
+        self.view_doc_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+
+        self.verticalLayout_3.addWidget(self.view_doc_btn)
+        
         self.make_appt_btn = QPushButton(self.layoutWidget_5)
         self.make_appt_btn.setObjectName(u"make_appt_btn")
         self.make_appt_btn.setMinimumSize(QSize(400, 55))
-        self.make_appt_btn.setMaximumSize(QSize(16777215, 55))
+        self.make_appt_btn.setMaximumSize(QSize(400, 55))
         font4 = QFont()
         font4.setFamily(u"Consolas")
         font4.setPointSize(10)
@@ -339,6 +354,7 @@ class ViewClinicProfileWidget(QWidget):
         self.contact_label.setText(QCoreApplication.translate("Form", u"Contact Details", None))
         self.ophour_label.setText(QCoreApplication.translate("Form", u"Operating Hours", None))
         self.make_appt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
+        self.view_doc_btn.setText(QCoreApplication.translate("Form", u"View Doctors Available", None))
         self.back_button.setText(QCoreApplication.translate("Form", u"< Back", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))

@@ -393,7 +393,8 @@ class FindClinicWidget(QWidget):
         make_appt_btn.setText("Make Appointment")
         font = QFont("Consolas", 10)
         make_appt_btn.setFont(font)
-
+        make_appt_btn.clicked.connect(self.on_make_appointment_button_clicked)
+        make_appt_btn.setProperty("clinic_name", clinic.get("clinic_name", "Unknown"))
         horizontalLayout.addWidget(make_appt_btn)
 
         layoutWidget_2 = QWidget(clinic_inner)
@@ -505,6 +506,12 @@ class FindClinicWidget(QWidget):
         clinic_name = button.property("clinic_name")  # Retrieve the clinic name from the button's property
         if clinic_name:
             self.viewClinicProfileRequested.emit(clinic_name, "")  # Emitting signal with clinic name
+
+    def on_make_appointment_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
+        if clinic_name :
+            self.makeAppointmentRequested.emit(clinic_name, "")
 
             
     

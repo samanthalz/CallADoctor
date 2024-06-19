@@ -147,7 +147,7 @@ border-top-left-radius: 30px;
       <x>50</x>
       <y>230</y>
       <width>1661</width>
-      <height>691</height>
+      <height>811</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -193,7 +193,7 @@ border-top-left-radius: 30px;
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>625</x>
@@ -409,7 +409,7 @@ border-top-left-radius: 30px;
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>51</x>

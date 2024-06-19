@@ -60,7 +60,7 @@ class Ui_MainWindow(QMainWindow):
         
         self.viewClinicProfile.service_btn_clicked.connect(self.showServicesWidget)
         self.viewClinicProfile.logout_btn_clicked.connect(self.showLogoutPopup)
-        self.viewClinicProfile.back_btn_clicked.connect(self.showFindDocWidget)
+        self.viewClinicProfile.back_btn_clicked.connect(self.showFindClinicWidget)
         self.viewClinicProfile.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
