@@ -59,11 +59,7 @@ class Ui_MainWindow(QMainWindow):
         self.makeApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         #self.makeApptWidget.redirect_appt.connect(self.showAppointmetWidget) to be modified
 
-<<<<<<< HEAD
-        self.forgotPwWidget.continue_successful.connect(self.showForgotPw_verificationWidget)
-=======
         #self.forgotPwWidget.continue_successful.connect(self.showverification)
->>>>>>> 04ec4544736fa48284d60672d80a93c093decf75
         self.forgotPwWidget.back_successful.connect(self.showLoginWidget)       
         self.forgotPw_verificationWidget.continue_successful.connect(self.showForgotPw_newpwWidget)
         self.forgotPw_newpwWidget.update_successful.connect(self.showForgotPw_successWidget)
