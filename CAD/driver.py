@@ -49,6 +49,7 @@ class Ui_MainWindow(QMainWindow):
         self.findDocWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.findDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.findDocWidget.viewDoctorProfileRequested.connect(self.showViewDoctorProfileWidget)
+        self.findDocWidget.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         
         self.viewDoctorProfile.service_btn_clicked.connect(self.showServicesWidget)
         self.viewDoctorProfile.logout_btn_clicked.connect(self.showLogoutPopup)

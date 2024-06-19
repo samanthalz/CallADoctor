@@ -10,6 +10,7 @@ class FindDoctorWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
     viewDoctorProfileRequested = pyqtSignal(str, str) 
+    makeAppointmentRequested = pyqtSignal(str, str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -494,7 +495,10 @@ class FindDoctorWidget(QWidget):
         make_appt_btn.setText("Make Appointment")
         font = QFont("Consolas", 10)
         make_appt_btn.setFont(font)
-
+        make_appt_btn.clicked.connect(self.on_make_appointment_button_clicked)
+        make_appt_btn.setProperty("clinic_name", clinic.get("clinic_name", "Unknown")) 
+        make_appt_btn.setProperty("doctor_name", doctor.get("doctor_name", "Unknown"))
+        
         btnlayout.addWidget(make_appt_btn)
 
         layoutWidget1 = QWidget(doc_info_inner)
@@ -584,6 +588,14 @@ class FindDoctorWidget(QWidget):
         print(f"Doctor ID: {doctor_id}, Clinic Name: {clinic_name}")
         if doctor_id and clinic_name:
             self.viewDoctorProfileRequested.emit(doctor_id, clinic_name)
+            
+            
+    def on_make_appointment_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
+        doctor_name = button.property("doctor_name")  # Retrieve the doctor name from the button's property
+        if clinic_name and doctor_name:
+            self.makeAppointmentRequested.emit(clinic_name, doctor_name)
             
 
         
