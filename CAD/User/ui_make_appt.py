@@ -36,12 +36,12 @@ class CustomCalendarWidget(QCalendarWidget):
         # Set custom font
         painter.setFont(self.custom_font)
 
-        # Highlight the selected date
-        if self.selected_date == date:
-            painter.save()
-            painter.setBrush(QColor(200, 200, 255, 150))  # Light blue background
-            painter.drawRect(rect)
-            painter.restore()
+        # # Highlight the selected date
+        # if self.selected_date == date:
+        #     painter.save()
+        #     painter.setBrush(QColor(200, 200, 255, 150))  # Light blue background
+        #     painter.drawRect(rect)
+        #     painter.restore()
 
     def mousePressEvent(self, event):
         clicked_date = self.clickedDate(event.pos())
@@ -617,7 +617,7 @@ class MakeApptWidget(QWidget):
         doctor = self.doc_dropdown.currentText()
         time = self.time_dropdown.currentText()
         speciality = self.speciality_dropdown.currentText()
-        date = self.calendarWidget.selectedDate().toString("ddMMyy")
+        date = self.calendarWidget.selectedDate().toString("yyMMdd")
         med_concern = self.med_input.text() if self.med_input.text() != "Write here..." else ""
         admin_reassign = "yes" if self.checkBox.isChecked() else "no"
         return clinic, doctor, time, speciality, date, med_concern, admin_reassign
