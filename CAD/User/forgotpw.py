@@ -1,17 +1,26 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 
-
 class ForgotPwWidget(QWidget):
+    continue_successful = pyqtSignal()
+    back_successful = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
 
     def setupUi(self, Form):
+        # Setup UI components
+        self.continueButton = QPushButton('Continue', self)
+        self.continueButton.clicked.connect(self.emitContinue)
+        
+        self.backButton = QPushButton('Back', self)
+        self.backButton.clicked.connect(self.emitBack)
+
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
@@ -117,6 +126,7 @@ class ForgotPwWidget(QWidget):
 "border-radius: 10px;\n"
 "border: none\n"
 "")
+        self.Continue.clicked.connect(self.emitContinue)
 
         self.verticalLayout_4.addWidget(self.Continue)
 
@@ -167,5 +177,12 @@ class ForgotPwWidget(QWidget):
         self.back_button.setText(QCoreApplication.translate("Form", u"< Back", None))
     # retranslateUi
 
-
-
+    @pyqtSlot()
+    def emitContinue(self):
+        # Emit the custom signal
+        self.continue_successful.emit()
+        
+    @pyqtSlot()
+    def emitBack(self):
+        # Emit the custom signal
+        self.back_successful.emit()
