@@ -597,5 +597,10 @@ class FindDoctorWidget(QWidget):
         if clinic_name and doctor_name:
             self.makeAppointmentRequested.emit(clinic_name, doctor_name)
             
+    def prefill_clinic(self, clinic_name):
+        # Pre-fill the clinic dropdown
+        clinic_index = self.clinic_dropdown.findText(clinic_name)
+        if clinic_index != -1:
+            self.clinic_dropdown.setCurrentIndex(clinic_index)
 
-        
+                

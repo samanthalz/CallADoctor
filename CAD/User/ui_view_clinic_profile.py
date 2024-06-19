@@ -13,6 +13,7 @@ class ViewClinicProfileWidget(QWidget):
     logout_btn_clicked = pyqtSignal()
     back_btn_clicked = pyqtSignal()
     makeAppointmentRequested = pyqtSignal(str, str)
+    viewDocterRequested = pyqtSignal(str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -204,7 +205,7 @@ class ViewClinicProfileWidget(QWidget):
         font4.setPointSize(10)
         self.view_doc_btn.setFont(font4)
         self.view_doc_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
-
+        self.view_doc_btn.clicked.connect(self.on_view_doc_button_clicked)
         self.verticalLayout_3.addWidget(self.view_doc_btn)
         
         self.make_appt_btn = QPushButton(self.layoutWidget_5)
@@ -406,6 +407,7 @@ class ViewClinicProfileWidget(QWidget):
 
                 # Set clinic_name as a property of the button
                 self.make_appt_btn.setProperty("clinic_name", clinic_name)
+                self.view_doc_btn.setProperty("clinic_name", clinic_name)
                 #print(f"clinic info is {clinic_info}")
                 return clinic_info
 
@@ -420,6 +422,12 @@ class ViewClinicProfileWidget(QWidget):
         clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
         if clinic_name :
             self.makeAppointmentRequested.emit(clinic_name, "")
+            
+    def on_view_doc_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
+        if clinic_name :
+            self.viewDocterRequested.emit(clinic_name)
 
 
     def update_ui_with_clinic_info(self, clinic_info):
