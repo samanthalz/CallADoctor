@@ -9,6 +9,8 @@ from connection import db
 class FindClinicWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    viewClinicProfileRequested = pyqtSignal(str, str)
+    makeAppointmentRequested = pyqtSignal(str, str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -378,6 +380,8 @@ class FindClinicWidget(QWidget):
         view_clinic_btn.setText("View Clinic")
         font = QFont("Consolas", 10)
         view_clinic_btn.setFont(font)
+        view_clinic_btn.setProperty("clinic_name", clinic.get("clinic_name", "Unknown"))
+        view_clinic_btn.clicked.connect(self.on_view_profile_button_clicked)
         
 
         horizontalLayout.addWidget(view_clinic_btn)
@@ -494,4 +498,13 @@ class FindClinicWidget(QWidget):
     def emitLogoutBtn(self):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def on_view_profile_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        clinic_name = button.property("clinic_name")  # Retrieve the clinic name from the button's property
+        if clinic_name:
+            self.viewClinicProfileRequested.emit(clinic_name, "")  # Emitting signal with clinic name
+
+            
     

@@ -45,6 +45,8 @@ class Ui_MainWindow(QMainWindow):
         
         self.findClinicWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.findClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.findClinicWidget.viewClinicProfileRequested.connect(self.showViewClinicProfileWidget)
+        self.findClinicWidget.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         
         self.findDocWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.findDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -55,6 +57,11 @@ class Ui_MainWindow(QMainWindow):
         self.viewDoctorProfile.logout_btn_clicked.connect(self.showLogoutPopup)
         self.viewDoctorProfile.back_btn_clicked.connect(self.showFindDocWidget)
         self.viewDoctorProfile.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
+        
+        self.viewClinicProfile.service_btn_clicked.connect(self.showServicesWidget)
+        self.viewClinicProfile.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.viewClinicProfile.back_btn_clicked.connect(self.showFindDocWidget)
+        self.viewClinicProfile.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
@@ -219,6 +226,11 @@ class Ui_MainWindow(QMainWindow):
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
         self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
+        
+    def showViewClinicProfileWidget(self, clinic_name, temp):
+        #print(f"clinic name is {clinic_name} temp is {temp}")
+        self.stackedWidget.setCurrentWidget(self.viewClinicProfile)
+        self.viewClinicProfile.display_clinic_profile(clinic_name, temp)
     
 
     def set_user_id(self, user_id):  

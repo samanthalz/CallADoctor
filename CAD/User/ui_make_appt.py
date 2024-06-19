@@ -617,13 +617,16 @@ class MakeApptWidget(QWidget):
         if clinic_index != -1:
             self.clinic_dropdown.setCurrentIndex(clinic_index)
 
-        # Load the doctors for the selected clinic
-        self.load_doctors()
+        # If doctor_name is not empty, load and pre-fill the doctors for the selected clinic
+        if doctor_name:
+            self.load_doctors()
 
-        # Pre-fill the doctor dropdown
-        doctor_index = self.doc_dropdown.findText(doctor_name)
-        if doctor_index != -1:
-            self.doc_dropdown.setCurrentIndex(doctor_index)
+            # Pre-fill the doctor dropdown
+            doctor_index = self.doc_dropdown.findText(doctor_name)
+            if doctor_index != -1:
+                self.doc_dropdown.setCurrentIndex(doctor_index)
+
+
 
             
             

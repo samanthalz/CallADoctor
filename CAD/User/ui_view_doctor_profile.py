@@ -347,8 +347,6 @@ class ViewDoctorProfileWidget(QWidget):
         self.doc_speciality_label.setText(QCoreApplication.translate("Form", u"Speciality", None))
         self.available_hour_label.setText(QCoreApplication.translate("Form", u"Available Hours", None))
         self.qualification_label.setText(QCoreApplication.translate("Form", u"Qualifications", None))
-        #self.doc_name.setText(QCoreApplication.translate("Form", u"Doc Name", None))
-        #self.clinic_name.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
         self.make_appt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))

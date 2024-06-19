@@ -40,12 +40,12 @@ class ViewClinicProfileWidget(QWidget):
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
         icon = QIcon()
-        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"../Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
         self.noti_icon.setIcon(icon)
         self.noti_icon.setIconSize(QSize(40, 40))
         self.fad_title = QLabel(self.whitebg)
         self.fad_title.setObjectName(u"fad_title")
-        self.fad_title.setGeometry(QRect(70, 120, 481, 81))
+        self.fad_title.setGeometry(QRect(70, 140, 481, 81))
         font = QFont()
         font.setFamily(u"Consolas")
         font.setPointSize(28)
@@ -62,7 +62,7 @@ class ViewClinicProfileWidget(QWidget):
         self.profile_icon.setObjectName(u"profile_icon")
         self.profile_icon.setGeometry(QRect(10, 10, 60, 60))
         self.profile_icon.setStyleSheet(u"border: none")
-        self.profile_icon.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
+        self.profile_icon.setPixmap(QPixmap(u"../Images/icon/profile_icon.png"))
         self.profile_icon.setScaledContents(True)
         self.profile_btn = QPushButton(self.user_frame)
         self.profile_btn.setObjectName(u"profile_btn")
@@ -74,58 +74,20 @@ class ViewClinicProfileWidget(QWidget):
         self.profile_btn.setStyleSheet(u"border: none")
         self.profile_display_frame = QFrame(self.whitebg)
         self.profile_display_frame.setObjectName(u"profile_display_frame")
-        self.profile_display_frame.setGeometry(QRect(60, 200, 1661, 861))
+        self.profile_display_frame.setGeometry(QRect(50, 230, 1661, 691))
         self.profile_display_frame.setStyleSheet(u"background-color: white;")
         self.profile_display_frame.setFrameShape(QFrame.StyledPanel)
         self.profile_display_frame.setFrameShadow(QFrame.Raised)
-        self.scrollArea = QScrollArea(self.profile_display_frame)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setGeometry(QRect(30, 30, 1601, 791))
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1601, 791))
-        self.doctors_available_label = QLabel(self.scrollAreaWidgetContents)
-        self.doctors_available_label.setObjectName(u"doctors_available_label")
-        self.doctors_available_label.setGeometry(QRect(15, 522, 1491, 50))
-        self.doctors_available_label.setMinimumSize(QSize(400, 50))
-        self.doctors_available_label.setMaximumSize(QSize(16777215, 30))
-        font2 = QFont()
-        font2.setFamily(u"Consolas")
-        font2.setPointSize(14)
-        font2.setBold(True)
-        font2.setWeight(75)
-        self.doctors_available_label.setFont(font2)
-        self.doctors_available_label.setStyleSheet(u"text-align: center; border: none;")
-        self.doctors_available_label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.doctors_available_label.setWordWrap(True)
-        self.line = QFrame(self.scrollAreaWidgetContents)
-        self.line.setObjectName(u"line")
-        self.line.setGeometry(QRect(20, 500, 1551, 3))
-        self.line.setMinimumSize(QSize(1000, 3))
-        self.line.setMaximumSize(QSize(16777215, 3))
-        self.line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
-        self.line.setFrameShape(QFrame.StyledPanel)
-        self.line.setFrameShadow(QFrame.Raised)
-        self.clinic_name = QLabel(self.scrollAreaWidgetContents)
-        self.clinic_name.setObjectName(u"clinic_name")
-        self.clinic_name.setGeometry(QRect(25, 292, 501, 100))
-        self.clinic_name.setMinimumSize(QSize(400, 100))
-        self.clinic_name.setMaximumSize(QSize(16777215, 16777215))
-        self.clinic_name.setFont(font2)
-        self.clinic_name.setStyleSheet(u"text-align: center; border: none;")
-        self.clinic_name.setAlignment(Qt.AlignCenter)
-        self.clinic_name.setWordWrap(True)
-        self.doc_img = QLabel(self.scrollAreaWidgetContents)
+        self.doc_img = QLabel(self.profile_display_frame)
         self.doc_img.setObjectName(u"doc_img")
-        self.doc_img.setGeometry(QRect(175, 62, 200, 200))
+        self.doc_img.setGeometry(QRect(200, 90, 200, 200))
         self.doc_img.setMinimumSize(QSize(200, 200))
         self.doc_img.setMaximumSize(QSize(16777215, 16777215))
         self.doc_img.setStyleSheet(u"text-align: center;  border-radius: 100px; border: 1px solid black; ")
         self.doc_img.setAlignment(Qt.AlignCenter)
-        self.layoutWidget = QWidget(self.scrollAreaWidgetContents)
+        self.layoutWidget = QWidget(self.profile_display_frame)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(580, 20, 1011, 441))
+        self.layoutWidget.setGeometry(QRect(610, 40, 1011, 601))
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -136,6 +98,11 @@ class ViewClinicProfileWidget(QWidget):
         self.location_label.setObjectName(u"location_label")
         self.location_label.setMinimumSize(QSize(0, 30))
         self.location_label.setMaximumSize(QSize(16777215, 30))
+        font2 = QFont()
+        font2.setFamily(u"Consolas")
+        font2.setPointSize(14)
+        font2.setBold(True)
+        font2.setWeight(75)
         self.location_label.setFont(font2)
         self.location_label.setStyleSheet(u"text-align: center; border: none;")
 
@@ -171,8 +138,8 @@ class ViewClinicProfileWidget(QWidget):
 
         self.contact_display = QLabel(self.layoutWidget)
         self.contact_display.setObjectName(u"contact_display")
-        self.contact_display.setMinimumSize(QSize(1000, 100))
-        self.contact_display.setMaximumSize(QSize(1000, 100))
+        self.contact_display.setMinimumSize(QSize(1000, 110))
+        self.contact_display.setMaximumSize(QSize(1000, 110))
         self.contact_display.setFont(font3)
         self.contact_display.setStyleSheet(u"text-align: center; border: 1px solid black; border-radius: 0px;")
         self.contact_display.setWordWrap(True)
@@ -207,17 +174,45 @@ class ViewClinicProfileWidget(QWidget):
 
         self.verticalLayout.addLayout(self.ophour_layout)
 
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.layoutWidget_5 = QWidget(self.profile_display_frame)
+        self.layoutWidget_5.setObjectName(u"layoutWidget_5")
+        self.layoutWidget_5.setGeometry(QRect(100, 350, 402, 179))
+        self.verticalLayout_3 = QVBoxLayout(self.layoutWidget_5)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.clinic_name = QLabel(self.layoutWidget_5)
+        self.clinic_name.setObjectName(u"clinic_name")
+        self.clinic_name.setMinimumSize(QSize(400, 100))
+        self.clinic_name.setMaximumSize(QSize(16777215, 16777215))
+        self.clinic_name.setFont(font2)
+        self.clinic_name.setStyleSheet(u"text-align: center; border: none;")
+        self.clinic_name.setAlignment(Qt.AlignCenter)
+        self.clinic_name.setWordWrap(True)
+
+        self.verticalLayout_3.addWidget(self.clinic_name)
+
+        self.make_appt_btn = QPushButton(self.layoutWidget_5)
+        self.make_appt_btn.setObjectName(u"make_appt_btn")
+        self.make_appt_btn.setMinimumSize(QSize(400, 55))
+        self.make_appt_btn.setMaximumSize(QSize(16777215, 55))
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(10)
+        self.make_appt_btn.setFont(font4)
+        self.make_appt_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+
+        self.verticalLayout_3.addWidget(self.make_appt_btn)
+
         self.back_button = QPushButton(self.whitebg)
         self.back_button.setObjectName(u"back_button")
         self.back_button.setEnabled(True)
-        self.back_button.setGeometry(QRect(70, 50, 181, 61))
-        font4 = QFont()
-        font4.setFamily(u"Consolas")
-        font4.setPointSize(20)
-        font4.setBold(True)
-        font4.setWeight(75)
-        self.back_button.setFont(font4)
+        self.back_button.setGeometry(QRect(60, 60, 181, 61))
+        font5 = QFont()
+        font5.setFamily(u"Consolas")
+        font5.setPointSize(20)
+        font5.setBold(True)
+        font5.setWeight(75)
+        self.back_button.setFont(font5)
         self.back_button.setAutoFillBackground(False)
         self.back_button.setStyleSheet(u"background-color: rgba(182, 208, 226,0.8);\n"
 "color: rgb(255, 255, 255);\n"
@@ -246,16 +241,16 @@ class ViewClinicProfileWidget(QWidget):
         self.home_navigation.setSizePolicy(sizePolicy)
         self.home_navigation.setMinimumSize(QSize(85, 96))
         self.home_navigation.setMaximumSize(QSize(85, 96))
-        font5 = QFont()
-        font5.setFamily(u"Source Sans Pro Semibold")
-        font5.setPointSize(10)
-        font5.setBold(True)
-        font5.setWeight(75)
-        self.home_navigation.setFont(font5)
+        font6 = QFont()
+        font6.setFamily(u"Source Sans Pro Semibold")
+        font6.setPointSize(10)
+        font6.setBold(True)
+        font6.setWeight(75)
+        self.home_navigation.setFont(font6)
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon1 = QIcon()
-        icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"../Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -267,11 +262,11 @@ class ViewClinicProfileWidget(QWidget):
         self.appointments_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.appointments_navigation.sizePolicy().hasHeightForWidth())
         self.appointments_navigation.setSizePolicy(sizePolicy)
-        self.appointments_navigation.setFont(font5)
+        self.appointments_navigation.setFont(font6)
         self.appointments_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
-        icon2.addFile(u"CAD/Images/nav_images/appointment_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"../Images/nav_images/appointment_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.appointments_navigation.setIcon(icon2)
         self.appointments_navigation.setIconSize(QSize(70, 70))
         self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -283,16 +278,15 @@ class ViewClinicProfileWidget(QWidget):
         self.services_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.services_navigation.sizePolicy().hasHeightForWidth())
         self.services_navigation.setSizePolicy(sizePolicy)
-        self.services_navigation.setFont(font5)
+        self.services_navigation.setFont(font6)
         self.services_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
-        icon3.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.services_navigation.setIcon(icon3)
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.services_navigation.clicked.connect(self.emitServiceBtn)
-
         self.verticalLayout_2.addWidget(self.services_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_4)
@@ -300,11 +294,11 @@ class ViewClinicProfileWidget(QWidget):
         self.settings_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
         self.settings_navigation.setSizePolicy(sizePolicy)
-        self.settings_navigation.setFont(font5)
+        self.settings_navigation.setFont(font6)
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
-        icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"../Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -316,11 +310,11 @@ class ViewClinicProfileWidget(QWidget):
         self.logout_navigation.setEnabled(True)
         sizePolicy.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
         self.logout_navigation.setSizePolicy(sizePolicy)
-        self.logout_navigation.setFont(font5)
+        self.logout_navigation.setFont(font6)
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon5 = QIcon()
-        icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"../Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -339,15 +333,11 @@ class ViewClinicProfileWidget(QWidget):
         self.fad_title.setText(QCoreApplication.translate("Form", u"Clinic Profile", None))
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
-        self.doctors_available_label.setText(QCoreApplication.translate("Form", u"Doctors Available", None))
-        self.clinic_name.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
         self.doc_img.setText("")
         self.location_label.setText(QCoreApplication.translate("Form", u"Location", None))
-        self.location_display.setText(QCoreApplication.translate("Form", u"sample display", None))
         self.contact_label.setText(QCoreApplication.translate("Form", u"Contact Details", None))
-        self.contact_display.setText(QCoreApplication.translate("Form", u"sample display", None))
         self.ophour_label.setText(QCoreApplication.translate("Form", u"Operating Hours", None))
-        self.ophour_display.setText(QCoreApplication.translate("Form", u"sample display", None))
+        self.make_appt_btn.setText(QCoreApplication.translate("Form", u"Make Appointment", None))
         self.back_button.setText(QCoreApplication.translate("Form", u"< Back", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))
@@ -371,3 +361,57 @@ class ViewClinicProfileWidget(QWidget):
     def emitBackBtn(self):
         # Emit the custom signal
         self.back_btn_clicked.emit()
+        
+    def display_clinic_profile(self, clinic_name, temp):
+        clinic_info = self.fetch_clinic_info_from_db(clinic_name)  # Fetch info from the database
+        self.update_ui_with_clinic_info(clinic_info)
+        
+        
+    def fetch_clinic_info_from_db(self, clinic_name):
+        # Fetch clinic info from the database using the clinic name
+        try:
+                # Modify the database query as per your actual database structure
+                clinic_data = db.child("clinic").get().val()
+
+                if clinic_data is None:
+                        raise ValueError("Clinic data is not available in the database.")
+                
+                clinic_id = None
+                clinic_info = None
+                for cid, clinic in clinic_data.items():
+                        if clinic.get("clinic_name") == clinic_name:
+                                clinic_id = cid
+                                clinic_info = clinic
+                                break
+                
+                if clinic_id is None:
+                        raise ValueError(f"Clinic '{clinic_name}' not found in the database.")
+
+                # Set clinic_name as a property of the button
+                self.make_appt_btn.setProperty("clinic_name", clinic_name)
+                #print(f"clinic info is {clinic_info}")
+                return clinic_info
+
+        except Exception as e:
+                print(f"An error occurred while fetching clinic data: {e}")
+                return {}
+
+
+
+    def on_make_appointment_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
+        if clinic_name :
+            self.makeAppointmentRequested.emit(clinic_name, "")
+
+
+    def update_ui_with_clinic_info(self, clinic_info):
+        # Update the UI with the fetched doctor info
+        self.clinic_img.setPixmap(QPixmap(clinic_info.get("clinic_img", "")))
+        self.clinic_name.setText(clinic_info.get("clinic_name", "Unknown"))
+        self.location_display.setText(clinic_info.get("clinic_add", "Unknown"))
+        self.contact_display.setText(clinic_info.get("clinic_phone", "Unknown"))
+        self.ophour_display.setText(clinic_info.get("clinic_operating_hr", "Unknown"))
+        
+        
+        
