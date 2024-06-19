@@ -104,6 +104,7 @@ class Ui_MainWindow(QMainWindow):
         self.makeApptWidget = MakeApptWidget()
         self.servicesWidget = ServicesWidget()
         self.viewDoctorProfile = ViewDoctorProfileWidget()
+        self.viewClinicProfile = ViewClinicProfileWidget()
         
         self.paHomeWidget = PAHomeWidget()
         self.paAddClinicWidget = AddClinicWidget()
@@ -125,6 +126,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.findDocWidget)
         self.stackedWidget.addWidget(self.makeApptWidget)
         self.stackedWidget.addWidget(self.viewDoctorProfile)
+        self.stackedWidget.addWidget(self.viewClinicProfile)
         self.stackedWidget.addWidget(self.paHomeWidget)
         self.stackedWidget.addWidget(self.paViewClinicWidget)
         self.stackedWidget.addWidget(self.paFeedbackInboxWidget)

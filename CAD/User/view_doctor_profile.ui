@@ -60,8 +60,8 @@ border-top-left-radius: 30px;
    <widget class="QLabel" name="fad_title">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>40</y>
+      <x>70</x>
+      <y>140</y>
       <width>481</width>
       <height>81</height>
      </rect>
@@ -144,8 +144,8 @@ border-top-left-radius: 30px;
    <widget class="QFrame" name="profile_display_frame">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>150</y>
+      <x>50</x>
+      <y>230</y>
       <width>1661</width>
       <height>691</height>
      </rect>
@@ -185,6 +185,9 @@ border-top-left-radius: 30px;
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -510,6 +513,44 @@ border-top-left-radius: 30px;
       </item>
      </layout>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="back_button">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>60</y>
+      <width>181</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(182, 208, 226,0.8);
+color: rgb(255, 255, 255);
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string>&lt; Back</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>70</width>
+      <height>70</height>
+     </size>
+    </property>
    </widget>
   </widget>
   <widget class="QFrame" name="frame">
