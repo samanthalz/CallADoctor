@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, 
 from User.forgotpw import ForgotPwWidget
 from User.forgotpw_newpw import ForgotPw_newpwWidget
 from User.forgotpw_verification import ForgotPw_verificationWidget
+from User.forgotpw_success import ForgotPw_successWidget
 from User.ui_home import HomeWidget
 from login import LoginWidget
 from register import RegisterWidget
@@ -85,9 +86,10 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.loginWidget = LoginWidget()
-        self.forgotPwWidget = ForgotPwWidget()
+        self.forgotPwWidget = ForgotPwWidget(self.centralwidget)
         self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
         self.forgotPw_newpwWidget = ForgotPw_newpwWidget()
+        self.forgotPw_successWidget = ForgotPw_successWidget()
         self.registerWidget = RegisterWidget()
         self.homeWidget = HomeWidget()
         self.findClinicWidget = FindClinicWidget()
@@ -105,6 +107,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.forgotPw_newpwWidget)
         self.stackedWidget.addWidget(self.forgotPw_verificationWidget)
+        self.stackedWidget.addWidget(self.forgotPw_successWidget)
         self.stackedWidget.addWidget(self.registerWidget)
         self.stackedWidget.addWidget(self.homeWidget)
         self.stackedWidget.addWidget(self.servicesWidget)
@@ -137,14 +140,18 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
+    
+    @pyqtSlot()
+    def showForgotPw_verificationWidget(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)
 
     @pyqtSlot()
     def showForgotPw_newpwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
 
     @pyqtSlot()
-    def showForgotPw_verificationWidget(self):
-        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)
+    def showForgotPw_successWidget(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_successWidget)
 
     @pyqtSlot()
     def showRegisterWidget(self):

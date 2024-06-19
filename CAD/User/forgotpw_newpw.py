@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -7,11 +7,17 @@ from PyQt5.QtWidgets import *
 
 
 class ForgotPw_newpwWidget(QWidget):
+    update_successful = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
         
     def setupUi(self, Form):
+         # Setup UI components
+        self.updatepwButton = QPushButton('Update Password', self)
+        self.updatepwButton.clicked.connect(self.emitUpdate) 
+
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
@@ -124,6 +130,8 @@ class ForgotPw_newpwWidget(QWidget):
         self.updatepw.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
 "border-radius: 10px;\n"
 "border: none")
+    
+        self.updatepw.clicked.connect(self.emitUpdate)
 
         self.verticalLayout.addWidget(self.updatepw)
 
@@ -167,3 +175,6 @@ class ForgotPw_newpwWidget(QWidget):
         self.label_7.setText("")
     # retranslateUi
 
+    @pyqtSlot()
+    def emitUpdate(self):
+        self.update_successful.emit()

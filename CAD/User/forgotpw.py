@@ -18,7 +18,8 @@ class ForgotPwWidget(QWidget):
         self.continueButton = QPushButton('Continue', self)
         self.continueButton.clicked.connect(self.emitContinue)
         
-        self.backButton = QPushButton('Back', self)
+        self.backButton = QPushButton('< Back', self) 
+        self.backButton.setObjectName("back_button")  
         self.backButton.clicked.connect(self.emitBack)
 
         if Form.objectName():
@@ -149,6 +150,9 @@ class ForgotPwWidget(QWidget):
         self.back_button.setStyleSheet(u"background-color: rgba(182, 208, 226,0.8);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;")
+        
+        self.back_button.clicked.connect(self.emitBack)
+
         self.back_button.setIconSize(QSize(70, 70))
         self.label_7.raise_()
         self.widget.raise_()
@@ -160,7 +164,7 @@ class ForgotPwWidget(QWidget):
         self.widget_3.setStyleSheet(u"background-color: \"#B6D0E2\";")
         self.widget_3.raise_()
         self.widget_2.raise_()
-
+        
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
