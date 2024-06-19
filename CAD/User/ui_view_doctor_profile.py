@@ -27,9 +27,9 @@ class ViewDoctorProfileWidget(QWidget):
         self.whitebg.setGeometry(QRect(150, 0, 1771, 1080))
         self.whitebg.setCursor(QCursor(Qt.ArrowCursor))
         self.whitebg.setStyleSheet(u"background-color: #F8F8F8;\n"
-"border-bottom-left-radius: 30px;\n"
-"border-top-left-radius: 30px;\n"
-"")
+        "border-bottom-left-radius: 30px;\n"
+        "border-top-left-radius: 30px;\n"
+        "")
         self.noti_icon = QPushButton(self.whitebg)
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
