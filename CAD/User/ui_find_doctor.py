@@ -6,10 +6,10 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 from connection import db
 
-
 class FindDoctorWidget(QWidget):
     service_btn_clicked = pyqtSignal()
-
+    logout_btn_clicked = pyqtSignal()
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         self.clinic_data_list = []
@@ -258,7 +258,7 @@ class FindDoctorWidget(QWidget):
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout_2.addWidget(self.logout_navigation)
 
 
@@ -284,6 +284,11 @@ class FindDoctorWidget(QWidget):
     def emitServiceBtn(self):
         # Emit the custom signal
         self.service_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
         
     def fetch_clinic_data(self):
         try:

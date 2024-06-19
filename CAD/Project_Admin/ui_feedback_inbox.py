@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import *
 class FeedbackInboxWidget(QWidget):
     clinic_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
+    logout_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -255,7 +256,7 @@ class FeedbackInboxWidget(QWidget):
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout.addWidget(self.logout_navigation)
 
 
@@ -290,4 +291,9 @@ class FeedbackInboxWidget(QWidget):
     @pyqtSlot()
     def emitHomeBtn(self):
         self.home_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
 

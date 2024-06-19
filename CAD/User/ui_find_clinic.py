@@ -8,7 +8,8 @@ from connection import db
 
 class FindClinicWidget(QWidget):
     service_btn_clicked = pyqtSignal()
-        
+    logout_btn_clicked = pyqtSignal()
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         self.clinic_data_list = []
@@ -204,14 +205,14 @@ class FindClinicWidget(QWidget):
         sizePolicy.setHeightForWidth(self.services_navigation.sizePolicy().hasHeightForWidth())
         self.services_navigation.setSizePolicy(sizePolicy)
         self.services_navigation.setFont(font3)
-        self.services_navigation.setStyleSheet(u"border: none; \n"
-"color: white;")
+        self.services_navigation.setStyleSheet(u"border: none; color: white;")
         icon3 = QIcon()
         icon3.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.services_navigation.setIcon(icon3)
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.services_navigation.clicked.connect(self.emitServiceBtn)
+        
         self.verticalLayout_2.addWidget(self.services_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_4)
@@ -243,7 +244,7 @@ class FindClinicWidget(QWidget):
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout_2.addWidget(self.logout_navigation)
 
 
@@ -484,4 +485,13 @@ class FindClinicWidget(QWidget):
                 
         self.clinic_dropdown.addItems(clinics)
 
+    @pyqtSlot()
+    def emitServiceBtn(self):
+        # Emit the custom signal
+        self.service_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
     

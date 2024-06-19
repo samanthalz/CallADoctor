@@ -5,10 +5,11 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient, QTextCharFormat)
 from PyQt5.QtWidgets import *
 from datetime import datetime, timedelta
+import re
 from connection import db
 
 class CustomCalendarWidget(QCalendarWidget):
-        
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         # Set the minimum and maximum selectable dates
@@ -16,29 +17,69 @@ class CustomCalendarWidget(QCalendarWidget):
         self.setMinimumDate(self.tomorrow)
         self.setMaximumDate(self.tomorrow.addMonths(6))
         self.custom_font = QFont("Consolas", 11)
+        self.selected_date = None
+
+        # Disable dates before tomorrow
+        self.disablePastDates()
+
+    def disablePastDates(self):
+        format = QTextCharFormat()
+        format.setForeground(QColor(Qt.gray))
+        date = self.minimumDate().addDays(-1)  # Start from the day before minimum date
+        while date >= self.minimumDate().addMonths(-6):
+            self.setDateTextFormat(date, format)
+            date = date.addDays(-1)
 
     def paintCell(self, painter, rect, date):
-        # Clear the cell
-        painter.fillRect(rect, self.palette().base())
+        super().paintCell(painter, rect, date)
 
         # Set custom font
         painter.setFont(self.custom_font)
 
-        # Set the pen color based on the date
-        if date < self.tomorrow:
-            painter.setPen(QColor(Qt.gray))
-        else:
-            painter.setPen(QColor(Qt.black))
+        # # Highlight the selected date
+        # if self.selected_date == date:
+        #     painter.save()
+        #     painter.setBrush(QColor(200, 200, 255, 150))  # Light blue background
+        #     painter.drawRect(rect)
+        #     painter.restore()
 
-        # Draw the date
-        painter.drawText(rect, Qt.AlignCenter, str(date.day()))
+    def mousePressEvent(self, event):
+        clicked_date = self.clickedDate(event.pos())
+        if clicked_date:
+            if self.isDateEnabled(clicked_date):
+                self.selected_date = clicked_date
+                self.updateCells()
+            else:
+                print("Selected date is disabled.")
+
+    def clickedDate(self, pos):
+        cell_width = self.width() / 7  # Assuming a 7-column calendar layout
+        cell_height = self.height() / 6  # Assuming a 6-row calendar layout
+        row = int(pos.y() // cell_height)
+        col = int(pos.x() // cell_width)
+
+        if 0 <= row < 6 and 0 <= col < 7:
+                date = self.minimumDate().addDays(row * 7 + col)
+                return date
+
+        return None
+
+
+
+
+    def isDateEnabled(self, date):
+        return self.minimumDate() <= date <= self.maximumDate()
 
 class MakeApptWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     cancel_btn_clicked = pyqtSignal()
+    redirect_appt = pyqtSignal()
+    logout_btn_clicked = pyqtSignal()
+    
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.user_id = 0
         self.clinic_data_list = []
         self.setupUi(self)
         self.fetch_clinic_data()
@@ -111,7 +152,7 @@ class MakeApptWidget(QWidget):
         self.calendarWidget = CustomCalendarWidget(self.whitebg)
         self.calendarWidget.setObjectName(u"calendarWidget")
         self.calendarWidget.setGeometry(QRect(690, 250, 1021, 631))
-        #self.calendarWidget.setStyleSheet(u"color: black; ")
+        self.calendarWidget.setStyleSheet(u"color: black; ")
         self.calendarWidget.setGridVisible(True)
         self.calendarWidget.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
         self.calendarWidget.setNavigationBarVisible(True)
@@ -132,6 +173,8 @@ class MakeApptWidget(QWidget):
         self.makeapt_btn.setGeometry(QRect(1360, 940, 321, 50))
         self.makeapt_btn.setFont(font3)
         self.makeapt_btn.setStyleSheet(u"background-color: \"#B6D0E2\"; border-radius: 10px;")
+        self.makeapt_btn.clicked.connect(self.save_appointment_to_db)
+        
         self.layoutWidget = QWidget(self.whitebg)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(54, 146, 521, 871))
@@ -403,7 +446,8 @@ class MakeApptWidget(QWidget):
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
+        
         self.verticalLayout_2.addWidget(self.logout_navigation)
 
 
@@ -444,6 +488,11 @@ class MakeApptWidget(QWidget):
     def emitCancelBtn(self):
         # Emit the custom signal
         self.cancel_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
         
     def fetch_clinic_data(self):
         try:
@@ -548,10 +597,13 @@ class MakeApptWidget(QWidget):
                                 if doctor.get("doctor_name", "") == selected_doctor:
                                         specialization = doctor.get("specialization", "")
                                         if specialization:
-                                                specialties.append(specialization)
+                                                # Split multiple specializations by comma and 'and'
+                                                for spec in re.split(',| and ', specialization):
+                                                        if spec.strip():
+                                                                specialties.append(spec.strip())
                                         break  # No need to continue once the selected doctor is found
 
-                # Sort and remove duplicates
+                # Remove duplicates and sort
                 specialties = sorted(set(specialties))
                 specialties.insert(0, "Select a Specialty")
                 self.speciality_dropdown.clear()
@@ -560,4 +612,79 @@ class MakeApptWidget(QWidget):
                 print(f"An error occurred while loading specialties: {e}")
 
 
+    def get_selected_data(self):
+        clinic = self.clinic_dropdown.currentText()
+        doctor = self.doc_dropdown.currentText()
+        time = self.time_dropdown.currentText()
+        speciality = self.speciality_dropdown.currentText()
+        date = self.calendarWidget.selectedDate().toString("yyMMdd")
+        med_concern = self.med_input.text() if self.med_input.text() != "Write here..." else ""
+        admin_reassign = "yes" if self.checkBox.isChecked() else "no"
+        return clinic, doctor, time, speciality, date, med_concern, admin_reassign
+
+    def generate_new_appt_id(self):
+        try:
+            appointments = db.child("appointment").get()
+            max_id = 0
+            if appointments.each():
+                for appointment in appointments.each():
+                    print(f"appt is {appointment}")
+                    appt_id = appointment.key()
+                    id_num = int(appt_id.replace("appt_id", ""))
+                    if id_num > max_id:
+                        max_id = id_num
+                        print(f"current max id: {max_id}")
+            new_id = max_id + 1
+            return f"appt_id{new_id}"
+        except Exception as e:
+            print(f"Error generating new appointment ID: {e}")
+            return None
+    
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
+        
+    def save_appointment_to_db(self):
+        clinic, doctor, time, speciality, date, med_concern, admin_reassign = self.get_selected_data()
+        new_appt_id = self.generate_new_appt_id()
+        
+        if not new_appt_id:
+            print("Failed to generate new appointment ID.")
+            return
+         
+        print(f"user id is {self.user_id}")
+        
+        appointment_data = {
+            "clinic_id": clinic,
+            "date": date,
+            "doctor_id": doctor,
+            "patient_id": self.user_id, 
+            "record_id": 1,  # Replace with actual record ID
+            "time": time,
+            "speciality": speciality,
+            "med_concern": med_concern,
+            "admin_reassign": admin_reassign
+        }
+
+        try:
+            db.child("appointment").child(new_appt_id).set(appointment_data)
+            print(f"Appointment {new_appt_id} saved successfully.")
+            
+            # Display message box if appointment saved successfully
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("Appointment made successfully.")
+            msgBox.setInformativeText("Please wait 3-5 days for clinic admin to approve.")
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            msgBox.setDefaultButton(QMessageBox.Ok)
+            msgBox.buttonClicked.connect(self.redirectToAppointmentWidget)
+            msgBox.exec_()
+        
+        except Exception as e:
+            print(f"Error saving appointment: {e}")
+
+
+    def redirectToAppointmentWidget(self, button):
+        if button.text() == "OK":
+            self.redirect_appt.emit()
+            
 

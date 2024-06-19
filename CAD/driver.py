@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, pyqtSlot
-from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QMessageBox
 
 # Import your custom widgets
 from User.forgotpw import ForgotPwWidget
@@ -30,7 +30,6 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
         self.loginWidget.login_successful.connect(self.handle_login_success)
         self.loginWidget.user_id.connect(self.set_user_id)
-
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
         self.registerWidget.registration_successful.connect(self.showLoginWidget)
@@ -38,26 +37,35 @@ class Ui_MainWindow(QMainWindow):
         self.servicesWidget.fad_btn_clicked.connect(self.showFindDocWidget)
         self.servicesWidget.fac_btn_clicked.connect(self.showFindClinicWidget)
         self.servicesWidget.makeAppt_btn_clicked.connect(self.showMakeApptWidget)
+        self.servicesWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.homeWidget.service_btn_clicked.connect(self.showServicesWidget)
+        self.homeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.findClinicWidget.service_btn_clicked.connect(self.showServicesWidget)
+        self.findClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.findDocWidget.service_btn_clicked.connect(self.showServicesWidget)
+        self.findDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
+        self.makeApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        #self.makeApptWidget.redirect_appt.connect(self.showAppointmetWidget) to be modified
 
         self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
         
         self.paHomeWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paHomeWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
+        self.paHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.paFeedbackInboxWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paFeedbackInboxWidget.home_btn_clicked.connect(self.showPAHomeWidget)
+        self.paFeedbackInboxWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         self.paViewClinicWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
         self.paViewClinicWidget.home_btn_clicked.connect(self.showPAHomeWidget)
+        self.paViewClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
 
     def setupUi(self, MainWindow):
@@ -133,6 +141,8 @@ class Ui_MainWindow(QMainWindow):
         
     @pyqtSlot()
     def showLoginWidget(self):
+        self.loginWidget.ic_input.clear()
+        self.loginWidget.password_input.clear()
         self.stackedWidget.setCurrentWidget(self.loginWidget)
 
     @pyqtSlot()
@@ -146,11 +156,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showNewPassword(self):
         self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
-
-    @pyqtSlot()
-    def showForgotPassword(self):
-        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)  
-
+        
     @pyqtSlot()
     def showFindClinicWidget(self):
         self.stackedWidget.setCurrentWidget(self.findClinicWidget)
@@ -174,10 +180,26 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showPAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
-
     
+
     def set_user_id(self, user_id):  
         self.homeWidget.set_user_id(user_id)
+        self.makeApptWidget.set_user_id(user_id)
+        
+    def showLogoutPopup(self):
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Logout")
+        msg_box.setText("Are you sure you want to logout?")
+        msg_box.setIcon(QMessageBox.Question)
+        msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+
+        reply = msg_box.exec_()  # Show the message box and get the button clicked
+
+        # Handle the response immediately
+        if reply == QMessageBox.Ok:
+            self.showLoginWidget()  # Call the showLoginWidget method
+        elif reply == QMessageBox.Cancel:
+            msg_box.close()
 
         
         
