@@ -9,6 +9,7 @@ from connection import db
 class FindDoctorWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    viewDoctorProfileRequested = pyqtSignal(str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -472,13 +473,16 @@ class FindDoctorWidget(QWidget):
         btnlayout.setObjectName(u"btnlayout")
         btnlayout.setContentsMargins(0, 0, 0, 0)
         
-        view_profile_btn = QPushButton(layoutWidget)
-        view_profile_btn.setObjectName(u"view_profile_btn")
-        view_profile_btn.setMinimumSize(QSize(193, 55))
-        view_profile_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
-        view_profile_btn.setText("View Profile")
-        font = QFont("Consolas", 10)
-        view_profile_btn.setFont(font)
+        for doctor_id, doctor_info in clinic.get("doctors", {}).items():
+            view_profile_btn = QPushButton(layoutWidget)
+            view_profile_btn.setObjectName(u"view_profile_btn")
+            view_profile_btn.setMinimumSize(QSize(193, 55))
+            view_profile_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+            view_profile_btn.setText("View Profile")
+            font = QFont("Consolas", 10)
+            view_profile_btn.setFont(font)
+            view_profile_btn.setProperty("doctor_id", doctor_id)  # Store the doctor ID as a property of the button
+            view_profile_btn.clicked.connect(self.on_view_profile_button_clicked)
 
         btnlayout.addWidget(view_profile_btn)
 
@@ -556,3 +560,11 @@ class FindDoctorWidget(QWidget):
         verticalLayout.addItem(verticalSpacer_2)
         
         return doc_info_outer
+
+    @pyqtSlot()
+    def on_view_profile_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        doctor_id = button.property("doctor_id")  # Retrieve the doctor ID from the button's property
+        if doctor_id:
+            self.viewDoctorProfileRequested.emit(doctor_id)  # Emit the signal with the doctor ID
+        
