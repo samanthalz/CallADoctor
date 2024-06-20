@@ -500,14 +500,6 @@ class HomeWidget(QWidget):
         self.past_label.setText(QCoreApplication.translate("Form", u"Past", None))
         self.active_pres_label.setText(QCoreApplication.translate("Form", u"Active Prescriptions", None))
 
-
-        # variables (upcoming & past appts) : 
-        # self.clinic_name_label.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        # self.clinic_logo_label.setText(QCoreApplication.translate("Form", u"A", None))
-        # self.toa_label.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
-        # self.date_label.setText(QCoreApplication.translate("Form", u"Date", None))
-        # self.time_label.setText(QCoreApplication.translate("Form", u"Time", None))
-
         # Variables (active prescriptions) : 
         self.medicineName_label.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
         self.medicine_quantity_label.setText(QCoreApplication.translate("Form", u"Quantity", None))
