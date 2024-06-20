@@ -10,29 +10,28 @@ class ForgotPw_verificationWidget(QWidget):
         self.setupUi(self)
 
     def setupUi(self, Form):
-        # Setup UI components
-        self.continueButton = QPushButton('Continue', self)
-        self.continueButton.clicked.connect(self.emitContinue)  # Ensure this connects to emitContinue
-
         if Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(1938, 1098)
-        self.horizontalLayout = QHBoxLayout(Form)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.bg = QFrame(Form)
-        self.bg.setObjectName(u"bg")
-        self.bg.setMinimumSize(QSize(1920, 1080))
-        self.bg.setFrameShape(QFrame.StyledPanel)
-        self.bg.setFrameShadow(QFrame.Raised)
-        self.widget_2 = QWidget(self.bg)
+        Form.resize(1920, 1080)
+        self.widget_2 = QWidget(Form)
         self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setGeometry(QRect(10, 10, 1350, 1080))
+        self.widget_2.setGeometry(QRect(0, 0, 1350, 1080))
         self.widget_2.setMinimumSize(QSize(0, 1080))
         self.widget_2.setStyleSheet(u"background-color: \"white\";")
+        self.logo = QLabel(self.widget_2)
+        self.logo.setObjectName(u"logo")
+        self.logo.setGeometry(QRect(10, -50, 281, 261))
+        self.logo.setPixmap(QPixmap(u"../Images/call a doctor.png"))
+        self.logo.setScaledContents(True)
+        self.label_7 = QLabel(self.widget_2)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setGeometry(QRect(540, 270, 681, 531))
+        self.label_7.setStyleSheet(u"border: 2px solid #B6D0E2;\n"
+"border-radius: 10px;")
         self.widget = QWidget(self.widget_2)
         self.widget.setObjectName(u"widget")
         self.widget.setEnabled(True)
-        self.widget.setGeometry(QRect(550, 300, 658, 451))
+        self.widget.setGeometry(QRect(550, 280, 658, 451))
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -55,7 +54,7 @@ class ForgotPw_verificationWidget(QWidget):
         font.setWeight(75)
         self.verification.setFont(font)
         self.verification.setStyleSheet(u"color:rgb(21, 48, 96)")
-        self.verification.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        self.verification.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
 
         self.verticalLayout.addWidget(self.verification)
 
@@ -110,6 +109,7 @@ class ForgotPw_verificationWidget(QWidget):
 
         self.horizontalLayout_2.addWidget(self.lineEdit_4)
 
+
         self.verticalLayout.addWidget(self.noboxline)
 
         self.verticalSpacer_5 = QSpacerItem(14, 44, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -124,8 +124,8 @@ class ForgotPw_verificationWidget(QWidget):
         font2.setPointSize(10)
         self.Continuebutton.setFont(font2)
         self.Continuebutton.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
-                                          "border-radius: 10px;\n"
-                                          "border: none")
+"border-radius: 10px;\n"
+"border: none")
         self.Continuebutton.clicked.connect(self.emitContinue)
 
         self.verticalLayout.addWidget(self.Continuebutton)
@@ -142,35 +142,21 @@ class ForgotPw_verificationWidget(QWidget):
 
         self.verticalLayout.addWidget(self.text2)
 
-        self.Logo = QLabel(self.widget_2)
-        self.Logo.setObjectName(u"Logo")
-        self.Logo.setGeometry(QRect(10, -50, 281, 261))
-        self.Logo.setPixmap(QPixmap(u"../Images/call a doctor.png"))
-        self.Logo.setScaledContents(True)
-        self.label_7 = QLabel(self.widget_2)
-        self.label_7.setObjectName(u"label_7")
-        self.label_7.setGeometry(QRect(540, 270, 681, 531))
-        self.label_7.setStyleSheet(u"border: 2px solid #B6D0E2;\n"
-                                   "border-radius: 10px;")
-        self.Logo.raise_()
-        self.label_7.raise_()
-        self.widget.raise_()
-        self.widget_3 = QWidget(self.bg)
-        self.widget_3.setObjectName(u"widget_3")
-        self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
-        self.widget_3.setMinimumSize(QSize(0, 1080))
-        self.widget_3.setStyleSheet(u"background-color: \"#B6D0E2\";")
-        self.widget_3.raise_()
-        self.widget_2.raise_()
-
-        self.horizontalLayout.addWidget(self.bg)
+        self.widget_4 = QWidget(Form)
+        self.widget_4.setObjectName(u"widget_4")
+        self.widget_4.setGeometry(QRect(1348, 0, 579, 1080))
+        self.widget_4.setMinimumSize(QSize(0, 1080))
+        self.widget_4.setStyleSheet(u"background-color: \"#B6D0E2\";")
 
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+    # setupUi
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        self.logo.setText("")
+        self.label_7.setText("")
         self.verification.setText(QCoreApplication.translate("Form", u"Verification", None))
         self.text1.setText(QCoreApplication.translate("Form", u"Enter your 4 digits code that you received on your email", None))
         self.no2.setInputMask(QCoreApplication.translate("Form", u"9", None))
@@ -178,7 +164,8 @@ class ForgotPw_verificationWidget(QWidget):
         self.no1.setInputMask(QCoreApplication.translate("Form", u"9", None))
         self.lineEdit_4.setInputMask(QCoreApplication.translate("Form", u"9", None))
         self.Continuebutton.setText(QCoreApplication.translate("Form", u"Continue", None))
-        self.text2.setText(QCoreApplication.translate("Form", u"If you didn't receive a code! Resend", None))
+        self.text2.setText(QCoreApplication.translate("Form", u"If you didn't receive a code ! Resend", None))
+    # retranslateUi
 
     @pyqtSlot()
     def emitContinue(self):

@@ -23,15 +23,18 @@ class ForgotPw_newpwWidget(QWidget):
         self.bg.setMinimumSize(QSize(1920, 1080))
         self.bg.setFrameShape(QFrame.StyledPanel)
         self.bg.setFrameShadow(QFrame.Raised)
+
         self.widget_2 = QWidget(self.bg)
         self.widget_2.setObjectName(u"widget_2")
         self.widget_2.setGeometry(QRect(0, 0, 1350, 1080))
         self.widget_2.setMinimumSize(QSize(0, 1080))
         self.widget_2.setStyleSheet(u"background-color: \"white\";")
+
         self.widget = QWidget(self.widget_2)
         self.widget.setObjectName(u"widget")
         self.widget.setEnabled(True)
         self.widget.setGeometry(QRect(550, 280, 658, 511))
+        
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -144,6 +147,7 @@ class ForgotPw_newpwWidget(QWidget):
         self.logo.raise_()
         self.label_7.raise_()
         self.widget.raise_()
+        
         self.widget_3 = QWidget(self.bg)
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
