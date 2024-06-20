@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QFont, QPixmap
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QSizePolicy, QSpacerItem, QFrame
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QSizePolicy, QSpacerItem, QFrame, QMessageBox
 
 class ForgotPw_verificationWidget(QWidget):
     continue_successful = pyqtSignal()
@@ -169,5 +169,22 @@ class ForgotPw_verificationWidget(QWidget):
 
     @pyqtSlot()
     def emitContinue(self):
-        # Emit the custom signal
-        self.continue_successful.emit()
+        if self.validateCode():
+            # Emit the custom signal if validation passes
+            self.continue_successful.emit()
+        else:
+            self.showErrorMessage()
+
+    def validateCode(self):
+        code = self.no1.text() + self.no2.text() + self.no3.text() + self.lineEdit_4.text()
+        if not code.isdigit() or len(code) != 4:
+            self.error_message = "Verification code must be 4 digits."
+            return False
+        return True
+
+    def showErrorMessage(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText(self.error_message)
+        msg.setWindowTitle("Validation Error")
+        msg.exec_()

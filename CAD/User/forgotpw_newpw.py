@@ -1,10 +1,11 @@
+import json
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
     QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
+    QRadialGradient, QMessageBox)
 from PyQt5.QtWidgets import *
-
+from connection import db
 
 class ForgotPw_newpwWidget(QWidget):
     update_successful = pyqtSignal()
@@ -177,4 +178,36 @@ class ForgotPw_newpwWidget(QWidget):
 
     @pyqtSlot()
     def emitUpdate(self):
-        self.update_successful.emit()
+        if self.validatePasswords():
+            self.update_successful.emit()
+        else:
+            self.showErrorMessage()
+
+    def validatePasswords(self):
+        new_password = self.lineEdit.text()
+        confirm_password = self.lineEdit_2.text()
+        
+        if not new_password or not confirm_password:
+            self.error_message = "Password fields cannot be empty."
+            return False
+        if new_password != confirm_password:
+            self.error_message = "Passwords do not match."
+            return False
+        if not self.checkOldPasswordInDb(new_password):
+            self.error_message = "Old password does not exist in the database."
+            return False
+        return True
+
+    def checkOldPasswordInDb(self, password):
+        # Replace this logic with the actual database check
+        for key, value in db.items():
+            if value["patient_pass"] == password:
+                return True
+        return False
+
+    def showErrorMessage(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText(self.error_message)
+        msg.setWindowTitle("Validation Error")
+        msg.exec_()
