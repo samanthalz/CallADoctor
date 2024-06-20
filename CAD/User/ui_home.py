@@ -20,7 +20,7 @@ class HomeWidget(QWidget):
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
 
-    def create_active_appts_frame(self):
+    def create_active_pres_frame(self):
 
         font3 = QFont()
         font3.setFamily(u"Cascadia Code")
@@ -52,12 +52,26 @@ class HomeWidget(QWidget):
         today = date.today()
         current_date = today.strftime("%y%m%d")
         active_medication_list = []
+        medicine_frames = []
         if medical_records: 
             for record_id, record_info in medical_records.items():
                 if int(record_info.get('patient_id')) == int(self.user_id):
                      if  int(record_info.get('end_date')) >= int(current_date): # active prescriptions
-                          for medicines in record_info.get('medicine'):
-                               active_medication_list.append(medicines)
+                          for medicine in record_info.get('medicine'):
+                                active_medication_list.append(medicine)
+            
+            for medicine in active_medication_list:
+                #Create a frame for each appointment
+                medicine_frame = self.create_active_pres_frame(medicine)
+                if medicine_frame:
+                    medicine_frames.append(medicine_frame)
+            
+        # Add visible appointments to the layout
+        for medicine_frame in medicine_frames:
+                self.verticalLayout_activePres.addWidget(medicine_frame)
+
+        # Refresh the layout after adding all frames
+        self.verticalLayout_activePres.update()
                      
 
     def create_appointments_frame(self, clinic_name, clinic_logo, toa, appt_date, time, position):
