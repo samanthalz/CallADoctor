@@ -1,11 +1,14 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 
 class ForgotPw_successWidget(QWidget):
+    continue_btn_clicked = pyqtSignal()
+
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -27,7 +30,7 @@ class ForgotPw_successWidget(QWidget):
         self.widget = QWidget(self.widget_2)
         self.widget.setObjectName(u"widget")
         self.widget.setEnabled(True)
-        self.widget.setGeometry(QRect(550, 540, 658, 248))
+        self.widget.setGeometry(QRect(550, 320, 658, 451))
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -77,7 +80,8 @@ class ForgotPw_successWidget(QWidget):
 "border-radius: 10px;\n"
 "border: none\n"
 "")
-
+        self.Con_Login.clicked.connect(self.emitContinue)
+        
         self.verticalLayout.addWidget(self.Con_Login)
 
         self.label_7 = QLabel(self.widget_2)
@@ -85,17 +89,8 @@ class ForgotPw_successWidget(QWidget):
         self.label_7.setGeometry(QRect(540, 270, 681, 531))
         self.label_7.setStyleSheet(u"border: 2px solid rgb(182, 208, 226);\n"
 "border-radius: 10px;")
-        self.label_3 = QLabel(self.widget_2)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setEnabled(True)
-        self.label_3.setGeometry(QRect(730, 280, 301, 261))
-        self.label_3.setPixmap(QPixmap(u"../Images/icon/Successful_icon.png"))
-        self.label_3.setScaledContents(True)
-        self.label_3.setAlignment(Qt.AlignCenter)
-        self.label_3.setWordWrap(False)
         self.label_7.raise_()
         self.widget.raise_()
-        self.label_3.raise_()
         self.widget_3 = QWidget(self.bg)
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
@@ -111,10 +106,14 @@ class ForgotPw_successWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Successfully", None))
+        self.label.setText(QCoreApplication.translate("Form", u"Changed Successfully", None))
         self.label_2.setText(QCoreApplication.translate("Form", u"Your password has been reset successfully", None))
         self.Con_Login.setText(QCoreApplication.translate("Form", u"Continue", None))
         self.label_7.setText("")
-        self.label_3.setText("")
     # retranslateUi
 
+    @pyqtSlot()
+    def emitContinue(self):
+        print("Continue button clicked")
+        # Emit the custom signal
+        self.continue_btn_clicked.emit()

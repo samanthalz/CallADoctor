@@ -14,10 +14,6 @@ class ForgotPw_newpwWidget(QWidget):
         self.setupUi(self)
         
     def setupUi(self, Form):
-         # Setup UI components
-        self.updatepwButton = QPushButton('Update Password', self)
-        self.updatepwButton.clicked.connect(self.emitUpdate) 
-
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)

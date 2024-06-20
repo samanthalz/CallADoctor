@@ -14,14 +14,6 @@ class ForgotPwWidget(QWidget):
         self.setupUi(self)
 
     def setupUi(self, Form):
-        # Setup UI components
-        self.continueButton = QPushButton('Continue', self)
-        self.continueButton.clicked.connect(self.emitContinue)
-        
-        self.backButton = QPushButton('< Back', self) 
-        self.backButton.setObjectName("back_button")  
-        self.backButton.clicked.connect(self.emitBack)
-
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
