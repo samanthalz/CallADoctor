@@ -2,7 +2,7 @@ from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
     QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
+    QRadialGradient, QBitmap)
 from PyQt5.QtWidgets import *
 
 
@@ -67,19 +67,15 @@ class HomeWidget(QWidget):
         self.clinic_logo_label = QLabel(self.clinicAppt_frame)
         self.clinic_logo_label.setObjectName(u"clinic_logo_label")
         self.clinic_logo_label.setGeometry(QRect(10, 10, 54, 54))
-        font4 = QFont()
-        font4.setFamily(u"Cascadia Code")
-        font4.setPointSize(9)
-        self.clinic_logo_label.setFont(font4)
-        self.clinic_logo_label.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
+        self.clinic_logo_label.setStyleSheet(u"background-color: #B6D0E2; border-radius: 25px; /* Radius to make it round */\n")
         self.clinic_logo_label.setAlignment(Qt.AlignCenter)
-        #self.clinic_logo_label.setText(clinic_logo)  # Set logo or path to logo image
+        if clinic_logo:
+                pixmap = QPixmap(clinic_logo) # clinic_logo is the image path
+                pixmap = pixmap.scaled(self.clinic_logo_label.size()) #, Qt.KeepAspectRatio, Qt.SmoothTransformation
+        # # Create a mask to make the QLabel circular
+        # mask = QBitmap(pixmap.mask())
+        # self.clinic_logo_label.setMask(mask)
+        self.clinic_logo_label.setPixmap(pixmap)
 
         self.toa_label = QLabel(self.clinicAppt_frame)
         self.toa_label.setObjectName(u"toa_label")
@@ -117,6 +113,7 @@ class HomeWidget(QWidget):
 
     def get_upcoming_appt_data(self):
         appointment_data = db.child("appointment").get().val()
+        clinics = db.child("clinic").get().val()
         num_upcoming_appt = 0 # Initialize as 0
         upcoming_appt_info = []
         upcoming_appt_frames = []
@@ -127,8 +124,12 @@ class HomeWidget(QWidget):
             for appt_id, appt_info in appointment_data.items():
                 if int(appt_info.get('patient_id')) == int(self.user_id):
                     clinic_name = appt_info['clinic_id']
-                    #clinic_logo = appt_info['clinic_logo']  # Assuming this is a path or identifier for the logo
-                    clinic_logo = "A"
+                    
+                    for i, clinic in clinics.items():
+                        if clinic.get("clinic_name") == clinic_name:
+                             clinic_logo = clinic.get("clinic_img") # image path
+                             break
+
                     toa = appt_info['speciality']
                     appt_date = appt_info['date']
                     appt_date = self.translate_date(appt_date)
