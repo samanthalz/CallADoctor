@@ -20,13 +20,40 @@ class HomeWidget(QWidget):
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
 
+    def create_active_appts_frame(self):
+
+        font3 = QFont()
+        font3.setFamily(u"Cascadia Code")
+        font3.setPointSize(10)
+
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(11)
+
+        self.prescription_frame = QFrame(self.active_pres_frame)
+        self.prescription_frame.setObjectName(u"prescription_frame")
+        self.prescription_frame.setGeometry(QRect(0, 50, 481, 71))
+        self.prescription_frame.setStyleSheet(u"border : none;\n""border-radius : 0;\n""background-color : #FFFFFF;")
+        self.prescription_frame.setFrameShape(QFrame.StyledPanel)
+        self.prescription_frame.setFrameShadow(QFrame.Raised)
+        self.medicineName_label = QLabel(self.prescription_frame)
+        self.medicineName_label.setObjectName(u"medicineName_label")
+        self.medicineName_label.setGeometry(QRect(60, 10, 241, 16))
+        self.medicineName_label.setFont(font2)
+        self.medicine_quantity_label = QLabel(self.prescription_frame)
+        self.medicine_quantity_label.setObjectName(u"medicine_quantity_label")
+        self.medicine_quantity_label.setGeometry(QRect(60, 30, 161, 21))
+        self.medicine_quantity_label.setFont(font3)
+        self.medicine_quantity_label.setStyleSheet(u"border : none;\n""color : #6ea0c4;\n""")
+
 
     def create_appointments_frame(self, clinic_name, clinic_logo, toa, appt_date, time, position):
         self.clinicAppt_frame = QFrame(self.upcoming_appt_frame)
         self.clinicAppt_frame.setObjectName(u"clinicAppt_frame")
+        self.clinicAppt_frame.setFixedHeight(81)  # Set the fixed height of the frame
         #self.clinicAppt_frame.setGeometry(QRect(20, 70, 401, 81))
         #self.clinicAppt_frame.setGeometry(QRect(401, 81))
-        self.clinicAppt_frame.setGeometry(QRect(20, 70 + position * 90, 401, 81))  # Adjust position based on index
+        #self.clinicAppt_frame.setGeometry(QRect(20, 70 + position * 90, 401, 81))  # Adjust position based on index
         self.clinicAppt_frame.setFrameShape(QFrame.StyledPanel)
         self.clinicAppt_frame.setFrameShadow(QFrame.Raised)
 
@@ -89,36 +116,13 @@ class HomeWidget(QWidget):
 
         return self.clinicAppt_frame
 
-    def create_active_appts_frame(self):
-
-        font3 = QFont()
-        font3.setFamily(u"Cascadia Code")
-        font3.setPointSize(10)
-
-        font2 = QFont()
-        font2.setFamily(u"Cascadia Code")
-        font2.setPointSize(11)
-
-        self.prescription_frame = QFrame(self.active_pres_frame)
-        self.prescription_frame.setObjectName(u"prescription_frame")
-        self.prescription_frame.setGeometry(QRect(0, 50, 481, 71))
-        self.prescription_frame.setStyleSheet(u"border : none;\n""border-radius : 0;\n""background-color : #FFFFFF;")
-        self.prescription_frame.setFrameShape(QFrame.StyledPanel)
-        self.prescription_frame.setFrameShadow(QFrame.Raised)
-        self.medicineName_label = QLabel(self.prescription_frame)
-        self.medicineName_label.setObjectName(u"medicineName_label")
-        self.medicineName_label.setGeometry(QRect(60, 10, 241, 16))
-        self.medicineName_label.setFont(font2)
-        self.medicine_quantity_label = QLabel(self.prescription_frame)
-        self.medicine_quantity_label.setObjectName(u"medicine_quantity_label")
-        self.medicine_quantity_label.setGeometry(QRect(60, 30, 161, 21))
-        self.medicine_quantity_label.setFont(font3)
-        self.medicine_quantity_label.setStyleSheet(u"border : none;\n""color : #6ea0c4;\n""")
+    
 
     def get_upcoming_appt_data(self):
         appointment_data = db.child("appointment").get().val()
         num_upcoming_appt = 0 # Initialize as 0
         upcoming_appt_info = []
+        visible_appts = []
         today = date.today()
         current_date = today.strftime("%y%m%d")
         if appointment_data: 
@@ -126,7 +130,6 @@ class HomeWidget(QWidget):
                 if int(appt_info.get('patient_id')) == int(self.user_id) and int(appt_info.get('date')) >= int(current_date):
                     num_upcoming_appt += 1
                     upcoming_appt_info.append(appt_info)
-                    print(appt_info)
 
                     clinic_name = appt_info['clinic_id']
                     #clinic_logo = appt_info['clinic_logo']  # Assuming this is a path or identifier for the logo
@@ -138,15 +141,13 @@ class HomeWidget(QWidget):
                     #Create a frame for each appointment
                     appt_frame = self.create_appointments_frame(clinic_name, clinic_logo, toa, appt_date, time, num_upcoming_appt)
         
-        visible_appts = []
-        if appt_frame:
-            visible_appts.append(appt_frame)
+                    
+                    if appt_frame:
+                        visible_appts.append(appt_frame)
 
         # Add visible appointments to the layout
-        counter = 0
         for appt_frame in visible_appts:
-                counter += 1
-                row = counter
+                print(f"Adding frame: {appt_frame.objectName()}")
                 self.verticalLayout_upcomingAppt.addWidget(appt_frame)
 
         # Refresh the layout after adding all frames
@@ -277,6 +278,7 @@ class HomeWidget(QWidget):
         # Create the upcoming label
         self.upcoming_label = QLabel(self.upcoming_appt_frame)
         self.upcoming_label.setObjectName(u"upcoming_label")
+        self.upcoming_label.setFixedHeight(41)  # Set the fixed height of the frame
         self.upcoming_label.setGeometry(QRect(30, 20, 101, 41))
         
         self.upcoming_label.setFont(font2)
