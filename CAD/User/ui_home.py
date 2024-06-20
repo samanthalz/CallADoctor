@@ -20,7 +20,7 @@ class HomeWidget(QWidget):
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
 
-    def create_active_pres_frame(self):
+    def create_active_pres_frame(self, medicine):
 
         font3 = QFont()
         font3.setFamily(u"Cascadia Code")
@@ -40,11 +40,13 @@ class HomeWidget(QWidget):
         self.medicineName_label.setObjectName(u"medicineName_label")
         self.medicineName_label.setGeometry(QRect(60, 10, 241, 16))
         self.medicineName_label.setFont(font2)
+        self.medicineName_label.setText(medicine)
         self.medicine_quantity_label = QLabel(self.prescription_frame)
         self.medicine_quantity_label.setObjectName(u"medicine_quantity_label")
         self.medicine_quantity_label.setGeometry(QRect(60, 30, 161, 21))
         self.medicine_quantity_label.setFont(font3)
         self.medicine_quantity_label.setStyleSheet(u"border : none;\n""color : #6ea0c4;\n""")
+        self.medicine_quantity_label.setText("Quantity") # Placeholder
 
 
     def get_medical_records(self):
@@ -61,7 +63,7 @@ class HomeWidget(QWidget):
                                 active_medication_list.append(medicine)
             
             for medicine in active_medication_list:
-                #Create a frame for each appointment
+                #Create a frame for each medication
                 medicine_frame = self.create_active_pres_frame(medicine)
                 if medicine_frame:
                     medicine_frames.append(medicine_frame)
@@ -359,21 +361,21 @@ class HomeWidget(QWidget):
         
         #############################################################################################33
         # Prescription repeat : 
-        self.prescription_frame = QFrame(self.active_pres_frame)
-        self.prescription_frame.setObjectName(u"prescription_frame")
-        self.prescription_frame.setGeometry(QRect(0, 50, 481, 71))
-        self.prescription_frame.setStyleSheet(u"border : none;\n""border-radius : 0;\n""background-color : #FFFFFF;")
-        self.prescription_frame.setFrameShape(QFrame.StyledPanel)
-        self.prescription_frame.setFrameShadow(QFrame.Raised)
-        self.medicineName_label = QLabel(self.prescription_frame)
-        self.medicineName_label.setObjectName(u"medicineName_label")
-        self.medicineName_label.setGeometry(QRect(60, 10, 241, 16))
-        self.medicineName_label.setFont(font2)
-        self.medicine_quantity_label = QLabel(self.prescription_frame)
-        self.medicine_quantity_label.setObjectName(u"medicine_quantity_label")
-        self.medicine_quantity_label.setGeometry(QRect(60, 30, 161, 21))
-        self.medicine_quantity_label.setFont(font3)
-        self.medicine_quantity_label.setStyleSheet(u"border : none;\n""color : #6ea0c4;\n""")
+        # self.prescription_frame = QFrame(self.active_pres_frame)
+        # self.prescription_frame.setObjectName(u"prescription_frame")
+        # self.prescription_frame.setGeometry(QRect(0, 50, 481, 71))
+        # self.prescription_frame.setStyleSheet(u"border : none;\n""border-radius : 0;\n""background-color : #FFFFFF;")
+        # self.prescription_frame.setFrameShape(QFrame.StyledPanel)
+        # self.prescription_frame.setFrameShadow(QFrame.Raised)
+        # self.medicineName_label = QLabel(self.prescription_frame)
+        # self.medicineName_label.setObjectName(u"medicineName_label")
+        # self.medicineName_label.setGeometry(QRect(60, 10, 241, 16))
+        # self.medicineName_label.setFont(font2)
+        # self.medicine_quantity_label = QLabel(self.prescription_frame)
+        # self.medicine_quantity_label.setObjectName(u"medicine_quantity_label")
+        # self.medicine_quantity_label.setGeometry(QRect(60, 30, 161, 21))
+        # self.medicine_quantity_label.setFont(font3)
+        # self.medicine_quantity_label.setStyleSheet(u"border : none;\n""color : #6ea0c4;\n""")
         ##########################################################################################################
         
         # Notification, profile, nav bar
@@ -528,8 +530,8 @@ class HomeWidget(QWidget):
         self.active_pres_label.setText(QCoreApplication.translate("Form", u"Active Prescriptions", None))
 
         # Variables (active prescriptions) : 
-        self.medicineName_label.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
-        self.medicine_quantity_label.setText(QCoreApplication.translate("Form", u"Quantity", None))
+        # self.medicineName_label.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
+        # self.medicine_quantity_label.setText(QCoreApplication.translate("Form", u"Quantity", None))
 
 
         
