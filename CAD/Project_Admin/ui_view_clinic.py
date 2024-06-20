@@ -10,6 +10,8 @@ class ViewClinicWidget(QWidget):
     feedback_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    add_btn_clicked = pyqtSignal()
+    
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -116,6 +118,7 @@ class ViewClinicWidget(QWidget):
         font10.setWeight(75)
         self.add_clinic_btn.setFont(font10)
         self.add_clinic_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.add_clinic_btn.clicked.connect(self.emitAddClinicBtn)
         
         self.clear_btn = QPushButton(self.background)
         self.clear_btn.setObjectName(u"clear_btn")
@@ -291,6 +294,11 @@ class ViewClinicWidget(QWidget):
     def emitLogoutBtn(self):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitAddClinicBtn(self):
+        # Emit the custom signal
+        self.add_btn_clicked.emit()
 
 
     def fetch_clinic_data(self):
@@ -397,7 +405,6 @@ class ViewClinicWidget(QWidget):
 
         self.vLayout.update()
         self.scrollAreaWidgetContents.update()
-
 
 
     def create_clinic_details_frame(self, clinic_data):
