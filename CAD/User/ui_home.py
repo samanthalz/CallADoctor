@@ -19,6 +19,40 @@ class HomeWidget(QWidget):
         self.user_id = 0
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
+
+    def get_upcoming_appt_data(self):
+        appointment_data = db.child("appointment").get().val()
+        num_upcoming_appt = 0 # Initialize as 0
+        upcoming_appt_info = []
+        today = date.today()
+        current_date = today.strftime("%y%m%d")
+        if appointment_data: 
+            for appt_id, appt_info in appointment_data.items():
+                if int(appt_info.get('patient_id')) == int(self.user_id) and int(appt_info.get('date')) >= int(current_date):
+                    num_upcoming_appt += 1
+                    upcoming_appt_info.append(appt_info)
+        return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
+    
+    
+    def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
+        day = date_str[-2:]
+        month = date_str[2:4]
+        year = '20' + date_str[:2] 
+
+        monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        
+        month = monthList[int(month) - 1]
+
+        date_str = day + " " + month + " " + year
+
+        return date_str
+    
+
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
+        # Assign values after user_id is initialized
+        self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
+        self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
         
         
     def setupUi(self, Form):
@@ -673,39 +707,7 @@ class HomeWidget(QWidget):
         self.logout_btn_clicked.emit()
 
     
-    def get_upcoming_appt_data(self):
-        appointment_data = db.child("appointment").get().val()
-        num_upcoming_appt = 0 # Initialize as 0
-        upcoming_appt_info = []
-        today = date.today()
-        current_date = today.strftime("%y%m%d")
-        if appointment_data: 
-            for appt_id, appt_info in appointment_data.items():
-                if int(appt_info.get('patient_id')) == int(self.user_id) and int(appt_info.get('date')) >= int(current_date):
-                    num_upcoming_appt += 1
-                    upcoming_appt_info.append(appt_info)
-        return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
     
-    
-    def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
-        day = date_str[-2:]
-        month = date_str[2:4]
-        year = '20' + date_str[:2] 
-
-        monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        
-        month = monthList[int(month) - 1]
-
-        date_str = day + " " + month + " " + year
-
-        return date_str
-    
-
-    def set_user_id(self, user_id): 
-        self.user_id = user_id
-        # Assign values after user_id is initialized
-        self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
-        self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
 
 
 
