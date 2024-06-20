@@ -35,6 +35,8 @@ class Ui_MainWindow(QMainWindow):
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
         self.registerWidget.registration_successful.connect(self.showLoginWidget)
+        
+        self.registerClinicWidget.back_btn_clicked.connect(self.showLoginWidget)
  
         self.servicesWidget.fad_btn_clicked.connect(self.showFindDocWidget)
         self.servicesWidget.fac_btn_clicked.connect(self.showFindClinicWidget)
