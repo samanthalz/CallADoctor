@@ -33,6 +33,7 @@ class HomeWidget(QWidget):
         self.prescription_frame = QFrame(self.active_pres_frame)
         self.prescription_frame.setObjectName(u"prescription_frame")
         self.prescription_frame.setGeometry(QRect(0, 50, 481, 71))
+        self.prescription_frame.setFixedHeight(71)  # Set the fixed height of the frame
         self.prescription_frame.setStyleSheet(u"border : none;\n""border-radius : 0;\n""background-color : #FFFFFF;")
         self.prescription_frame.setFrameShape(QFrame.StyledPanel)
         self.prescription_frame.setFrameShadow(QFrame.Raised)
@@ -48,6 +49,8 @@ class HomeWidget(QWidget):
         self.medicine_quantity_label.setStyleSheet(u"border : none;\n""color : #6ea0c4;\n""")
         self.medicine_quantity_label.setText("Quantity") # Placeholder
 
+        return self.prescription_frame
+
 
     def get_medical_records(self):
         medical_records = db.child("medical_records").get().val()
@@ -56,9 +59,9 @@ class HomeWidget(QWidget):
         active_medication_list = []
         medicine_frames = []
         if medical_records: 
-            for record_id, record_info in medical_records.items():
+            for record_id, record_info in enumerate(medical_records):
                 if int(record_info.get('patient_id')) == int(self.user_id):
-                     if  int(record_info.get('end_date')) >= int(current_date): # active prescriptions
+                     if  int(record_info.get('end_date')) >= int(current_date): 
                           for medicine in record_info.get('medicine'):
                                 active_medication_list.append(medicine)
             
@@ -210,6 +213,7 @@ class HomeWidget(QWidget):
         self.user_id = user_id
         # Assign values after user_id is initialized
         self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
+        self.get_medical_records()
         self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
         
         
