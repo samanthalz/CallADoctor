@@ -1072,7 +1072,7 @@ border: 1px solid gray;
           <font>
            <family>Consolas</family>
            <pointsize>12</pointsize>
-           <weight>70</weight>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
