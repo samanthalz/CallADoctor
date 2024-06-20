@@ -20,12 +20,12 @@ class HomeWidget(QWidget):
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
 
-    def clear_layout(self):
-        while self.gridLayout.count():
-            item = self.gridLayout.takeAt(0)
-            widget = item.widget()
-            if widget is not None:
-                widget.deleteLater()
+#     def clear_layout(self):
+#         while self.gridLayout.count():
+#             item = self.gridLayout.takeAt(0)
+#             widget = item.widget()
+#             if widget is not None:
+#                 widget.deleteLater()
 
     def create_appointments_frame(self, clinic_name, clinic_logo, toa, date, time, position):
         self.clinicAppt_frame = QFrame(self.upcomin_appt_frame)
@@ -107,11 +107,11 @@ class HomeWidget(QWidget):
                     num_upcoming_appt += 1
                     upcoming_appt_info.append(appt_info)
 
-                    clinic_name = appt_info['clinic_name']
-                    clinic_logo = appt_info['clinic_logo']  # Assuming this is a path or identifier for the logo
-                    toa = appt_info['toa']
-                    date = appt_info['date']
-                    time = appt_info['time']
+                #     clinic_name = appt_info['clinic_name']
+                #     clinic_logo = appt_info['clinic_logo']  # Assuming this is a path or identifier for the logo
+                #     toa = appt_info['toa']
+                #     date = appt_info['date']
+                #     time = appt_info['time']
 
                     # Create a frame for each appointment
                 #     appt_frame = self.create_appointments_frame(clinic_name, clinic_logo, toa, date, time, i)
@@ -209,7 +209,7 @@ class HomeWidget(QWidget):
         self.upcoming_label.setFont(font2)
         self.upcoming_label.setStyleSheet(u"border : none;\n"
 "")
-        #################### frame to be repeated ######################
+        #################### upcoming appt frame to be repeated ######################
         self.clinicAppt_frame = QFrame(self.upcomin_appt_frame)
         self.clinicAppt_frame.setObjectName(u"clinicAppt_frame")
         self.clinicAppt_frame.setGeometry(QRect(20, 70, 401, 81))
@@ -268,6 +268,22 @@ class HomeWidget(QWidget):
         self.time_label.setStyleSheet(u"border : none;\n"
 "")
         ############### end frame to be repeated #####################
+
+        ################## past appointment frame to be repeated ##############
+        ##### past appointments frame ##
+        self.past_appt_frame = QFrame(self.appointment_frame)
+        self.past_appt_frame.setObjectName(u"past_appt_frame")
+        self.past_appt_frame.setGeometry(QRect(510, 30, 450, 531))
+        self.past_appt_frame.setStyleSheet(u"background-color : #ffffff;")
+        self.past_appt_frame.setFrameShape(QFrame.StyledPanel)
+        self.past_appt_frame.setFrameShadow(QFrame.Raised)
+        self.past_label = QLabel(self.past_appt_frame)
+        self.past_label.setObjectName(u"past_label")
+        self.past_label.setGeometry(QRect(30, 20, 101, 41))
+        self.past_label.setFont(font2)
+        self.past_label.setStyleSheet(u"border : none;\n""")
+        ############ end frame to be repeated ############################
+
 
 #         self.clinicAppt_frame_2 = QFrame(self.upcomin_appt_frame)
 #         self.clinicAppt_frame_2.setObjectName(u"clinicAppt_frame_2")
@@ -367,19 +383,10 @@ class HomeWidget(QWidget):
 #         self.time_label_3.setFont(font5)
 #         self.time_label_3.setStyleSheet(u"border : none;\n"
 # "")
-        ##### past appointments frame ##
-        self.past_appt_frame = QFrame(self.appointment_frame)
-        self.past_appt_frame.setObjectName(u"past_appt_frame")
-        self.past_appt_frame.setGeometry(QRect(510, 30, 450, 531))
-        self.past_appt_frame.setStyleSheet(u"background-color : #ffffff;")
-        self.past_appt_frame.setFrameShape(QFrame.StyledPanel)
-        self.past_appt_frame.setFrameShadow(QFrame.Raised)
-        self.past_label = QLabel(self.past_appt_frame)
-        self.past_label.setObjectName(u"past_label")
-        self.past_label.setGeometry(QRect(30, 20, 101, 41))
-        self.past_label.setFont(font2)
-        self.past_label.setStyleSheet(u"border : none;\n"
-"")
+        
+
+        # Past appointments repeat : 
+
 #         self.clinicAppt_frame_4 = QFrame(self.past_appt_frame)
 #         self.clinicAppt_frame_4.setObjectName(u"clinicAppt_frame_4")
 #         self.clinicAppt_frame_4.setGeometry(QRect(20, 170, 401, 81))
