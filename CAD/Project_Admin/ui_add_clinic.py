@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+import re
 from connection import db
 
 
@@ -192,6 +193,8 @@ class AddClinicWidget(QWidget):
         self.submit_btn.setGeometry(QRect(1010, 960, 301, 51))
         self.submit_btn.setFont(font3)
         self.submit_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.submit_btn.clicked.connect(self.validateForm)
+        
         self.widget = QWidget(self.background)
         self.widget.setObjectName(u"widget")
         self.widget.setGeometry(QRect(540, 202, 1181, 751))
@@ -369,7 +372,7 @@ class AddClinicWidget(QWidget):
 "padding: 10px; \n"
 "font-family: Consolas;\n"
 "font-size: 11pt;")
-
+        self.load_states()
         self.state_layout.addWidget(self.state_input)
 
 
@@ -439,9 +442,11 @@ class AddClinicWidget(QWidget):
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setSpacing(100)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        
         self.proof_layout = QVBoxLayout()
         self.proof_layout.setSpacing(10)
         self.proof_layout.setObjectName(u"proof_layout")
+        
         self.proof_label = QLabel(self.widget)
         self.proof_label.setObjectName(u"proof_label")
         self.proof_label.setMaximumSize(QSize(16777215, 23))
@@ -481,6 +486,7 @@ class AddClinicWidget(QWidget):
 
         QMetaObject.connectSlotsByName(Form)
     # setupUi
+    
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
@@ -510,4 +516,66 @@ class AddClinicWidget(QWidget):
         self.proof_label.setText(QCoreApplication.translate("Form", u"Submit proof of Government registered doctors", None))
         self.upload_doc_btn.setText(QCoreApplication.translate("Form", u"Upload Documents", None))
     # retranslateUi
+
+    def load_states(self):
+        states = [
+            "All",
+            "Johor",
+            "Kedah",
+            "Kelantan",
+            "Kuala Lumpur",
+            "Labuan",
+            "Melaka",
+            "Negeri Sembilan",
+            "Pahang",
+            "Perak",
+            "Perlis",
+            "Penang",
+            "Putrajaya",
+            "Sabah",
+            "Sarawak",
+            "Selangor",
+            "Terengganu"
+        ]
+        self.filter.addItems(states)
+        
+    def validateForm(self):
+        clinic_name = self.name_input.text().strip()
+        operating_hours = self.hour_input.text().strip()
+        starting_year = self.startyear_input.text().strip()
+        state = self.state_input.currentText()
+        address = self.address_input.text().strip()
+        phone_number = self.phone_input.text().strip()
+        email_address = self.email_input.text().strip()
+        proof_document = self.prood_input.text().strip()
+
+        # Validation checks
+        if not clinic_name:
+            QMessageBox.warning(self, "Input Error", "Clinic name cannot be empty.")
+            return
+        if not operating_hours or not re.match(r'^\d{1,2}(am|pm)-\d{1,2}(am|pm)$', operating_hours):
+            QMessageBox.warning(self, "Input Error", "Operating hours must be in format 1am-2pm.")
+            return
+        if not starting_year or not re.match(r'^\d{4}$', starting_year):
+            QMessageBox.warning(self, "Input Error", "Starting year must be a 4-digit number.")
+            return
+        if state == "Choose a State":
+            QMessageBox.warning(self, "Input Error", "Please select a state.")
+            return
+        if not address:
+            QMessageBox.warning(self, "Input Error", "Address cannot be empty.")
+            return
+        if not phone_number or not re.match(r'^0\d{7,9}$', phone_number):
+            QMessageBox.warning(self, "Input Error", "Phone number must be 8-10 digits and start with 0.")
+            return
+        if not email_address or not re.match(r'^[^@]+@[^@]+\.[^@]+$', email_address):
+            QMessageBox.warning(self, "Input Error", "Please enter a valid email address.")
+            return
+        if not proof_document:
+            QMessageBox.warning(self, "Input Error", "Please upload proof of Government registered doctors.")
+            return
+
+        # If all validations pass
+        QMessageBox.information(self, "Success", "Form submitted successfully!")
+
 
