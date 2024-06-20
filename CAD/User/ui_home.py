@@ -47,6 +47,19 @@ class HomeWidget(QWidget):
         self.medicine_quantity_label.setStyleSheet(u"border : none;\n""color : #6ea0c4;\n""")
 
 
+    def get_medical_records(self):
+        medical_records = db.child("medical_records").get().val()
+        today = date.today()
+        current_date = today.strftime("%y%m%d")
+        active_medication_list = []
+        if medical_records: 
+            for record_id, record_info in medical_records.items():
+                if int(record_info.get('patient_id')) == int(self.user_id):
+                     if  int(record_info.get('end_date')) >= int(current_date): # active prescriptions
+                          for medicines in record_info.get('medicine'):
+                               active_medication_list.append(medicines)
+                     
+
     def create_appointments_frame(self, clinic_name, clinic_logo, toa, appt_date, time, position):
         self.clinicAppt_frame = QFrame(self.upcoming_appt_frame)
         self.clinicAppt_frame.setObjectName(u"clinicAppt_frame")
