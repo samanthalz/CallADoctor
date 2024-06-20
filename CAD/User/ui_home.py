@@ -20,6 +20,74 @@ class HomeWidget(QWidget):
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
 
+    def clear_layout(self):
+        while self.gridLayout.count():
+            item = self.gridLayout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+
+    def create_appointments_frame(self):
+        self.clinicAppt_frame = QFrame(self.upcomin_appt_frame)
+        self.clinicAppt_frame.setObjectName(u"clinicAppt_frame")
+        self.clinicAppt_frame.setGeometry(QRect(20, 70, 401, 81))
+        self.clinicAppt_frame.setFrameShape(QFrame.StyledPanel)
+        self.clinicAppt_frame.setFrameShadow(QFrame.Raised)
+        self.clinic_name_label = QLabel(self.clinicAppt_frame)
+        self.clinic_name_label.setObjectName(u"clinic_name_label")
+        self.clinic_name_label.setGeometry(QRect(90, 10, 121, 21))
+        font3 = QFont()
+        font3.setFamily(u"Cascadia Code")
+        font3.setPointSize(10)
+        self.clinic_name_label.setFont(font3)
+        self.clinic_name_label.setStyleSheet(u"border : none;\n"
+"")
+        self.clinic_logo_label = QLabel(self.clinicAppt_frame)
+        self.clinic_logo_label.setObjectName(u"clinic_logo_label")
+        self.clinic_logo_label.setGeometry(QRect(10, 10, 54, 54))
+        font4 = QFont()
+        font4.setFamily(u"Cascadia Code")
+        font4.setPointSize(9)
+        self.clinic_logo_label.setFont(font4)
+        self.clinic_logo_label.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+"border-radius: 25px; /* Radius to make it round */\n"
+"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+"min-width: 50px; /* Ensure the QLabel is a circle */\n"
+"min-height: 50px; /* Ensure the QLabel is a circle */\n"
+"max-width: 50px; /* Ensure the QLabel is a circle */\n"
+"max-height: 50px; /* Ensure the QLabel is a circle */")
+        self.clinic_logo_label.setAlignment(Qt.AlignCenter)
+        self.toa_label = QLabel(self.clinicAppt_frame)
+        self.toa_label.setObjectName(u"toa_label")
+        self.toa_label.setGeometry(QRect(90, 30, 161, 21))
+        self.toa_label.setFont(font3)
+        self.toa_label.setStyleSheet(u"border : none;\n"
+"color : #6ea0c4;\n"
+"")
+        self.date_time_frame = QFrame(self.clinicAppt_frame)
+        self.date_time_frame.setObjectName(u"date_time_frame")
+        self.date_time_frame.setGeometry(QRect(280, 20, 71, 41))
+        self.date_time_frame.setStyleSheet(u"border-radius: 10px;\n"
+"background-color: #dbe7f0;")
+        self.date_time_frame.setFrameShape(QFrame.StyledPanel)
+        self.date_time_frame.setFrameShadow(QFrame.Raised)
+        self.date_label = QLabel(self.date_time_frame)
+        self.date_label.setObjectName(u"date_label")
+        self.date_label.setGeometry(QRect(10, 0, 47, 13))
+        font5 = QFont()
+        font5.setFamily(u"Cascadia Code")
+        self.date_label.setFont(font5)
+        self.date_label.setStyleSheet(u"border : none;\n"
+"")
+        self.time_label = QLabel(self.date_time_frame)
+        self.time_label.setObjectName(u"time_label")
+        self.time_label.setGeometry(QRect(10, 20, 47, 13))
+        self.time_label.setFont(font5)
+        self.time_label.setStyleSheet(u"border : none;\n"
+"")
+
+                
+
     def get_upcoming_appt_data(self):
         appointment_data = db.child("appointment").get().val()
         num_upcoming_appt = 0 # Initialize as 0
@@ -45,7 +113,7 @@ class HomeWidget(QWidget):
 
         date_str = day + " " + month + " " + year
 
-        return date_str
+        return date_str # returns in format 20 Jun 2024 (used for display)
     
 
     def set_user_id(self, user_id): 
@@ -123,6 +191,7 @@ class HomeWidget(QWidget):
         self.upcoming_label.setFont(font2)
         self.upcoming_label.setStyleSheet(u"border : none;\n"
 "")
+        #################### frame to be repeated ######################
         self.clinicAppt_frame = QFrame(self.upcomin_appt_frame)
         self.clinicAppt_frame.setObjectName(u"clinicAppt_frame")
         self.clinicAppt_frame.setGeometry(QRect(20, 70, 401, 81))
@@ -180,263 +249,266 @@ class HomeWidget(QWidget):
         self.time_label.setFont(font5)
         self.time_label.setStyleSheet(u"border : none;\n"
 "")
-        self.clinicAppt_frame_2 = QFrame(self.upcomin_appt_frame)
-        self.clinicAppt_frame_2.setObjectName(u"clinicAppt_frame_2")
-        self.clinicAppt_frame_2.setGeometry(QRect(20, 170, 401, 81))
-        self.clinicAppt_frame_2.setFrameShape(QFrame.StyledPanel)
-        self.clinicAppt_frame_2.setFrameShadow(QFrame.Raised)
-        self.clinic_name_label_2 = QLabel(self.clinicAppt_frame_2)
-        self.clinic_name_label_2.setObjectName(u"clinic_name_label_2")
-        self.clinic_name_label_2.setGeometry(QRect(90, 10, 121, 21))
-        self.clinic_name_label_2.setFont(font3)
-        self.clinic_name_label_2.setStyleSheet(u"border : none;\n"
+        ############### end frame to be repeated #####################
+
+#         self.clinicAppt_frame_2 = QFrame(self.upcomin_appt_frame)
+#         self.clinicAppt_frame_2.setObjectName(u"clinicAppt_frame_2")
+#         self.clinicAppt_frame_2.setGeometry(QRect(20, 170, 401, 81))
+#         self.clinicAppt_frame_2.setFrameShape(QFrame.StyledPanel)
+#         self.clinicAppt_frame_2.setFrameShadow(QFrame.Raised)
+#         self.clinic_name_label_2 = QLabel(self.clinicAppt_frame_2)
+#         self.clinic_name_label_2.setObjectName(u"clinic_name_label_2")
+#         self.clinic_name_label_2.setGeometry(QRect(90, 10, 121, 21))
+#         self.clinic_name_label_2.setFont(font3)
+#         self.clinic_name_label_2.setStyleSheet(u"border : none;\n"
+# "")
+#         self.clinic_logo_label_2 = QLabel(self.clinicAppt_frame_2)
+#         self.clinic_logo_label_2.setObjectName(u"clinic_logo_label_2")
+#         self.clinic_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
+#         self.clinic_logo_label_2.setFont(font4)
+#         self.clinic_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+# "border-radius: 25px; /* Radius to make it round */\n"
+# "border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+# "min-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "min-height: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-height: 50px; /* Ensure the QLabel is a circle */")
+#         self.clinic_logo_label_2.setAlignment(Qt.AlignCenter)
+#         self.toa_label_2 = QLabel(self.clinicAppt_frame_2)
+#         self.toa_label_2.setObjectName(u"toa_label_2")
+#         self.toa_label_2.setGeometry(QRect(90, 30, 161, 21))
+#         self.toa_label_2.setFont(font3)
+#         self.toa_label_2.setStyleSheet(u"border : none;\n"
+# "color : #6ea0c4;\n"
+# "")
+#         self.date_time_frame_2 = QFrame(self.clinicAppt_frame_2)
+#         self.date_time_frame_2.setObjectName(u"date_time_frame_2")
+#         self.date_time_frame_2.setGeometry(QRect(280, 20, 71, 41))
+#         self.date_time_frame_2.setStyleSheet(u"border-radius: 10px;\n"
+# "background-color: #dbe7f0;")
+#         self.date_time_frame_2.setFrameShape(QFrame.StyledPanel)
+#         self.date_time_frame_2.setFrameShadow(QFrame.Raised)
+#         self.date_label_2 = QLabel(self.date_time_frame_2)
+#         self.date_label_2.setObjectName(u"date_label_2")
+#         self.date_label_2.setGeometry(QRect(10, 0, 47, 13))
+#         self.date_label_2.setFont(font5)
+#         self.date_label_2.setStyleSheet(u"border : none;\n"
+# "")
+#         self.time_label_2 = QLabel(self.date_time_frame_2)
+#         self.time_label_2.setObjectName(u"time_label_2")
+#         self.time_label_2.setGeometry(QRect(10, 20, 47, 13))
+#         self.time_label_2.setFont(font5)
+#         self.time_label_2.setStyleSheet(u"border : none;\n"
+# "")
+#         self.clinicAppt_frame_3 = QFrame(self.upcomin_appt_frame)
+#         self.clinicAppt_frame_3.setObjectName(u"clinicAppt_frame_3")
+#         self.clinicAppt_frame_3.setGeometry(QRect(20, 270, 401, 81))
+#         self.clinicAppt_frame_3.setFrameShape(QFrame.StyledPanel)
+#         self.clinicAppt_frame_3.setFrameShadow(QFrame.Raised)
+#         self.clinic_name_label_3 = QLabel(self.clinicAppt_frame_3)
+#         self.clinic_name_label_3.setObjectName(u"clinic_name_label_3")
+#         self.clinic_name_label_3.setGeometry(QRect(90, 10, 121, 21))
+#         self.clinic_name_label_3.setFont(font3)
+#         self.clinic_name_label_3.setStyleSheet(u"border : none;\n"
+# "")
+#         self.clinic_logo_label_3 = QLabel(self.clinicAppt_frame_3)
+#         self.clinic_logo_label_3.setObjectName(u"clinic_logo_label_3")
+#         self.clinic_logo_label_3.setGeometry(QRect(10, 10, 54, 54))
+#         self.clinic_logo_label_3.setFont(font4)
+#         self.clinic_logo_label_3.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+# "border-radius: 25px; /* Radius to make it round */\n"
+# "border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+# "min-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "min-height: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-height: 50px; /* Ensure the QLabel is a circle */")
+#         self.clinic_logo_label_3.setAlignment(Qt.AlignCenter)
+#         self.toa_label_3 = QLabel(self.clinicAppt_frame_3)
+#         self.toa_label_3.setObjectName(u"toa_label_3")
+#         self.toa_label_3.setGeometry(QRect(90, 30, 161, 21))
+#         self.toa_label_3.setFont(font3)
+#         self.toa_label_3.setStyleSheet(u"border : none;\n"
+# "color : #6ea0c4;\n"
+# "")
+#         self.date_time_frame_3 = QFrame(self.clinicAppt_frame_3)
+#         self.date_time_frame_3.setObjectName(u"date_time_frame_3")
+#         self.date_time_frame_3.setGeometry(QRect(280, 20, 71, 41))
+#         self.date_time_frame_3.setStyleSheet(u"border-radius: 10px;\n"
+# "background-color: #dbe7f0;")
+#         self.date_time_frame_3.setFrameShape(QFrame.StyledPanel)
+#         self.date_time_frame_3.setFrameShadow(QFrame.Raised)
+#         self.date_label_3 = QLabel(self.date_time_frame_3)
+#         self.date_label_3.setObjectName(u"date_label_3")
+#         self.date_label_3.setGeometry(QRect(10, 0, 47, 13))
+#         self.date_label_3.setFont(font5)
+#         self.date_label_3.setStyleSheet(u"border : none;\n"
+# "")
+#         self.time_label_3 = QLabel(self.date_time_frame_3)
+#         self.time_label_3.setObjectName(u"time_label_3")
+#         self.time_label_3.setGeometry(QRect(10, 20, 47, 13))
+#         self.time_label_3.setFont(font5)
+#         self.time_label_3.setStyleSheet(u"border : none;\n"
+# "")
+        ##### past appointments frame ##
+        self.past_appt_frame = QFrame(self.appointment_frame)
+        self.past_appt_frame.setObjectName(u"past_appt_frame")
+        self.past_appt_frame.setGeometry(QRect(510, 30, 450, 531))
+        self.past_appt_frame.setStyleSheet(u"background-color : #ffffff;")
+        self.past_appt_frame.setFrameShape(QFrame.StyledPanel)
+        self.past_appt_frame.setFrameShadow(QFrame.Raised)
+        self.past_label = QLabel(self.past_appt_frame)
+        self.past_label.setObjectName(u"past_label")
+        self.past_label.setGeometry(QRect(30, 20, 101, 41))
+        self.past_label.setFont(font2)
+        self.past_label.setStyleSheet(u"border : none;\n"
 "")
-        self.clinic_logo_label_2 = QLabel(self.clinicAppt_frame_2)
-        self.clinic_logo_label_2.setObjectName(u"clinic_logo_label_2")
-        self.clinic_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_2.setFont(font4)
-        self.clinic_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_2.setAlignment(Qt.AlignCenter)
-        self.toa_label_2 = QLabel(self.clinicAppt_frame_2)
-        self.toa_label_2.setObjectName(u"toa_label_2")
-        self.toa_label_2.setGeometry(QRect(90, 30, 161, 21))
-        self.toa_label_2.setFont(font3)
-        self.toa_label_2.setStyleSheet(u"border : none;\n"
-"color : #6ea0c4;\n"
-"")
-        self.date_time_frame_2 = QFrame(self.clinicAppt_frame_2)
-        self.date_time_frame_2.setObjectName(u"date_time_frame_2")
-        self.date_time_frame_2.setGeometry(QRect(280, 20, 71, 41))
-        self.date_time_frame_2.setStyleSheet(u"border-radius: 10px;\n"
-"background-color: #dbe7f0;")
-        self.date_time_frame_2.setFrameShape(QFrame.StyledPanel)
-        self.date_time_frame_2.setFrameShadow(QFrame.Raised)
-        self.date_label_2 = QLabel(self.date_time_frame_2)
-        self.date_label_2.setObjectName(u"date_label_2")
-        self.date_label_2.setGeometry(QRect(10, 0, 47, 13))
-        self.date_label_2.setFont(font5)
-        self.date_label_2.setStyleSheet(u"border : none;\n"
-"")
-        self.time_label_2 = QLabel(self.date_time_frame_2)
-        self.time_label_2.setObjectName(u"time_label_2")
-        self.time_label_2.setGeometry(QRect(10, 20, 47, 13))
-        self.time_label_2.setFont(font5)
-        self.time_label_2.setStyleSheet(u"border : none;\n"
-"")
-        self.clinicAppt_frame_3 = QFrame(self.upcomin_appt_frame)
-        self.clinicAppt_frame_3.setObjectName(u"clinicAppt_frame_3")
-        self.clinicAppt_frame_3.setGeometry(QRect(20, 270, 401, 81))
-        self.clinicAppt_frame_3.setFrameShape(QFrame.StyledPanel)
-        self.clinicAppt_frame_3.setFrameShadow(QFrame.Raised)
-        self.clinic_name_label_3 = QLabel(self.clinicAppt_frame_3)
-        self.clinic_name_label_3.setObjectName(u"clinic_name_label_3")
-        self.clinic_name_label_3.setGeometry(QRect(90, 10, 121, 21))
-        self.clinic_name_label_3.setFont(font3)
-        self.clinic_name_label_3.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_logo_label_3 = QLabel(self.clinicAppt_frame_3)
-        self.clinic_logo_label_3.setObjectName(u"clinic_logo_label_3")
-        self.clinic_logo_label_3.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_3.setFont(font4)
-        self.clinic_logo_label_3.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_3.setAlignment(Qt.AlignCenter)
-        self.toa_label_3 = QLabel(self.clinicAppt_frame_3)
-        self.toa_label_3.setObjectName(u"toa_label_3")
-        self.toa_label_3.setGeometry(QRect(90, 30, 161, 21))
-        self.toa_label_3.setFont(font3)
-        self.toa_label_3.setStyleSheet(u"border : none;\n"
-"color : #6ea0c4;\n"
-"")
-        self.date_time_frame_3 = QFrame(self.clinicAppt_frame_3)
-        self.date_time_frame_3.setObjectName(u"date_time_frame_3")
-        self.date_time_frame_3.setGeometry(QRect(280, 20, 71, 41))
-        self.date_time_frame_3.setStyleSheet(u"border-radius: 10px;\n"
-"background-color: #dbe7f0;")
-        self.date_time_frame_3.setFrameShape(QFrame.StyledPanel)
-        self.date_time_frame_3.setFrameShadow(QFrame.Raised)
-        self.date_label_3 = QLabel(self.date_time_frame_3)
-        self.date_label_3.setObjectName(u"date_label_3")
-        self.date_label_3.setGeometry(QRect(10, 0, 47, 13))
-        self.date_label_3.setFont(font5)
-        self.date_label_3.setStyleSheet(u"border : none;\n"
-"")
-        self.time_label_3 = QLabel(self.date_time_frame_3)
-        self.time_label_3.setObjectName(u"time_label_3")
-        self.time_label_3.setGeometry(QRect(10, 20, 47, 13))
-        self.time_label_3.setFont(font5)
-        self.time_label_3.setStyleSheet(u"border : none;\n"
-"")
-        self.upcomin_appt_frame_2 = QFrame(self.appointment_frame)
-        self.upcomin_appt_frame_2.setObjectName(u"upcomin_appt_frame_2")
-        self.upcomin_appt_frame_2.setGeometry(QRect(510, 30, 450, 531))
-        self.upcomin_appt_frame_2.setStyleSheet(u"background-color : #ffffff;")
-        self.upcomin_appt_frame_2.setFrameShape(QFrame.StyledPanel)
-        self.upcomin_appt_frame_2.setFrameShadow(QFrame.Raised)
-        self.upcoming_label_2 = QLabel(self.upcomin_appt_frame_2)
-        self.upcoming_label_2.setObjectName(u"upcoming_label_2")
-        self.upcoming_label_2.setGeometry(QRect(30, 20, 101, 41))
-        self.upcoming_label_2.setFont(font2)
-        self.upcoming_label_2.setStyleSheet(u"border : none;\n"
-"")
-        self.clinicAppt_frame_4 = QFrame(self.upcomin_appt_frame_2)
-        self.clinicAppt_frame_4.setObjectName(u"clinicAppt_frame_4")
-        self.clinicAppt_frame_4.setGeometry(QRect(20, 170, 401, 81))
-        self.clinicAppt_frame_4.setFrameShape(QFrame.StyledPanel)
-        self.clinicAppt_frame_4.setFrameShadow(QFrame.Raised)
-        self.clinic_name_label_4 = QLabel(self.clinicAppt_frame_4)
-        self.clinic_name_label_4.setObjectName(u"clinic_name_label_4")
-        self.clinic_name_label_4.setGeometry(QRect(90, 10, 121, 21))
-        self.clinic_name_label_4.setFont(font3)
-        self.clinic_name_label_4.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_logo_label_4 = QLabel(self.clinicAppt_frame_4)
-        self.clinic_logo_label_4.setObjectName(u"clinic_logo_label_4")
-        self.clinic_logo_label_4.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_4.setFont(font4)
-        self.clinic_logo_label_4.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_4.setAlignment(Qt.AlignCenter)
-        self.toa_label_4 = QLabel(self.clinicAppt_frame_4)
-        self.toa_label_4.setObjectName(u"toa_label_4")
-        self.toa_label_4.setGeometry(QRect(90, 30, 161, 21))
-        self.toa_label_4.setFont(font3)
-        self.toa_label_4.setStyleSheet(u"border : none;\n"
-"color : #6ea0c4;\n"
-"")
-        self.date_time_frame_4 = QFrame(self.clinicAppt_frame_4)
-        self.date_time_frame_4.setObjectName(u"date_time_frame_4")
-        self.date_time_frame_4.setGeometry(QRect(280, 20, 71, 41))
-        self.date_time_frame_4.setStyleSheet(u"border-radius: 10px;\n"
-"background-color: #dbe7f0;")
-        self.date_time_frame_4.setFrameShape(QFrame.StyledPanel)
-        self.date_time_frame_4.setFrameShadow(QFrame.Raised)
-        self.date_label_4 = QLabel(self.date_time_frame_4)
-        self.date_label_4.setObjectName(u"date_label_4")
-        self.date_label_4.setGeometry(QRect(10, 0, 47, 13))
-        self.date_label_4.setFont(font5)
-        self.date_label_4.setStyleSheet(u"border : none;\n"
-"")
-        self.time_label_4 = QLabel(self.date_time_frame_4)
-        self.time_label_4.setObjectName(u"time_label_4")
-        self.time_label_4.setGeometry(QRect(10, 20, 47, 13))
-        self.time_label_4.setFont(font5)
-        self.time_label_4.setStyleSheet(u"border : none;\n"
-"")
-        self.clinicAppt_frame_5 = QFrame(self.upcomin_appt_frame_2)
-        self.clinicAppt_frame_5.setObjectName(u"clinicAppt_frame_5")
-        self.clinicAppt_frame_5.setGeometry(QRect(20, 270, 401, 81))
-        self.clinicAppt_frame_5.setFrameShape(QFrame.StyledPanel)
-        self.clinicAppt_frame_5.setFrameShadow(QFrame.Raised)
-        self.clinic_name_label_5 = QLabel(self.clinicAppt_frame_5)
-        self.clinic_name_label_5.setObjectName(u"clinic_name_label_5")
-        self.clinic_name_label_5.setGeometry(QRect(90, 10, 121, 21))
-        self.clinic_name_label_5.setFont(font3)
-        self.clinic_name_label_5.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_logo_label_5 = QLabel(self.clinicAppt_frame_5)
-        self.clinic_logo_label_5.setObjectName(u"clinic_logo_label_5")
-        self.clinic_logo_label_5.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_5.setFont(font4)
-        self.clinic_logo_label_5.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_5.setAlignment(Qt.AlignCenter)
-        self.toa_label_5 = QLabel(self.clinicAppt_frame_5)
-        self.toa_label_5.setObjectName(u"toa_label_5")
-        self.toa_label_5.setGeometry(QRect(90, 30, 161, 21))
-        self.toa_label_5.setFont(font3)
-        self.toa_label_5.setStyleSheet(u"border : none;\n"
-"color : #6ea0c4;\n"
-"")
-        self.date_time_frame_5 = QFrame(self.clinicAppt_frame_5)
-        self.date_time_frame_5.setObjectName(u"date_time_frame_5")
-        self.date_time_frame_5.setGeometry(QRect(280, 20, 71, 41))
-        self.date_time_frame_5.setStyleSheet(u"border-radius: 10px;\n"
-"background-color: #dbe7f0;")
-        self.date_time_frame_5.setFrameShape(QFrame.StyledPanel)
-        self.date_time_frame_5.setFrameShadow(QFrame.Raised)
-        self.date_label_5 = QLabel(self.date_time_frame_5)
-        self.date_label_5.setObjectName(u"date_label_5")
-        self.date_label_5.setGeometry(QRect(10, 0, 47, 13))
-        self.date_label_5.setFont(font5)
-        self.date_label_5.setStyleSheet(u"border : none;\n"
-"")
-        self.time_label_5 = QLabel(self.date_time_frame_5)
-        self.time_label_5.setObjectName(u"time_label_5")
-        self.time_label_5.setGeometry(QRect(10, 20, 47, 13))
-        self.time_label_5.setFont(font5)
-        self.time_label_5.setStyleSheet(u"border : none;\n"
-"")
-        self.clinicAppt_frame_6 = QFrame(self.upcomin_appt_frame_2)
-        self.clinicAppt_frame_6.setObjectName(u"clinicAppt_frame_6")
-        self.clinicAppt_frame_6.setGeometry(QRect(20, 70, 401, 81))
-        self.clinicAppt_frame_6.setFrameShape(QFrame.StyledPanel)
-        self.clinicAppt_frame_6.setFrameShadow(QFrame.Raised)
-        self.clinic_name_label_6 = QLabel(self.clinicAppt_frame_6)
-        self.clinic_name_label_6.setObjectName(u"clinic_name_label_6")
-        self.clinic_name_label_6.setGeometry(QRect(90, 10, 121, 21))
-        self.clinic_name_label_6.setFont(font3)
-        self.clinic_name_label_6.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_logo_label_6 = QLabel(self.clinicAppt_frame_6)
-        self.clinic_logo_label_6.setObjectName(u"clinic_logo_label_6")
-        self.clinic_logo_label_6.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_6.setFont(font4)
-        self.clinic_logo_label_6.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_6.setAlignment(Qt.AlignCenter)
-        self.toa_label_6 = QLabel(self.clinicAppt_frame_6)
-        self.toa_label_6.setObjectName(u"toa_label_6")
-        self.toa_label_6.setGeometry(QRect(90, 30, 161, 21))
-        self.toa_label_6.setFont(font3)
-        self.toa_label_6.setStyleSheet(u"border : none;\n"
-"color : #6ea0c4;\n"
-"")
-        self.date_time_frame_6 = QFrame(self.clinicAppt_frame_6)
-        self.date_time_frame_6.setObjectName(u"date_time_frame_6")
-        self.date_time_frame_6.setGeometry(QRect(280, 20, 71, 41))
-        self.date_time_frame_6.setStyleSheet(u"border-radius: 10px;\n"
-"background-color: #dbe7f0;")
-        self.date_time_frame_6.setFrameShape(QFrame.StyledPanel)
-        self.date_time_frame_6.setFrameShadow(QFrame.Raised)
-        self.date_label_6 = QLabel(self.date_time_frame_6)
-        self.date_label_6.setObjectName(u"date_label_6")
-        self.date_label_6.setGeometry(QRect(10, 0, 47, 13))
-        self.date_label_6.setFont(font5)
-        self.date_label_6.setStyleSheet(u"border : none;\n"
-"")
-        self.time_label_6 = QLabel(self.date_time_frame_6)
-        self.time_label_6.setObjectName(u"time_label_6")
-        self.time_label_6.setGeometry(QRect(10, 20, 47, 13))
-        self.time_label_6.setFont(font5)
-        self.time_label_6.setStyleSheet(u"border : none;\n"
-"")
+#         self.clinicAppt_frame_4 = QFrame(self.past_appt_frame)
+#         self.clinicAppt_frame_4.setObjectName(u"clinicAppt_frame_4")
+#         self.clinicAppt_frame_4.setGeometry(QRect(20, 170, 401, 81))
+#         self.clinicAppt_frame_4.setFrameShape(QFrame.StyledPanel)
+#         self.clinicAppt_frame_4.setFrameShadow(QFrame.Raised)
+#         self.clinic_name_label_4 = QLabel(self.clinicAppt_frame_4)
+#         self.clinic_name_label_4.setObjectName(u"clinic_name_label_4")
+#         self.clinic_name_label_4.setGeometry(QRect(90, 10, 121, 21))
+#         self.clinic_name_label_4.setFont(font3)
+#         self.clinic_name_label_4.setStyleSheet(u"border : none;\n"
+# "")
+#         self.clinic_logo_label_4 = QLabel(self.clinicAppt_frame_4)
+#         self.clinic_logo_label_4.setObjectName(u"clinic_logo_label_4")
+#         self.clinic_logo_label_4.setGeometry(QRect(10, 10, 54, 54))
+#         self.clinic_logo_label_4.setFont(font4)
+#         self.clinic_logo_label_4.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+# "border-radius: 25px; /* Radius to make it round */\n"
+# "border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+# "min-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "min-height: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-height: 50px; /* Ensure the QLabel is a circle */")
+#         self.clinic_logo_label_4.setAlignment(Qt.AlignCenter)
+#         self.toa_label_4 = QLabel(self.clinicAppt_frame_4)
+#         self.toa_label_4.setObjectName(u"toa_label_4")
+#         self.toa_label_4.setGeometry(QRect(90, 30, 161, 21))
+#         self.toa_label_4.setFont(font3)
+#         self.toa_label_4.setStyleSheet(u"border : none;\n"
+# "color : #6ea0c4;\n"
+# "")
+#         self.date_time_frame_4 = QFrame(self.clinicAppt_frame_4)
+#         self.date_time_frame_4.setObjectName(u"date_time_frame_4")
+#         self.date_time_frame_4.setGeometry(QRect(280, 20, 71, 41))
+#         self.date_time_frame_4.setStyleSheet(u"border-radius: 10px;\n"
+# "background-color: #dbe7f0;")
+#         self.date_time_frame_4.setFrameShape(QFrame.StyledPanel)
+#         self.date_time_frame_4.setFrameShadow(QFrame.Raised)
+#         self.date_label_4 = QLabel(self.date_time_frame_4)
+#         self.date_label_4.setObjectName(u"date_label_4")
+#         self.date_label_4.setGeometry(QRect(10, 0, 47, 13))
+#         self.date_label_4.setFont(font5)
+#         self.date_label_4.setStyleSheet(u"border : none;\n"
+# "")
+#         self.time_label_4 = QLabel(self.date_time_frame_4)
+#         self.time_label_4.setObjectName(u"time_label_4")
+#         self.time_label_4.setGeometry(QRect(10, 20, 47, 13))
+#         self.time_label_4.setFont(font5)
+#         self.time_label_4.setStyleSheet(u"border : none;\n"
+# "")
+#         self.clinicAppt_frame_5 = QFrame(self.past_appt_frame)
+#         self.clinicAppt_frame_5.setObjectName(u"clinicAppt_frame_5")
+#         self.clinicAppt_frame_5.setGeometry(QRect(20, 270, 401, 81))
+#         self.clinicAppt_frame_5.setFrameShape(QFrame.StyledPanel)
+#         self.clinicAppt_frame_5.setFrameShadow(QFrame.Raised)
+#         self.clinic_name_label_5 = QLabel(self.clinicAppt_frame_5)
+#         self.clinic_name_label_5.setObjectName(u"clinic_name_label_5")
+#         self.clinic_name_label_5.setGeometry(QRect(90, 10, 121, 21))
+#         self.clinic_name_label_5.setFont(font3)
+#         self.clinic_name_label_5.setStyleSheet(u"border : none;\n"
+# "")
+#         self.clinic_logo_label_5 = QLabel(self.clinicAppt_frame_5)
+#         self.clinic_logo_label_5.setObjectName(u"clinic_logo_label_5")
+#         self.clinic_logo_label_5.setGeometry(QRect(10, 10, 54, 54))
+#         self.clinic_logo_label_5.setFont(font4)
+#         self.clinic_logo_label_5.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+# "border-radius: 25px; /* Radius to make it round */\n"
+# "border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+# "min-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "min-height: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-height: 50px; /* Ensure the QLabel is a circle */")
+#         self.clinic_logo_label_5.setAlignment(Qt.AlignCenter)
+#         self.toa_label_5 = QLabel(self.clinicAppt_frame_5)
+#         self.toa_label_5.setObjectName(u"toa_label_5")
+#         self.toa_label_5.setGeometry(QRect(90, 30, 161, 21))
+#         self.toa_label_5.setFont(font3)
+#         self.toa_label_5.setStyleSheet(u"border : none;\n"
+# "color : #6ea0c4;\n"
+# "")
+#         self.date_time_frame_5 = QFrame(self.clinicAppt_frame_5)
+#         self.date_time_frame_5.setObjectName(u"date_time_frame_5")
+#         self.date_time_frame_5.setGeometry(QRect(280, 20, 71, 41))
+#         self.date_time_frame_5.setStyleSheet(u"border-radius: 10px;\n"
+# "background-color: #dbe7f0;")
+#         self.date_time_frame_5.setFrameShape(QFrame.StyledPanel)
+#         self.date_time_frame_5.setFrameShadow(QFrame.Raised)
+#         self.date_label_5 = QLabel(self.date_time_frame_5)
+#         self.date_label_5.setObjectName(u"date_label_5")
+#         self.date_label_5.setGeometry(QRect(10, 0, 47, 13))
+#         self.date_label_5.setFont(font5)
+#         self.date_label_5.setStyleSheet(u"border : none;\n"
+# "")
+#         self.time_label_5 = QLabel(self.date_time_frame_5)
+#         self.time_label_5.setObjectName(u"time_label_5")
+#         self.time_label_5.setGeometry(QRect(10, 20, 47, 13))
+#         self.time_label_5.setFont(font5)
+#         self.time_label_5.setStyleSheet(u"border : none;\n"
+# "")
+#         self.clinicAppt_frame_6 = QFrame(self.past_appt_frame)
+#         self.clinicAppt_frame_6.setObjectName(u"clinicAppt_frame_6")
+#         self.clinicAppt_frame_6.setGeometry(QRect(20, 70, 401, 81))
+#         self.clinicAppt_frame_6.setFrameShape(QFrame.StyledPanel)
+#         self.clinicAppt_frame_6.setFrameShadow(QFrame.Raised)
+#         self.clinic_name_label_6 = QLabel(self.clinicAppt_frame_6)
+#         self.clinic_name_label_6.setObjectName(u"clinic_name_label_6")
+#         self.clinic_name_label_6.setGeometry(QRect(90, 10, 121, 21))
+#         self.clinic_name_label_6.setFont(font3)
+#         self.clinic_name_label_6.setStyleSheet(u"border : none;\n"
+# "")
+#         self.clinic_logo_label_6 = QLabel(self.clinicAppt_frame_6)
+#         self.clinic_logo_label_6.setObjectName(u"clinic_logo_label_6")
+#         self.clinic_logo_label_6.setGeometry(QRect(10, 10, 54, 54))
+#         self.clinic_logo_label_6.setFont(font4)
+#         self.clinic_logo_label_6.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+# "border-radius: 25px; /* Radius to make it round */\n"
+# "border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+# "min-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "min-height: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-width: 50px; /* Ensure the QLabel is a circle */\n"
+# "max-height: 50px; /* Ensure the QLabel is a circle */")
+#         self.clinic_logo_label_6.setAlignment(Qt.AlignCenter)
+#         self.toa_label_6 = QLabel(self.clinicAppt_frame_6)
+#         self.toa_label_6.setObjectName(u"toa_label_6")
+#         self.toa_label_6.setGeometry(QRect(90, 30, 161, 21))
+#         self.toa_label_6.setFont(font3)
+#         self.toa_label_6.setStyleSheet(u"border : none;\n"
+# "color : #6ea0c4;\n"
+# "")
+#         self.date_time_frame_6 = QFrame(self.clinicAppt_frame_6)
+#         self.date_time_frame_6.setObjectName(u"date_time_frame_6")
+#         self.date_time_frame_6.setGeometry(QRect(280, 20, 71, 41))
+#         self.date_time_frame_6.setStyleSheet(u"border-radius: 10px;\n"
+# "background-color: #dbe7f0;")
+#         self.date_time_frame_6.setFrameShape(QFrame.StyledPanel)
+#         self.date_time_frame_6.setFrameShadow(QFrame.Raised)
+#         self.date_label_6 = QLabel(self.date_time_frame_6)
+#         self.date_label_6.setObjectName(u"date_label_6")
+#         self.date_label_6.setGeometry(QRect(10, 0, 47, 13))
+#         self.date_label_6.setFont(font5)
+#         self.date_label_6.setStyleSheet(u"border : none;\n"
+# "")
+#         self.time_label_6 = QLabel(self.date_time_frame_6)
+#         self.time_label_6.setObjectName(u"time_label_6")
+#         self.time_label_6.setGeometry(QRect(10, 20, 47, 13))
+#         self.time_label_6.setFont(font5)
+#         self.time_label_6.setStyleSheet(u"border : none;\n"
+# "")
         self.active_pres_frame = QFrame(self.background)
         self.active_pres_frame.setObjectName(u"active_pres_frame")
         self.active_pres_frame.setGeometry(QRect(1120, 170, 481, 831))
@@ -645,47 +717,8 @@ class HomeWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.num_upcoming_appt_label.setText(QCoreApplication.translate("Form", u"Number of upcoming appointments :", None))
-        self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
-        self.upcoming_label.setText(QCoreApplication.translate("Form", u"Upcoming", None))
-        self.clinic_name_label.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        self.clinic_logo_label.setText(QCoreApplication.translate("Form", u"A", None))
-        self.toa_label.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
-        self.date_label.setText(QCoreApplication.translate("Form", u"Date", None))
-        self.time_label.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.clinic_name_label_2.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        self.clinic_logo_label_2.setText(QCoreApplication.translate("Form", u"A", None))
-        self.toa_label_2.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
-        self.date_label_2.setText(QCoreApplication.translate("Form", u"Date", None))
-        self.time_label_2.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.clinic_name_label_3.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        self.clinic_logo_label_3.setText(QCoreApplication.translate("Form", u"A", None))
-        self.toa_label_3.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
-        self.date_label_3.setText(QCoreApplication.translate("Form", u"Date", None))
-        self.time_label_3.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.upcoming_label_2.setText(QCoreApplication.translate("Form", u"Past", None))
-        self.clinic_name_label_4.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        self.clinic_logo_label_4.setText(QCoreApplication.translate("Form", u"A", None))
-        self.toa_label_4.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
-        self.date_label_4.setText(QCoreApplication.translate("Form", u"Date", None))
-        self.time_label_4.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.clinic_name_label_5.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        self.clinic_logo_label_5.setText(QCoreApplication.translate("Form", u"A", None))
-        self.toa_label_5.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
-        self.date_label_5.setText(QCoreApplication.translate("Form", u"Date", None))
-        self.time_label_5.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.clinic_name_label_6.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
-        self.clinic_logo_label_6.setText(QCoreApplication.translate("Form", u"A", None))
-        self.toa_label_6.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
-        self.date_label_6.setText(QCoreApplication.translate("Form", u"Date", None))
-        self.time_label_6.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.active_pres_label.setText(QCoreApplication.translate("Form", u"Active Prescriptions", None))
-        self.medicineName_label.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
-        self.medicine_quantity_label.setText(QCoreApplication.translate("Form", u"Quantity", None))
-        self.medicineName_label_2.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
-        self.medicine_quantity_label_2.setText(QCoreApplication.translate("Form", u"Quantity", None))
-        self.medicineName_label_3.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
-        self.medicine_quantity_label_3.setText(QCoreApplication.translate("Form", u"Quantity", None))
+
+        # nav bar, profile, noti
         self.noti_icon.setText("")
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
@@ -694,6 +727,63 @@ class HomeWidget(QWidget):
         self.services_navigation.setText(QCoreApplication.translate("Form", u"Services", None))
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
+
+        # Fixed : 
+        self.num_upcoming_appt_label.setText(QCoreApplication.translate("Form", u"Number of upcoming appointments :", None))
+        self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
+        self.upcoming_label.setText(QCoreApplication.translate("Form", u"Upcoming", None))
+        self.past_label.setText(QCoreApplication.translate("Form", u"Past", None))
+        self.active_pres_label.setText(QCoreApplication.translate("Form", u"Active Prescriptions", None))
+
+        # variables (upcoming & past appts) : 
+        self.clinic_name_label.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        self.clinic_logo_label.setText(QCoreApplication.translate("Form", u"A", None))
+        self.toa_label.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
+        self.date_label.setText(QCoreApplication.translate("Form", u"Date", None))
+        self.time_label.setText(QCoreApplication.translate("Form", u"Time", None))
+
+        # Variables (active prescriptions) : 
+        self.medicineName_label.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
+        self.medicine_quantity_label.setText(QCoreApplication.translate("Form", u"Quantity", None))
+
+        self.medicineName_label_2.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
+        self.medicine_quantity_label_2.setText(QCoreApplication.translate("Form", u"Quantity", None))
+        
+        self.medicineName_label_3.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
+        self.medicine_quantity_label_3.setText(QCoreApplication.translate("Form", u"Quantity", None))
+
+
+        # self.clinic_name_label_2.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        # self.clinic_logo_label_2.setText(QCoreApplication.translate("Form", u"A", None))
+        # self.toa_label_2.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
+        # self.date_label_2.setText(QCoreApplication.translate("Form", u"Date", None))
+        # self.time_label_2.setText(QCoreApplication.translate("Form", u"Time", None))
+        # self.clinic_name_label_3.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        # self.clinic_logo_label_3.setText(QCoreApplication.translate("Form", u"A", None))
+        # self.toa_label_3.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
+        # self.date_label_3.setText(QCoreApplication.translate("Form", u"Date", None))
+        # self.time_label_3.setText(QCoreApplication.translate("Form", u"Time", None))
+        
+        # self.clinic_name_label_4.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        # self.clinic_logo_label_4.setText(QCoreApplication.translate("Form", u"A", None))
+        # self.toa_label_4.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
+        # self.date_label_4.setText(QCoreApplication.translate("Form", u"Date", None))
+        # self.time_label_4.setText(QCoreApplication.translate("Form", u"Time", None))
+        # self.clinic_name_label_5.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        # self.clinic_logo_label_5.setText(QCoreApplication.translate("Form", u"A", None))
+        # self.toa_label_5.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
+        # self.date_label_5.setText(QCoreApplication.translate("Form", u"Date", None))
+        # self.time_label_5.setText(QCoreApplication.translate("Form", u"Time", None))
+        # self.clinic_name_label_6.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
+        # self.clinic_logo_label_6.setText(QCoreApplication.translate("Form", u"A", None))
+        # self.toa_label_6.setText(QCoreApplication.translate("Form", u"Type of Appointment", None))
+        # self.date_label_6.setText(QCoreApplication.translate("Form", u"Date", None))
+        # self.time_label_6.setText(QCoreApplication.translate("Form", u"Time", None))
+        
+        
+        
+        
+        
     # retranslateUi
 
     @pyqtSlot()
