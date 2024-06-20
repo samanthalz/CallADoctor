@@ -10,7 +10,7 @@ class ViewClinicWidget(QWidget):
     feedback_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
-    add_btn_clicked = pyqtSignal()
+    
     
         
     def __init__(self, parent=None):
@@ -108,17 +108,6 @@ class ViewClinicWidget(QWidget):
         self.req_detail_label.setFont(font)
         self.req_detail_label.setStyleSheet(u"border : none;\n"
 "")
-        self.add_clinic_btn = QPushButton(self.background)
-        self.add_clinic_btn.setObjectName(u"add_clinic_btn")
-        self.add_clinic_btn.setGeometry(QRect(60, 220, 801, 51))
-        font10 = QFont()
-        font10.setFamily(u"Consolas")
-        font10.setPointSize(12)
-        font10.setBold(True)
-        font10.setWeight(75)
-        self.add_clinic_btn.setFont(font10)
-        self.add_clinic_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
-        self.add_clinic_btn.clicked.connect(self.emitAddClinicBtn)
         
         self.clear_btn = QPushButton(self.background)
         self.clear_btn.setObjectName(u"clear_btn")
@@ -280,7 +269,6 @@ class ViewClinicWidget(QWidget):
 
         self.clinic_list_label.setText(QCoreApplication.translate("Form", u"Clinic List", None))
         self.req_detail_label.setText(QCoreApplication.translate("Form", u"Clinic Details", None))
-        self.add_clinic_btn.setText(QCoreApplication.translate("Form", u"Add New Clinic", None))
         self.clear_btn.setText(QCoreApplication.translate("Form", u"Clear", None))
         self.search_btn.setText(QCoreApplication.translate("Form", u"Search", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
@@ -295,10 +283,7 @@ class ViewClinicWidget(QWidget):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
         
-    @pyqtSlot()
-    def emitAddClinicBtn(self):
-        # Emit the custom signal
-        self.add_btn_clicked.emit()
+
 
 
     def fetch_clinic_data(self):

@@ -16,299 +16,6 @@
   <property name="styleSheet">
    <string notr="true">background-color: &quot;#B6D0E2&quot; </string>
   </property>
-  <widget class="QFrame" name="frame">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>90</y>
-     <width>141</width>
-     <height>891</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QWidget" name="layoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>31</x>
-      <y>20</y>
-      <width>87</width>
-      <height>851</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QToolButton" name="home_navigation">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Source Sans Pro Semibold</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border: none; 
-color: white;</string>
-       </property>
-       <property name="text">
-        <string>   Home   </string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../Images/nav_images/home_page_icon.png</normaloff>../Images/nav_images/home_page_icon.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>70</width>
-         <height>70</height>
-        </size>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextUnderIcon</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="clinic_navigation">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Source Sans Pro Semibold</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border: none; 
-color: white;</string>
-       </property>
-       <property name="text">
-        <string>Clinics</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../Images/nav_images/services_icon.png</normaloff>../Images/nav_images/services_icon.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>70</width>
-         <height>70</height>
-        </size>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextUnderIcon</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="feedback_navigation">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Source Sans Pro Semibold</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border: none; 
-color: white;</string>
-       </property>
-       <property name="text">
-        <string>Feedback</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../Images/nav_images/feedback_icon.png</normaloff>../Images/nav_images/feedback_icon.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>70</width>
-         <height>70</height>
-        </size>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextUnderIcon</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="settings_navigation">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Source Sans Pro Semibold</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border: none; 
-color: white;</string>
-       </property>
-       <property name="text">
-        <string>Settings</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../Images/nav_images/settings_page_icon.png</normaloff>../Images/nav_images/settings_page_icon.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>70</width>
-         <height>70</height>
-        </size>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextUnderIcon</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="logout_navigation">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>85</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Source Sans Pro Semibold</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border: none; 
-color: white;</string>
-       </property>
-       <property name="text">
-        <string>Logout</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../Images/nav_images/logout_icon.png</normaloff>../Images/nav_images/logout_icon.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>70</width>
-         <height>70</height>
-        </size>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextUnderIcon</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
   <widget class="QWidget" name="background" native="true">
    <property name="geometry">
     <rect>
@@ -324,92 +31,6 @@ border-bottom-left-radius: 30px;
 border-top-left-radius: 30px;
 text-align: center;</string>
    </property>
-   <widget class="QPushButton" name="noti_icon">
-    <property name="geometry">
-     <rect>
-      <x>1380</x>
-      <y>30</y>
-      <width>70</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/icon/notification.png</normaloff>../Images/icon/notification.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>40</width>
-      <height>40</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QFrame" name="user_frame">
-    <property name="geometry">
-     <rect>
-      <x>1480</x>
-      <y>30</y>
-      <width>251</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 20px; border: 2px solid #808080</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="profile_icon">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>60</width>
-       <height>60</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border: none</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>../Images/icon/profile_icon.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="profile_btn">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>25</y>
-       <width>121</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Consolas</family>
-       <pointsize>16</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border: none</string>
-     </property>
-     <property name="text">
-      <string>Admin</string>
-     </property>
-    </widget>
-   </widget>
    <widget class="QLabel" name="clinic_label">
     <property name="geometry">
      <rect>
@@ -479,8 +100,8 @@ text-align: center;</string>
    <widget class="QPushButton" name="submit_btn">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>960</y>
+      <x>1400</x>
+      <y>970</y>
       <width>301</width>
       <height>51</height>
      </rect>
@@ -500,7 +121,7 @@ text-align: center;</string>
      <string>Submit</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>540</x>
@@ -1087,6 +708,30 @@ border: 1px solid gray;
       </layout>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="back_btn">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>970</y>
+      <width>301</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\n border: 1px solid gray;</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
    </widget>
   </widget>
  </widget>

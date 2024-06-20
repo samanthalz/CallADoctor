@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal)
+    QRect, QSize, QUrl, Qt, pyqtSignal,pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -10,6 +10,7 @@ from connection import db
 class LoginWidget(QWidget):
     login_successful = pyqtSignal(int)
     user_id = pyqtSignal(str)
+    apply_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -139,6 +140,14 @@ class LoginWidget(QWidget):
         font4.setPointSize(10)
         self.registerbutton.setFont(font4)
         self.registerbutton.setStyleSheet(u"border: none")
+        
+        self.apply_clinic_btn = QPushButton(self.loginwidget)
+        self.apply_clinic_btn.setObjectName(u"apply_clinic_btn")
+        self.apply_clinic_btn.setGeometry(QRect(110, 610, 521, 28))
+        self.apply_clinic_btn.setFont(font4)
+        self.apply_clinic_btn.setStyleSheet(u"border: none")
+        self.apply_clinic_btn.clicked.connect(self.emitApplyClinicBtn)
+        
         self.widget_3 = QWidget(self.bg)
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
@@ -172,6 +181,7 @@ class LoginWidget(QWidget):
 #endif // QT_CONFIG(tooltip)
         self.loginbutton.setText(QCoreApplication.translate("Form", u"Login", None))
         self.registerbutton.setText(QCoreApplication.translate("Form", u"Don't have an account? Register here.", None))
+        self.apply_clinic_btn.setText(QCoreApplication.translate("Form", u"Want to include your clinic in our system? Click here.", None))
         self.image.setText("")
     # retranslateUi
     
@@ -225,5 +235,9 @@ class LoginWidget(QWidget):
         msgBox.setStandardButtons(QMessageBox.Ok)
         msgBox.exec()
 
+    @pyqtSlot()
+    def emitApplyClinicBtn(self):
+        # Emit the custom signal
+        self.apply_btn_clicked.emit()
 
 

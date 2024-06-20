@@ -3,7 +3,7 @@ from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
     QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient, QMessageBox)
+    QRadialGradient)
 from PyQt5.QtWidgets import *
 from connection import db
 
