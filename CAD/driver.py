@@ -5,11 +5,12 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, 
 from User.forgotpw import ForgotPwWidget
 from User.forgotpw_newpw import ForgotPw_newpwWidget
 from User.forgotpw_verification import ForgotPw_verificationWidget
+from User.forgotpw_success import ForgotPw_successWidget
 from User.ui_home import HomeWidget
 from login import LoginWidget
 from register import RegisterWidget
 from User.ui_find_clinic import FindClinicWidget
-from User.ui_find_clinic_copy import ViewClinicWidget
+#from User.ui_find_clinic_copy import ViewClinicWidget
 from User.ui_view_doctor_profile import ViewDoctorProfileWidget
 from User.ui_view_clinic_profile import ViewClinicProfileWidget
 from User.ui_find_doctor import FindDoctorWidget
@@ -18,7 +19,7 @@ from User.ui_services import ServicesWidget
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from Project_Admin.ui_add_clinic import AddClinicWidget
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
-#from Project_Admin.ui_view_clinic import ViewClinicWidget
+from Project_Admin.ui_view_clinic import ViewClinicWidget
 from Project_Admin.ui_view_feedback import ViewFeedbackWidget
 
 class Ui_MainWindow(QMainWindow):
@@ -44,17 +45,37 @@ class Ui_MainWindow(QMainWindow):
         
         self.findClinicWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.findClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.findClinicWidget.viewClinicProfileRequested.connect(self.showViewClinicProfileWidget)
+        self.findClinicWidget.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         
         self.findDocWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.findDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.findDocWidget.viewDoctorProfileRequested.connect(self.showViewDoctorProfileWidget)
+        self.findDocWidget.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
+        
+        self.viewDoctorProfile.service_btn_clicked.connect(self.showServicesWidget)
+        self.viewDoctorProfile.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.viewDoctorProfile.back_btn_clicked.connect(self.showFindDocWidget)
+        self.viewDoctorProfile.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
+        
+        self.viewClinicProfile.service_btn_clicked.connect(self.showServicesWidget)
+        self.viewClinicProfile.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.viewClinicProfile.back_btn_clicked.connect(self.showFindClinicWidget)
+        self.viewClinicProfile.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
+        self.viewClinicProfile.viewDocterRequested.connect(self.showPrefillFindDocWidget)
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-        #self.makeApptWidget.redirect_appt.connect(self.showAppointmetWidget) to be modified
+        #self.makeApptWidget.redirect_appt.connect(self.showAppointmentWidget) to be modified
 
-        self.forgotPw_verificationWidget.continue_successful.connect(self.showNewPassword)
+        self.forgotPwWidget.continue_successful.connect(self.showForgotPw_verificationWidget)
+        self.forgotPwWidget.back_successful.connect(self.showLoginWidget)       
+        self.forgotPw_verificationWidget.continue_successful.connect(self.showForgotPw_newpwWidget)
+        self.forgotPw_newpwWidget.update_successful.connect(self.showForgotPw_successWidget)
         
+        self.forgotPw_successWidget.continue_btn_clicked.connect(self.showLoginWidget)
+
         self.paHomeWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paHomeWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
         self.paHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -66,6 +87,7 @@ class Ui_MainWindow(QMainWindow):
         self.paViewClinicWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
         self.paViewClinicWidget.home_btn_clicked.connect(self.showPAHomeWidget)
         self.paViewClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.paViewClinicWidget.add_btn_clicked.connect(self.showPAAddClinicWidget)
         
 
     def setupUi(self, MainWindow):
@@ -82,37 +104,45 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.loginWidget = LoginWidget()
-        self.forgotPwWidget = ForgotPwWidget()
+        self.forgotPwWidget = ForgotPwWidget(self.centralwidget)
         self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
         self.forgotPw_newpwWidget = ForgotPw_newpwWidget()
+        self.forgotPw_successWidget = ForgotPw_successWidget()
         self.registerWidget = RegisterWidget()
         self.homeWidget = HomeWidget()
         self.findClinicWidget = FindClinicWidget()
         self.findDocWidget = FindDoctorWidget()
         self.makeApptWidget = MakeApptWidget()
         self.servicesWidget = ServicesWidget()
+        self.viewDoctorProfile = ViewDoctorProfileWidget()
+        self.viewClinicProfile = ViewClinicProfileWidget()
+        
         self.paHomeWidget = PAHomeWidget()
         self.paAddClinicWidget = AddClinicWidget()
         self.paFeedbackInboxWidget = FeedbackInboxWidget()
         self.paViewClinicWidget = ViewClinicWidget()
         self.paViewFeedbackWidget = ViewFeedbackWidget()
+        
          
 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.forgotPw_newpwWidget)
         self.stackedWidget.addWidget(self.forgotPw_verificationWidget)
+        self.stackedWidget.addWidget(self.forgotPw_successWidget)
         self.stackedWidget.addWidget(self.registerWidget)
         self.stackedWidget.addWidget(self.homeWidget)
         self.stackedWidget.addWidget(self.servicesWidget)
         self.stackedWidget.addWidget(self.findClinicWidget)
         self.stackedWidget.addWidget(self.findDocWidget)
         self.stackedWidget.addWidget(self.makeApptWidget)
+        self.stackedWidget.addWidget(self.viewDoctorProfile)
+        self.stackedWidget.addWidget(self.viewClinicProfile)
         self.stackedWidget.addWidget(self.paHomeWidget)
-        self.stackedWidget.addWidget(self.paViewClinicWidget)
         self.stackedWidget.addWidget(self.paFeedbackInboxWidget)
         self.stackedWidget.addWidget(self.paViewClinicWidget)
         self.stackedWidget.addWidget(self.paViewFeedbackWidget)
+        self.stackedWidget.addWidget(self.paAddClinicWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -134,7 +164,20 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
+    
+    @pyqtSlot()
+    def showForgotPw_verificationWidget(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)
         
+
+    @pyqtSlot()
+    def showForgotPw_newpwWidget(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
+
+    @pyqtSlot()
+    def showForgotPw_successWidget(self):
+        self.stackedWidget.setCurrentWidget(self.forgotPw_successWidget)
+
     @pyqtSlot()
     def showRegisterWidget(self):
         self.stackedWidget.setCurrentWidget(self.registerWidget)
@@ -165,6 +208,16 @@ class Ui_MainWindow(QMainWindow):
     def showMakeApptWidget(self):
         self.stackedWidget.setCurrentWidget(self.makeApptWidget)
         
+        
+    def showPrefillMakeApptWidget(self, clinic_name, doctor_name):
+        self.stackedWidget.setCurrentWidget(self.makeApptWidget)
+        self.makeApptWidget.prefill_appointment_form(clinic_name, doctor_name)
+        
+    def showPrefillFindDocWidget(self, clinic_name):
+        self.stackedWidget.setCurrentWidget(self.findDocWidget)
+        self.findDocWidget.prefill_clinic(clinic_name)
+        
+        
     @pyqtSlot()
     def showServicesWidget(self):
         self.stackedWidget.setCurrentWidget(self.servicesWidget)
@@ -180,6 +233,19 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showPAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
+        
+    @pyqtSlot()
+    def showPAAddClinicWidget(self):
+        self.stackedWidget.setCurrentWidget(self.paAddClinicWidget)
+        
+    def showViewDoctorProfileWidget(self, doc_id, clinic_name):
+        self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
+        self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
+        
+    def showViewClinicProfileWidget(self, clinic_name, temp):
+        #print(f"clinic name is {clinic_name} temp is {temp}")
+        self.stackedWidget.setCurrentWidget(self.viewClinicProfile)
+        self.viewClinicProfile.display_clinic_profile(clinic_name, temp)
     
 
     def set_user_id(self, user_id):  

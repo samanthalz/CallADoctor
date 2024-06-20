@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -7,6 +7,8 @@ from PyQt5.QtWidgets import *
 
 
 class ForgotPw_newpwWidget(QWidget):
+    update_successful = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -21,15 +23,18 @@ class ForgotPw_newpwWidget(QWidget):
         self.bg.setMinimumSize(QSize(1920, 1080))
         self.bg.setFrameShape(QFrame.StyledPanel)
         self.bg.setFrameShadow(QFrame.Raised)
+
         self.widget_2 = QWidget(self.bg)
         self.widget_2.setObjectName(u"widget_2")
         self.widget_2.setGeometry(QRect(0, 0, 1350, 1080))
         self.widget_2.setMinimumSize(QSize(0, 1080))
         self.widget_2.setStyleSheet(u"background-color: \"white\";")
+
         self.widget = QWidget(self.widget_2)
         self.widget.setObjectName(u"widget")
         self.widget.setEnabled(True)
         self.widget.setGeometry(QRect(550, 280, 658, 511))
+        
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -124,6 +129,8 @@ class ForgotPw_newpwWidget(QWidget):
         self.updatepw.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
 "border-radius: 10px;\n"
 "border: none")
+    
+        self.updatepw.clicked.connect(self.emitUpdate)
 
         self.verticalLayout.addWidget(self.updatepw)
 
@@ -140,6 +147,7 @@ class ForgotPw_newpwWidget(QWidget):
         self.logo.raise_()
         self.label_7.raise_()
         self.widget.raise_()
+        
         self.widget_3 = QWidget(self.bg)
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setGeometry(QRect(1348, 0, 579, 1080))
@@ -167,3 +175,6 @@ class ForgotPw_newpwWidget(QWidget):
         self.label_7.setText("")
     # retranslateUi
 
+    @pyqtSlot()
+    def emitUpdate(self):
+        self.update_successful.emit()

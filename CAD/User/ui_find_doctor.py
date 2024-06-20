@@ -9,6 +9,8 @@ from connection import db
 class FindDoctorWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    viewDoctorProfileRequested = pyqtSignal(str, str) 
+    makeAppointmentRequested = pyqtSignal(str, str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -472,13 +474,17 @@ class FindDoctorWidget(QWidget):
         btnlayout.setObjectName(u"btnlayout")
         btnlayout.setContentsMargins(0, 0, 0, 0)
         
+        
         view_profile_btn = QPushButton(layoutWidget)
-        view_profile_btn.setObjectName(u"view_profile_btn")
+        view_profile_btn.setObjectName("view_profile_btn")
         view_profile_btn.setMinimumSize(QSize(193, 55))
-        view_profile_btn.setStyleSheet(u"border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
+        view_profile_btn.setStyleSheet("border-radius: 0 0 24pt 0; background-color: #B6D0E2; border: none;")
         view_profile_btn.setText("View Profile")
         font = QFont("Consolas", 10)
         view_profile_btn.setFont(font)
+        view_profile_btn.setProperty("doctor_name", doctor.get("doctor_name", "Unknown"))
+        view_profile_btn.clicked.connect(self.on_view_profile_button_clicked)
+
 
         btnlayout.addWidget(view_profile_btn)
 
@@ -489,7 +495,10 @@ class FindDoctorWidget(QWidget):
         make_appt_btn.setText("Make Appointment")
         font = QFont("Consolas", 10)
         make_appt_btn.setFont(font)
-
+        make_appt_btn.clicked.connect(self.on_make_appointment_button_clicked)
+        make_appt_btn.setProperty("clinic_name", clinic.get("clinic_name", "Unknown")) 
+        make_appt_btn.setProperty("doctor_name", doctor.get("doctor_name", "Unknown"))
+        
         btnlayout.addWidget(make_appt_btn)
 
         layoutWidget1 = QWidget(doc_info_inner)
@@ -556,3 +565,42 @@ class FindDoctorWidget(QWidget):
         verticalLayout.addItem(verticalSpacer_2)
         
         return doc_info_outer
+
+    @pyqtSlot()
+    def on_view_profile_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        doctor_name = button.property("doctor_name")  # Retrieve the doctor name from the button's property
+        
+        # Find the corresponding clinic and doctor info using the doctor name
+        clinic_name = ""
+        doctor_id = ""
+        for clinic in self.clinic_data_list:
+            if isinstance(clinic, dict):
+                doctors = clinic.get("doctors", {})
+                for doc_id, doctor in doctors.items():
+                    if doctor.get("doctor_name") == doctor_name:
+                        clinic_name = clinic.get("clinic_name", "")
+                        doctor_id = doc_id
+                        break
+                if clinic_name and doctor_id:
+                    break
+        
+        print(f"Doctor ID: {doctor_id}, Clinic Name: {clinic_name}")
+        if doctor_id and clinic_name:
+            self.viewDoctorProfileRequested.emit(doctor_id, clinic_name)
+            
+            
+    def on_make_appointment_button_clicked(self):
+        button = self.sender()  # Get the button that was clicked
+        clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
+        doctor_name = button.property("doctor_name")  # Retrieve the doctor name from the button's property
+        if clinic_name and doctor_name:
+            self.makeAppointmentRequested.emit(clinic_name, doctor_name)
+            
+    def prefill_clinic(self, clinic_name):
+        # Pre-fill the clinic dropdown
+        clinic_index = self.clinic_dropdown.findText(clinic_name)
+        if clinic_index != -1:
+            self.clinic_dropdown.setCurrentIndex(clinic_index)
+
+                

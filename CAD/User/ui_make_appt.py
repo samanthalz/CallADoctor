@@ -36,12 +36,12 @@ class CustomCalendarWidget(QCalendarWidget):
         # Set custom font
         painter.setFont(self.custom_font)
 
-        # Highlight the selected date
-        if self.selected_date == date:
-            painter.save()
-            painter.setBrush(QColor(200, 200, 255, 150))  # Light blue background
-            painter.drawRect(rect)
-            painter.restore()
+        # # Highlight the selected date
+        # if self.selected_date == date:
+        #     painter.save()
+        #     painter.setBrush(QColor(200, 200, 255, 150))  # Light blue background
+        #     painter.drawRect(rect)
+        #     painter.restore()
 
     def mousePressEvent(self, event):
         clicked_date = self.clickedDate(event.pos())
@@ -611,13 +611,31 @@ class MakeApptWidget(QWidget):
         except Exception as e:
                 print(f"An error occurred while loading specialties: {e}")
 
+    def prefill_appointment_form(self, clinic_name, doctor_name):
+        # Pre-fill the clinic dropdown
+        clinic_index = self.clinic_dropdown.findText(clinic_name)
+        if clinic_index != -1:
+            self.clinic_dropdown.setCurrentIndex(clinic_index)
 
+        # If doctor_name is not empty, load and pre-fill the doctors for the selected clinic
+        if doctor_name:
+            self.load_doctors()
+
+            # Pre-fill the doctor dropdown
+            doctor_index = self.doc_dropdown.findText(doctor_name)
+            if doctor_index != -1:
+                self.doc_dropdown.setCurrentIndex(doctor_index)
+
+
+
+            
+            
     def get_selected_data(self):
         clinic = self.clinic_dropdown.currentText()
         doctor = self.doc_dropdown.currentText()
         time = self.time_dropdown.currentText()
         speciality = self.speciality_dropdown.currentText()
-        date = self.calendarWidget.selectedDate().toString("ddMMyy")
+        date = self.calendarWidget.selectedDate().toString("yyMMdd")
         med_concern = self.med_input.text() if self.med_input.text() != "Write here..." else ""
         admin_reassign = "yes" if self.checkBox.isChecked() else "no"
         return clinic, doctor, time, speciality, date, med_concern, admin_reassign

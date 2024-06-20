@@ -1,12 +1,14 @@
-from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
-from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
-from PyQt5.QtWidgets import *
-
+import json
+from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, Qt, pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QFrame, QSpacerItem, QMessageBox
+import re
+from connection import db  # Ensure this is correctly importing your database connection module
 
 class ForgotPwWidget(QWidget):
+    continue_successful = pyqtSignal()
+    back_successful = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -52,7 +54,7 @@ class ForgotPwWidget(QWidget):
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setStyleSheet(u"color:rgb(21, 48, 96)")
-        self.label.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
+        self.label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
 
         self.verticalLayout_4.addWidget(self.label)
 
@@ -80,11 +82,6 @@ class ForgotPwWidget(QWidget):
         self.verticalSpacer_4 = QSpacerItem(14, 43, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_4.addItem(self.verticalSpacer_4)
-
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-
-        self.verticalLayout_4.addLayout(self.verticalLayout_2)
 
         self.label_ = QLabel(self.widget)
         self.label_.setObjectName(u"label_")
@@ -114,9 +111,10 @@ class ForgotPwWidget(QWidget):
         self.Continue.setMinimumSize(QSize(0, 40))
         self.Continue.setFont(font1)
         self.Continue.setStyleSheet(u"background-color: rgb(182, 208, 226);\n"
-"border-radius: 10px;\n"
-"border: none\n"
-"")
+                                    "border-radius: 10px;\n"
+                                    "border: none\n"
+                                    "")
+        self.Continue.clicked.connect(self.emitContinue)
 
         self.verticalLayout_4.addWidget(self.Continue)
 
@@ -124,7 +122,7 @@ class ForgotPwWidget(QWidget):
         self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(540, 270, 681, 531))
         self.label_7.setStyleSheet(u"border: 2px solid rgb(182, 208, 226);\n"
-"border-radius: 10px;")
+                                   "border-radius: 10px;")
         self.back_button = QPushButton(self.widget_2)
         self.back_button.setObjectName(u"back_button")
         self.back_button.setEnabled(True)
@@ -137,8 +135,11 @@ class ForgotPwWidget(QWidget):
         self.back_button.setFont(font3)
         self.back_button.setAutoFillBackground(False)
         self.back_button.setStyleSheet(u"background-color: rgba(182, 208, 226,0.8);\n"
-"color: rgb(255, 255, 255);\n"
-"border-radius: 10px;")
+                                       "color: rgb(255, 255, 255);\n"
+                                       "border-radius: 10px;")
+
+        self.back_button.clicked.connect(self.emitBack)
+
         self.back_button.setIconSize(QSize(70, 70))
         self.label_7.raise_()
         self.widget.raise_()
@@ -154,7 +155,6 @@ class ForgotPwWidget(QWidget):
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
-    # setupUi
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
@@ -165,7 +165,52 @@ class ForgotPwWidget(QWidget):
         self.Continue.setText(QCoreApplication.translate("Form", u"Continue", None))
         self.label_7.setText("")
         self.back_button.setText(QCoreApplication.translate("Form", u"< Back", None))
-    # retranslateUi
 
+    @pyqtSlot()
+    def emitContinue(self):
+        print("Continue button clicked")  # Debugging statement
+        if self.validateEmail():
+            print("Email validation passed")  # Debugging statement
+            # Emit the custom signal if validation passes
+            self.continue_successful.emit()
+        else:
+            self.showErrorMessage()
 
+    @pyqtSlot()
+    def emitBack(self):
+        print("Back button clicked")  # Debugging statement
+        # Emit the custom signal
+        self.back_successful.emit()
+
+    def validateEmail(self):
+        email = self.email.text()
+        print(f"Validating email: {email}")  # Debugging statement
+        if not email:
+            self.error_message = "Email field cannot be empty."
+            return False
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            self.error_message = "Invalid email format."
+            return False
+        if not self.emailExistsInDb(email):
+            self.error_message = "Email not found in database."
+            return False
+        return True
+
+    def emailExistsInDb(self, email):
+        # Replace this logic with actual database check
+        print(f"Checking if email exists in DB: {email}")  # Debugging statement
+        return self.check_email_in_db(email)
+
+    def check_email_in_db(self, email):
+        # Dummy implementation, replace with actual database query
+        # This is just a placeholder, you need to replace it with your actual database logic
+        db_emails = ["amy@gmail.com", "email@gmail.com"]
+        return email in db_emails
+
+    def showErrorMessage(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText(self.error_message)
+        msg.setWindowTitle("Validation Error")
+        msg.exec_()
 
