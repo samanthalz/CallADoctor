@@ -114,8 +114,8 @@ class HomeWidget(QWidget):
                     time = appt_info['time']
 
                     # Create a frame for each appointment
-                    appt_frame = self.create_appointments_frame(clinic_name, clinic_logo, toa, date, time, i)
-                    appt_frame.show()
+                #     appt_frame = self.create_appointments_frame(clinic_name, clinic_logo, toa, date, time, i)
+                #     appt_frame.show()
 
         return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
     
