@@ -415,8 +415,6 @@ class ViewClinicProfileWidget(QWidget):
                 print(f"An error occurred while fetching clinic data: {e}")
                 return {}
 
-
-
     def on_make_appointment_button_clicked(self):
         button = self.sender()  # Get the button that was clicked
         clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
