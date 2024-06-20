@@ -385,3 +385,65 @@ class RegisterClinicWidget(QWidget):
         self.back_btn.setText(QCoreApplication.translate("Form", u"Back", None))
     # retranslateUi
 
+    def load_states(self):
+        states = [
+            "All",
+            "Johor",
+            "Kedah",
+            "Kelantan",
+            "Kuala Lumpur",
+            "Labuan",
+            "Melaka",
+            "Negeri Sembilan",
+            "Pahang",
+            "Perak",
+            "Perlis",
+            "Penang",
+            "Putrajaya",
+            "Sabah",
+            "Sarawak",
+            "Selangor",
+            "Terengganu"
+        ]
+        self.state_input.addItems(states)
+        
+    def validateForm(self):
+        clinic_name = self.name_input.text().strip()
+        operating_hours = self.hour_input.text().strip()
+        starting_year = self.startyear_input.text().strip()
+        state = self.state_input.currentText()
+        address = self.address_input.text().strip()
+        phone_number = self.phone_input.text().strip()
+        email_address = self.email_input.text().strip()
+        proof_document = self.prood_input.text().strip()
+
+        # Validation checks
+        if not clinic_name:
+            QMessageBox.warning(self, "Input Error", "Clinic name cannot be empty.")
+            return
+        if not operating_hours or not re.match(r'^\d{1,2}(am|pm)-\d{1,2}(am|pm)$', operating_hours):
+            QMessageBox.warning(self, "Input Error", "Operating hours must be in format 1am-2pm.")
+            return
+        if not starting_year or not re.match(r'^\d{4}$', starting_year):
+            QMessageBox.warning(self, "Input Error", "Starting year must be a 4-digit number.")
+            return
+        if state == "Choose a State":
+            QMessageBox.warning(self, "Input Error", "Please select a state.")
+            return
+        if not address:
+            QMessageBox.warning(self, "Input Error", "Address cannot be empty.")
+            return
+        if not phone_number or not re.match(r'^0\d{7,9}$', phone_number):
+            QMessageBox.warning(self, "Input Error", "Phone number must be 8-10 digits and start with 0.")
+            return
+        if not email_address or not re.match(r'^[^@]+@[^@]+\.[^@]+$', email_address):
+            QMessageBox.warning(self, "Input Error", "Please enter a valid email address.")
+            return
+        if not proof_document:
+            QMessageBox.warning(self, "Input Error", "Please upload proof of Government registered doctors.")
+            return
+
+        # If all validations pass
+        QMessageBox.information(self, "Success", "Form submitted successfully!")
+
+
