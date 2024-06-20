@@ -90,14 +90,14 @@ class HomeWidget(QWidget):
 
         self.date_time_frame = QFrame(self.clinicAppt_frame)
         self.date_time_frame.setObjectName(u"date_time_frame")
-        self.date_time_frame.setGeometry(QRect(280, 20, 71, 41))
+        self.date_time_frame.setGeometry(QRect(280, 20, 100, 41))
         self.date_time_frame.setStyleSheet(u"border-radius: 10px;\n""background-color: #dbe7f0;")
         self.date_time_frame.setFrameShape(QFrame.StyledPanel)
         self.date_time_frame.setFrameShadow(QFrame.Raised)
 
         self.date_label = QLabel(self.date_time_frame)
         self.date_label.setObjectName(u"date_label")
-        self.date_label.setGeometry(QRect(10, 0, 47, 13))
+        self.date_label.setGeometry(QRect(10, 0, 80, 13))
         font5 = QFont()
         font5.setFamily(u"Cascadia Code")
         self.date_label.setFont(font5)
@@ -106,7 +106,7 @@ class HomeWidget(QWidget):
 
         self.time_label = QLabel(self.date_time_frame)
         self.time_label.setObjectName(u"time_label")
-        self.time_label.setGeometry(QRect(10, 20, 47, 13))
+        self.time_label.setGeometry(QRect(10, 20, 80, 13))
         self.time_label.setFont(font5)
         self.time_label.setStyleSheet(u"border : none;\n")
         self.time_label.setText(time)
@@ -131,6 +131,7 @@ class HomeWidget(QWidget):
                     clinic_logo = "A"
                     toa = appt_info['speciality']
                     appt_date = appt_info['date']
+                    appt_date = self.translate_date(appt_date)
                     time = appt_info['time']
 
                     if  int(appt_info.get('date')) >= int(current_date): # upcoming appointments
