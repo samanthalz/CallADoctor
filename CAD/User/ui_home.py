@@ -27,12 +27,13 @@ class HomeWidget(QWidget):
             if widget is not None:
                 widget.deleteLater()
 
-    def create_appointments_frame(self):
+    def create_appointments_frame(self, clinic_name, clinic_logo, toa, date, time, position):
         self.clinicAppt_frame = QFrame(self.upcomin_appt_frame)
         self.clinicAppt_frame.setObjectName(u"clinicAppt_frame")
         self.clinicAppt_frame.setGeometry(QRect(20, 70, 401, 81))
         self.clinicAppt_frame.setFrameShape(QFrame.StyledPanel)
         self.clinicAppt_frame.setFrameShadow(QFrame.Raised)
+
         self.clinic_name_label = QLabel(self.clinicAppt_frame)
         self.clinic_name_label.setObjectName(u"clinic_name_label")
         self.clinic_name_label.setGeometry(QRect(90, 10, 121, 21))
@@ -40,8 +41,9 @@ class HomeWidget(QWidget):
         font3.setFamily(u"Cascadia Code")
         font3.setPointSize(10)
         self.clinic_name_label.setFont(font3)
-        self.clinic_name_label.setStyleSheet(u"border : none;\n"
-"")
+        self.clinic_name_label.setStyleSheet(u"border : none;\n")
+        self.clinic_name_label.setText(clinic_name)
+
         self.clinic_logo_label = QLabel(self.clinicAppt_frame)
         self.clinic_logo_label.setObjectName(u"clinic_logo_label")
         self.clinic_logo_label.setGeometry(QRect(10, 10, 54, 54))
@@ -57,34 +59,39 @@ class HomeWidget(QWidget):
 "max-width: 50px; /* Ensure the QLabel is a circle */\n"
 "max-height: 50px; /* Ensure the QLabel is a circle */")
         self.clinic_logo_label.setAlignment(Qt.AlignCenter)
+        self.clinic_logo_label.setText(clinic_logo)  # Set logo or path to logo image
+
         self.toa_label = QLabel(self.clinicAppt_frame)
         self.toa_label.setObjectName(u"toa_label")
         self.toa_label.setGeometry(QRect(90, 30, 161, 21))
         self.toa_label.setFont(font3)
-        self.toa_label.setStyleSheet(u"border : none;\n"
-"color : #6ea0c4;\n"
-"")
+        self.toa_label.setStyleSheet(u"border : none;\n""color : #6ea0c4;\n")
+        self.toa_label.setText(toa)
+
         self.date_time_frame = QFrame(self.clinicAppt_frame)
         self.date_time_frame.setObjectName(u"date_time_frame")
         self.date_time_frame.setGeometry(QRect(280, 20, 71, 41))
-        self.date_time_frame.setStyleSheet(u"border-radius: 10px;\n"
-"background-color: #dbe7f0;")
+        self.date_time_frame.setStyleSheet(u"border-radius: 10px;\n""background-color: #dbe7f0;")
         self.date_time_frame.setFrameShape(QFrame.StyledPanel)
         self.date_time_frame.setFrameShadow(QFrame.Raised)
+
         self.date_label = QLabel(self.date_time_frame)
         self.date_label.setObjectName(u"date_label")
         self.date_label.setGeometry(QRect(10, 0, 47, 13))
         font5 = QFont()
         font5.setFamily(u"Cascadia Code")
         self.date_label.setFont(font5)
-        self.date_label.setStyleSheet(u"border : none;\n"
-"")
+        self.date_label.setStyleSheet(u"border : none;\n")
+        self.date_label.setText(date)
+
         self.time_label = QLabel(self.date_time_frame)
         self.time_label.setObjectName(u"time_label")
         self.time_label.setGeometry(QRect(10, 20, 47, 13))
         self.time_label.setFont(font5)
-        self.time_label.setStyleSheet(u"border : none;\n"
-"")
+        self.time_label.setStyleSheet(u"border : none;\n")
+        self.time_label.setText(time)
+
+        return self.clinicAppt_frame
 
                 
 
@@ -99,6 +106,17 @@ class HomeWidget(QWidget):
                 if int(appt_info.get('patient_id')) == int(self.user_id) and int(appt_info.get('date')) >= int(current_date):
                     num_upcoming_appt += 1
                     upcoming_appt_info.append(appt_info)
+
+                    clinic_name = appt_info['clinic_name']
+                    clinic_logo = appt_info['clinic_logo']  # Assuming this is a path or identifier for the logo
+                    toa = appt_info['toa']
+                    date = appt_info['date']
+                    time = appt_info['time']
+
+                    # Create a frame for each appointment
+                    appt_frame = self.create_appointments_frame(clinic_name, clinic_logo, toa, date, time, i)
+                    appt_frame.show()
+
         return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
     
     
@@ -579,6 +597,8 @@ class HomeWidget(QWidget):
         self.medicine_quantity_label_3.setStyleSheet(u"border : none;\n"
 "color : #6ea0c4;\n"
 "")
+        
+        # Notification, profile, nav bar
         self.noti_icon = QPushButton(self.background)
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
@@ -735,6 +755,8 @@ class HomeWidget(QWidget):
         self.past_label.setText(QCoreApplication.translate("Form", u"Past", None))
         self.active_pres_label.setText(QCoreApplication.translate("Form", u"Active Prescriptions", None))
 
+
+
         # variables (upcoming & past appts) : 
         self.clinic_name_label.setText(QCoreApplication.translate("Form", u"Clinic Name", None))
         self.clinic_logo_label.setText(QCoreApplication.translate("Form", u"A", None))
@@ -748,7 +770,7 @@ class HomeWidget(QWidget):
 
         self.medicineName_label_2.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
         self.medicine_quantity_label_2.setText(QCoreApplication.translate("Form", u"Quantity", None))
-        
+
         self.medicineName_label_3.setText(QCoreApplication.translate("Form", u"Medicine Name", None))
         self.medicine_quantity_label_3.setText(QCoreApplication.translate("Form", u"Quantity", None))
 
