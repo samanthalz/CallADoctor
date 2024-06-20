@@ -145,12 +145,11 @@ class HomeWidget(QWidget):
         counter = 0
         for appt_frame in visible_appts:
                 counter += 1
-                row = counter // 3
-                col = counter % 3
-                #self.verticalLayout_upcomingAppt.addWidget(appt_frame, row, col) # error at this line
+                row = counter
+                self.verticalLayout_upcomingAppt.addWidget(appt_frame)
 
-        # # Refresh the layout after adding all frames
-        # self.verticalLayout_upcomingAppt.update()
+        # Refresh the layout after adding all frames
+        self.verticalLayout_upcomingAppt.update()
 
 
         return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
@@ -237,6 +236,10 @@ class HomeWidget(QWidget):
         self.upcoming_appt_frame.setStyleSheet(u"background-color : #ffffff;")
         self.upcoming_appt_frame.setFrameShape(QFrame.StyledPanel)
         self.upcoming_appt_frame.setFrameShadow(QFrame.Raised)
+        # Create a vertical layout and set it to the frame
+        self.verticalLayout_upcomingAppt = QVBoxLayout(self.upcoming_appt_frame)
+        self.upcoming_appt_frame.setLayout(self.verticalLayout_upcomingAppt)
+
         self.upcoming_label = QLabel(self.upcoming_appt_frame)
         self.upcoming_label.setObjectName(u"upcoming_label")
         self.upcoming_label.setGeometry(QRect(30, 20, 101, 41))
@@ -376,8 +379,8 @@ class HomeWidget(QWidget):
         self.active_pres_frame.setFrameShape(QFrame.StyledPanel)
         self.active_pres_frame.setFrameShadow(QFrame.Raised)
         # Create a vertical layout and set it to the frame
-        self.verticalLayout_upcomingAppt = QVBoxLayout(self.active_pres_frame)
-        self.active_pres_frame.setLayout(self.verticalLayout_upcomingAppt)
+        self.verticalLayout_activePres = QVBoxLayout(self.active_pres_frame)
+        self.active_pres_frame.setLayout(self.verticalLayout_activePres)
         self.active_pres_label = QLabel(self.active_pres_frame)
         self.active_pres_label.setObjectName(u"active_pres_label")
         self.active_pres_label.setGeometry(QRect(20, 10, 451, 41))
