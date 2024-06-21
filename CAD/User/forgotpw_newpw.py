@@ -171,43 +171,37 @@ class ForgotPw_newpwWidget(QWidget):
             return False
         return True
 
-    def updatePasswordInDb(self, email, new_password, retry_count=3):
-        attempt = 0
-        while attempt < retry_count:
-            try:
-                users = db.child("users").order_by_child("patient_email").equal_to(email).get()
-                if users.each():
-                    for user in users.each():
-                        user_id = user.key()
-                        db.child("users").child(user_id).update({"patient_pass": new_password})
-                        print(f"Password updated for {email}")
-                        self.update_successful.emit()
-                        return
-                self.error_message = f"No user found with email {email}"
-                return  # Return without showing error message here
-            except Exception as e:
-                attempt += 1
-                if attempt >= retry_count:
-                    self.error_message = f"Error updating password in DB: {e}"
-                    print(f"Firebase Error: {e}")
-                    self.showErrorMessage()  # Show error message for database operation failure
+    def updatePasswordInDb(self, email, new_password):
+        try:
+            # Query Firebase to find the user by email
+            users = db.child("users").order_by_child("patient_email").equal_to(email).get()
+            
+            # Check if users were found
+            if users.each():
+                for user in users.each():
+                    user_id = user.key()
+                    # Update the user's password
+                    db.child("users").child(user_id).update({"patient_pass": new_password})
+                    print(f"Password updated for {email}")
+                    self.update_successful.emit()  # Emit signal for successful update
+                    QMessageBox.information(self, "Success", "Password updated successfully.")
                     return
-                print(f"Retrying... ({attempt}/{retry_count})")
-                time.sleep(2)  # Wait before retrying
+            
+            # If no user found with the given email
+            self.error_message = f"No user found with email {email}"
+            self.showErrorMessage()
+
+        except Exception as e:
+            # Handle any exceptions that occur during database operation
+            self.error_message = f"Error updating password in DB: {e}"
+            print(f"Firebase Error: {e}")
+            self.showErrorMessage()
 
     def showErrorMessage(self):
+        # Method to display error messages
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
         msg.setText(self.error_message)
-        msg.setWindowTitle("Validation Error")
+        msg.setWindowTitle("Error")
         msg.exec_()
-                              
-
-    def showErrorMessage(self):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Critical)
-        msg.setText(self.error_message)
-        msg.setWindowTitle("Validation Error")
-        msg.exec_()
-
 
