@@ -255,6 +255,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showProfileSettingsWidget(self):
         self.stackedWidget.setCurrentWidget(self.profileSettingsWidget)
+        self.profileSettingsWidget.set_default_texts()
         
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
@@ -269,6 +270,7 @@ class Ui_MainWindow(QMainWindow):
     def set_user_id(self, user_id):  
         self.homeWidget.set_user_id(user_id)
         self.makeApptWidget.set_user_id(user_id)
+        self.profileSettingsWidget.set_user_id(user_id)
         
     def showLogoutPopup(self):
         msg_box = QMessageBox()

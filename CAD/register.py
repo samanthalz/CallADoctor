@@ -42,7 +42,7 @@ class RegisterWidget(QWidget, QObject):
         self.loginbutton.setStyleSheet(u"border: none")
         self.layoutWidget = QWidget(self.registerwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(100, 73, 504, 799))
+        self.layoutWidget.setGeometry(QRect(100, 73, 504, 831))
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName(u"verticalLayout")

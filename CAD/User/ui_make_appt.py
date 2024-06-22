@@ -689,7 +689,7 @@ class MakeApptWidget(QWidget):
             print("Failed to generate new appointment ID.")
             return
          
-        print(f"user id is {self.patient_id}")
+        #print(f"user id is {self.patient_id}")
         
         appointment_data = {
             "clinic_id": clinic,

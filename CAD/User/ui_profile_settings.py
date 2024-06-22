@@ -16,6 +16,8 @@ class ProfileSettingsWidget(QWidget):
         super().__init__(parent)
         self.patient_id = 0
         self.setupUi(self)
+        #self.set_default_texts()
+        
     
     def setupUi(self, Form):
         if Form.objectName():
@@ -62,22 +64,15 @@ class ProfileSettingsWidget(QWidget):
         font1.setPointSize(16)
         self.profile_btn.setFont(font1)
         self.profile_btn.setStyleSheet(u"border: none")
+        
         self.updateFrame = QFrame(self.whitebg)
         self.updateFrame.setObjectName(u"updateFrame")
-        self.updateFrame.setGeometry(QRect(180, 170, 741, 801))
-        self.loginbutton = QPushButton(self.updateFrame)
-        self.loginbutton.setObjectName(u"loginbutton")
-        self.loginbutton.setGeometry(QRect(190, 910, 331, 28))
-        font2 = QFont()
-        font2.setFamily(u"Consolas")
-        font2.setPointSize(10)
-        self.loginbutton.setFont(font2)
-        self.loginbutton.setStyleSheet(u"border: none")
+        self.updateFrame.setGeometry(QRect(180, 170, 741, 821))
         self.layoutWidget = QWidget(self.updateFrame)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(100, 31, 518, 611))
+        self.layoutWidget.setGeometry(QRect(100, 31, 518, 751))
         self.verticalLayout_2 = QVBoxLayout(self.layoutWidget)
-        self.verticalLayout_2.setSpacing(10)
+        self.verticalLayout_2.setSpacing(15)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.name_layout = QVBoxLayout()
@@ -108,10 +103,10 @@ class ProfileSettingsWidget(QWidget):
 
         self.name = QLabel(self.layoutWidget)
         self.name.setObjectName(u"name")
-        font3 = QFont()
-        font3.setFamily(u"Consolas")
-        font3.setPointSize(12)
-        self.name.setFont(font3)
+        font2 = QFont()
+        font2.setFamily(u"Consolas")
+        font2.setPointSize(12)
+        self.name.setFont(font2)
 
         self.name_layout.addWidget(self.name)
 
@@ -131,7 +126,7 @@ class ProfileSettingsWidget(QWidget):
         self.ic_layout.setObjectName(u"ic_layout")
         self.ic = QLabel(self.layoutWidget)
         self.ic.setObjectName(u"ic")
-        self.ic.setFont(font3)
+        self.ic.setFont(font2)
 
         self.ic_layout.addWidget(self.ic)
 
@@ -149,7 +144,7 @@ class ProfileSettingsWidget(QWidget):
         self.phone_layout.setObjectName(u"phone_layout")
         self.phonenum = QLabel(self.layoutWidget)
         self.phonenum.setObjectName(u"phonenum")
-        self.phonenum.setFont(font3)
+        self.phonenum.setFont(font2)
 
         self.phone_layout.addWidget(self.phonenum)
 
@@ -167,7 +162,7 @@ class ProfileSettingsWidget(QWidget):
         self.email_layout.setObjectName(u"email_layout")
         self.email = QLabel(self.layoutWidget)
         self.email.setObjectName(u"email")
-        self.email.setFont(font3)
+        self.email.setFont(font2)
 
         self.email_layout.addWidget(self.email)
 
@@ -181,23 +176,23 @@ class ProfileSettingsWidget(QWidget):
 
         self.verticalLayout_2.addLayout(self.email_layout)
 
-        self.username_layout = QVBoxLayout()
-        self.username_layout.setObjectName(u"username_layout")
-        self.username = QLabel(self.layoutWidget)
-        self.username.setObjectName(u"username")
-        self.username.setFont(font3)
+        self.add_layout = QVBoxLayout()
+        self.add_layout.setObjectName(u"add_layout")
+        self.add = QLabel(self.layoutWidget)
+        self.add.setObjectName(u"add")
+        self.add.setFont(font2)
 
-        self.username_layout.addWidget(self.username)
+        self.add_layout.addWidget(self.add)
 
-        self.username_input = QLineEdit(self.layoutWidget)
-        self.username_input.setObjectName(u"username_input")
-        self.username_input.setMinimumSize(QSize(0, 40))
-        self.username_input.setStyleSheet(u"border-radius: 0px; border: 1px solid #808080")
+        self.address_input = QTextEdit(self.layoutWidget)
+        self.address_input.setObjectName(u"address_input")
+        self.address_input.setMaximumSize(QSize(16777215, 80))
+        self.address_input.setStyleSheet(u"border-radius: 0px; border: 1px solid #808080")
 
-        self.username_layout.addWidget(self.username_input)
+        self.add_layout.addWidget(self.address_input)
 
 
-        self.verticalLayout_2.addLayout(self.username_layout)
+        self.verticalLayout_2.addLayout(self.add_layout)
 
         self.verticalSpacer = QSpacerItem(20, 58, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -206,10 +201,10 @@ class ProfileSettingsWidget(QWidget):
         self.update_btn = QPushButton(self.layoutWidget)
         self.update_btn.setObjectName(u"update_btn")
         self.update_btn.setMinimumSize(QSize(0, 60))
-        font4 = QFont()
-        font4.setFamily(u"Consolas")
-        font4.setPointSize(14)
-        self.update_btn.setFont(font4)
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(14)
+        self.update_btn.setFont(font3)
         self.update_btn.setStyleSheet(u"border-radius: 15px; color: white; background-color: \"#B6D0E2\";")
 
         self.verticalLayout_2.addWidget(self.update_btn)
@@ -225,7 +220,7 @@ class ProfileSettingsWidget(QWidget):
         self.change_pass_btn.setObjectName(u"change_pass_btn")
         self.change_pass_btn.setMinimumSize(QSize(546, 0))
         self.change_pass_btn.setMaximumSize(QSize(546, 16777215))
-        self.change_pass_btn.setFont(font4)
+        self.change_pass_btn.setFont(font3)
         self.change_pass_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
 
         self.btn_layout.addWidget(self.change_pass_btn)
@@ -234,7 +229,7 @@ class ProfileSettingsWidget(QWidget):
         self.policy_btn.setObjectName(u"policy_btn")
         self.policy_btn.setMinimumSize(QSize(546, 0))
         self.policy_btn.setMaximumSize(QSize(546, 16777215))
-        self.policy_btn.setFont(font4)
+        self.policy_btn.setFont(font3)
         self.policy_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
 
         self.btn_layout.addWidget(self.policy_btn)
@@ -243,7 +238,7 @@ class ProfileSettingsWidget(QWidget):
         self.tnc_btn.setObjectName(u"tnc_btn")
         self.tnc_btn.setMinimumSize(QSize(546, 0))
         self.tnc_btn.setMaximumSize(QSize(546, 16777215))
-        self.tnc_btn.setFont(font4)
+        self.tnc_btn.setFont(font3)
         self.tnc_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
 
         self.btn_layout.addWidget(self.tnc_btn)
@@ -252,7 +247,7 @@ class ProfileSettingsWidget(QWidget):
         self.contact_btn.setObjectName(u"contact_btn")
         self.contact_btn.setMinimumSize(QSize(546, 0))
         self.contact_btn.setMaximumSize(QSize(546, 16777215))
-        self.contact_btn.setFont(font4)
+        self.contact_btn.setFont(font3)
         self.contact_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
 
         self.btn_layout.addWidget(self.contact_btn)
@@ -358,7 +353,6 @@ class ProfileSettingsWidget(QWidget):
         self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout.addWidget(self.logout_navigation)
 
-
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
@@ -374,7 +368,7 @@ class ProfileSettingsWidget(QWidget):
         self.ic.setText(QCoreApplication.translate("Form", u"IC Number", None))
         self.phonenum.setText(QCoreApplication.translate("Form", u"Phone Number (eg. 601XXXXXXXXX)", None))
         self.email.setText(QCoreApplication.translate("Form", u"Email Address", None))
-        self.username.setText(QCoreApplication.translate("Form", u"Username", None))
+        self.add.setText(QCoreApplication.translate("Form", u"Address", None))
 #if QT_CONFIG(tooltip)
         self.update_btn.setToolTip("")
 #endif // QT_CONFIG(tooltip)
@@ -412,10 +406,11 @@ class ProfileSettingsWidget(QWidget):
 
     def set_user_id(self, user_id): 
         self.patient_id = user_id
+        print(f"set user id is {self.patient_id}")
         
-    def fetch_patient_data(self, patient_id):
+    def fetch_patient_data(self):
         try:
-                patient_data = db.child("patients").child(patient_id).get().val()
+                patient_data = db.child("patients").child(self.patient_id).get().val()
                 if patient_data:
                         return patient_data
                 else:
@@ -425,13 +420,18 @@ class ProfileSettingsWidget(QWidget):
                 return None
         
     def set_default_texts(self):
+        #print(f"id is {self.patient_id}")
         if self.patient_id:
-            patient_data = self.fetch_patient_data(self.patient_id)
+            patient_data = self.fetch_patient_data()
+            
             if patient_data:
                 self.name_input.setText(patient_data.get("patient_name", ""))
                 self.ic_input.setText(patient_data.get("patient_ic", ""))
                 self.phone_input.setText(patient_data.get("patient_phone", ""))
                 self.email_input.setText(patient_data.get("patient_email", ""))
+                self.address_input.setText(patient_data.get("patient_address", ""))
+        else:
+                print("error")
 
 
         
