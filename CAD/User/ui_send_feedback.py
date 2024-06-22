@@ -361,7 +361,7 @@ class SendFeedbackWidget(QWidget):
             # Display message box if appointment saved successfully
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
-            msgBox.setInformativeText("Feedback submitted successfully!")
+            msgBox.setText("Feedback submitted successfully!")
             msgBox.setStandardButtons(QMessageBox.Ok)
             msgBox.setDefaultButton(QMessageBox.Ok)
             msgBox.buttonClicked.connect(self.redirect_to_profile)
