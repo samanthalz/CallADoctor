@@ -206,7 +206,7 @@ class ProfileSettingsWidget(QWidget):
         font3.setPointSize(14)
         self.update_btn.setFont(font3)
         self.update_btn.setStyleSheet(u"border-radius: 15px; color: white; background-color: \"#B6D0E2\";")
-
+        self.update_btn.clicked.connect(self.upload_data_to_db)
         self.verticalLayout_2.addWidget(self.update_btn)
 
         self.layoutWidget_2 = QWidget(self.whitebg)
@@ -406,7 +406,7 @@ class ProfileSettingsWidget(QWidget):
 
     def set_user_id(self, user_id): 
         self.patient_id = user_id
-        print(f"set user id is {self.patient_id}")
+        #print(f"set user id is {self.patient_id}")
         
     def fetch_patient_data(self):
         try:
@@ -433,6 +433,28 @@ class ProfileSettingsWidget(QWidget):
         else:
                 print("error")
 
+    def upload_data_to_db(self):
+        name = self.name_input.text().strip()
+        ic = self.ic_input.text().strip()
+        phone = self.phone_input.text().strip()
+        email = self.email_input.text().strip()
+        address = self.address_input.toPlainText().strip()
 
+        if not name or not ic or not phone or not email or not address:
+            QMessageBox.warning(self, "Missing Data", "Please fill in all fields.")
+            return
+
+        try:
+            db.child("patients").child(self.patient_id).update({
+                "patient_name": name,
+                "patient_ic": ic,
+                "patient_phone": phone,
+                "patient_email": email,
+                "patient_address": address
+            })
+            QMessageBox.information(self, "Success", "Data updated successfully!")
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Failed to update data: {str(e)}")
+            
         
         

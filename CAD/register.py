@@ -249,7 +249,7 @@ class RegisterWidget(QWidget, QObject):
         ic = self.ic_input.text().strip()
         phone = self.phone_input.text().strip()
         email = self.email_input.text().strip()
-        address = self.address_input.text().strip()
+        address = self.address_input.toPlainText().strip()
         password = self.password_input.text().strip()
         confirm_password = self.confirmpass_input.text().strip()
         
@@ -309,7 +309,7 @@ class RegisterWidget(QWidget, QObject):
 
         # Add the data to the 'patients' node in Realtime Database using the patient IC number as the key
         patients_ref.child(ic).set(patient_data)
-        print(f"Data added to the database with key: {ic}")
+        #print(f"Data added to the database with key: {ic}")
 
         QMessageBox.information(self, "Success", "Registration Successful!")
         self.registration_successful.emit()  # Emit the signal to switch views
