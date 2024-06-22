@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from datetime import datetime
 from connection import db
 
 class ProfileSettingsWidget(QWidget):
@@ -443,6 +444,29 @@ class ProfileSettingsWidget(QWidget):
         if not name or not ic or not phone or not email or not address:
             QMessageBox.warning(self, "Missing Data", "Please fill in all fields.")
             return
+    
+        if not name.isalpha():
+            QMessageBox.warning(self, "Validation Error", "Name can only contain letters.")
+            return
+        
+        if len(ic) != 12 or not ic.isdigit():
+            QMessageBox.warning(self, "Validation Error", "IC must be 12 digits with no special characters.")
+            return
+        
+        if not phone.startswith("601") or not phone[3:].isdigit() or len(phone) < 11 or len(phone) > 12:
+            QMessageBox.warning(self, "Validation Error", "Phone number format is invalid.")
+            return
+        
+        if "@" not in email or "." not in email:
+            QMessageBox.warning(self, "Validation Error", "Invalid email format.")
+            return
+    
+        #need change
+        birth_year_str = ic[:2] if len(ic) >= 2 else '00'
+        birth_year = int(birth_year_str) + 1900  # Assuming the IC represents the birth year in YY format
+        current_year = datetime.now().year
+
+        age = current_year - birth_year
 
         try:
             db.child("patients").child(self.patient_id).update({
@@ -450,7 +474,8 @@ class ProfileSettingsWidget(QWidget):
                 "patient_ic": ic,
                 "patient_phone": phone,
                 "patient_email": email,
-                "patient_address": address
+                "patient_address": address,
+                'patient_age': age
             })
             QMessageBox.information(self, "Success", "Data updated successfully!")
         except Exception as e:
