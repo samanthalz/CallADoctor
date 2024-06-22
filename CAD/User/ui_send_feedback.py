@@ -5,7 +5,6 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient, QTextCharFormat)
 from PyQt5.QtWidgets import *
 from datetime import datetime, timedelta
-import re
 from connection import db
 
 class SendFeedbackWidget(QWidget):
@@ -15,6 +14,7 @@ class SendFeedbackWidget(QWidget):
     profile_btn_clicked = pyqtSignal()
     schedule_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
+    redirect_profile = pyqtSignal()
     
 
     def __init__(self, parent=None):
@@ -176,11 +176,14 @@ class SendFeedbackWidget(QWidget):
         font3.setPointSize(10)
         self.cancel_btn.setFont(font3)
         self.cancel_btn.setStyleSheet(u"background-color: \"#D3D3D3\"; border-radius: 10px;")
+        
         self.submit_btn = QPushButton(self.whitebg)
         self.submit_btn.setObjectName(u"submit_btn")
         self.submit_btn.setGeometry(QRect(850, 950, 321, 50))
         self.submit_btn.setFont(font3)
         self.submit_btn.setStyleSheet(u"background-color: \"#B6D0E2\"; border-radius: 10px;")
+        self.submit_btn.clicked.connect(self.upload_data_to_db)
+        
         self.widget = QWidget(self.whitebg)
         self.widget.setObjectName(u"widget")
         self.widget.setGeometry(QRect(60, 160, 1504, 731))
@@ -313,23 +316,58 @@ class SendFeedbackWidget(QWidget):
                 print(f"An error occurred while fetching patient data: {e}")
                 return None
         
+    def generate_new_fb_id(self):
+        try:
+            feedbacks = db.child("feedback").get()
+            max_id = 0
+            if feedbacks.each():
+                for feedback in feedbacks.each():
+                    #print(f"appt is {feedbacks}")
+                    fb_id = feedback.key()
+                    id_num = int(fb_id.replace("fb_id", ""))
+                    if id_num > max_id:
+                        max_id = id_num
+                        #print(f"current max id: {max_id}")
+            new_id = max_id + 1
+            return f"appt_id{new_id}"
+        except Exception as e:
+            print(f"Error generating new appointment ID: {e}")
+            return None
+        
     def upload_data_to_db(self):
         subject = self.subject_input.text().strip()
         feedback = self.feedback_input.toPlainText().strip()
+        new_fb_id = self.generate_new_fb_id()
+        
+        # Get the current date
+        current_date = datetime.now()
+
+        # Format the date as "yymmdd"
+        formatted_date = current_date.strftime("%y%m%d")
 
         if not subject or not feedback:
             QMessageBox.warning(self, "Missing Data", "Please fill in all fields.")
             return
 
         try:
-            db.child("feedback").child(self.patient_id).update({
+            db.child("feedback").child(new_fb_id).update({
                 "subject": subject,
                 "content": feedback,
-                "date": phone,
-                "email": email,
-                "user_id": address,
-                'patient_age': age
+                "date": formatted_date,
+                "user_id": self.patient_id
             })
-            QMessageBox.information(self, "Success", "Data updated successfully!")
+            # Display message box if appointment saved successfully
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("Success")
+            msgBox.setInformativeText("Data updated successfully!")
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            msgBox.setDefaultButton(QMessageBox.Ok)
+            msgBox.buttonClicked.connect(self.redirect_to_profile)
+            msgBox.exec_()
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to update data: {str(e)}")
+            
+    def redirect_to_profile(self, button):
+        if button.text() == "OK":
+            self.redirect_profile.emit()

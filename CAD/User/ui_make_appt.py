@@ -638,10 +638,7 @@ class MakeApptWidget(QWidget):
             doctor_index = self.doc_dropdown.findText(doctor_name)
             if doctor_index != -1:
                 self.doc_dropdown.setCurrentIndex(doctor_index)
-
-
-
-            
+        
             
     def get_selected_data(self):
         clinic = self.clinic_dropdown.currentText()
