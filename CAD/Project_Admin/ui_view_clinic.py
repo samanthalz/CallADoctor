@@ -385,7 +385,7 @@ class ViewClinicWidget(QWidget):
                 self.vLayout.addWidget(clinic_frame)
 
         self.scrollAreaWidgetContents.setLayout(self.vLayout)
-
+        self.vLayout.setAlignment(Qt.AlignTop)
         self.vLayout.update()
         self.scrollAreaWidgetContents.update()
 

@@ -359,11 +359,12 @@ class FeedbackInboxWidget(QWidget):
         # Add visible clinics to the layout
         for fb_frame in visible_fb:
                 self.vLayout.addWidget(fb_frame)
-
+                
         self.scrollAreaWidgetContents.setLayout(self.vLayout)
-
+        self.vLayout.setAlignment(Qt.AlignTop)
         self.vLayout.update()
         self.scrollAreaWidgetContents.update()
+
         
         
     def create_fb_details_frame(self, fb_data):
