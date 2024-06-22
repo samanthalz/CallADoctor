@@ -506,6 +506,7 @@ class FeedbackInboxWidget(QWidget):
         return fb_outer_frame
     
     def create_popup_widget(self, clinic_data):
+        self.hide_fb_details_frame()
         self.fb_details_frame = self.create_fb_details_frame(clinic_data)
         self.fb_details_frame.setVisible(True)
 

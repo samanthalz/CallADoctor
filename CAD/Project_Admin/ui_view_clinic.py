@@ -6,13 +6,13 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 from connection import db
 
+
 class ViewClinicWidget(QWidget):
     feedback_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
     
     
-        
     def __init__(self, parent=None):
         super().__init__(parent)
         self.clinic_data_list = []
@@ -385,7 +385,7 @@ class ViewClinicWidget(QWidget):
                 self.vLayout.addWidget(clinic_frame)
 
         self.scrollAreaWidgetContents.setLayout(self.vLayout)
-        self.vLayout.setAlignment(Qt.AlignTop)
+        self.vLayout.setAlignment(Qt.AlignTop) 
         self.vLayout.update()
         self.scrollAreaWidgetContents.update()
 
@@ -629,9 +629,21 @@ class ViewClinicWidget(QWidget):
         approve_clinic_btn.setStyleSheet(u"background-color: #528265; border-radius: 16px; color: white;\\n border: 1px solid gray;")
         approve_clinic_btn.setText("Approve Clinic")
         
+        status = clinic_data.get("clinic_status")
+        if status == "pending":
+                # Display the reject and approve buttons
+                reject_clinic_btn.show()
+                approve_clinic_btn.show()
+        else:
+                # Hide the reject and approve buttons
+                reject_clinic_btn.hide()
+                approve_clinic_btn.hide()
+
+        
         return request_detail_outer
 
     def create_popup_widget(self, clinic_data):
+        self.hide_clinic_details_frame()
         self.clinic_details_frame = self.create_clinic_details_frame(clinic_data)
         self.clinic_details_frame.setVisible(True)
 
@@ -650,8 +662,16 @@ class ViewClinicWidget(QWidget):
     def clear_search(self):
         self.search_clinic.clear()
         self.hide_clinic_details_frame()
+
+        # Remove all widgets from the layout
+        while self.vLayout.count():
+                widget = self.vLayout.takeAt(0).widget()
+                if widget:
+                        widget.deleteLater()
+        self.hide_clinic_details_frame()
         self.populate_clinic_info()
         self.hide_clinic_details_frame()
+
 
     def hide_clinic_details_frame(self):
         if self.clinic_details_frame:

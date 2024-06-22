@@ -22,7 +22,6 @@ from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
 from Project_Admin.ui_view_clinic import ViewClinicWidget
-from Project_Admin.ui_view_feedback import ViewFeedbackWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -145,7 +144,6 @@ class Ui_MainWindow(QMainWindow):
         self.registerClinicWidget = RegisterClinicWidget()
         self.paFeedbackInboxWidget = FeedbackInboxWidget()
         self.paViewClinicWidget = ViewClinicWidget()
-        self.paViewFeedbackWidget = ViewFeedbackWidget()
         
          
 
@@ -166,7 +164,6 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.paHomeWidget)
         self.stackedWidget.addWidget(self.paFeedbackInboxWidget)
         self.stackedWidget.addWidget(self.paViewClinicWidget)
-        self.stackedWidget.addWidget(self.paViewFeedbackWidget)
         self.stackedWidget.addWidget(self.registerClinicWidget)
         self.stackedWidget.addWidget(self.sendFeedbackWidget)
         

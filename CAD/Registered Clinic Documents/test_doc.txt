@@ -1,0 +1,22 @@
+{
+  "123456789123": {
+    "patient_address": "asda",
+    "patient_age": 120,
+    "patient_email": "amy@gmail.com",
+    "patient_ic": "123456789123",
+    "patient_name": "amy",
+    "patient_pass": "amy12345",
+    "patient_phone": "601142563255",
+    "rights": 0
+  },
+  "111111111111": {
+    "patient_address": "address",
+    "patient_age": 113,
+    "patient_email": "email@gmail.com",
+    "patient_ic": "111111111111",
+    "patient_name": "test",
+    "patient_pass": "test12345",
+    "patient_phone": "60164333212",
+    "rights": 0
+  }
+}
