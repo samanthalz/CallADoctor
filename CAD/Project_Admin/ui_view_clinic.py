@@ -631,7 +631,7 @@ class ViewClinicWidget(QWidget):
         approve_clinic_btn.setFont(font7)
         approve_clinic_btn.setStyleSheet(u"background-color: #528265; border-radius: 16px; color: white;\\n border: 1px solid gray;")
         approve_clinic_btn.setText("Approve Clinic")
-        
+        approve_clinic_btn.clicked.connect(self.approve_clinic)
         status = clinic_data.get("clinic_status")
         if status == "pending":
                 # Display the reject and approve buttons
@@ -741,6 +741,43 @@ class ViewClinicWidget(QWidget):
         else:
                 QMessageBox.warning(self, "No Clinic Selected", "Please select a clinic to reject.")
 
+    def approve_clinic(self):
+        clinic_name = self.temp_clinic_name
+        clinic_id = None
+
+        if not self.clinic_data_list:
+                return None
+
+        # Fetch the clinic data directly from the database
+        try:
+                clinic_data_list = db.child("clinic").get().val()
+        except Exception as e:
+                print(f"Failed to fetch clinic data: {e}")
+                return
+
+        # Find the clinic ID by clinic name
+        for cid, clinic_data in clinic_data_list.items():
+                if clinic_data.get("clinic_name") == clinic_name:
+                        clinic_id = cid
+                        break
+
+        if clinic_id:
+                try:
+                        # Update clinic_status to "approved"
+                        db.child("clinic").child(clinic_id).update({"clinic_status": "approved"})
+                        QMessageBox.information(self, "Success", "Clinic approved successfully.")
+                        self.hide_clinic_details_frame()
+                        # Refresh the clinic list
+                        self.populate_clinic_info()
+
+                        # Hide the clinic details
+                        self.hide_clinic_details_frame()
+
+                except Exception as e:
+                        print(f"Failed to approve clinic: {e}")
+                        QMessageBox.critical(self, "Error", f"Failed to approve clinic: {str(e)}")
+        else:
+                QMessageBox.warning(self, "No Clinic Selected", "Please select a clinic to approve.")
 
 
 
