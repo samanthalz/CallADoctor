@@ -36,13 +36,6 @@ class CustomCalendarWidget(QCalendarWidget):
         # Set custom font
         painter.setFont(self.custom_font)
 
-        # # Highlight the selected date
-        # if self.selected_date == date:
-        #     painter.save()
-        #     painter.setBrush(QColor(200, 200, 255, 150))  # Light blue background
-        #     painter.drawRect(rect)
-        #     painter.restore()
-
     def mousePressEvent(self, event):
         clicked_date = self.clickedDate(event.pos())
         if clicked_date:

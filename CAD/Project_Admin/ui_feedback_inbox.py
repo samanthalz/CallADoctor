@@ -266,9 +266,11 @@ class FeedbackInboxWidget(QWidget):
                     
                     # Fetch the patient name using the user_id
                     patient_name = db.child("patients").child(user_id).child("patient_name").get().val()
+                    patient_email = db.child("patients").child(user_id).child("patient_email").get().val()
                     
                     # Add the patient name to the feedback data
                     feedback_data["patient_name"] = patient_name
+                    feedback_data["patient_email"] = patient_name
                     
                     # Add the feedback data with patient name to the list
                     self.fb_data_list.append(feedback_data)
@@ -438,7 +440,7 @@ class FeedbackInboxWidget(QWidget):
         email_display.setMaximumSize(QSize(711, 60))
         email_display.setFont(font6)
         email_display.setStyleSheet(u"background-color: white; border: none; border-radius: 0; padding-left: 10px;")
-        email_display.setText(fb_data.get("email", "Unknown"))
+        email_display.setText(fb_data.get("patient_email", "Unknown"))
         email_layout.addWidget(email_display)
 
 

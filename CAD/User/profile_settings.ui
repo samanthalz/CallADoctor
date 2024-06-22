@@ -409,7 +409,7 @@ border-top-left-radius: 30px;</string>
       <x>1150</x>
       <y>390</y>
       <width>548</width>
-      <height>351</height>
+      <height>541</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="btn_layout">
@@ -501,7 +501,7 @@ border-top-left-radius: 30px;</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="contact_btn">
+      <widget class="QPushButton" name="fb_btn">
        <property name="minimumSize">
         <size>
          <width>546</width>
@@ -524,7 +524,7 @@ border-top-left-radius: 30px;</string>
         <string notr="true">border-radius: 10; background-color: transparent; color: black</string>
        </property>
        <property name="text">
-        <string>Contact Us                          &gt;</string>
+        <string>Send Feedback                       &gt;</string>
        </property>
       </widget>
      </item>
