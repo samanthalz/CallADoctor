@@ -16,10 +16,11 @@ class ViewClinicWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.clinic_data_list = []
-        self.selected_state = ""
+        self.selected_status = ""
         self.setupUi(self)
         self.fetch_clinic_data()
         self.clinic_details_frame = None
+        self.temp_clinic_name = ""
         
     def setupUi(self, Form):
         if Form.objectName():
@@ -90,8 +91,8 @@ class ViewClinicWidget(QWidget):
         font8.setPointSize(12)
         self.filter.setFont(font8)
         self.filter.setStyleSheet(u"border: 1px solid gray;")
-        self.filter.activated.connect(self.updateSelectedState)
-        self.load_states()
+        self.filter.activated.connect(self.updateSelectedStatus)
+        self.load_status()
         
         self.clinic_list_label = QLabel(self.background)
         self.clinic_list_label.setObjectName(u"clinic_list_label")
@@ -368,24 +369,23 @@ class ViewClinicWidget(QWidget):
         for i, clinic_data in enumerate(self.clinic_data_list):
                 if isinstance(clinic_data, dict):
                         clinic_name = clinic_data.get("clinic_name", "").lower()
-                        clinic_state = clinic_data.get("clinic_state", "").lower()
+                        clinic_status = clinic_data.get("clinic_status", "").lower()
 
-
-                if self.selected_state and clinic_state.lower() != self.selected_state.lower():
+                if self.selected_status and clinic_status.lower() != self.selected_status.lower():
                         continue
 
                 # Check search query if provided
                 if not search_query or search_query.lower() in clinic_name:
                         clinic_frame = self.create_clinic_list_frame(clinic_data)
-                        if clinic_frame:
-                                visible_clinics.append(clinic_frame)
+                if clinic_frame:
+                        visible_clinics.append(clinic_frame)
 
-        # Add visible clinics to the layout
-        for clinic_frame in visible_clinics:
+        # Add visible clinics to the layout in reverse order
+        for clinic_frame in reversed(visible_clinics):
                 self.vLayout.addWidget(clinic_frame)
 
         self.scrollAreaWidgetContents.setLayout(self.vLayout)
-        self.vLayout.setAlignment(Qt.AlignTop) 
+        self.vLayout.setAlignment(Qt.AlignTop)
         self.vLayout.update()
         self.scrollAreaWidgetContents.update()
 
@@ -413,6 +413,8 @@ class ViewClinicWidget(QWidget):
         clinic_name.setFont(font2)
         clinic_name.setStyleSheet(u"border : none;\n")
         clinic_name.setText(clinic_data.get("clinic_name", "Unknown"))
+        self.temp_clinic_name = clinic_data["clinic_name"]
+        #print(f"clinic name is {self.temp_clinic_name}")
         
         clinic_logo = QLabel(clinic_details_inner)
         clinic_logo.setObjectName(u"clinic_logo")
@@ -621,7 +623,8 @@ class ViewClinicWidget(QWidget):
         reject_clinic_btn.setFont(font7)
         reject_clinic_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
         reject_clinic_btn.setText("Reject Clinic")
-        
+        reject_clinic_btn.clicked.connect(self.reject_clinic)
+
         approve_clinic_btn = QPushButton(request_detail_outer)
         approve_clinic_btn.setObjectName(u"approve_clinic_btn")
         approve_clinic_btn.setGeometry(QRect(340, 790, 181, 41))
@@ -677,38 +680,68 @@ class ViewClinicWidget(QWidget):
         if self.clinic_details_frame:
             self.clinic_details_frame.setVisible(False)
 
-    def load_states(self):
+    def load_status(self):
         states = [
             "All",
-            "Johor",
-            "Kedah",
-            "Kelantan",
-            "Kuala Lumpur",
-            "Labuan",
-            "Melaka",
-            "Negeri Sembilan",
-            "Pahang",
-            "Perak",
-            "Perlis",
-            "Penang",
-            "Putrajaya",
-            "Sabah",
-            "Sarawak",
-            "Selangor",
-            "Terengganu"
+            "Pending",
+            "Approved"
         ]
         self.filter.addItems(states)
 
-    def updateSelectedState(self, index):
+    def updateSelectedStatus(self, index):
         selected_text = self.filter.itemText(index)
 
         if index == 0:
-                self.selected_state = ""
+                self.selected_status = ""
         else:
-                self.selected_state = selected_text
+                self.selected_status = selected_text
         self.hide_clinic_details_frame()
         self.populate_clinic_info()
         self.hide_clinic_details_frame()
+
+    def reject_clinic(self):
+        clinic_name = self.temp_clinic_name
+        clinic_id = None
+
+        if not self.clinic_data_list:
+                return None
+
+        # Fetch the clinic data directly from the database
+        try:
+                clinic_data_list = db.child("clinic").get().val()
+        except Exception as e:
+                print(f"Failed to fetch clinic data: {e}")
+                return
+
+        # Find the clinic ID by clinic name
+        for cid, clinic_data in clinic_data_list.items():
+                if clinic_data.get("clinic_name") == clinic_name:
+                        clinic_id = cid
+                        break
+
+        if clinic_id:
+                try:
+                        db.child("clinic").child(clinic_id).remove()
+                        QMessageBox.information(self, "Success", "Clinic rejected and removed from the database.")
+
+                        self.hide_clinic_details_frame()
+                        
+                        # Remove the rejected clinic from clinic_data_list
+                        self.clinic_data_list = [clinic for clinic in self.clinic_data_list if clinic.get("clinic_name") != clinic_name]
+
+                        # Refresh the clinic list after removal
+                        self.populate_clinic_info()
+
+                        # Hide the clinic details
+                        self.hide_clinic_details_frame()
+
+                except Exception as e:
+                        print(f"Failed to remove clinic: {e}")
+                        QMessageBox.critical(self, "Error", f"Failed to reject clinic: {str(e)}")
+        else:
+                QMessageBox.warning(self, "No Clinic Selected", "Please select a clinic to reject.")
+
+
 
 
 

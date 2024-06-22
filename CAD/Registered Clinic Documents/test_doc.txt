@@ -1,22 +1,144 @@
 {
-  "123456789123": {
-    "patient_address": "asda",
-    "patient_age": 120,
-    "patient_email": "amy@gmail.com",
-    "patient_ic": "123456789123",
-    "patient_name": "amy",
-    "patient_pass": "amy12345",
-    "patient_phone": "601142563255",
-    "rights": 0
+  "clinic1": {
+    "clinic_add": "123 Main Street",
+    "clinic_dor": "25 May 2024",
+    "clinic_email": "abc@gmail.com",
+    "clinic_img": "CAD\\Images\\clinic_img\\clinic_1.png",
+    "clinic_name": "ABC Clinic",
+    "clinic_operating_hr": "9am to 5pm",
+    "clinic_phone": "1234567890",
+    "clinic_state": "johor",
+    "clinic_status": "approved",
+    "doctors": {
+      "doctor1": {
+        "contact_number": "1987654321",
+        "doctor_hours": "10am to 5pm",
+        "doctor_img": "CAD\\Images\\doc_img\\doctor_1.jpg",
+        "doctor_name": "Dr. John Doe",
+        "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
+        "specialization": "Internal Medicine"
+      },
+      "doctor2": {
+        "contact_number": "1122334455",
+        "doctor_hours": "10am to 5pm",
+        "doctor_img": "CAD\\Images\\doc_img\\doctor_2.jpg",
+        "doctor_name": "Dr. Jane Smith",
+        "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
+        "specialization": "Pediatrics"
+      }
+    },
+    "document_path": "none",
+    "starting_year": "2000",
+    "uploadDoc_status": "No"
   },
-  "111111111111": {
-    "patient_address": "address",
-    "patient_age": 113,
-    "patient_email": "email@gmail.com",
-    "patient_ic": "111111111111",
-    "patient_name": "test",
-    "patient_pass": "test12345",
-    "patient_phone": "60164333212",
-    "rights": 0
+  "clinic2": {
+    "clinic_add": "456 Elm Avenue",
+    "clinic_dor": "23 May 2024",
+    "clinic_email": "xyz@gmail.com",
+    "clinic_img": "CAD\\Images\\clinic_img\\clinic_2.png",
+    "clinic_name": "XYZ Clinic",
+    "clinic_operating_hr": "10am to 5pm",
+    "clinic_phone": "9876543210",
+    "clinic_state": "perak",
+    "clinic_status": "approved",
+    "doctors": {
+      "doctor1": {
+        "contact_number": "1357924680",
+        "doctor_hours": "10am to 5pm",
+        "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
+        "doctor_name": "Dr. Michael Johnson",
+        "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
+        "specialization": "Dermatology"
+      },
+      "doctor2": {
+        "contact_number": "2468135790",
+        "doctor_hours": "10am to 5pm",
+        "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
+        "doctor_name": "Dr. Sarah Lee",
+        "qualification": "MBBS (NSW), MRCP (UK), AM",
+        "specialization": "Obstetrics and Gynecology"
+      }
+    },
+    "document_path": "none",
+    "starting_year": "1990",
+    "uploadDoc_status": "No"
+  },
+  "clinic3": {
+    "clinic_add": "I/J/K, 129, Jln Tan Sri Teh Ewe Lim, Jelutong, 11600 George Town, Pulau Pinang",
+    "clinic_dor": "15 May 2024",
+    "clinic_email": "o2@gmail.com",
+    "clinic_img": "CAD\\Images\\clinic_img\\clinic_3.png",
+    "clinic_name": "O2 Clinic",
+    "clinic_operating_hr": "10am to 5pm",
+    "clinic_phone": "9876543210",
+    "clinic_state": "penang",
+    "clinic_status": "approved",
+    "doctors": {
+      "doctor1": {
+        "contact_number": "1357924680",
+        "doctor_hours": "10am to 5pm",
+        "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
+        "doctor_name": "Dr. Jack",
+        "qualification": "BDS (UM), MFDS RCSEd",
+        "specialization": "Dermatology"
+      },
+      "doctor2": {
+        "contact_number": "2468135790",
+        "doctor_hours": "10am to 5pm",
+        "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
+        "doctor_name": "Dr. Rose",
+        "qualification": "MBBS (NSW), MRCP (UK), AM",
+        "specialization": "Obstetrics and Gynecology"
+      }
+    },
+    "document_path": "none",
+    "starting_year": "1956",
+    "uploadDoc_status": "No"
+  },
+  "clinic4": {
+    "clinic_add": "141, Jalan Tan Sri Teh Ewe Lim Jelutong, 11600 George Town, Pulau Pinang",
+    "clinic_dor": "5 June 2024",
+    "clinic_email": "lamwahee@gmail.com",
+    "clinic_img": "CAD\\Images\\clinic_img\\clinic_4.jpg",
+    "clinic_name": "Lam Wah Ee",
+    "clinic_operating_hr": "10am to 5pm",
+    "clinic_phone": "9876543210",
+    "clinic_state": "penang",
+    "clinic_status": "approved",
+    "doctors": {
+      "doctor1": {
+        "contact_number": "1357924680",
+        "doctor_hours": "10am to 5pm",
+        "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
+        "doctor_name": "Dr. Steven",
+        "qualification": "BDS (UM), MFDS RCSEd",
+        "specialization": "Dermatology"
+      },
+      "doctor2": {
+        "contact_number": "2468135790",
+        "doctor_hours": "10am to 5pm",
+        "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
+        "doctor_name": "Dr. Stella Lee",
+        "qualification": "MBBS (NSW), MRCP (UK), AM",
+        "specialization": "Obstetrics and Gynecology"
+      }
+    },
+    "document_path": "none",
+    "starting_year": "2010",
+    "uploadDoc_status": "No"
+  },
+  "clinic5": {
+    "clinic_add": "add",
+    "clinic_dor": "240623",
+    "clinic_email": "test@gmail.com",
+    "clinic_img": "CAD/Images/clinic_img\\download (3).jpg",
+    "clinic_name": "test",
+    "clinic_operating_hr": "1am-2pm",
+    "clinic_phone": "04125789",
+    "clinic_state": "Johor",
+    "clinic_status": "pending",
+    "document_path": "test_doc.txt",
+    "starting_year": "2011",
+    "uploadDoc_status": "Yes"
   }
 }
