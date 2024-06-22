@@ -15,6 +15,8 @@ class ViewClinicProfileWidget(QWidget):
     makeAppointmentRequested = pyqtSignal(str, str)
     viewDocterRequested = pyqtSignal(str)
     profile_btn_clicked = pyqtSignal()
+    schedule_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -273,7 +275,7 @@ class ViewClinicProfileWidget(QWidget):
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout_2.addWidget(self.home_navigation)
 
         self.appointments_navigation = QToolButton(self.layoutWidget_4)
@@ -289,7 +291,7 @@ class ViewClinicProfileWidget(QWidget):
         self.appointments_navigation.setIcon(icon2)
         self.appointments_navigation.setIconSize(QSize(70, 70))
         self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.appointments_navigation.clicked.connect(self.emitScheduleBtn)
         self.verticalLayout_2.addWidget(self.appointments_navigation)
 
         self.services_navigation = QToolButton(self.layoutWidget_4)
@@ -381,6 +383,16 @@ class ViewClinicProfileWidget(QWidget):
     def emitBackBtn(self):
         # Emit the custom signal
         self.back_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitScheduleBtn(self):
+        # Emit the custom signal
+        self.schedule_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()
         
     @pyqtSlot()
     def emitProfileBtn(self):

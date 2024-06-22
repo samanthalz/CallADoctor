@@ -76,6 +76,8 @@ class MakeApptWidget(QWidget):
     redirect_appt = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
     profile_btn_clicked = pyqtSignal()
+    schedule_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
     
 
     def __init__(self, parent=None):
@@ -386,7 +388,7 @@ class MakeApptWidget(QWidget):
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout_2.addWidget(self.home_navigation)
 
         self.appointments_navigation = QToolButton(self.layoutWidget_4)
@@ -402,7 +404,7 @@ class MakeApptWidget(QWidget):
         self.appointments_navigation.setIcon(icon2)
         self.appointments_navigation.setIconSize(QSize(70, 70))
         self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.appointments_navigation.clicked.connect(self.emitScheduleBtn)
         self.verticalLayout_2.addWidget(self.appointments_navigation)
 
         self.services_navigation = QToolButton(self.layoutWidget_4)
@@ -418,7 +420,7 @@ class MakeApptWidget(QWidget):
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.services_navigation.clicked.connect(self.emitServiceBtn)
-
+    
         self.verticalLayout_2.addWidget(self.services_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_4)
@@ -501,6 +503,16 @@ class MakeApptWidget(QWidget):
     def emitProfileBtn(self):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitScheduleBtn(self):
+        # Emit the custom signal
+        self.schedule_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()
         
     def fetch_clinic_data(self):
         try:
