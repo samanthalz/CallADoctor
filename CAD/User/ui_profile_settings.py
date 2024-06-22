@@ -244,14 +244,14 @@ class ProfileSettingsWidget(QWidget):
 
         self.btn_layout.addWidget(self.tnc_btn)
 
-        self.contact_btn = QPushButton(self.layoutWidget_2)
-        self.contact_btn.setObjectName(u"contact_btn")
-        self.contact_btn.setMinimumSize(QSize(546, 0))
-        self.contact_btn.setMaximumSize(QSize(546, 16777215))
-        self.contact_btn.setFont(font3)
-        self.contact_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
+        self.fb_btn = QPushButton(self.layoutWidget_2)
+        self.fb_btn.setObjectName(u"fb_btn")
+        self.fb_btn.setMinimumSize(QSize(546, 0))
+        self.fb_btn.setMaximumSize(QSize(546, 16777215))
+        self.fb_btn.setFont(font3)
+        self.fb_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
 
-        self.btn_layout.addWidget(self.contact_btn)
+        self.btn_layout.addWidget(self.fb_btn)
 
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
@@ -377,7 +377,7 @@ class ProfileSettingsWidget(QWidget):
         self.change_pass_btn.setText(QCoreApplication.translate("Form", u"Change Password                     >", None))
         self.policy_btn.setText(QCoreApplication.translate("Form", u"Privacy policy                      >", None))
         self.tnc_btn.setText(QCoreApplication.translate("Form", u"Terms and Conditions                >", None))
-        self.contact_btn.setText(QCoreApplication.translate("Form", u"Contact Us                          >", None))
+        self.fb_btn.setText(QCoreApplication.translate("Form", u"Send Feedback                       >", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.appointments_navigation.setText(QCoreApplication.translate("Form", u"Schedule", None))
         self.services_navigation.setText(QCoreApplication.translate("Form", u"Services", None))
