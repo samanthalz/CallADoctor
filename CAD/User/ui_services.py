@@ -11,6 +11,7 @@ class ServicesWidget(QWidget):
     fac_btn_clicked = pyqtSignal()
     makeAppt_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -68,6 +69,7 @@ class ServicesWidget(QWidget):
         font1.setPointSize(16)
         self.profile_btn.setFont(font1)
         self.profile_btn.setStyleSheet(u"border: none")
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
         self.fadoctor_outer_frame = QFrame(self.whitebg)
         self.fadoctor_outer_frame.setObjectName(u"fadoctor_outer_frame")
         self.fadoctor_outer_frame.setGeometry(QRect(554, 191, 413, 539))
@@ -369,7 +371,7 @@ class ServicesWidget(QWidget):
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation.clicked.connect(self.emitProfileBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.layoutWidget_4)
@@ -438,3 +440,8 @@ class ServicesWidget(QWidget):
     def emitLogoutBtn(self):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()

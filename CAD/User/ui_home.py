@@ -13,6 +13,7 @@ from datetime import date
 class HomeWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -405,9 +406,11 @@ class HomeWidget(QWidget):
         self.profile_btn = QPushButton(self.user_frame)
         self.profile_btn.setObjectName(u"profile_btn")
         self.profile_btn.setGeometry(QRect(120, 25, 71, 31))
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
         
         self.profile_btn.setFont(font6)
         self.profile_btn.setStyleSheet(u"border: none")
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
@@ -487,7 +490,7 @@ class HomeWidget(QWidget):
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation.clicked.connect(self.emitProfileBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.widget)
@@ -538,11 +541,6 @@ class HomeWidget(QWidget):
         # self.medicine_quantity_label.setText(QCoreApplication.translate("Form", u"Quantity", None))
 
 
-        
-        
-        
-        
-        
     # retranslateUi
 
     @pyqtSlot()
@@ -554,6 +552,12 @@ class HomeWidget(QWidget):
     def emitLogoutBtn(self):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
+        
+        
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
 
     
     

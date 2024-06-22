@@ -14,6 +14,7 @@ class ViewClinicProfileWidget(QWidget):
     back_btn_clicked = pyqtSignal()
     makeAppointmentRequested = pyqtSignal(str, str)
     viewDocterRequested = pyqtSignal(str)
+    profile_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -73,6 +74,7 @@ class ViewClinicProfileWidget(QWidget):
         font1.setPointSize(16)
         self.profile_btn.setFont(font1)
         self.profile_btn.setStyleSheet(u"border: none")
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
         self.profile_display_frame = QFrame(self.whitebg)
         self.profile_display_frame.setObjectName(u"profile_display_frame")
         self.profile_display_frame.setGeometry(QRect(50, 230, 1661, 691))
@@ -319,7 +321,7 @@ class ViewClinicProfileWidget(QWidget):
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation.clicked.connect(self.emitProfileBtn)
         self.verticalLayout_2.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.layoutWidget_4)
@@ -379,6 +381,11 @@ class ViewClinicProfileWidget(QWidget):
     def emitBackBtn(self):
         # Emit the custom signal
         self.back_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
         
     def display_clinic_profile(self, clinic_name, temp):
         clinic_info = self.fetch_clinic_info_from_db(clinic_name)  # Fetch info from the database

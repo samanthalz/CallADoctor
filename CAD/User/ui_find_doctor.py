@@ -11,6 +11,7 @@ class FindDoctorWidget(QWidget):
     logout_btn_clicked = pyqtSignal()
     viewDoctorProfileRequested = pyqtSignal(str, str) 
     makeAppointmentRequested = pyqtSignal(str, str)
+    profile_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -75,6 +76,7 @@ class FindDoctorWidget(QWidget):
         font1.setPointSize(16)
         self.profile_btn.setFont(font1)
         self.profile_btn.setStyleSheet(u"border: none")
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
         
         
         self.scrollArea = QScrollArea(self.whitebg)
@@ -244,7 +246,7 @@ class FindDoctorWidget(QWidget):
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation.clicked.connect(self.emitProfileBtn)
         self.verticalLayout_2.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.layoutWidget_4)
@@ -291,6 +293,11 @@ class FindDoctorWidget(QWidget):
     def emitLogoutBtn(self):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
         
     def fetch_clinic_data(self):
         try:
