@@ -82,7 +82,7 @@ class MakeApptWidget(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.user_id = 0
+        self.patient_id = 0
         self.clinic_data_list = []
         self.setupUi(self)
         self.fetch_clinic_data()
@@ -679,7 +679,7 @@ class MakeApptWidget(QWidget):
             return None
     
     def set_user_id(self, user_id): 
-        self.user_id = user_id
+        self.patient_id = user_id
         
     def save_appointment_to_db(self):
         clinic, doctor, time, speciality, date, med_concern, admin_reassign = self.get_selected_data()
@@ -689,13 +689,13 @@ class MakeApptWidget(QWidget):
             print("Failed to generate new appointment ID.")
             return
          
-        print(f"user id is {self.user_id}")
+        print(f"user id is {self.patient_id}")
         
         appointment_data = {
             "clinic_id": clinic,
             "date": date,
             "doctor_id": doctor,
-            "patient_id": self.user_id, 
+            "patient_id": self.patient_id, 
             "record_id": 1,  # Replace with actual record ID
             "time": time,
             "speciality": speciality,

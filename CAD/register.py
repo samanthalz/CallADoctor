@@ -144,9 +144,9 @@ class RegisterWidget(QWidget, QObject):
 
         self.address_layout.addWidget(self.address)
 
-        self.address_input = QLineEdit(self.layoutWidget)
+        self.address_input = QTextEdit(self.layoutWidget)
         self.address_input.setObjectName(u"address_input")
-        self.address_input.setMinimumSize(QSize(0, 40))
+        self.address_input.setMaximumSize(QSize(500, 80))
 
         self.address_layout.addWidget(self.address_input)
 

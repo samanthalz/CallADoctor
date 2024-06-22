@@ -123,35 +123,13 @@ border-top-left-radius: 30px;</string>
       <height>801</height>
      </rect>
     </property>
-    <widget class="QPushButton" name="loginbutton">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>910</y>
-       <width>331</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Consolas</family>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border: none</string>
-     </property>
-     <property name="text">
-      <string>Already have an account? Login here.</string>
-     </property>
-    </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>100</x>
        <y>31</y>
        <width>518</width>
-       <height>661</height>
+       <height>611</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -355,34 +333,7 @@ border-top-left-radius: 30px;</string>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="username_layout">
-        <item>
-         <widget class="QLabel" name="username">
-          <property name="font">
-           <font>
-            <family>Consolas</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Username</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="username_input">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border-radius: 0px; border: 1px solid #808080</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <layout class="QVBoxLayout" name="username_layout"/>
       </item>
       <item>
        <spacer name="verticalSpacer">

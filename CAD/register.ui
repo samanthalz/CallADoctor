@@ -64,8 +64,8 @@
      <widget class="QPushButton" name="loginbutton">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>910</y>
+        <x>180</x>
+        <y>930</y>
         <width>331</width>
         <height>28</height>
        </rect>
@@ -89,7 +89,7 @@
         <x>100</x>
         <y>73</y>
         <width>504</width>
-        <height>799</height>
+        <height>831</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -245,9 +245,9 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="username_layout">
+        <layout class="QVBoxLayout" name="add_layout">
          <item>
-          <widget class="QLabel" name="username">
+          <widget class="QLabel" name="add">
            <property name="font">
             <font>
              <family>Consolas</family>
@@ -255,16 +255,16 @@
             </font>
            </property>
            <property name="text">
-            <string>Username</string>
+            <string>Address</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="username_input">
-           <property name="minimumSize">
+          <widget class="QTextEdit" name="textEdit">
+           <property name="maximumSize">
             <size>
-             <width>0</width>
-             <height>40</height>
+             <width>16777215</width>
+             <height>80</height>
             </size>
            </property>
           </widget>

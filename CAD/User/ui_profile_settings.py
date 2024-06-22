@@ -14,6 +14,7 @@ class ProfileSettingsWidget(QWidget):
     
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.patient_id = 0
         self.setupUi(self)
     
     def setupUi(self, Form):
@@ -74,7 +75,7 @@ class ProfileSettingsWidget(QWidget):
         self.loginbutton.setStyleSheet(u"border: none")
         self.layoutWidget = QWidget(self.updateFrame)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(100, 31, 518, 661))
+        self.layoutWidget.setGeometry(QRect(100, 31, 518, 611))
         self.verticalLayout_2 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_2.setSpacing(10)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -368,7 +369,6 @@ class ProfileSettingsWidget(QWidget):
         self.settings_label.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
-        self.loginbutton.setText(QCoreApplication.translate("Form", u"Already have an account? Login here.", None))
         self.profile_icon_2.setText("")
         self.name.setText(QCoreApplication.translate("Form", u"Name", None))
         self.ic.setText(QCoreApplication.translate("Form", u"IC Number", None))
@@ -409,7 +409,30 @@ class ProfileSettingsWidget(QWidget):
     def emitHomeBtn(self):
         # Emit the custom signal
         self.home_btn_clicked.emit()
+
+    def set_user_id(self, user_id): 
+        self.patient_id = user_id
         
+    def fetch_patient_data(self, patient_id):
+        try:
+                patient_data = db.child("patients").child(patient_id).get().val()
+                if patient_data:
+                        return patient_data
+                else:
+                        raise ValueError("No patient data found for the given ID.")
+        except Exception as e:
+                print(f"An error occurred while fetching patient data: {e}")
+                return None
         
+    def set_default_texts(self):
+        if self.patient_id:
+            patient_data = self.fetch_patient_data(self.patient_id)
+            if patient_data:
+                self.name_input.setText(patient_data.get("patient_name", ""))
+                self.ic_input.setText(patient_data.get("patient_ic", ""))
+                self.phone_input.setText(patient_data.get("patient_phone", ""))
+                self.email_input.setText(patient_data.get("patient_email", ""))
+
+
         
         
