@@ -612,6 +612,19 @@ class ViewClinicWidget(QWidget):
         verticalLayout_2.addLayout(date_req_layout)
 
         #if status is pending display btn
+        delete_clinic_btn = QPushButton(request_detail_outer)
+        delete_clinic_btn.setObjectName(u"reject_clinic_btn")
+        delete_clinic_btn.setGeometry(QRect(550, 790, 181, 41))
+        font7 = QFont()
+        font7.setFamily(u"Consolas")
+        font7.setPointSize(10)
+        font7.setBold(True)
+        font7.setWeight(75)
+        delete_clinic_btn.setFont(font7)
+        delete_clinic_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        delete_clinic_btn.setText("Delete Clinic")
+        delete_clinic_btn.clicked.connect(self.reject_clinic)
+        
         reject_clinic_btn = QPushButton(request_detail_outer)
         reject_clinic_btn.setObjectName(u"reject_clinic_btn")
         reject_clinic_btn.setGeometry(QRect(550, 790, 181, 41))
@@ -641,6 +654,7 @@ class ViewClinicWidget(QWidget):
                 # Hide the reject and approve buttons
                 reject_clinic_btn.hide()
                 approve_clinic_btn.hide()
+                delete_clinic_btn.show()
 
         
         return request_detail_outer
