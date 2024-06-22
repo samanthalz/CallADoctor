@@ -7,8 +7,10 @@ from PyQt5.QtWidgets import *
 from connection import db
 
 class ProfileSettingsWidget(QWidget):
-        
     logout_btn_clicked = pyqtSignal()
+    service_btn_clicked = pyqtSignal()
+    schedule_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -288,7 +290,7 @@ class ProfileSettingsWidget(QWidget):
         self.home_navigation.setIcon(icon)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
 
         self.appointments_navigation = QToolButton(self.layoutWidget_4)
@@ -304,7 +306,7 @@ class ProfileSettingsWidget(QWidget):
         self.appointments_navigation.setIcon(icon1)
         self.appointments_navigation.setIconSize(QSize(70, 70))
         self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.appointments_navigation.clicked.connect(self.emitScheduleBtn)
         self.verticalLayout.addWidget(self.appointments_navigation)
 
         self.services_navigation = QToolButton(self.layoutWidget_4)
@@ -320,7 +322,7 @@ class ProfileSettingsWidget(QWidget):
         self.services_navigation.setIcon(icon2)
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.services_navigation.clicked.connect(self.emitServiceBtn)
         self.verticalLayout.addWidget(self.services_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_4)
@@ -352,7 +354,7 @@ class ProfileSettingsWidget(QWidget):
         self.logout_navigation.setIcon(icon4)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout.addWidget(self.logout_navigation)
 
 
@@ -388,3 +390,26 @@ class ProfileSettingsWidget(QWidget):
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
 
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitServiceBtn(self):
+        # Emit the custom signal
+        self.service_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitScheduleBtn(self):
+        # Emit the custom signal
+        self.schedule_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()
+        
+        
+        
+        
