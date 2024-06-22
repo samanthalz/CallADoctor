@@ -64,10 +64,10 @@
      <widget class="QPushButton" name="loginbutton">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>930</y>
-        <width>331</width>
-        <height>28</height>
+        <x>20</x>
+        <y>950</y>
+        <width>622</width>
+        <height>20</height>
        </rect>
       </property>
       <property name="font">
@@ -83,13 +83,13 @@
        <string>Already have an account? Login here.</string>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>73</y>
-        <width>504</width>
-        <height>831</height>
+        <x>31</x>
+        <y>24</y>
+        <width>628</width>
+        <height>891</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -119,10 +119,13 @@
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>48</height>
+           <height>70</height>
           </size>
          </property>
         </spacer>
@@ -248,6 +251,18 @@
         <layout class="QVBoxLayout" name="add_layout">
          <item>
           <widget class="QLabel" name="add">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>53</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>53</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Consolas</family>
@@ -326,17 +341,143 @@
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>4</number>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>58</height>
-          </size>
-         </property>
-        </spacer>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>300</width>
+             <height>33</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QCheckBox" name="checkBox">
+               <property name="font">
+                <font>
+                 <pointsize>36</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QCheckBox::indicator {width:20px;height:20px;}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="minimumSize">
+                <size>
+                 <width>279</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>279</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Consolas</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>I accept the Terms &amp; Conditions</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QCheckBox" name="checkBox_2">
+               <property name="font">
+                <font>
+                 <pointsize>36</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QCheckBox::indicator {width:20px;height:20px;}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="minimumSize">
+                <size>
+                 <width>279</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>279</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Consolas</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>I accept the Privacy Policy</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QPushButton" name="registerbutton">
@@ -424,6 +565,17 @@
      </property>
     </widget>
    </widget>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>2</width>
+     <height>2</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout"/>
   </widget>
  </widget>
  <resources/>
