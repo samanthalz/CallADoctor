@@ -12,6 +12,7 @@ class ProfileSettingsWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     schedule_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
+    feedback_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -250,7 +251,7 @@ class ProfileSettingsWidget(QWidget):
         self.fb_btn.setMaximumSize(QSize(546, 16777215))
         self.fb_btn.setFont(font3)
         self.fb_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
-
+        self.fb_btn.clicked.connect(self.emitFeedbackBtn)
         self.btn_layout.addWidget(self.fb_btn)
 
         self.frame = QFrame(Form)
@@ -405,6 +406,11 @@ class ProfileSettingsWidget(QWidget):
         # Emit the custom signal
         self.home_btn_clicked.emit()
 
+    @pyqtSlot()
+    def emitFeedbackBtn(self):
+        # Emit the custom signal
+        self.feedback_btn_clicked.emit()
+        
     def set_user_id(self, user_id): 
         self.patient_id = user_id
         #print(f"set user id is {self.patient_id}")

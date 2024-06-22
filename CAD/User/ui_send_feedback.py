@@ -31,6 +31,7 @@ class SendFeedbackWidget(QWidget):
         Form.setAutoFillBackground(True)
         p = Form.palette()
         p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
         
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
@@ -176,6 +177,7 @@ class SendFeedbackWidget(QWidget):
         font3.setPointSize(10)
         self.cancel_btn.setFont(font3)
         self.cancel_btn.setStyleSheet(u"background-color: \"#D3D3D3\"; border-radius: 10px;")
+        self.cancel_btn.clicked.connect(self.emitCancelBtn)
         
         self.submit_btn = QPushButton(self.whitebg)
         self.submit_btn.setObjectName(u"submit_btn")
@@ -324,14 +326,14 @@ class SendFeedbackWidget(QWidget):
                 for feedback in feedbacks.each():
                     #print(f"appt is {feedbacks}")
                     fb_id = feedback.key()
-                    id_num = int(fb_id.replace("fb_id", ""))
+                    id_num = int(fb_id.replace("fb_", ""))
                     if id_num > max_id:
                         max_id = id_num
                         #print(f"current max id: {max_id}")
             new_id = max_id + 1
-            return f"appt_id{new_id}"
+            return f"fb_{new_id}"
         except Exception as e:
-            print(f"Error generating new appointment ID: {e}")
+            print(f"Error generating new feedback ID: {e}")
             return None
         
     def upload_data_to_db(self):
@@ -359,14 +361,13 @@ class SendFeedbackWidget(QWidget):
             # Display message box if appointment saved successfully
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
-            msgBox.setText("Success")
-            msgBox.setInformativeText("Data updated successfully!")
+            msgBox.setInformativeText("Feedback submitted successfully!")
             msgBox.setStandardButtons(QMessageBox.Ok)
             msgBox.setDefaultButton(QMessageBox.Ok)
             msgBox.buttonClicked.connect(self.redirect_to_profile)
             msgBox.exec_()
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to update data: {str(e)}")
+            QMessageBox.critical(self, "Error", f"Failed to submit feedback: {str(e)}")
             
     def redirect_to_profile(self, button):
         if button.text() == "OK":
