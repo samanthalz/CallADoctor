@@ -282,8 +282,6 @@ class ViewClinicWidget(QWidget):
     def emitLogoutBtn(self):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
-        
-
 
 
     def fetch_clinic_data(self):
@@ -690,6 +688,7 @@ class ViewClinicWidget(QWidget):
                 self.selected_state = selected_text
         self.hide_clinic_details_frame()
         self.populate_clinic_info()
+        self.hide_clinic_details_frame()
 
 
 

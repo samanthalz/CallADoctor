@@ -73,7 +73,7 @@ text-align: center;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="change_img_btn">
+   <widget class="QPushButton" name="upload_img_btn">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -94,7 +94,7 @@ text-align: center;</string>
      <string notr="true">background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\n border: 1px solid gray;</string>
     </property>
     <property name="text">
-     <string>Change Image</string>
+     <string>Upload Image</string>
     </property>
    </widget>
    <widget class="QPushButton" name="submit_btn">

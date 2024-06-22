@@ -92,6 +92,7 @@ class Ui_MainWindow(QMainWindow):
         self.paViewClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
         
+        
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
