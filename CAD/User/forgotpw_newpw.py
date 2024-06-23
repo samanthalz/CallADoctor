@@ -11,8 +11,9 @@ from connection import db  # Assuming db is properly imported from connection.py
 class ForgotPw_newpwWidget(QWidget):
     update_successful = pyqtSignal()
 
-    def __init__(self, parent=None):
+    def __init__(self, email, parent=None):
         super().__init__(parent)
+        self.email = email
         self.setupUi()
 
     def setupUi(self):
@@ -86,6 +87,7 @@ class ForgotPw_newpwWidget(QWidget):
         self.lineEdit = QLineEdit(self.widget)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setMinimumSize(QSize(0, 40))
+        self.lineEdit.setEchoMode(QLineEdit.Password)
         self.verticalLayout.addWidget(self.lineEdit)
 
         self.verticalSpacer_5 = QSpacerItem(14, 44, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -101,6 +103,7 @@ class ForgotPw_newpwWidget(QWidget):
         self.lineEdit_2 = QLineEdit(self.widget)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
         self.lineEdit_2.setMinimumSize(QSize(0, 40))
+        self.lineEdit_2.setEchoMode(QLineEdit.Password)
         self.verticalLayout.addWidget(self.lineEdit_2)
 
         self.verticalSpacer_6 = QSpacerItem(17, 6, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -154,8 +157,7 @@ class ForgotPw_newpwWidget(QWidget):
     @pyqtSlot()
     def emitUpdate(self):
         if self.validatePasswords():
-            email = self.lineEdit.text().strip()  # Get the email from a valid source
-            self.updatePasswordInDb(email, self.lineEdit.text())
+            self.updatePasswordInDb(self.email, self.lineEdit.text())
 
     def validatePasswords(self):
         new_password = self.lineEdit.text()
@@ -186,11 +188,10 @@ class ForgotPw_newpwWidget(QWidget):
                     self.update_successful.emit()  # Emit signal for successful update
                     QMessageBox.information(self, "Success", "Password updated successfully.")
                     return
-            
-            # If no user found with the given email
-            self.error_message = f"No user found with email {email}"
-            self.showErrorMessage()
-
+            else:
+                self.error_message = f"No user found with email {email}"
+                self.showErrorMessage()
+        
         except Exception as e:
             # Handle any exceptions that occur during database operation
             self.error_message = f"Error updating password in DB: {e}"
@@ -204,4 +205,3 @@ class ForgotPw_newpwWidget(QWidget):
         msg.setText(self.error_message)
         msg.setWindowTitle("Error")
         msg.exec_()
-
