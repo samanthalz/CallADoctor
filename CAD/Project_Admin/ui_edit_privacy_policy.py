@@ -10,6 +10,7 @@ from connection import db
 class EditPrivacyPolicyWidget(QWidget):
     home_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    back_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -55,6 +56,8 @@ class EditPrivacyPolicyWidget(QWidget):
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;")
         self.back_button.setIconSize(QSize(70, 70))
+        self.back_button.clicked.connect(self.emitBackBtn)
+        
         self.textEdit = QTextEdit(self.whitebg)
         self.textEdit.setObjectName(u"textEdit")
         self.textEdit.setGeometry(QRect(65, 221, 1661, 800))
@@ -185,4 +188,11 @@ class EditPrivacyPolicyWidget(QWidget):
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
+    
+    
+    @pyqtSlot()
+    def emitBackBtn(self):
+        self.back_btn_clicked.emit()
+        
+        
 

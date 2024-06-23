@@ -7,7 +7,9 @@ from PyQt5.QtWidgets import *
 from connection import db
 
 
+
 class FeedbackInboxWidget(QWidget):
+    clinic_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
         

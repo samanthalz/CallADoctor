@@ -28,6 +28,7 @@ from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
 from Project_Admin.ui_view_clinic import ViewClinicWidget
 from Project_Admin.ui_edit_privacy_policy import EditPrivacyPolicyWidget
 from Project_Admin.ui_edit_tnc import EditTncWidget
+from Project_Admin.ui_pa_profile_settings import PAProfileSettingsWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -113,6 +114,7 @@ class Ui_MainWindow(QMainWindow):
         self.paHomeWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paHomeWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
         self.paHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.paHomeWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
         
         self.paFeedbackInboxWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paFeedbackInboxWidget.home_btn_clicked.connect(self.showPAHomeWidget)
@@ -122,8 +124,11 @@ class Ui_MainWindow(QMainWindow):
         self.paViewClinicWidget.home_btn_clicked.connect(self.showPAHomeWidget)
         self.paViewClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         
+        self.paProfileSettingsWidget.edit_policy_btn_clicked.connect(self.showPAEditPrivacyPolicyWidget)
+        self.paProfileSettingsWidget.edit_tnc_btn_clicked.connect(self.showPAEditTncWidget)
         
-        
+        self.paEditPrivacyPolicyWidget.back_btn_clicked.connect(self.showPAProfileSettingsWidget)
+        self.paEditTncWidget.back_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -164,7 +169,7 @@ class Ui_MainWindow(QMainWindow):
         self.paViewClinicWidget = ViewClinicWidget()
         self.paEditPrivacyPolicyWidget = EditPrivacyPolicyWidget()
         self.paEditTncWidget = EditTncWidget()
-        
+        self.paProfileSettingsWidget = PAProfileSettingsWidget()
          
 
         self.stackedWidget.addWidget(self.loginWidget)
@@ -192,6 +197,9 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.tncRegisterWidget)
         self.stackedWidget.addWidget(self.paEditPrivacyPolicyWidget)
         self.stackedWidget.addWidget(self.paEditTncWidget)
+        self.stackedWidget.addWidget(self.paProfileSettingsWidget)
+        
+        
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -298,6 +306,10 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showPAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
+        
+    @pyqtSlot()
+    def showPAProfileSettingsWidget(self):
+        self.stackedWidget.setCurrentWidget(self.paProfileSettingsWidget)
         
     @pyqtSlot()
     def showRegisterClinicWidget(self):

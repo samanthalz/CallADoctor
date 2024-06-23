@@ -10,6 +10,7 @@ class PAHomeWidget(QWidget):
     clinic_btn_clicked = pyqtSignal()
     feedback_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -468,6 +469,7 @@ class PAHomeWidget(QWidget):
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
 
         self.verticalLayout.addWidget(self.settings_navigation)
 
@@ -547,3 +549,8 @@ class PAHomeWidget(QWidget):
     def emitLogoutBtn(self):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
+    
+    @pyqtSlot()
+    def emitSettingsBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
