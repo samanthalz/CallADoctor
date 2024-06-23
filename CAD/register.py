@@ -321,22 +321,13 @@ class RegisterWidget(QWidget, QObject):
         password = self.password_input.text().strip()
         confirm_password = self.confirmpass_input.text().strip()
         
-        # Check if privacy checkbox is checked
-        if not self.privacy_checkbox.isChecked():
-            QMessageBox.warning(self, "Validation Error", "You must agree to the privacy policy.")
-            return
-        
-        # Check if terms and conditions checkbox is checked
-        if not self.tnc_checkbox.isChecked():
-            QMessageBox.warning(self, "Validation Error", "You must agree to the terms and conditions.")
-            return
         
         if not all([name, ic, phone, email, address, password, confirm_password]):
             QMessageBox.warning(self, "Validation Error", "All fields are required.")
             return
         
-        if not name.isalpha():
-            QMessageBox.warning(self, "Validation Error", "Name can only contain letters.")
+        if not name.replace(' ', '').isalpha():
+            QMessageBox.warning(self, "Validation Error", "Name can only contain letters and spaces.")
             return
         
         if len(ic) != 12 or not ic.isdigit():
@@ -361,6 +352,16 @@ class RegisterWidget(QWidget, QObject):
         
         if password != confirm_password:
             QMessageBox.warning(self, "Validation Error", "Passwords do not match.")
+            return
+        
+        # Check if privacy checkbox is checked
+        if not self.privacy_checkbox.isChecked():
+            QMessageBox.warning(self, "Validation Error", "You must agree to the privacy policy.")
+            return
+        
+        # Check if terms and conditions checkbox is checked
+        if not self.tnc_checkbox.isChecked():
+            QMessageBox.warning(self, "Validation Error", "You must agree to the terms and conditions.")
             return
         
         #need change

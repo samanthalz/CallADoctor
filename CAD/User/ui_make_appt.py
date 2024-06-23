@@ -661,7 +661,7 @@ class MakeApptWidget(QWidget):
                     id_num = int(appt_id.replace("appt_id", ""))
                     if id_num > max_id:
                         max_id = id_num
-                        print(f"current max id: {max_id}")
+                        #print(f"current max id: {max_id}")
             new_id = max_id + 1
             return f"appt_id{new_id}"
         except Exception as e:
@@ -700,7 +700,7 @@ class MakeApptWidget(QWidget):
 
         try:
             db.child("appointment").child(new_appt_id).set(appointment_data)
-            print(f"Appointment {new_appt_id} saved successfully.")
+            #print(f"Appointment {new_appt_id} saved successfully.")
             
             # Display message box if appointment saved successfully
             msgBox = QMessageBox()
