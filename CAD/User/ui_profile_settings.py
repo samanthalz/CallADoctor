@@ -18,7 +18,6 @@ class ProfileSettingsWidget(QWidget):
         super().__init__(parent)
         self.patient_id = 0
         self.setupUi(self)
-        #self.set_default_texts()
         
     
     def setupUi(self, Form):
@@ -413,6 +412,7 @@ class ProfileSettingsWidget(QWidget):
         
     def set_user_id(self, user_id): 
         self.patient_id = user_id
+        #print("enter set user id for user profile")
         #print(f"set user id is {self.patient_id}")
         
     def fetch_patient_data(self):

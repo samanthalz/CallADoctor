@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="whitebg" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1921</width>
+     <height>1080</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #F8F8F8;</string>
+   </property>
+   <widget class="QLabel" name="tnc_label">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>481</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+      <pointsize>28</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Terms &amp; Conditions</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back_button">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>40</y>
+      <width>181</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(182, 208, 226,0.8);
+color: rgb(255, 255, 255);
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string>&lt; Back</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>70</width>
+      <height>70</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>65</x>
+      <y>221</y>
+      <width>1790</width>
+      <height>800</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>1790</width>
+      <height>800</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 0px; border: 1px solid #808080</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

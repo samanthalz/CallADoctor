@@ -12,6 +12,7 @@ class FeedbackInboxWidget(QWidget):
     clinic_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -29,6 +30,7 @@ class FeedbackInboxWidget(QWidget):
         p = Form.palette()
         p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
         Form.setPalette(p)
+        
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
@@ -56,7 +58,7 @@ class FeedbackInboxWidget(QWidget):
         font.setPointSize(16)
         self.profile_btn.setFont(font)
         self.profile_btn.setStyleSheet(u"border: none")
-        
+        self.profile_btn.clicked.connect(self.emitSettingsBtn)
         self.feedback_label = QLabel(self.background)
         self.feedback_label.setObjectName(u"feedback_label")
         self.feedback_label.setGeometry(QRect(40, 170, 961, 61))
@@ -149,7 +151,7 @@ class FeedbackInboxWidget(QWidget):
         self.home_navigation.setIcon(icon)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
 
         self.clinic_navigation = QToolButton(self.layoutWidget_2)
@@ -167,7 +169,7 @@ class FeedbackInboxWidget(QWidget):
         self.clinic_navigation.setIcon(icon1)
         self.clinic_navigation.setIconSize(QSize(70, 70))
         self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.clinic_navigation.clicked.connect(self.emitClinicBtn)
         self.verticalLayout.addWidget(self.clinic_navigation)
 
         self.feedback_navigation = QToolButton(self.layoutWidget_2)
@@ -203,7 +205,7 @@ class FeedbackInboxWidget(QWidget):
         self.settings_navigation.setIcon(icon3)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.layoutWidget_2)
@@ -251,6 +253,19 @@ class FeedbackInboxWidget(QWidget):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
         
+    @pyqtSlot()
+    def emitClinicBtn(self):
+        self.clinic_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitSettingsBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()
         
     def fetch_fb_data(self):
         try:

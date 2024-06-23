@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal)
+    QRect, QSize, QUrl, Qt, pyqtSignal, QEvent)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -9,6 +9,8 @@ from connection import db
 
 class RegisterWidget(QWidget, QObject):
     registration_successful = pyqtSignal()  # Custom signal
+    privacy_label_clicked = pyqtSignal()
+    tnc_label_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -186,10 +188,72 @@ class RegisterWidget(QWidget, QObject):
 
 
         self.verticalLayout.addLayout(self.confirmpass)
+        
+        self.checkbox_layout = QHBoxLayout()
+        self.checkbox_layout.setSpacing(4)
+        self.checkbox_layout.setObjectName(u"checkbox_layout")
+        self.verticalSpacer = QSpacerItem(300, 33, QSizePolicy.Maximum, QSizePolicy.Preferred)
 
-        self.verticalSpacer = QSpacerItem(20, 58, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.checkbox_layout.addItem(self.verticalSpacer)
 
-        self.verticalLayout.addItem(self.verticalSpacer)
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setSpacing(10)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.tnc_layout = QHBoxLayout()
+        self.tnc_layout.setObjectName(u"tnc_layout")
+        self.tnc_checkbox = QCheckBox(self.widget_2)
+        self.tnc_checkbox.setObjectName(u"tnc_checkbox")
+        font3 = QFont()
+        font3.setPointSize(36)
+        self.tnc_checkbox.setFont(font3)
+        self.tnc_checkbox.setStyleSheet(u"QCheckBox::indicator {width:20px;height:20px;}")
+        self.tnc_checkbox.setIconSize(QSize(50, 50))
+        self.tnc_checkbox.setChecked(False)
+
+        self.tnc_layout.addWidget(self.tnc_checkbox)
+
+        self.tnc_label = QLabel(self.widget_2)
+        self.tnc_label.setObjectName(u"tnc_label")
+        self.tnc_label.setMinimumSize(QSize(279, 20))
+        self.tnc_label.setMaximumSize(QSize(279, 20))
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(9)
+        self.tnc_label.setFont(font4)
+        self.tnc_label.installEventFilter(self)
+
+        self.tnc_layout.addWidget(self.tnc_label)
+
+        self.verticalLayout_2.addLayout(self.tnc_layout)
+
+        self.privacy_layout = QHBoxLayout()
+        self.privacy_layout.setObjectName(u"privacy_layout")
+        self.privacy_checkbox = QCheckBox(self.widget_2)
+        self.privacy_checkbox.setObjectName(u"privacy_checkbox")
+        self.privacy_checkbox.setFont(font3)
+        self.privacy_checkbox.setStyleSheet(u"QCheckBox::indicator {width:20px;height:20px;}")
+        self.privacy_checkbox.setIconSize(QSize(50, 50))
+        self.privacy_checkbox.setChecked(False)
+
+        self.privacy_layout.addWidget(self.privacy_checkbox)
+
+        self.privacy_label = QLabel(self.widget_2)
+        self.privacy_label.setObjectName(u"privacy_label")
+        self.privacy_label.setMinimumSize(QSize(279, 20))
+        self.privacy_label.setMaximumSize(QSize(279, 20))
+        self.privacy_label.setFont(font4)
+        
+        self.privacy_label.installEventFilter(self)
+        self.privacy_layout.addWidget(self.privacy_label)
+
+        self.verticalLayout_2.addLayout(self.privacy_layout)
+
+        self.checkbox_layout.addLayout(self.verticalLayout_2)
+
+
+        self.verticalLayout.addLayout(self.checkbox_layout)
+
 
         self.registerbutton = QPushButton(self.layoutWidget)
         self.registerbutton.setObjectName(u"registerbutton")
@@ -236,6 +300,10 @@ class RegisterWidget(QWidget, QObject):
         self.address.setText(QCoreApplication.translate("Form", u"Address", None))
         self.password.setText(QCoreApplication.translate("Form", u"Password", None))
         self.confirmpass_2.setText(QCoreApplication.translate("Form", u"Confirm Password", None))
+        self.tnc_checkbox.setText("")
+        self.tnc_label.setText(QCoreApplication.translate("Form", u"I accept the <u>Terms & Conditions</u>", None))
+        self.privacy_checkbox.setText("")
+        self.privacy_label.setText(QCoreApplication.translate("Form", u"I accept the <u>Privacy Policy</u>", None))
 #if QT_CONFIG(tooltip)
         self.registerbutton.setToolTip("")
 #endif // QT_CONFIG(tooltip)
@@ -253,12 +321,13 @@ class RegisterWidget(QWidget, QObject):
         password = self.password_input.text().strip()
         confirm_password = self.confirmpass_input.text().strip()
         
+        
         if not all([name, ic, phone, email, address, password, confirm_password]):
             QMessageBox.warning(self, "Validation Error", "All fields are required.")
             return
         
-        if not name.isalpha():
-            QMessageBox.warning(self, "Validation Error", "Name can only contain letters.")
+        if not name.replace(' ', '').isalpha():
+            QMessageBox.warning(self, "Validation Error", "Name can only contain letters and spaces.")
             return
         
         if len(ic) != 12 or not ic.isdigit():
@@ -283,6 +352,16 @@ class RegisterWidget(QWidget, QObject):
         
         if password != confirm_password:
             QMessageBox.warning(self, "Validation Error", "Passwords do not match.")
+            return
+        
+        # Check if privacy checkbox is checked
+        if not self.privacy_checkbox.isChecked():
+            QMessageBox.warning(self, "Validation Error", "You must agree to the privacy policy.")
+            return
+        
+        # Check if terms and conditions checkbox is checked
+        if not self.tnc_checkbox.isChecked():
+            QMessageBox.warning(self, "Validation Error", "You must agree to the terms and conditions.")
             return
         
         #need change
@@ -314,6 +393,17 @@ class RegisterWidget(QWidget, QObject):
         QMessageBox.information(self, "Success", "Registration Successful!")
         self.registration_successful.emit()  # Emit the signal to switch views
 
+    def eventFilter(self, source, event):
+        if event.type() == QEvent.MouseButtonPress:
+            if source is self.privacy_label:
+                # Emit the custom signal when the privacy_label is clicked
+                self.privacy_label_clicked.emit()
+                return True
+            elif source is self.tnc_label:
+                # Emit the custom signal when the tnc_label is clicked
+                self.tnc_label_clicked.emit()
+                return True
+        return super().eventFilter(source, event)
 
 
 

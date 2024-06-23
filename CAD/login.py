@@ -140,6 +140,7 @@ class LoginWidget(QWidget):
         font4.setPointSize(10)
         self.registerbutton.setFont(font4)
         self.registerbutton.setStyleSheet(u"border: none")
+
         
         self.apply_clinic_btn = QPushButton(self.loginwidget)
         self.apply_clinic_btn.setObjectName(u"apply_clinic_btn")
@@ -217,6 +218,7 @@ class LoginWidget(QWidget):
                         rights = admin_data.get('rights', 4)
                         self.showMessageBox('Info', 'Admin login successful')
                         self.login_successful.emit(rights)
+                        self.user_id.emit(ic)
                     
                         return
             else:
