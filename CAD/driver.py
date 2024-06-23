@@ -18,6 +18,8 @@ from User.ui_find_doctor import FindDoctorWidget
 from User.ui_make_appt import MakeApptWidget
 from User.ui_services import ServicesWidget
 from User.ui_send_feedback import SendFeedbackWidget
+from User.ui_privacy_policy import PrivacyPolicyWidget
+from User.ui_tnc import TncWidget
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
@@ -37,6 +39,8 @@ class Ui_MainWindow(QMainWindow):
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
         self.registerWidget.registration_successful.connect(self.showLoginWidget)
+        self.registerWidget.privacy_label_clicked.connect(self.showPrivacyPolicyWidget)
+        self.registerWidget.tnc_label_clicked.connect(self.showTncWidget)
         
         self.registerClinicWidget.back_btn_clicked.connect(self.showLoginWidget)
  
@@ -139,6 +143,8 @@ class Ui_MainWindow(QMainWindow):
         self.viewClinicProfile = ViewClinicProfileWidget()
         self.profileSettingsWidget = ProfileSettingsWidget()
         self.sendFeedbackWidget = SendFeedbackWidget()
+        self.privacyPolicyWidget = PrivacyPolicyWidget()
+        self.tncWidget = TncWidget()
         
         self.paHomeWidget = PAHomeWidget()
         self.registerClinicWidget = RegisterClinicWidget()
@@ -166,6 +172,8 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.paViewClinicWidget)
         self.stackedWidget.addWidget(self.registerClinicWidget)
         self.stackedWidget.addWidget(self.sendFeedbackWidget)
+        self.stackedWidget.addWidget(self.privacyPolicyWidget)
+        self.stackedWidget.addWidget(self.tncWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -210,6 +218,14 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget.ic_input.clear()
         self.loginWidget.password_input.clear()
         self.stackedWidget.setCurrentWidget(self.loginWidget)
+        
+    @pyqtSlot()
+    def showPrivacyPolicyWidget(self):
+        self.stackedWidget.setCurrentWidget(self.privacyPolicyWidget)
+        
+    @pyqtSlot()
+    def showTncWidget(self):
+        self.stackedWidget.setCurrentWidget(self.tncWidget)
 
     @pyqtSlot()
     def showHomeWidget(self):
