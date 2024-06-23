@@ -123,6 +123,7 @@ class Ui_MainWindow(QMainWindow):
         self.paHomeWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
         self.paHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.paHomeWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
+        self.paHomeWidget.redirect_fb.connect(self.showPrefillPAFbWidget)
         
         self.paFeedbackInboxWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paFeedbackInboxWidget.home_btn_clicked.connect(self.showPAHomeWidget)
@@ -169,7 +170,7 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget(self.centralwidget)
         self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
-        self.forgotPw_newpwWidget = ForgotPw_newpwWidget()
+        self.forgotPw_newpwWidget = ForgotPw_newpwWidget(email="")
         self.forgotPw_successWidget = ForgotPw_successWidget()
         self.registerWidget = RegisterWidget()
         self.homeWidget = HomeWidget()
@@ -366,7 +367,10 @@ class Ui_MainWindow(QMainWindow):
         #print(f"clinic name is {clinic_name} temp is {temp}")
         self.stackedWidget.setCurrentWidget(self.viewClinicProfile)
         self.viewClinicProfile.display_clinic_profile(clinic_name, temp)
-    
+        
+    def showPrefillPAFbWidget(self, fb_data):
+        self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
+        self.paFeedbackInboxWidget.create_popup_widget(fb_data)
 
     def set_user_id(self, user_id):  
         try:

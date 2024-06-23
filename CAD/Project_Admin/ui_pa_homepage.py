@@ -1,5 +1,5 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot, QDate)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
@@ -12,6 +12,7 @@ class PAHomeWidget(QWidget):
     feedback_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
     profile_btn_clicked = pyqtSignal()
+    redirect_fb = pyqtSignal(dict)
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -62,6 +63,7 @@ class PAHomeWidget(QWidget):
         font.setPointSize(22)
         self.num_clinic_req_label.setFont(font)
         self.num_clinic_req_label.setWordWrap(True)
+        
         self.clinic_req__label = QLabel(self.clinic_req_frame)
         self.clinic_req__label.setObjectName(u"clinic_req__label")
         self.clinic_req__label.setGeometry(QRect(30, 100, 51, 71))
@@ -69,6 +71,7 @@ class PAHomeWidget(QWidget):
         font1.setFamily(u"Consolas")
         font1.setPointSize(48)
         self.clinic_req__label.setFont(font1)
+        self.clinic_req__label.setText(str(self.calc_new_addition()))
         
         self.feedback_frame = QFrame(self.background)
         self.feedback_frame.setObjectName(u"feedback_frame")
@@ -254,7 +257,6 @@ class PAHomeWidget(QWidget):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.num_clinic_req_label.setText(QCoreApplication.translate("Form", u"Total Clinic Addition Request:", None))
-        self.clinic_req__label.setText(QCoreApplication.translate("Form", u"2", None))
         self.feedback_label.setText(QCoreApplication.translate("Form", u"Feedbacks", None))
        
         self.profile_icon.setText("")
@@ -633,6 +635,8 @@ class PAHomeWidget(QWidget):
         view_feedback_btn.setStyleSheet(u"background-color: #B6D0E2;color: white; text-align: center;")
         view_feedback_btn.setText("View")
 
+        view_feedback_btn.clicked.connect(lambda: self.redirect_to_fb_inbox(fb_data))
+        
         return feedback_detail_frame
     
     def populate_fb_info(self):
@@ -657,3 +661,30 @@ class PAHomeWidget(QWidget):
         self.fb_list_layout.update()
         self.widget.update()
     
+    @pyqtSlot()
+    def redirect_to_fb_inbox(self, fb_data):
+        self.redirect_fb.emit(fb_data)
+    
+    def calc_new_addition(self):
+        clinic_data = db.child("clinic").get().val()
+        clinic_dor_list = [clinic["clinic_dor"] for clinic in clinic_data.values() if "clinic_dor" in clinic]
+        print(f"dates {clinic_dor_list}")
+        today_date = QDate.currentDate()
+        count = 0
+        
+        for date in clinic_dor_list:
+                # Parse clinic_dor_yymmdd to create a QDate object
+                clinic_dor_str = str(date)
+                year = 2000 + int(clinic_dor_str[:2])
+                month = int(clinic_dor_str[2:4])
+                day = int(clinic_dor_str[4:])
+                clinic_dor = QDate(year, month, day)
+                
+                # Calculate the number of days from today's date
+                days_difference = today_date.daysTo(clinic_dor)
+                
+                # Count if the date is from today onwards
+                if days_difference >= 0:
+                        count += 1
+        
+        return count
