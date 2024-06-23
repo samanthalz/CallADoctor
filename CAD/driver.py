@@ -26,6 +26,8 @@ from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
 from Project_Admin.ui_view_clinic import ViewClinicWidget
+from Project_Admin.ui_edit_privacy_policy import EditPrivacyPolicyWidget
+from Project_Admin.ui_edit_tnc import EditTncWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -160,6 +162,8 @@ class Ui_MainWindow(QMainWindow):
         self.registerClinicWidget = RegisterClinicWidget()
         self.paFeedbackInboxWidget = FeedbackInboxWidget()
         self.paViewClinicWidget = ViewClinicWidget()
+        self.paEditPrivacyPolicyWidget = EditPrivacyPolicyWidget()
+        self.paEditTncWidget = EditTncWidget()
         
          
 
@@ -186,6 +190,8 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.privacyPolicyRegisterWidget)
         self.stackedWidget.addWidget(self.tncWidget)
         self.stackedWidget.addWidget(self.tncRegisterWidget)
+        self.stackedWidget.addWidget(self.paEditPrivacyPolicyWidget)
+        self.stackedWidget.addWidget(self.paEditTncWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -305,6 +311,14 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showSendFeedbackWidget(self):
         self.stackedWidget.setCurrentWidget(self.sendFeedbackWidget)
+        
+    @pyqtSlot()
+    def showPAEditPrivacyPolicyWidget(self):
+        self.stackedWidget.setCurrentWidget(self.paEditPrivacyPolicyWidget)
+        
+    @pyqtSlot()
+    def showPAEditTncWidget(self):
+        self.stackedWidget.setCurrentWidget(self.paEditTncWidget)
         
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)

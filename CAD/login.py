@@ -140,6 +140,7 @@ class LoginWidget(QWidget):
         font4.setPointSize(10)
         self.registerbutton.setFont(font4)
         self.registerbutton.setStyleSheet(u"border: none")
+
         
         self.apply_clinic_btn = QPushButton(self.loginwidget)
         self.apply_clinic_btn.setObjectName(u"apply_clinic_btn")

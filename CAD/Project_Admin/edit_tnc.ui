@@ -95,8 +95,14 @@ border-radius: 10px;</string>
       <x>65</x>
       <y>221</y>
       <width>1661</width>
-      <height>831</height>
+      <height>800</height>
      </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>800</height>
+     </size>
     </property>
     <property name="styleSheet">
      <string notr="true">border-radius: 0px; border: 1px solid #808080</string>

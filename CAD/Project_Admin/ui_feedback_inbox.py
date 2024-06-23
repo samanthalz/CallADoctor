@@ -7,9 +7,7 @@ from PyQt5.QtWidgets import *
 from connection import db
 
 
-
 class FeedbackInboxWidget(QWidget):
-    clinic_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
         
@@ -29,6 +27,7 @@ class FeedbackInboxWidget(QWidget):
         p = Form.palette()
         p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
         Form.setPalette(p)
+        
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
