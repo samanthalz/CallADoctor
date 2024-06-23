@@ -406,7 +406,6 @@ class HomeWidget(QWidget):
         self.profile_btn = QPushButton(self.user_frame)
         self.profile_btn.setObjectName(u"profile_btn")
         self.profile_btn.setGeometry(QRect(120, 25, 71, 31))
-        self.profile_btn.clicked.connect(self.emitProfileBtn)
         
         self.profile_btn.setFont(font6)
         self.profile_btn.setStyleSheet(u"border: none")

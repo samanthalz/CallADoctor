@@ -11,6 +11,7 @@ class ViewClinicWidget(QWidget):
     feedback_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
     
     
     def __init__(self, parent=None):
@@ -66,7 +67,7 @@ class ViewClinicWidget(QWidget):
         font.setPointSize(16)
         self.profile_btn.setFont(font)
         self.profile_btn.setStyleSheet(u"border: none")
-        
+        self.profile_btn.clicked.connect(self.emitSettingsBtn)
         self.search_clinic = QLineEdit(self.background)
         self.search_clinic.setObjectName(u"search_clinic")
         self.search_clinic.setGeometry(QRect(40, 40, 681, 71))
@@ -180,7 +181,7 @@ class ViewClinicWidget(QWidget):
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
 
         self.clinic_navigation = QToolButton(self.layoutWidget_2)
@@ -216,7 +217,7 @@ class ViewClinicWidget(QWidget):
         self.feedback_navigation.setIcon(icon3)
         self.feedback_navigation.setIconSize(QSize(70, 70))
         self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.feedback_navigation.clicked.connect(self.emitFeedbackBtn)
         self.verticalLayout.addWidget(self.feedback_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_2)
@@ -234,7 +235,7 @@ class ViewClinicWidget(QWidget):
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.layoutWidget_2)
@@ -283,7 +284,20 @@ class ViewClinicWidget(QWidget):
     def emitLogoutBtn(self):
         # Emit the custom signal
         self.logout_btn_clicked.emit()
-
+ 
+    @pyqtSlot()
+    def emitSettingsBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitFeedbackBtn(self):
+        self.feedback_btn_clicked.emit()
 
     def fetch_clinic_data(self):
         try:

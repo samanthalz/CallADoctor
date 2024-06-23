@@ -380,6 +380,8 @@ class PAHomeWidget(QWidget):
         font9.setPointSize(16)
         self.profile_btn.setFont(font9)
         self.profile_btn.setStyleSheet(u"border: none")
+        self.profile_btn.clicked.connect(self.emitSettingsBtn)
+        
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))

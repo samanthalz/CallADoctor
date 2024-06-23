@@ -9,9 +9,12 @@ from connection import db
 
 class PAProfileSettingsWidget(QWidget):
     feedback_btn_clicked = pyqtSignal()
+    clinic_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
     edit_policy_btn_clicked = pyqtSignal()
     edit_tnc_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -175,6 +178,8 @@ class PAProfileSettingsWidget(QWidget):
         font4.setPointSize(16)
         self.profile_btn.setFont(font4)
         self.profile_btn.setStyleSheet(u"border: none")
+        self.profile_btn.clicked.connect(self.emitSettingsBtn)
+        
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
@@ -209,7 +214,7 @@ class PAProfileSettingsWidget(QWidget):
         self.home_navigation.setIcon(icon)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
 
         self.clinic_navigation = QToolButton(self.layoutWidget_3)
@@ -227,7 +232,7 @@ class PAProfileSettingsWidget(QWidget):
         self.clinic_navigation.setIcon(icon1)
         self.clinic_navigation.setIconSize(QSize(70, 70))
         self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.clinic_navigation.clicked.connect(self.emitClinicBtn)
         self.verticalLayout.addWidget(self.clinic_navigation)
 
         self.feedback_navigation = QToolButton(self.layoutWidget_3)
@@ -245,7 +250,7 @@ class PAProfileSettingsWidget(QWidget):
         self.feedback_navigation.setIcon(icon2)
         self.feedback_navigation.setIconSize(QSize(70, 70))
         self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.feedback_navigation.clicked.connect(self.emitFeedbackBtn)
         self.verticalLayout.addWidget(self.feedback_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_3)
@@ -263,7 +268,7 @@ class PAProfileSettingsWidget(QWidget):
         self.settings_navigation.setIcon(icon3)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.layoutWidget_3)
@@ -281,7 +286,7 @@ class PAProfileSettingsWidget(QWidget):
         self.logout_navigation.setIcon(icon4)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout.addWidget(self.logout_navigation)
 
 
@@ -319,12 +324,35 @@ class PAProfileSettingsWidget(QWidget):
     def emitEditTnc(self):
         # Emit the custom signal
         self.edit_tnc_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitClinicBtn(self):
+        self.clinic_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitFeedbackBtn(self):
+        self.feedback_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitSettingsBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
 
     def set_user_id(self, user_id):
         try:
                 if user_id is not None:
                         self.admin_id = user_id
-                        print(f"set user id is {self.admin_id}")
+                        #print(f"set user id is {self.admin_id}")
                 else:
                         print("Error: Invalid user_id (None)")
         except Exception as e:
