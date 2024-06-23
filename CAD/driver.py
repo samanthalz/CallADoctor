@@ -19,7 +19,9 @@ from User.ui_make_appt import MakeApptWidget
 from User.ui_services import ServicesWidget
 from User.ui_send_feedback import SendFeedbackWidget
 from User.ui_privacy_policy import PrivacyPolicyWidget
+from User.ui_privacy_register import PrivacyPolicyRegisterWidget
 from User.ui_tnc import TncWidget
+from User.ui_tnc_register import TncRegisterWidget
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
@@ -39,10 +41,16 @@ class Ui_MainWindow(QMainWindow):
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
         self.registerWidget.registration_successful.connect(self.showLoginWidget)
-        self.registerWidget.privacy_label_clicked.connect(self.showPrivacyPolicyWidget)
-        self.registerWidget.tnc_label_clicked.connect(self.showTncWidget)
+        self.registerWidget.privacy_label_clicked.connect(self.showPrivacyPolicyRegisterWidget)
+        self.registerWidget.tnc_label_clicked.connect(self.showTncRegisterWidget)
         
         self.registerClinicWidget.back_btn_clicked.connect(self.showLoginWidget)
+        
+        self.tncRegisterWidget.back_btn_clicked.connect(self.showRegisterWidget)
+        self.privacyPolicyRegisterWidget.back_btn_clicked.connect(self.showRegisterWidget)
+        
+        self.tncWidget.back_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.privacyPolicyWidget.back_btn_clicked.connect(self.showProfileSettingsWidget)
  
         self.servicesWidget.fad_btn_clicked.connect(self.showFindDocWidget)
         self.servicesWidget.fac_btn_clicked.connect(self.showFindClinicWidget)
@@ -144,7 +152,9 @@ class Ui_MainWindow(QMainWindow):
         self.profileSettingsWidget = ProfileSettingsWidget()
         self.sendFeedbackWidget = SendFeedbackWidget()
         self.privacyPolicyWidget = PrivacyPolicyWidget()
+        self.privacyPolicyRegisterWidget = PrivacyPolicyRegisterWidget()
         self.tncWidget = TncWidget()
+        self.tncRegisterWidget = TncRegisterWidget()
         
         self.paHomeWidget = PAHomeWidget()
         self.registerClinicWidget = RegisterClinicWidget()
@@ -173,7 +183,9 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.registerClinicWidget)
         self.stackedWidget.addWidget(self.sendFeedbackWidget)
         self.stackedWidget.addWidget(self.privacyPolicyWidget)
+        self.stackedWidget.addWidget(self.privacyPolicyRegisterWidget)
         self.stackedWidget.addWidget(self.tncWidget)
+        self.stackedWidget.addWidget(self.tncRegisterWidget)
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
@@ -226,6 +238,14 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showTncWidget(self):
         self.stackedWidget.setCurrentWidget(self.tncWidget)
+        
+    @pyqtSlot()
+    def showPrivacyPolicyRegisterWidget(self):
+        self.stackedWidget.setCurrentWidget(self.privacyPolicyRegisterWidget)
+        
+    @pyqtSlot()
+    def showTncRegisterWidget(self):
+        self.stackedWidget.setCurrentWidget(self.tncRegisterWidget)
 
     @pyqtSlot()
     def showHomeWidget(self):

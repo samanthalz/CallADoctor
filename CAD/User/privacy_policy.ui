@@ -343,6 +343,12 @@ border-radius: 10px;</string>
       <height>831</height>
      </rect>
     </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>831</height>
+     </size>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-radius: 0px; border: 1px solid #808080</string>
     </property>

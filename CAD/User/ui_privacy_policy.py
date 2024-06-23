@@ -13,6 +13,7 @@ class PrivacyPolicyWidget(QWidget):
     schedule_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     feedback_btn_clicked = pyqtSignal()
+    back_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -160,12 +161,18 @@ class PrivacyPolicyWidget(QWidget):
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;")
         self.back_button.setIconSize(QSize(70, 70))
+        self.back_button.clicked.connect(self.emitBackBtn)
         self.textBrowser = QTextBrowser(self.whitebg)
         self.textBrowser.setObjectName(u"textBrowser")
         self.textBrowser.setGeometry(QRect(65, 221, 1661, 800))
         self.textBrowser.setMaximumSize(QSize(16777215, 800))
         self.textBrowser.setStyleSheet(u"border-radius: 0px; border: 1px solid #808080")
-
+        font2 = QFont()
+        font2.setFamily(u"Consolas")
+        font2.setPointSize(14)
+        self.textBrowser.setFont(font2)
+        self.load_policy_from_db()
+        
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
@@ -181,4 +188,18 @@ class PrivacyPolicyWidget(QWidget):
         self.policy_label.setText(QCoreApplication.translate("Form", u"Privacy Policy", None))
         self.back_button.setText(QCoreApplication.translate("Form", u"< Back", None))
     # retranslateUi
+    
+    @pyqtSlot()
+    def emitBackBtn(self):
+        self.back_btn_clicked.emit()
+        
+    def load_policy_from_db(self):
+        try:
+            terms = db.child('privacy_policy').get().val()
+            if terms:
+                self.textBrowser.setText(terms)
+            else:
+                self.textBrowser.setText("No policy found in the database.")
+        except Exception as e:
+            QMessageBox.critical(self, "Database Error", f"An error occurred while fetching terms: {e}")
 
