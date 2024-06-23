@@ -99,7 +99,7 @@ class Ui_MainWindow(QMainWindow):
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.makeApptWidget.profile_btn_clicked.connect(self.showProfileSettingsWidget)
-        #self.makeApptWidget.redirect_appt.connect(self.showAppointmentWidget) to be modified
+        #self.makeApptWidget.redirect_appt.connect(self.showAppointmentWidget) to be modified to show appointment page
         self.makeApptWidget.home_btn_clicked.connect(self.showHomeWidget)
         
         self.forgotPwWidget.continue_successful.connect(self.showForgotPw_verificationWidget)

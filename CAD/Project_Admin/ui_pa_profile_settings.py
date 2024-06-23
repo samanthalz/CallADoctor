@@ -370,7 +370,7 @@ class PAProfileSettingsWidget(QWidget):
                 return None
         
     def set_default_texts(self):
-        print(f"id is {self.admin_id}")
+        #print(f"id is {self.admin_id}")
         if self.admin_id:
             admin_data = self.fetch_admin_data()
             
