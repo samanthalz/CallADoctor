@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from connection import db
 
 
 class PAProfileSettingsWidget(QWidget):
@@ -14,6 +15,7 @@ class PAProfileSettingsWidget(QWidget):
         
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.admin_id = 0
         self.setupUi(self)
         
     def setupUi(self, Form):
@@ -77,15 +79,15 @@ class PAProfileSettingsWidget(QWidget):
 
         self.name_layout.addLayout(self.horizontalLayout)
 
-        self.user_id = QLabel(self.layoutWidget)
-        self.user_id.setObjectName(u"user_id")
-        self.user_id.setMaximumSize(QSize(514, 23))
+        self.user_id_label = QLabel(self.layoutWidget)
+        self.user_id_label.setObjectName(u"user_id_label")
+        self.user_id_label.setMaximumSize(QSize(514, 23))
         font1 = QFont()
         font1.setFamily(u"Consolas")
         font1.setPointSize(12)
-        self.user_id.setFont(font1)
+        self.user_id_label.setFont(font1)
 
-        self.name_layout.addWidget(self.user_id)
+        self.name_layout.addWidget(self.user_id_label)
 
         self.user_id_display = QLabel(self.layoutWidget)
         self.user_id_display.setObjectName(u"user_id_display")
@@ -292,7 +294,7 @@ class PAProfileSettingsWidget(QWidget):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.settings_label.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.profile_icon_2.setText("")
-        self.user_id.setText(QCoreApplication.translate("Form", u"User ID", None))
+        self.user_id_label.setText(QCoreApplication.translate("Form", u"User ID", None))
         self.user_id_display.setText("")
         self.pas.setText(QCoreApplication.translate("Form", u"Password", None))
         self.pass_display.setText("")
@@ -318,6 +320,36 @@ class PAProfileSettingsWidget(QWidget):
         # Emit the custom signal
         self.edit_tnc_btn_clicked.emit()
 
-    
+    def set_user_id(self, user_id):
+        try:
+                if user_id is not None:
+                        self.admin_id = user_id
+                        print(f"set user id is {self.admin_id}")
+                else:
+                        print("Error: Invalid user_id (None)")
+        except Exception as e:
+                print(f"Error setting user id: {e}")
+        
+    def fetch_admin_data(self):
+        try:
+                admin_data = db.child("project_admin").child(self.admin_id).get().val()
+                if admin_data:
+                        return admin_data
+                else:
+                        raise ValueError("No admin data found for the given ID.")
+        except Exception as e:
+                print(f"An error occurred while fetching patient data: {e}")
+                return None
+        
+    def set_default_texts(self):
+        print(f"id is {self.admin_id}")
+        if self.admin_id:
+            admin_data = self.fetch_admin_data()
+            
+            if admin_data:
+                self.user_id_display.setText(admin_data.get("pa_id", ""))
+                self.pass_display.setText(admin_data.get("pa_pass", ""))
+        else:
+                print("error")
          
                 
