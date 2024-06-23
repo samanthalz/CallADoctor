@@ -60,9 +60,23 @@ class EditPrivacyPolicyWidget(QWidget):
         
         self.textEdit = QTextEdit(self.whitebg)
         self.textEdit.setObjectName(u"textEdit")
-        self.textEdit.setGeometry(QRect(65, 221, 1661, 800))
+        self.textEdit.setGeometry(QRect(65, 221, 1661, 741))
         self.textEdit.setMaximumSize(QSize(16777215, 800))
         self.textEdit.setStyleSheet(u"border-radius: 0px; border: 1px solid #808080")
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(14)
+        self.textEdit.setFont(font3)
+        self.update_btn = QPushButton(self.whitebg)
+        self.update_btn.setObjectName(u"update_btn")
+        self.update_btn.setGeometry(QRect(450, 980, 801, 50))
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(10)
+        self.update_btn.setFont(font4)
+        self.update_btn.setStyleSheet(u"background-color: \"#B6D0E2\"; border-radius: 10px;")
+        self.update_btn.clicked.connect(self.upload_data_to_db)
+        
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
@@ -93,7 +107,7 @@ class EditPrivacyPolicyWidget(QWidget):
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon = QIcon()
-        icon.addFile(u"../Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -111,7 +125,7 @@ class EditPrivacyPolicyWidget(QWidget):
         self.clinic_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon1 = QIcon()
-        icon1.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.clinic_navigation.setIcon(icon1)
         self.clinic_navigation.setIconSize(QSize(70, 70))
         self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -129,7 +143,7 @@ class EditPrivacyPolicyWidget(QWidget):
         self.feedback_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
-        icon2.addFile(u"../Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"CAD/Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.feedback_navigation.setIcon(icon2)
         self.feedback_navigation.setIconSize(QSize(70, 70))
         self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -147,7 +161,7 @@ class EditPrivacyPolicyWidget(QWidget):
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
-        icon3.addFile(u"../Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon3)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -165,7 +179,7 @@ class EditPrivacyPolicyWidget(QWidget):
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
-        icon4.addFile(u"../Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation.setIcon(icon4)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -182,6 +196,7 @@ class EditPrivacyPolicyWidget(QWidget):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.policy_label.setText(QCoreApplication.translate("Form", u"Edit Privacy Policy", None))
         self.back_button.setText(QCoreApplication.translate("Form", u"< Back", None))
+        self.update_btn.setText(QCoreApplication.translate("Form", u"Update", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.clinic_navigation.setText(QCoreApplication.translate("Form", u"Clinics", None))
         self.feedback_navigation.setText(QCoreApplication.translate("Form", u"Feedback", None))
@@ -194,5 +209,28 @@ class EditPrivacyPolicyWidget(QWidget):
     def emitBackBtn(self):
         self.back_btn_clicked.emit()
         
+    def set_default_text(self):
+        try:
+            # Fetch the text from the database
+            terms = db.child('privacy_policy').get().val()
+            if terms:
+                self.textEdit.setPlainText(terms)
+            else:
+                self.textEdit.setPlainText("No policy found in the database.")
+        except Exception as e:
+            print(f"Error fetching default text: {e}")
         
+        
+    def upload_data_to_db(self):
+        policy = self.textEdit.toPlainText().strip()
+        
+        if not policy :
+            QMessageBox.warning(self, "Missing Data", "Please fill in all fields.")
+            return
+    
+        try:
+            db.child("privacy_policy").set(policy)
+            QMessageBox.information(self, "Success", "Data updated successfully!")
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Failed to update data: {str(e)}")
 

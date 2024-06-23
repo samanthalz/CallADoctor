@@ -318,3 +318,6 @@ class PAProfileSettingsWidget(QWidget):
         # Emit the custom signal
         self.edit_tnc_btn_clicked.emit()
 
+    
+         
+                

@@ -327,10 +327,12 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showPAEditPrivacyPolicyWidget(self):
         self.stackedWidget.setCurrentWidget(self.paEditPrivacyPolicyWidget)
+        self.paEditPrivacyPolicyWidget.set_default_text()
         
     @pyqtSlot()
     def showPAEditTncWidget(self):
         self.stackedWidget.setCurrentWidget(self.paEditTncWidget)
+        self.paEditTncWidget.set_default_text()
         
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
