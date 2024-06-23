@@ -316,7 +316,7 @@ class FindDoctorWidget(QWidget):
             clinics = db.child("clinic").get()
             
             if clinics.each():
-                self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
+                self.clinic_data_list = [clinic.val() for clinic in clinics.each() if clinic.val().get("clinic_status") == "approved"]
                 #print("Fetched Clinics Data:", self.clinic_data_list)  # Debug: Print the fetched data
                 self.populate_doc_info()
             else:

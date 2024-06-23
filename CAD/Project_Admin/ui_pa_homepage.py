@@ -668,7 +668,7 @@ class PAHomeWidget(QWidget):
     def calc_new_addition(self):
         clinic_data = db.child("clinic").get().val()
         clinic_dor_list = [clinic["clinic_dor"] for clinic in clinic_data.values() if "clinic_dor" in clinic]
-        print(f"dates {clinic_dor_list}")
+        #print(f"dates {clinic_dor_list}")
         today_date = QDate.currentDate()
         count = 0
         

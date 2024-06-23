@@ -305,13 +305,13 @@ class FindClinicWidget(QWidget):
             clinics = db.child("clinic").get()
             
             if clinics.each():
-                self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
-                #print("Fetched Clinics Data:", self.clinic_data_list)  # Debug: Print the fetched data
+                self.clinic_data_list = [clinic.val() for clinic in clinics.each() if clinic.val().get("clinic_status") == "approved"]
                 self.populate_clinic_info()
             else:
                 print("No clinics data found.")
         except Exception as e:
             print(f"An error occurred while fetching data: {e}")
+
             
         
     def clear_layout(self):
