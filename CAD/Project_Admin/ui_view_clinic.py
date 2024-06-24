@@ -300,6 +300,7 @@ class ViewClinicWidget(QWidget):
         self.feedback_btn_clicked.emit()
 
     def fetch_clinic_data(self):
+        db = self.initialize_db()
         try:
             clinics = db.child("clinic").get()
             
@@ -376,6 +377,7 @@ class ViewClinicWidget(QWidget):
 
 
     def populate_clinic_info(self, search_query=None):
+        db = self.initialize_db()
         self.clear_layout()
 
         visible_clinics = []
@@ -799,6 +801,7 @@ class ViewClinicWidget(QWidget):
                 QMessageBox.warning(self, "No Clinic Selected", "Please select a clinic to reject.")
 
     def approve_clinic(self):
+        db = self.initialize_db()
         clinic_name = self.temp_clinic_name
         clinic_id = None
         starting_year = None
@@ -838,14 +841,13 @@ class ViewClinicWidget(QWidget):
 
                         QMessageBox.information(self, "Success", "Clinic approved successfully.")
                         self.hide_clinic_details_frame()
-                        self.populate_clinic_info()  # Refresh the clinic list
+                        self.fetch_clinic_data()
+                        #self.populate_clinic_info()  # Refresh the clinic list
                         self.hide_clinic_details_frame()  # Hide the clinic details
 
                 except Exception as e:
                         print(f"Failed to approve clinic: {e}")
                         QMessageBox.critical(self, "Error", f"Failed to approve clinic: {str(e)}")
-                else:
-                        QMessageBox.warning(self, "No Clinic Selected", "Please select a clinic to approve.")
 
 
     @pyqtSlot()
@@ -892,10 +894,8 @@ class ViewClinicWidget(QWidget):
             # Handle any exceptions that occur during database operation
             QMessageBox.critical(self, "Error", f"Error fetching credentials: {e}")
 
-
-
-
-
+    def initialize_db(self):
+        return db
 
 
 
