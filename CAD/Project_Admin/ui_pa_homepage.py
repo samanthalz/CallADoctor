@@ -383,7 +383,7 @@ class PAHomeWidget(QWidget):
         self.clear_layout()
         visible_clinics = []
         
-        print(f"list is {self.clinic_data_list}")
+        #print(f"list is {self.clinic_data_list}")
 
         for i, clinic_data in enumerate(self.clinic_data_list):
                 clinic_frame = self.create_clinic_list_frame(clinic_data)
@@ -707,7 +707,7 @@ class PAHomeWidget(QWidget):
                 # Count if the date is from today onwards
                 if days_difference >= 0:
                         count += 1
-        print(f"count is {count}")
+        #print(f"count is {count}")
         self.clinic_req__label.setText(str(count))
     
     def initialize_db(self):
