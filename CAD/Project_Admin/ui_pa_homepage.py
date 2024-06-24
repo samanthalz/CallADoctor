@@ -294,8 +294,19 @@ class PAHomeWidget(QWidget):
             clinics = db.child("clinic").get()
             
             if clinics.each():
-                self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
+                self.clinic_data_list = []
+                
+                """ self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
                 #print("Fetched Clinics Data:", self.clinic_data_list)  # Debug: Print the fetched data
+                self.populate_clinic_info() """
+                
+                # Iterate through each feedback entry
+                for clinic in clinics.each():
+                    clinic_data = clinic.val()
+                    self.clinic_data_list.append(clinic_data)
+                #print(f"print clinic {clinic_data}")
+                
+                # Populate the feedback information on the UI
                 self.populate_clinic_info()
             else:
                 print("No clinics data found.")
@@ -371,6 +382,8 @@ class PAHomeWidget(QWidget):
     def populate_clinic_info(self):
         self.clear_layout()
         visible_clinics = []
+        
+        print(f"list is {self.clinic_data_list}")
 
         for i, clinic_data in enumerate(self.clinic_data_list):
                 clinic_frame = self.create_clinic_list_frame(clinic_data)
@@ -378,7 +391,7 @@ class PAHomeWidget(QWidget):
                         visible_clinics.append(clinic_frame)
 
         # Add visible clinics to the layout in reverse order
-        for clinic_frame in reversed(visible_clinics[:5]):
+        for clinic_frame in list(reversed(visible_clinics))[:5]:
                 self.clinic_list_layout.addWidget(clinic_frame)
 
         self.widget1.setLayout(self.clinic_list_layout)
