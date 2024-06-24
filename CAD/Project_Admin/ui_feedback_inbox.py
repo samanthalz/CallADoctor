@@ -377,31 +377,39 @@ class FeedbackInboxWidget(QWidget):
 
         return fb_frame
         
+    def parse_date(self, date_str):
+        try:
+            return datetime.strptime(date_str, "%y%m%d")
+        except ValueError:
+            return datetime.min  # return the earliest possible date if parsing fails
+
     def populate_fb_info(self, search_query=None):
         self.clear_layout()
-        
+
         visible_fb = []
 
-        for i, fb_data in enumerate(self.fb_data_list):
-                if isinstance(fb_data, dict):
-                        user_name = fb_data.get("patient_name", "").lower()
+        # Sort fb_data_list by date in descending order
+        sorted_fb_data_list = sorted(self.fb_data_list, key=lambda x: self.parse_date(x.get("date", "000000")), reverse=True)
+
+        for i, fb_data in enumerate(sorted_fb_data_list):
+            if isinstance(fb_data, dict):
+                user_name = fb_data.get("patient_name", "").lower()
 
                 # Check search query if provided
                 if not search_query or search_query.lower() in user_name:
-                        fb_frame = self.create_fb_list_frame(fb_data)
-                        if fb_frame:
-                                visible_fb.append(fb_frame)
+                    fb_frame = self.create_fb_list_frame(fb_data)
+                    if fb_frame:
+                        visible_fb.append(fb_frame)
 
         # Add visible clinics to the layout
         for fb_frame in visible_fb:
-                self.vLayout.addWidget(fb_frame)
-                
+            self.vLayout.addWidget(fb_frame)
+
         self.scrollAreaWidgetContents.setLayout(self.vLayout)
         self.vLayout.setAlignment(Qt.AlignTop)
-        self.vLayout.update() 
+        self.vLayout.update()
         self.scrollAreaWidgetContents.update()
-
-        
+   
     def create_fb_details_frame(self, fb_data):
         fb_outer_frame = QFrame(self.background)
         fb_outer_frame.setObjectName(u"fb_outer_frame")
