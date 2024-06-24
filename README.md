@@ -38,10 +38,12 @@ The target audience for this project are patients or the common public looking t
 
 ## Getting Started
 
-### Dependencies
-
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+### Prerequisites
+- Operating System: Windows 10 or later
+- Python: Python 3.6 or later
+Required Libraries
+- PyQt5: For the graphical user interface
+- Pyrebase: For interacting with Firebase
 
 ### Installing
 
