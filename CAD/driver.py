@@ -111,6 +111,7 @@ class Ui_MainWindow(QMainWindow):
         self.forgotPw_verificationWidget.continue_successful.connect(self.showForgotPw_newpwWidget)
         self.forgotPw_newpwWidget.update_successful.connect(self.showForgotPw_successWidget)
         self.forgotPw_successWidget.continue_btn_clicked.connect(self.showLoginWidget)
+        self.forgotPwWidget.email_changed.connect(self.forgotPw_newpwWidget.set_email)
         
         self.profileSettingsWidget.feedback_btn_clicked.connect(self.showSendFeedbackWidget)
         self.profileSettingsWidget.home_btn_clicked.connect(self.showHomeWidget)
