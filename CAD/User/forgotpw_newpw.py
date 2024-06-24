@@ -11,7 +11,7 @@ from connection import db  # Assuming db is properly imported from connection.py
 class ForgotPw_newpwWidget(QWidget):
     update_successful = pyqtSignal()
 
-    def __init__(self, email, parent=None):
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.email = ""
         self.setupUi()
@@ -180,24 +180,27 @@ class ForgotPw_newpwWidget(QWidget):
 
     def updatePasswordInDb(self, email, new_password):
         try:
-            # Query Firebase to find the user by email
-            users = db.child("patients").order_by_child("patient_email").equal_to(email).get()
-            
-            # Check if users were found
-            if users.each():
-                for user in users.each():
-                    user_id = user.key()
-                    # Update the user's password
-                    db.child("patients").child(user_id).update({"patient_pass": new_password})
-                    print(f"Password updated for {self.email}")
-                    self.update_successful.emit()  # Emit signal for successful update
-                    QMessageBox.information(self, "Success", "Password updated successfully.")
-                    return
-            
-            # If no user found with the given email
-            self.error_message = f"No user found with email {self.email}"
-            self.showErrorMessage()
+            # Fetch all patients from the database
+            patients = db.child("patients").get()
 
+            if patients.each():
+                for patient in patients.each():
+                    patient_data = patient.val()
+                    if patient_data['patient_email'] == email:
+                        user_id = patient.key()
+                        db.child("patients").child(user_id).update({"patient_pass": new_password})
+                        print(f"Password updated for {email}")
+                        self.update_successful.emit()  # Emit signal for successful update
+                        QMessageBox.information(self, "Success", "Password updated successfully.")
+                        return
+                else:
+                    self.error_message = f"No user found with email {email}"
+                    self.showErrorMessage()
+            
+            else:
+                self.error_message = "No patients found in the database."
+                self.showErrorMessage()
+        
         except Exception as e:
             # Handle any exceptions that occur during database operation
             self.error_message = f"Error updating password in DB: {e}"

@@ -201,15 +201,15 @@ class ForgotPwWidget(QWidget):
         return True
 
     def emailExistsInDb(self, email):
-        # Replace this logic with actual database check
-        print(f"Checking if email exists in DB: {email}")  # Debugging statement
-        return self.check_email_in_db(email)
-
-    def check_email_in_db(self, email):
-        # Dummy implementation, replace with actual database query
-        # This is just a placeholder, you need to replace it with your actual database logic
-        db_emails = ["amy@gmail.com", "email@gmail.com"]
-        return email in db_emails
+        try:
+            patients = db.child('patients').get()
+            for patient in patients.each():
+                if patient.val().get('patient_email') == email:
+                    return True
+            return False
+        except Exception as e:
+            print(f"Error fetching patient data: {e}")
+            return False
 
     def showErrorMessage(self):
         msg = QMessageBox()

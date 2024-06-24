@@ -175,7 +175,7 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget(self.centralwidget)
         self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
-        self.forgotPw_newpwWidget = ForgotPw_newpwWidget(email="")
+        self.forgotPw_newpwWidget = ForgotPw_newpwWidget()
         self.forgotPw_successWidget = ForgotPw_successWidget()
         self.registerWidget = RegisterWidget()
         self.homeWidget = HomeWidget()
