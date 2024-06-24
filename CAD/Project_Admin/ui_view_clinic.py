@@ -40,13 +40,7 @@ class ViewClinicWidget(QWidget):
 "border-bottom-left-radius: 30px;\n"
 "border-top-left-radius: 30px;\n"
 "text-align: center;")
-        self.noti_icon = QPushButton(self.background)
-        self.noti_icon.setObjectName(u"noti_icon")
-        self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
-        icon = QIcon()
-        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.noti_icon.setIcon(icon)
-        self.noti_icon.setIconSize(QSize(40, 40))
+        
         self.user_frame = QFrame(self.background)
         self.user_frame.setObjectName(u"user_frame")
         self.user_frame.setGeometry(QRect(1480, 30, 251, 80))
@@ -264,7 +258,6 @@ class ViewClinicWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.noti_icon.setText("")
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"Admin", None))
         self.search_clinic.setPlaceholderText(QCoreApplication.translate("Form", u"Search Clinic Name", None))

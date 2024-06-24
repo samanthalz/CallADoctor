@@ -36,13 +36,7 @@ class ServicesWidget(QWidget):
         self.whitebg.setStyleSheet(u"background-color: #F8F8F8;\n"
 "border-bottom-left-radius: 30px;\n"
 "border-top-left-radius: 30px;")
-        self.noti_icon = QPushButton(self.whitebg)
-        self.noti_icon.setObjectName(u"noti_icon")
-        self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
-        icon = QIcon()
-        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.noti_icon.setIcon(icon)
-        self.noti_icon.setIconSize(QSize(40, 40))
+        
         self.services_avail_title = QLabel(self.whitebg)
         self.services_avail_title.setObjectName(u"services_avail_title")
         self.services_avail_title.setGeometry(QRect(60, 40, 481, 81))
@@ -401,7 +395,6 @@ class ServicesWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.noti_icon.setText("")
         self.services_avail_title.setText(QCoreApplication.translate("Form", u"Services Available", None))
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))

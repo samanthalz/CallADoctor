@@ -40,13 +40,7 @@ class ViewClinicProfileWidget(QWidget):
 "border-bottom-left-radius: 30px;\n"
 "border-top-left-radius: 30px;\n"
 "")
-        self.noti_icon = QPushButton(self.whitebg)
-        self.noti_icon.setObjectName(u"noti_icon")
-        self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
-        icon = QIcon()
-        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.noti_icon.setIcon(icon)
-        self.noti_icon.setIconSize(QSize(40, 40))
+        
         self.fad_title = QLabel(self.whitebg)
         self.fad_title.setObjectName(u"fad_title")
         self.fad_title.setGeometry(QRect(70, 140, 481, 81))
@@ -350,7 +344,6 @@ class ViewClinicProfileWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.noti_icon.setText("")
         self.fad_title.setText(QCoreApplication.translate("Form", u"Clinic Profile", None))
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"User", None))
