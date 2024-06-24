@@ -308,6 +308,7 @@ class SendFeedbackWidget(QWidget):
         #print(f"set user id is {self.patient_id}")
         
     def fetch_patient_data(self):
+        db = self.initialize_db()
         try:
                 patient_data = db.child("patients").child(self.patient_id).get().val()
                 if patient_data:
@@ -319,6 +320,7 @@ class SendFeedbackWidget(QWidget):
                 return None
         
     def generate_new_fb_id(self):
+        db = self.initialize_db()
         try:
             feedbacks = db.child("feedback").get()
             max_id = 0
@@ -337,6 +339,7 @@ class SendFeedbackWidget(QWidget):
             return None
         
     def upload_data_to_db(self):
+        db = self.initialize_db()
         subject = self.subject_input.text().strip()
         feedback = self.feedback_input.toPlainText().strip()
         new_fb_id = self.generate_new_fb_id()
@@ -372,3 +375,6 @@ class SendFeedbackWidget(QWidget):
     def redirect_to_profile(self, button):
         if button.text() == "OK":
             self.redirect_profile.emit()
+            
+    def initialize_db(self):
+        return db 

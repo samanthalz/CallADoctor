@@ -405,6 +405,7 @@ class ViewClinicProfileWidget(QWidget):
         
         
     def fetch_clinic_info_from_db(self, clinic_name):
+        db = self.initialize_db()
         # Fetch clinic info from the database using the clinic name
         try:
                 # Modify the database query as per your actual database structure
@@ -455,5 +456,6 @@ class ViewClinicProfileWidget(QWidget):
         self.contact_display.setText(clinic_info.get("clinic_phone", "Unknown"))
         self.ophour_display.setText(clinic_info.get("clinic_operating_hr", "Unknown"))
         
-        
+    def initialize_db(self):
+        return db 
         

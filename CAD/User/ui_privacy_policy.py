@@ -194,6 +194,7 @@ class PrivacyPolicyWidget(QWidget):
         self.back_btn_clicked.emit()
         
     def load_policy_from_db(self):
+        db = self.initialize_db()
         try:
             terms = db.child('privacy_policy').get().val()
             if terms:
@@ -203,3 +204,5 @@ class PrivacyPolicyWidget(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Database Error", f"An error occurred while fetching terms: {e}")
 
+    def initialize_db(self):
+        return db 

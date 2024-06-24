@@ -193,6 +193,7 @@ class TncWidget(QWidget):
         self.back_btn_clicked.emit()
 
     def load_terms_from_db(self):
+        db = self.initialize_db()
         try:
             terms = db.child('terms').get().val()
             if terms:
@@ -202,3 +203,5 @@ class TncWidget(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Database Error", f"An error occurred while fetching terms: {e}")
             
+    def initialize_db(self):
+        return db 

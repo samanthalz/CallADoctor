@@ -236,6 +236,7 @@ class EditPrivacyPolicyWidget(QWidget):
         self.home_btn_clicked.emit()
         
     def set_default_text(self):
+        db = self.initialize_db()
         try:
             # Fetch the text from the database
             terms = db.child('privacy_policy').get().val()
@@ -248,6 +249,7 @@ class EditPrivacyPolicyWidget(QWidget):
         
         
     def upload_data_to_db(self):
+        db = self.initialize_db()
         policy = self.textEdit.toPlainText().strip()
         
         if not policy :
@@ -260,3 +262,5 @@ class EditPrivacyPolicyWidget(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to update data: {str(e)}")
 
+    def initialize_db(self):
+        return db 

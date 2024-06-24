@@ -301,6 +301,7 @@ class FindClinicWidget(QWidget):
         
     
     def fetch_clinic_data(self):
+        db = self.initialize_db()
         try:
             clinics = db.child("clinic").get()
             
@@ -479,6 +480,7 @@ class FindClinicWidget(QWidget):
         self.state_dropdown.addItems(states)
 
     def load_clinics(self):
+        db = self.initialize_db()
         # The first item in the dropdown list
         clinics = ["Search or Select a Clinic"]
 
@@ -531,6 +533,8 @@ class FindClinicWidget(QWidget):
         clinic_name = button.property("clinic_name")  # Retrieve the clinic ID from the button's property
         if clinic_name :
             self.makeAppointmentRequested.emit(clinic_name, "")
-
+    
+    def initialize_db(self):
+        return db
             
     

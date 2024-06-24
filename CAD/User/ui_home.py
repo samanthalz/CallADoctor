@@ -54,6 +54,7 @@ class HomeWidget(QWidget):
 
 
     def get_medical_records(self):
+        db = self.initialize_db()
         medical_records = db.child("medical_records").get().val()
         today = date.today()
         current_date = today.strftime("%y%m%d")
@@ -145,6 +146,7 @@ class HomeWidget(QWidget):
     
 
     def get_upcoming_appt_data(self):
+        db = self.initialize_db()
         appointment_data = db.child("appointment").get().val()
         clinics = db.child("clinic").get().val()
         num_upcoming_appt = 0 # Initialize as 0
@@ -558,7 +560,8 @@ class HomeWidget(QWidget):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
 
-    
+    def initialize_db(self):
+        return db 
     
 
 

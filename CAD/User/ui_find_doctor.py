@@ -312,6 +312,7 @@ class FindDoctorWidget(QWidget):
         self.home_btn_clicked.emit()
         
     def fetch_clinic_data(self):
+        db = self.initialize_db()
         try:
             clinics = db.child("clinic").get()
             
@@ -378,6 +379,7 @@ class FindDoctorWidget(QWidget):
         self.scrollAreaWidgetContents.update()
 
     def load_clinics(self):
+        db = self.initialize_db()
         try:
                 clinics_data = db.child("clinic").get()
                 clinic_names = [clinic.val().get("clinic_name", "") for clinic in clinics_data.each()]
@@ -388,6 +390,7 @@ class FindDoctorWidget(QWidget):
                 print(f"An error occurred while loading clinics: {e}")
 
     def load_specializations(self):
+        db = self.initialize_db()
         try:
                 doctors_data = db.child("clinic").get()
                 specializations = []
@@ -411,6 +414,7 @@ class FindDoctorWidget(QWidget):
                 print(f"An error occurred while loading specializations: {e}")
                 
     def load_doctors(self):
+        db = self.initialize_db()
         try:
                 doctors_data = db.child("clinic").get()
                 doctor_names = []
@@ -587,6 +591,7 @@ class FindDoctorWidget(QWidget):
 
     @pyqtSlot()
     def on_view_profile_button_clicked(self):
+        
         button = self.sender()  # Get the button that was clicked
         doctor_name = button.property("doctor_name")  # Retrieve the doctor name from the button's property
         
@@ -622,4 +627,5 @@ class FindDoctorWidget(QWidget):
         if clinic_index != -1:
             self.clinic_dropdown.setCurrentIndex(clinic_index)
 
-                
+    def initialize_db(self):
+        return db             

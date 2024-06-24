@@ -359,6 +359,7 @@ class PAProfileSettingsWidget(QWidget):
                 print(f"Error setting user id: {e}")
         
     def fetch_admin_data(self):
+        db = self.initialize_db()
         try:
                 admin_data = db.child("project_admin").child(self.admin_id).get().val()
                 if admin_data:
@@ -370,6 +371,7 @@ class PAProfileSettingsWidget(QWidget):
                 return None
         
     def set_default_texts(self):
+        db = self.initialize_db()
         #print(f"id is {self.admin_id}")
         if self.admin_id:
             admin_data = self.fetch_admin_data()
@@ -380,4 +382,5 @@ class PAProfileSettingsWidget(QWidget):
         else:
                 print("error")
          
-                
+    def initialize_db(self):
+        return db       

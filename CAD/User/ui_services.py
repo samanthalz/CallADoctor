@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from connection import db
 
 
 class ServicesWidget(QWidget):
@@ -457,3 +458,6 @@ class ServicesWidget(QWidget):
     def emitHomeBtn(self):
         # Emit the custom signal
         self.home_btn_clicked.emit()
+        
+    def initialize_db(self):
+        return db 
