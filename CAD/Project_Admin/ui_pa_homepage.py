@@ -71,7 +71,8 @@ class PAHomeWidget(QWidget):
         font1.setFamily(u"Consolas")
         font1.setPointSize(48)
         self.clinic_req__label.setFont(font1)
-        self.clinic_req__label.setText(str(self.calc_new_addition()))
+        #self.clinic_req__label.setText(str(self.calc_new_addition()))
+        self.calc_new_addition()
         
         self.feedback_frame = QFrame(self.background)
         self.feedback_frame.setObjectName(u"feedback_frame")
@@ -353,14 +354,22 @@ class PAHomeWidget(QWidget):
         
         return clinicReq_frame
         
-    def populate_clinic_info(self):
-        
+    def clear_layout(self):
         while self.clinic_list_layout.count():
                 item = self.clinic_list_layout.takeAt(0) 
                 widget = item.widget()
                 if widget is not None:
+                        widget.destroy()
+                        
+    def clear_layout_1(self):
+        while self.fb_list_layout.count():
+                item = self.fb_list_layout.takeAt(0) 
+                widget = item.widget()
+                if widget is not None:
                         widget.deleteLater()
-
+                        
+    def populate_clinic_info(self):
+        self.clear_layout()
         visible_clinics = []
 
         for i, clinic_data in enumerate(self.clinic_data_list):
@@ -642,15 +651,11 @@ class PAHomeWidget(QWidget):
         return feedback_detail_frame
     
     def populate_fb_info(self):
-        while self.fb_list_layout.count():
-                item = self.clinic_list_layout.takeAt(0) 
-                widget = item.widget()
-                if widget is not None:
-                        widget.deleteLater()
-
+        self.clear_layout_1()
         visible_fb = []
 
         for i, fb_data in enumerate(self.fb_data_list):
+                #print(f"db data is {fb_data}")
                 fb_frame = self.create_fb_list_frame(fb_data)
                 if fb_frame:
                         visible_fb.append(fb_frame)
@@ -689,8 +694,8 @@ class PAHomeWidget(QWidget):
                 # Count if the date is from today onwards
                 if days_difference >= 0:
                         count += 1
-        
-        return count
+        print(f"count is {count}")
+        self.clinic_req__label.setText(str(count))
     
     def initialize_db(self):
         return db

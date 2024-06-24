@@ -247,9 +247,9 @@ class Ui_MainWindow(QMainWindow):
         
     def handle_login_success(self, rights):
         if rights == 0:
-            self.stackedWidget.setCurrentWidget(self.homeWidget)
+            self.showHomeWidget()
         elif rights == 4:
-            self.stackedWidget.setCurrentWidget(self.paHomeWidget)
+            self.showPAHomeWidget()
             
     @pyqtSlot()
     def showForgotPwWidget(self):
@@ -346,6 +346,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
         self.paHomeWidget.fetch_clinic_data()
         self.paHomeWidget.fetch_fb_data()
+        self.paHomeWidget.calc_new_addition()
         
     @pyqtSlot()
     def showPAProfileSettingsWidget(self):
