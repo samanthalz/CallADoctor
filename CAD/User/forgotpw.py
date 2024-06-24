@@ -8,9 +8,11 @@ from connection import db  # Ensure this is correctly importing your database co
 class ForgotPwWidget(QWidget):
     continue_successful = pyqtSignal()
     back_successful = pyqtSignal()
+    email_changed = pyqtSignal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.email = ""
         self.setupUi(self)
 
     def setupUi(self, Form):
@@ -171,6 +173,8 @@ class ForgotPwWidget(QWidget):
         print("Continue button clicked")  # Debugging statement
         if self.validateEmail():
             print("Email validation passed")  # Debugging statement
+            self.email = self.email.text()
+            self.email_changed.emit(self.email)
             # Emit the custom signal if validation passes
             self.continue_successful.emit()
         else:
