@@ -37,7 +37,7 @@ command to run if program contains helper info
 
 Contributors names and contact info
 
-ex. Law Zhi Wei, Samantha [@email]p22013987@student.newinti.edu.my)
+ex. Law Zhi Wei, Samantha [@email](p22013987@student.newinti.edu.my)
 
 
 ## License
