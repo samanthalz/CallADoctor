@@ -11,16 +11,26 @@ class PatientsPageWidget(QWidget):
         self.doctor_id = "Dr. John Doe" # ltr when get the doc id from login page, reinitialize this to empty
         self.setupUi(self)
 
-    def get_upcoming_appt_data(self):
+    def set_doctor_id(self, doctor_id): 
+        self.user_id = doctor_id
+        # Assign values after doctor_id is initialized
+        self.get_patient_data()
+
+
+    def get_patient_data(self):
         today = date.today()
         current_date = today.strftime("%y%m%d")
         appointment_data = db.child("appointment").get().val()
         patient_frames = []
         
-        if appointment_data: 
+        if appointment_data:
+            print("In if appt data") 
             for appt_id, appt_info in appointment_data.items():
+                print("In for apptinfo in apptdata")
                 if appt_info.get('doctor_id').lower() == self.doctor_id.lower() : 
+                    print("In if doctor id")
                     if  int(appt_info.get('date')) >= int(current_date): # upcoming appointments
+                        print("In if upcoming")
                         patient_id = appt_info['patient_id']
                         appt_date = appt_info['date']
                         appt_date = self.translate_date(appt_date)
@@ -35,7 +45,7 @@ class PatientsPageWidget(QWidget):
                 self.patient_list_frame.addWidget(appt_frame)
 
         # Refresh the layout after adding all frames
-        self.verticalLayout_upcomingAppt.update()
+        self.patient_list_frame.update()
 
     def create_patient_frame(self, patient_id, appt_date, appt_time):
         # Patient list frame : 
