@@ -76,7 +76,7 @@ class TestLoginWidget(unittest.TestCase):
         self.widget.ic_input = QLineEdit('123456789123')
         self.widget.password_input = QLineEdit('amy12345')
 
-        with patch('login.db', new=mock_db):  # Update the import path accordingly
+        with patch('login.db', new=mock_db):  
             with patch.object(self.widget, 'showMessageBox') as mock_message_box:
                 self.widget.validateLogin()
                 expected_calls = [
