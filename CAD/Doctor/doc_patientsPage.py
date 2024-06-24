@@ -10,12 +10,25 @@ class PatientsPageWidget(QWidget):
         super().__init__(parent)
         self.doctor_id = "Dr. John Doe" # ltr when get the doc id from login page, reinitialize this to empty
         self.setupUi(self)
+        self.set_doctor_id(self.doctor_id)
 
     def set_doctor_id(self, doctor_id): 
         self.user_id = doctor_id
         # Assign values after doctor_id is initialized
         self.get_patient_data()
 
+    def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
+        day = date_str[-2:]
+        month = date_str[2:4]
+        year = '20' + date_str[:2] 
+
+        monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        
+        month = monthList[int(month) - 1]
+
+        date_str = day + " " + month + " " + year
+
+        return date_str # returns in format 20 Jun 2024 (used for display)
 
     def get_patient_data(self):
         today = date.today()
@@ -38,14 +51,16 @@ class PatientsPageWidget(QWidget):
                         patient_frame = self.create_patient_frame(patient_id, appt_date, appt_time)
 
                         if patient_frame:
+                                print("In if patient frame apprnd patient frame")
                                 patient_frames.append(patient_frame)
 
             # Add visible patients to the layout
-            for appt_frame in patient_frames:
-                self.patient_list_frame.addWidget(appt_frame)
+            for patient_frame in patient_frames:
+                print("In for patient frame in patient frames")
+                self.verticalLayout_patient_list.addWidget(patient_frame)
 
         # Refresh the layout after adding all frames
-        self.patient_list_frame.update()
+        self.verticalLayout_patient_list.update()
 
     def create_patient_frame(self, patient_id, appt_date, appt_time):
         # Patient list frame : 
@@ -105,6 +120,8 @@ class PatientsPageWidget(QWidget):
         self.patient_profile_logo1.setText("PN")
         self.appt_time_label.setText(appt_time)
         self.appt_date_label.setText(appt_date)
+
+        return self.patient_frame1
                     
 
     def setupUi(self, Form):
@@ -354,12 +371,17 @@ class PatientsPageWidget(QWidget):
         self.patient_details_label.setStyleSheet("border : none;\n"
 "")
         self.patient_details_label.setObjectName("patient_details_label")
+        
         self.patient_list_frame = QtWidgets.QFrame(self.background)
         self.patient_list_frame.setGeometry(QtCore.QRect(50, 230, 801, 801))
         self.patient_list_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.patient_list_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.patient_list_frame.setObjectName("patient_list_frame")
-        
+        # Create a vertical layout and set it to the frame
+        self.verticalLayout_patient_list = QVBoxLayout(self.patient_list_frame)
+        self.patient_list_frame.setLayout(self.verticalLayout_patient_list)
+        self.verticalLayout_patient_list.setContentsMargins(0, 0, 0, 0)  # Set the margins to zero
+        self.verticalLayout_patient_list.setSpacing(10)  # Set spacing between items
         
         
         
