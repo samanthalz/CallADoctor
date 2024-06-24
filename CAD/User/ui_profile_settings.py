@@ -452,9 +452,9 @@ class ProfileSettingsWidget(QWidget):
             QMessageBox.warning(self, "Missing Data", "Please fill in all fields.")
             return
     
-        if not name.isalpha():
+        if not name.replace(' ', '').isalpha():
             QMessageBox.warning(self, "Validation Error", "Name can only contain letters.")
-            return
+            return 
         
         if len(ic) != 12 or not ic.isdigit():
             QMessageBox.warning(self, "Validation Error", "IC must be 12 digits with no special characters.")
