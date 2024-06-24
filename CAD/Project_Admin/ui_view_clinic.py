@@ -420,15 +420,31 @@ class ViewClinicWidget(QWidget):
         
         clinic_name = QLabel(clinic_details_inner)
         clinic_name.setObjectName(u"clinic_name")
-        clinic_name.setGeometry(QRect(100, 30, 570, 20))
+        clinic_name.setGeometry(QRect(100, 30, 391, 21))
+        clinic_name.setMinimumSize(QSize(391, 21))
+        clinic_name.setMaximumSize(QSize(391, 21))
         font2 = QFont()
         font2.setFamily(u"Consolas")
         font2.setPointSize(10)
         clinic_name.setFont(font2)
         clinic_name.setStyleSheet(u"border : none;\n")
         clinic_name.setText(clinic_data.get("clinic_name", "Unknown"))
+        
         self.temp_clinic_name = clinic_data["clinic_name"]
         #print(f"clinic name is {self.temp_clinic_name}")
+        
+        credential_btn = QPushButton(clinic_details_inner)
+        credential_btn.setObjectName(u"credential_btn")
+        credential_btn.setGeometry(QRect(520, 20, 161, 41))
+        credential_btn.setMinimumSize(QSize(161, 41))
+        credential_btn.setMaximumSize(QSize(161, 41))
+        font7 = QFont()
+        font7.setFamily(u"Consolas")
+        font7.setPointSize(10)
+        credential_btn.setFont(font7)
+        credential_btn.setStyleSheet(u"background-color: #B6D0E2;color: black; text-align: center;")
+        credential_btn.setText("View ID & Pass")
+        credential_btn.clicked.connect(self.display_credentials)
         
         clinic_logo = QLabel(clinic_details_inner)
         clinic_logo.setObjectName(u"clinic_logo")
@@ -660,15 +676,18 @@ class ViewClinicWidget(QWidget):
         approve_clinic_btn.setText("Approve Clinic")
         approve_clinic_btn.clicked.connect(self.approve_clinic)
         status = clinic_data.get("clinic_status")
+        
         if status == "pending":
                 # Display the reject and approve buttons
                 reject_clinic_btn.show()
                 approve_clinic_btn.show()
+                credential_btn.hide()
         else:
                 # Hide the reject and approve buttons
                 reject_clinic_btn.hide()
                 approve_clinic_btn.hide()
                 delete_clinic_btn.show()
+                credential_btn.show()
 
         
         return request_detail_outer
@@ -750,6 +769,16 @@ class ViewClinicWidget(QWidget):
         if clinic_id:
                 try:
                         db.child("clinic").child(clinic_id).remove()
+                        
+                        # Find and remove the associated clinic admin
+                        clinic_admins = db.child("clinic_admin").get()
+                        for admin in clinic_admins.each():
+                                admin_data = admin.val()
+                                if admin_data.get("clinic_id").lower() == clinic_id.lower():
+                                        admin_id = admin.key()
+                                        db.child("clinic_admin").child(admin_id).remove()
+                                        break
+                                
                         QMessageBox.information(self, "Success", "Clinic rejected and removed from the database.")
 
                         self.hide_clinic_details_frame()
@@ -772,6 +801,7 @@ class ViewClinicWidget(QWidget):
     def approve_clinic(self):
         clinic_name = self.temp_clinic_name
         clinic_id = None
+        starting_year = None
 
         if not self.clinic_data_list:
                 return None
@@ -787,27 +817,80 @@ class ViewClinicWidget(QWidget):
         for cid, clinic_data in clinic_data_list.items():
                 if clinic_data.get("clinic_name") == clinic_name:
                         clinic_id = cid
+                        starting_year = clinic_data.get("starting_year")
                         break
 
         if clinic_id:
                 try:
                         # Update clinic_status to "approved"
                         db.child("clinic").child(clinic_id).update({"clinic_status": "approved"})
+
+                        # Add a new clinic admin
+                        ca_id = clinic_name.lower().replace(" ", "")  # Set ca_id as clinic name with no spaces
+                        ca_pass = clinic_name.lower().replace(" ", "")[:5] + str(starting_year)  # Set ca_pass as first 5 letters of clinic name + starting_year
+
+                        # Save the clinic admin details in the database
+                        db.child("clinic_admin").child(ca_id).set({
+                        "ca_id": ca_id,
+                        "ca_pass": ca_pass,
+                        "clinic_id": clinic_id
+                        })
+
                         QMessageBox.information(self, "Success", "Clinic approved successfully.")
                         self.hide_clinic_details_frame()
-                        # Refresh the clinic list
-                        self.populate_clinic_info()
-
-                        # Hide the clinic details
-                        self.hide_clinic_details_frame()
+                        self.populate_clinic_info()  # Refresh the clinic list
+                        self.hide_clinic_details_frame()  # Hide the clinic details
 
                 except Exception as e:
                         print(f"Failed to approve clinic: {e}")
                         QMessageBox.critical(self, "Error", f"Failed to approve clinic: {str(e)}")
-        else:
-                QMessageBox.warning(self, "No Clinic Selected", "Please select a clinic to approve.")
+                else:
+                        QMessageBox.warning(self, "No Clinic Selected", "Please select a clinic to approve.")
 
 
+    @pyqtSlot()
+    def display_credentials(self):
+        clinic_name = self.temp_clinic_name
+        clinic_id = None
+ 
+        if not self.clinic_data_list:
+                return None
+
+        # Fetch the clinic data directly from the database
+        try:
+                clinic_data_list = db.child("clinic").get().val()
+                
+        except Exception as e:
+                print(f"Failed to fetch clinic data: {e}")
+                return
+
+        for cid, clinic_data in clinic_data_list.items():
+                if clinic_data.get("clinic_name") == clinic_name:
+                        clinic_id = cid
+                        break
+        try:
+            if not clinic_id:
+                raise Exception(f"No clinic found with name {clinic_name}")
+
+            # Fetch all clinic admins and find the one with the matching clinic ID
+            admin_data = db.child("clinic_admin").get()
+            if admin_data.each():
+                for admin in admin_data.each():
+                    admin_val = admin.val()
+                    if admin_val.get("clinic_id").lower() == clinic_id.lower():
+                        ca_id = admin_val.get("ca_id", "No ID found")
+                        ca_pass = admin_val.get("ca_pass", "No password found")
+                        break
+                else:
+                    ca_id = "No ID found"
+                    ca_pass = "No password found"
+            
+            # Show the credentials in a message box
+            QMessageBox.information(self, "Admin Credentials", f"ID: {ca_id}\nPassword: {ca_pass}")
+
+        except Exception as e:
+            # Handle any exceptions that occur during database operation
+            QMessageBox.critical(self, "Error", f"Error fetching credentials: {e}")
 
 
 
