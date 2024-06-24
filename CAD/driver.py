@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, pyqtSlot
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QMessageBox
 
-# Import your custom widgets
+# Import custom widgets
 from User.forgotpw import ForgotPwWidget
 from User.forgotpw_newpw import ForgotPw_newpwWidget
 from User.forgotpw_verification import ForgotPw_verificationWidget
@@ -11,7 +11,6 @@ from User.ui_profile_settings import ProfileSettingsWidget
 from login import LoginWidget
 from register import RegisterWidget
 from User.ui_find_clinic import FindClinicWidget
-#from User.ui_find_clinic_copy import ViewClinicWidget
 from User.ui_view_doctor_profile import ViewDoctorProfileWidget
 from User.ui_view_clinic_profile import ViewClinicProfileWidget
 from User.ui_find_doctor import FindDoctorWidget
@@ -24,11 +23,16 @@ from User.ui_tnc import TncWidget
 from User.ui_tnc_register import TncRegisterWidget
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
+
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
 from Project_Admin.ui_view_clinic import ViewClinicWidget
 from Project_Admin.ui_edit_privacy_policy import EditPrivacyPolicyWidget
 from Project_Admin.ui_edit_tnc import EditTncWidget
 from Project_Admin.ui_pa_profile_settings import PAProfileSettingsWidget
+
+from Doctor.ui_doc_profile_settings import DocProfileSettingsWidget
+
+from Clinic_Admin.ui_ca_profile_settings import CAProfileSettingsWidget
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -194,6 +198,9 @@ class Ui_MainWindow(QMainWindow):
         self.paEditPrivacyPolicyWidget = EditPrivacyPolicyWidget()
         self.paEditTncWidget = EditTncWidget()
         self.paProfileSettingsWidget = PAProfileSettingsWidget()
+        
+        self.docProfileSettingsWidget = DocProfileSettingsWidget()
+        self.caProfileSettingsWidget = CAProfileSettingsWidget()
          
 
         self.stackedWidget.addWidget(self.loginWidget)
@@ -222,7 +229,8 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.paEditPrivacyPolicyWidget)
         self.stackedWidget.addWidget(self.paEditTncWidget)
         self.stackedWidget.addWidget(self.paProfileSettingsWidget)
-        
+        self.stackedWidget.addWidget(self.docProfileSettingsWidget)
+        self.stackedWidget.addWidget(self.caProfileSettingsWidget)
         
         
         self.stackedWidget.setCurrentWidget(self.loginWidget)
