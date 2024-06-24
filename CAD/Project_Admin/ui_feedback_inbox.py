@@ -5,6 +5,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 from datetime import datetime
+import pyrebase
 from connection import db
 
 
@@ -299,7 +300,6 @@ class FeedbackInboxWidget(QWidget):
         except Exception as e:
             print(f"An error occurred while fetching data: {e}")
 
-            
     def clear_layout(self):
         while self.vLayout.count():
                 item = self.vLayout.takeAt(0) 

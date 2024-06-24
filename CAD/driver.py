@@ -301,6 +301,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showFindDocWidget(self):
         self.stackedWidget.setCurrentWidget(self.findDocWidget)
+        self.findDocWidget.fetch_clinic_data()
     
     @pyqtSlot()
     def showNewPassword(self):
@@ -309,10 +310,12 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showFindClinicWidget(self):
         self.stackedWidget.setCurrentWidget(self.findClinicWidget)
+        self.findClinicWidget.fetch_clinic_data()
         
     @pyqtSlot()
     def showMakeApptWidget(self):
         self.stackedWidget.setCurrentWidget(self.makeApptWidget)
+        self.makeApptWidget.fetch_clinic_data()
         
         
     def showPrefillMakeApptWidget(self, clinic_name, doctor_name):
@@ -331,19 +334,24 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showPAViewClinicWidget(self):
         self.stackedWidget.setCurrentWidget(self.paViewClinicWidget)
+        self.paViewClinicWidget.fetch_clinic_data()
         
     @pyqtSlot()
     def showPAViewFeedBackInboxWidget(self):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
+        self.paFeedbackInboxWidget.fetch_fb_data()
         
     @pyqtSlot()
     def showPAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.paHomeWidget)
+        self.paHomeWidget.fetch_clinic_data()
+        self.paHomeWidget.fetch_fb_data()
         
     @pyqtSlot()
     def showPAProfileSettingsWidget(self):
         self.stackedWidget.setCurrentWidget(self.paProfileSettingsWidget)
         self.paProfileSettingsWidget.set_default_texts()
+        self.paProfileSettingsWidget.fetch_admin_data()
         
     @pyqtSlot()
     def showRegisterClinicWidget(self):
@@ -353,10 +361,12 @@ class Ui_MainWindow(QMainWindow):
     def showProfileSettingsWidget(self):
         self.stackedWidget.setCurrentWidget(self.profileSettingsWidget)
         self.profileSettingsWidget.set_default_texts()
+        self.profileSettingsWidget.fetch_patient_data()
         
     @pyqtSlot()
     def showSendFeedbackWidget(self):
         self.stackedWidget.setCurrentWidget(self.sendFeedbackWidget)
+        self.sendFeedbackWidget.fetch_patient_data()
         
     @pyqtSlot()
     def showPAEditPrivacyPolicyWidget(self):
@@ -371,11 +381,13 @@ class Ui_MainWindow(QMainWindow):
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
         self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
+        self.viewDoctorProfile.fetch_doctor_info_from_db()
         
     def showViewClinicProfileWidget(self, clinic_name, temp):
         #print(f"clinic name is {clinic_name} temp is {temp}")
         self.stackedWidget.setCurrentWidget(self.viewClinicProfile)
         self.viewClinicProfile.display_clinic_profile(clinic_name, temp)
+        self.viewClinicProfile.fetch_clinic_info_from_db()
         
     def showPrefillPAFbWidget(self, fb_data):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
