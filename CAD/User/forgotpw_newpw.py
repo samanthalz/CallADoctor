@@ -15,6 +15,7 @@ class ForgotPw_newpwWidget(QWidget):
         super().__init__(parent)
         self.email = email
         self.setupUi()
+        self.user_email = None  # Initialize user_email attribute
 
     def setupUi(self):
         self.setObjectName(u"Form")
@@ -157,7 +158,8 @@ class ForgotPw_newpwWidget(QWidget):
     @pyqtSlot()
     def emitUpdate(self):
         if self.validatePasswords():
-            self.updatePasswordInDb(self.email, self.lineEdit.text())
+            email = self.lineEdit.text().strip()  # Get the email from a valid source
+            self.updatePasswordInDb(email, self.lineEdit.text())
 
     def validatePasswords(self):
         new_password = self.lineEdit.text()
@@ -188,10 +190,11 @@ class ForgotPw_newpwWidget(QWidget):
                     self.update_successful.emit()  # Emit signal for successful update
                     QMessageBox.information(self, "Success", "Password updated successfully.")
                     return
-            else:
-                self.error_message = f"No user found with email {email}"
-                self.showErrorMessage()
-        
+            
+            # If no user found with the given email
+            self.error_message = f"No user found with email {email}"
+            self.showErrorMessage()
+
         except Exception as e:
             # Handle any exceptions that occur during database operation
             self.error_message = f"Error updating password in DB: {e}"
@@ -199,9 +202,9 @@ class ForgotPw_newpwWidget(QWidget):
             self.showErrorMessage()
 
     def showErrorMessage(self):
-        # Method to display error messages
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
         msg.setText(self.error_message)
         msg.setWindowTitle("Error")
         msg.exec_()
+
