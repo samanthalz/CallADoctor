@@ -33,6 +33,12 @@ from Project_Admin.ui_pa_profile_settings import PAProfileSettingsWidget
 from Doctor.ui_doc_profile_settings import DocProfileSettingsWidget
 
 from Clinic_Admin.ui_ca_profile_settings import CAProfileSettingsWidget
+from Clinic_Admin.ui_ca_homepage import CA_homepageWidget
+from Clinic_Admin.ui_ca_patientsPage import CA_patientsPageWidget
+from Clinic_Admin.ui_ca_view_doc import CA_view_docWidget
+from Clinic_Admin.ui_ca_approve_reject import CA_approved_rejectWidget
+from Clinic_Admin.ui_ca_add_doc import CA_add_docWidget
+
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -199,7 +205,13 @@ class Ui_MainWindow(QMainWindow):
         self.paEditPrivacyPolicyWidget = EditPrivacyPolicyWidget()
         self.paEditTncWidget = EditTncWidget()
         self.paProfileSettingsWidget = PAProfileSettingsWidget()
-        
+
+        self.caHomeWidget = CA_homepageWidget()
+        self.caPatientsPageWidget = CA_patientsPageWidget()
+        self.caApproveRejectWidget = CA_approved_rejectWidget()
+        self.caViewDocWidget = CA_view_docWidget()
+        self.caAddDocWidget = CA_add_docWidget()
+
         self.docProfileSettingsWidget = DocProfileSettingsWidget()
         self.caProfileSettingsWidget = CAProfileSettingsWidget()
          
@@ -232,8 +244,13 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.paProfileSettingsWidget)
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
         self.stackedWidget.addWidget(self.caProfileSettingsWidget)
-        
-        
+        self.stackedWidget.addWidget(self.caHomeWidget)
+        self.stackedWidget.addWidget(self.caPatientsPageWidget)
+        self.stackedWidget.addWidget(self.caApproveRejectWidget)
+        self.stackedWidget.addWidget(self.caViewDocWidget)     
+        self.stackedWidget.addWidget(self.caAddDocWidget)   
+
+
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
 
