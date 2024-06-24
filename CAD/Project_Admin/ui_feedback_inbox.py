@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,QMouseEvent,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from datetime import datetime
 from connection import db
 
 
@@ -268,6 +269,7 @@ class FeedbackInboxWidget(QWidget):
         self.home_btn_clicked.emit()
         
     def fetch_fb_data(self):
+        db = self.initialize_db()
         try:
             feedbacks = db.child("feedback").get()
             
@@ -355,12 +357,29 @@ class FeedbackInboxWidget(QWidget):
         date.setLayoutDirection(Qt.LeftToRight)
         date.setStyleSheet(u"border : none;\n")
         date.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-        date.setText(fb_data.get("date", "Unknown"))
+        #date.setText(fb_data.get("date", "Unknown"))
+        
+        # Fetch the date string from fb_data
+        date_str = fb_data.get("date", "Unknown")
+
+        # Check if the date is valid and not "Unknown"
+        if date_str != "Unknown":
+            # Parse the date string to a datetime object
+            date_obj = datetime.strptime(date_str, "%y%m%d")
+            
+            # Format the datetime object to the desired string format
+            formatted_date = date_obj.strftime("%d %B %Y")
+        else:
+            formatted_date = "Unknown"
+
+        # Set the text to the formatted date
+        date.setText(formatted_date)
+
         return fb_frame
         
     def populate_fb_info(self, search_query=None):
         self.clear_layout()
-
+        
         visible_fb = []
 
         for i, fb_data in enumerate(self.fb_data_list):
@@ -379,7 +398,7 @@ class FeedbackInboxWidget(QWidget):
                 
         self.scrollAreaWidgetContents.setLayout(self.vLayout)
         self.vLayout.setAlignment(Qt.AlignTop)
-        self.vLayout.update()
+        self.vLayout.update() 
         self.scrollAreaWidgetContents.update()
 
         
@@ -525,6 +544,7 @@ class FeedbackInboxWidget(QWidget):
         self.fb_details_frame.setVisible(True)
 
     def search_names(self):
+        
         search_text = self.search.text().strip().lower()
         if search_text:
                 #print(f"search is {search_text}")
@@ -547,3 +567,5 @@ class FeedbackInboxWidget(QWidget):
         if self.fb_details_frame:
             self.fb_details_frame.setVisible(False)
         
+    def initialize_db(self):
+        return db

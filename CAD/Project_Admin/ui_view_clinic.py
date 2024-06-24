@@ -377,7 +377,6 @@ class ViewClinicWidget(QWidget):
 
 
     def populate_clinic_info(self, search_query=None):
-        db = self.initialize_db()
         self.clear_layout()
 
         visible_clinics = []
@@ -842,7 +841,6 @@ class ViewClinicWidget(QWidget):
                         QMessageBox.information(self, "Success", "Clinic approved successfully.")
                         self.hide_clinic_details_frame()
                         self.fetch_clinic_data()
-                        #self.populate_clinic_info()  # Refresh the clinic list
                         self.hide_clinic_details_frame()  # Hide the clinic details
 
                 except Exception as e:

@@ -288,6 +288,7 @@ class PAHomeWidget(QWidget):
         self.profile_btn_clicked.emit()
 
     def fetch_clinic_data(self):
+        db = self.initialize_db()
         try:
             clinics = db.child("clinic").get()
             
@@ -299,8 +300,7 @@ class PAHomeWidget(QWidget):
                 print("No clinics data found.")
         except Exception as e:
             print(f"An error occurred while fetching data: {e}")
-
-                        
+                      
     def create_clinic_list_frame(self, clinic_data):
         clinicReq_frame = QFrame(self.widget1)
         clinicReq_frame.setObjectName(u"clinicReq_frame")
@@ -354,6 +354,7 @@ class PAHomeWidget(QWidget):
         return clinicReq_frame
         
     def populate_clinic_info(self):
+        
         while self.clinic_list_layout.count():
                 item = self.clinic_list_layout.takeAt(0) 
                 widget = item.widget()
@@ -572,6 +573,7 @@ class PAHomeWidget(QWidget):
         return request_detail_outer
     
     def fetch_fb_data(self):
+        db = self.initialize_db()
         try:
             feedbacks = db.child("feedback").get()
             
@@ -666,6 +668,7 @@ class PAHomeWidget(QWidget):
         self.redirect_fb.emit(fb_data)
     
     def calc_new_addition(self):
+        db = self.initialize_db()
         clinic_data = db.child("clinic").get().val()
         clinic_dor_list = [clinic["clinic_dor"] for clinic in clinic_data.values() if "clinic_dor" in clinic]
         #print(f"dates {clinic_dor_list}")
@@ -688,3 +691,6 @@ class PAHomeWidget(QWidget):
                         count += 1
         
         return count
+    
+    def initialize_db(self):
+        return db
