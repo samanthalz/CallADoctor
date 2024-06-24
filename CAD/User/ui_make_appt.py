@@ -508,6 +508,7 @@ class MakeApptWidget(QWidget):
         self.home_btn_clicked.emit()
         
     def fetch_clinic_data(self):
+        db = self.initialize_db()
         try:
             clinics = db.child("clinic").get()
             
@@ -521,6 +522,7 @@ class MakeApptWidget(QWidget):
             print(f"An error occurred while fetching data: {e}")    
             
     def load_clinics(self):
+        db = self.initialize_db()
         try:
                 clinics_data = db.child("clinic").get()
                 clinic_names = [clinic.val().get("clinic_name", "") for clinic in clinics_data.each() if clinic.val().get("clinic_status") == "approved"]
@@ -531,6 +533,7 @@ class MakeApptWidget(QWidget):
                 print(f"An error occurred while loading clinics: {e}")
                 
     def load_doctors(self):
+        db = self.initialize_db()
         selected_clinic = self.clinic_dropdown.currentText()
         if selected_clinic == "Search or Select a Clinic":
                 self.doc_dropdown.clear()
@@ -559,6 +562,7 @@ class MakeApptWidget(QWidget):
                 print(f"An error occurred while loading doctors: {e}")
                 
     def load_time_slots(self):
+        db = self.initialize_db()
         selected_clinic = self.clinic_dropdown.currentText()
 
         if selected_clinic == "Search or Select a Clinic":
@@ -596,6 +600,7 @@ class MakeApptWidget(QWidget):
                 print(f"An error occurred while loading time slots: {e}")
 
     def load_specialties(self):
+        db = self.initialize_db()
         selected_doctor = self.doc_dropdown.currentText()
 
         if selected_doctor == "Search or Select a Doctor":
@@ -654,6 +659,7 @@ class MakeApptWidget(QWidget):
         return clinic, doctor, time, speciality, date, med_concern, admin_reassign
 
     def generate_new_appt_id(self):
+        db = self.initialize_db()
         try:
             appointments = db.child("appointment").get()
             max_id = 0
@@ -675,6 +681,7 @@ class MakeApptWidget(QWidget):
         self.patient_id = user_id
         
     def save_appointment_to_db(self):
+        db = self.initialize_db()
         clinic, doctor, time, speciality, date, med_concern, admin_reassign = self.get_selected_data()
         new_appt_id = self.generate_new_appt_id()
         
@@ -731,3 +738,6 @@ class MakeApptWidget(QWidget):
         self.time_dropdown.setCurrentIndex(0)  # Reset time dropdown to default
         self.speciality_dropdown.setCurrentIndex(0)  # Reset speciality dropdown to default
         self.med_input.clear()  # Clear medication input
+    
+    def initialize_db(self):
+        return db 

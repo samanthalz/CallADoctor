@@ -416,6 +416,7 @@ class ProfileSettingsWidget(QWidget):
         #print(f"set user id is {self.patient_id}")
         
     def fetch_patient_data(self):
+        db = self.initialize_db()
         try:
                 patient_data = db.child("patients").child(self.patient_id).get().val()
                 if patient_data:
@@ -487,5 +488,6 @@ class ProfileSettingsWidget(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to update data: {str(e)}")
             
-        
+    def initialize_db(self):
+        return db 
         

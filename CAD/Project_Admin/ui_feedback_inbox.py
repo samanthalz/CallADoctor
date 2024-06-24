@@ -576,4 +576,4 @@ class FeedbackInboxWidget(QWidget):
             self.fb_details_frame.setVisible(False)
         
     def initialize_db(self):
-        return db
+        return db 

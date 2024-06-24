@@ -236,6 +236,7 @@ class EditTncWidget(QWidget):
         self.home_btn_clicked.emit()
         
     def set_default_text(self):
+        db = self.initialize_db()
         try:
             # Fetch the text from the database
             terms = db.child('terms').get().val()
@@ -248,6 +249,7 @@ class EditTncWidget(QWidget):
             
             
     def upload_data_to_db(self):
+        db = self.initialize_db()
         terms = self.textEdit.toPlainText().strip()
         
         if not terms :
@@ -260,3 +262,5 @@ class EditTncWidget(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to update data: {str(e)}")
             
+    def initialize_db(self):
+        return db 

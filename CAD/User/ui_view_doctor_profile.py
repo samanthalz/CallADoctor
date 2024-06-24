@@ -360,11 +360,11 @@ class ViewDoctorProfileWidget(QWidget):
     # retranslateUi
 
     def display_doctor_profile(self, doctor_id, clinic_name):
-        
         doctor_info = self.fetch_doctor_info_from_db(doctor_id, clinic_name)  # Fetch info from the database
         self.update_ui_with_doctor_info(doctor_info)  # Update the UI with doctor info
 
     def fetch_doctor_info_from_db(self, doctor_id, clinic_name):
+        db = self.initialize_db()
         # Fetch doctor info from the database using the doctor ID and clinic name
         try:
            
@@ -459,3 +459,5 @@ class ViewDoctorProfileWidget(QWidget):
         # Emit the custom signal
         self.home_btn_clicked.emit()
 
+    def initialize_db(self):
+        return db 
