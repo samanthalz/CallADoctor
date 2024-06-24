@@ -523,7 +523,7 @@ class MakeApptWidget(QWidget):
     def load_clinics(self):
         try:
                 clinics_data = db.child("clinic").get()
-                clinic_names = [clinic.val().get("clinic_name", "") for clinic in clinics_data.each()]
+                clinic_names = [clinic.val().get("clinic_name", "") for clinic in clinics_data.each() if clinic.val().get("clinic_status") == "approved"]
                 clinic_names = sorted(set(clinic_names))  # Sort and remove duplicates
                 clinic_names.insert(0, "Search or Select a Clinic")  
                 self.clinic_dropdown.addItems(clinic_names)
@@ -532,7 +532,10 @@ class MakeApptWidget(QWidget):
                 
     def load_doctors(self):
         selected_clinic = self.clinic_dropdown.currentText()
-
+        if selected_clinic == "Search or Select a Clinic":
+                self.doc_dropdown.clear()
+                self.doc_dropdown.addItem("Search or Select a Doctor")
+                return
         try:
                 doctors_data = db.child("clinic").get()
                 doctor_names = []

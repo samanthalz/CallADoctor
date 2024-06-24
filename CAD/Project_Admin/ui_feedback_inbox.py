@@ -383,7 +383,6 @@ class FeedbackInboxWidget(QWidget):
         self.scrollAreaWidgetContents.update()
 
         
-        
     def create_fb_details_frame(self, fb_data):
         fb_outer_frame = QFrame(self.background)
         fb_outer_frame.setObjectName(u"fb_outer_frame")

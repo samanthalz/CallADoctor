@@ -117,7 +117,7 @@ text-align: center;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="search_clinic">
+   <widget class="QLineEdit" name="search_patient">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -142,7 +142,7 @@ border: 1px solid gray;
 </string>
     </property>
     <property name="text">
-     <string/>
+     <string>Search for Patient</string>
     </property>
     <property name="placeholderText">
      <string>Search Clinic Name</string>
@@ -269,18 +269,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        <enum>QFrame::Raised</enum>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>3</x>
-        <y>123</y>
+        <x>5</x>
+        <y>125</y>
         <width>701</width>
-        <height>641</height>
+        <height>621</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="selected_patient_vLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="phone_layout">
+        <layout class="QHBoxLayout" name="gender_layout">
          <item>
           <widget class="QLabel" name="gender_label">
            <property name="font">
@@ -329,7 +329,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="email_layout">
+        <layout class="QHBoxLayout" name="age_layout">
          <item>
           <widget class="QLabel" name="age_label">
            <property name="font">
@@ -368,17 +368,72 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
             <string notr="true">border: none;</string>
            </property>
            <property name="text">
-            <string>info@bangsarclinic.my</string>
+            <string>50</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="opening_hr_layout">
+        <layout class="QHBoxLayout" name="diagnosis_layout">
          <property name="sizeConstraint">
           <enum>QLayout::SetFixedSize</enum>
          </property>
+         <item>
+          <widget class="QLabel" name="diagnosis_label">
+           <property name="font">
+            <font>
+             <family>Consolas</family>
+             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: none;</string>
+           </property>
+           <property name="text">
+            <string>Diagnosis : </string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="diagnosis_display">
+           <property name="minimumSize">
+            <size>
+             <width>390</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Consolas</family>
+             <pointsize>11</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: none;</string>
+           </property>
+           <property name="text">
+            <string>diagnosis</string>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="prescription_layout">
          <item>
           <widget class="QLabel" name="prescription_label">
            <property name="font">
@@ -393,7 +448,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
             <string notr="true">border: none;</string>
            </property>
            <property name="text">
-            <string>Prescription:</string>
+            <string>Prescription : </string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -401,7 +456,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="hour_display">
+          <widget class="QLabel" name="prescription_display">
            <property name="minimumSize">
             <size>
              <width>390</width>
@@ -420,149 +475,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
             <string notr="true">border: none;</string>
            </property>
            <property name="text">
-            <string>24 Hours</string>
-           </property>
-           <property name="scaledContents">
-            <bool>false</bool>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="doc_layout">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="doc_label">
-           <property name="font">
-            <font>
-             <family>Consolas</family>
-             <pointsize>11</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">border: none;</string>
-           </property>
-           <property name="text">
-            <string>Documents</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="doc_display">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>50</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Consolas</family>
-             <pointsize>11</pointsize>
-             <weight>50</weight>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">border: none;</string>
-           </property>
-           <property name="text">
-            <string>Yes</string>
-           </property>
-           <property name="scaledContents">
-            <bool>false</bool>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="view_doc_btn">
-           <property name="maximumSize">
-            <size>
-             <width>190</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Consolas</family>
-             <pointsize>9</pointsize>
-             <underline>true</underline>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: #007E85; border: none;</string>
-           </property>
-           <property name="text">
-            <string>View Document</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="date_req_layout">
-         <item>
-          <widget class="QLabel" name="date_req_label">
-           <property name="font">
-            <font>
-             <family>Consolas</family>
-             <pointsize>11</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">border: none;</string>
-           </property>
-           <property name="text">
-            <string>Date of request</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="date_req_display">
-           <property name="minimumSize">
-            <size>
-             <width>390</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Consolas</family>
-             <pointsize>11</pointsize>
-             <weight>50</weight>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">border: none;</string>
-           </property>
-           <property name="text">
-            <string>31 May 2024</string>
+            <string>Medicine1, Medicine2</string>
            </property>
            <property name="scaledContents">
             <bool>false</bool>
@@ -632,7 +545,7 @@ border: 1px solid gray;</string>
      </property>
     </item>
    </widget>
-   <widget class="QLabel" name="upcoming_label">
+   <widget class="QLabel" name="patient_list_label">
     <property name="geometry">
      <rect>
       <x>50</x>
