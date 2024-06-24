@@ -13,7 +13,7 @@ class ForgotPw_newpwWidget(QWidget):
 
     def __init__(self, email, parent=None):
         super().__init__(parent)
-        self.email = email
+        self.email = ""
         self.setupUi()
         self.user_email = None  # Initialize user_email attribute
 
@@ -158,9 +158,12 @@ class ForgotPw_newpwWidget(QWidget):
     @pyqtSlot()
     def emitUpdate(self):
         if self.validatePasswords():
-            email = self.lineEdit.text().strip()  # Get the email from a valid source
-            self.updatePasswordInDb(email, self.lineEdit.text())
+            #email = self.lineEdit.text().strip()  # Get the email from a valid source
+            self.updatePasswordInDb(self.email, self.lineEdit.text())
 
+    def set_email(self, email):
+        self.email = email
+        
     def validatePasswords(self):
         new_password = self.lineEdit.text()
         confirm_password = self.lineEdit_2.text()
@@ -178,21 +181,21 @@ class ForgotPw_newpwWidget(QWidget):
     def updatePasswordInDb(self, email, new_password):
         try:
             # Query Firebase to find the user by email
-            users = db.child("users").order_by_child("patient_email").equal_to(email).get()
+            users = db.child("patients").order_by_child("patient_email").equal_to(email).get()
             
             # Check if users were found
             if users.each():
                 for user in users.each():
                     user_id = user.key()
                     # Update the user's password
-                    db.child("users").child(user_id).update({"patient_pass": new_password})
-                    print(f"Password updated for {email}")
+                    db.child("patients").child(user_id).update({"patient_pass": new_password})
+                    print(f"Password updated for {self.email}")
                     self.update_successful.emit()  # Emit signal for successful update
                     QMessageBox.information(self, "Success", "Password updated successfully.")
                     return
             
             # If no user found with the given email
-            self.error_message = f"No user found with email {email}"
+            self.error_message = f"No user found with email {self.email}"
             self.showErrorMessage()
 
         except Exception as e:
