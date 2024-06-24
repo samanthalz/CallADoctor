@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
 from PyQt5.QtWidgets import *
+from datetime import datetime
 from connection import db
 
 
@@ -650,7 +651,23 @@ class PAHomeWidget(QWidget):
         font4.setPointSize(10)
         date_feedback_display.setFont(font4)
         date_feedback_display.setStyleSheet(u"border : none;\n")
-        date_feedback_display.setText(fb_data.get("date", "Unknown"))
+        
+        
+        # Fetch the date string from fb_data
+        date_str = fb_data.get("date", "Unknown")
+
+        # Check if the date is valid and not "Unknown"
+        if date_str != "Unknown":
+            # Parse the date string to a datetime object
+            date_obj = datetime.strptime(date_str, "%y%m%d")
+            
+            # Format the datetime object to the desired string format
+            formatted_date = date_obj.strftime("%d %B %Y")
+        else:
+            formatted_date = "Unknown"
+
+        # Set the text to the formatted date
+        date_feedback_display.setText(formatted_date)
         
         view_feedback_btn = QPushButton(feedback_detail_frame)
         view_feedback_btn.setObjectName(u"view_feedback_btn")

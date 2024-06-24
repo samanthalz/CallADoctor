@@ -5,7 +5,6 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 from datetime import datetime
-import pyrebase
 from connection import db
 
 
@@ -338,15 +337,10 @@ class FeedbackInboxWidget(QWidget):
         font5.setFamily(u"Cascadia Code")
         font5.setPointSize(9)
         user_logo_label.setFont(font5)
-        user_logo_label.setStyleSheet(u"background-color: #B6D0E2; \n"
-        "border-radius: 25px; \n"
-        "border: 2px solid #B6D0F7; \n"
-        "min-width: 50px; \n"
-        "min-height: 50px; \n"
-        "max-width: 50px;\n"
-        "max-height: 50px; ")
+        user_logo_label.setStyleSheet(u"border:none; min-width: 50px; \n"
+        "min-height: 50px; ")
         user_logo_label.setAlignment(Qt.AlignCenter)
-        
+        user_logo_label.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
         
         date = QLabel(fb_frame)
         date.setObjectName(u"date")
@@ -520,16 +514,13 @@ class FeedbackInboxWidget(QWidget):
 
         user_logo = QLabel(fb_inner_frame)
         user_logo.setObjectName(u"user_logo")
-        user_logo.setGeometry(QRect(10, 10, 64, 64))
+        user_logo.setGeometry(QRect(10, 10, 70, 70))
         user_logo.setFont(font6)
-        user_logo.setStyleSheet(u"background-color: #B6D0E2; "
-        "border-radius: 25px;"
-        "border: 2px solid #B6D0F7;"
-        "min-width: 50px; "
-        "min-height: 50px; "
-        "max-width: 50px; "
-        "max-height: 50px; ")
+        user_logo.setStyleSheet(u"min-width: 50px; "
+        "min-height: 50px; ")
         user_logo.setAlignment(Qt.AlignCenter)
+        user_logo.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
+        
         user_name = QLabel(fb_inner_frame)
         user_name.setObjectName(u"user_name")
         user_name.setGeometry(QRect(100, 30, 301, 41))
