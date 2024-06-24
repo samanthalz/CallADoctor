@@ -226,6 +226,24 @@ class LoginWidget(QWidget):
         except Exception as e:
             self.showMessageBox('Error', f"Error fetching admin data: {e}")
 
+        try:
+            # Fetch data from Firebase for ca
+            ca_admins = db.child('clinic_admin').get()
+            if ca_admins.each() is not None:
+                for admin in ca_admins.each():
+                    admin_data = admin.val()
+                    if admin_data['ca_id'] == ic and admin_data['ca_pass'] == password:
+                        rights = admin_data.get('rights', 4)
+                        self.showMessageBox('Info', 'Admin login successful')
+                        self.login_successful.emit(rights)
+                        self.user_id.emit(ic)
+                    
+                        return
+            else:
+                self.showMessageBox('Error', 'No admin data found')
+        except Exception as e:
+            self.showMessageBox('Error', f"Error fetching admin data: {e}")
+
         self.showMessageBox('Error', 'Invalid IC/ID number or password.')
 
 
