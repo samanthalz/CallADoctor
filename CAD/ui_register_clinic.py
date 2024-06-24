@@ -10,6 +10,7 @@ from connection import db
 
 class RegisterClinicWidget(QWidget):
     back_btn_clicked = pyqtSignal()
+    red_to_login = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -483,6 +484,7 @@ class RegisterClinicWidget(QWidget):
                     "clinic_status": "pending"
                 })
                 QMessageBox.information(self, "Success", "Form submitted successfully.")
+                self.emitRedLogin()
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to submit form: {str(e)}")
 
@@ -562,3 +564,6 @@ class RegisterClinicWidget(QWidget):
     def emitBackBtn(self):
         self.back_btn_clicked.emit()
 
+    @pyqtSlot()
+    def emitRedLogin(self):
+        self.red_to_login.emit()

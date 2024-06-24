@@ -58,6 +58,7 @@ class Ui_MainWindow(QMainWindow):
         self.registerWidget.tnc_label_clicked.connect(self.showTncRegisterWidget)
         
         self.registerClinicWidget.back_btn_clicked.connect(self.showLoginWidget)
+        self.registerClinicWidget.red_to_login.connect(self.showLoginWidget)
         
         self.tncRegisterWidget.back_btn_clicked.connect(self.showRegisterWidget)
         self.privacyPolicyRegisterWidget.back_btn_clicked.connect(self.showRegisterWidget)
