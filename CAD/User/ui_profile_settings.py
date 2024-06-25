@@ -13,6 +13,7 @@ class ProfileSettingsWidget(QWidget):
     schedule_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     feedback_btn_clicked = pyqtSignal()
+    change_pass_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -223,7 +224,8 @@ class ProfileSettingsWidget(QWidget):
         self.change_pass_btn.setMaximumSize(QSize(546, 16777215))
         self.change_pass_btn.setFont(font3)
         self.change_pass_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
-
+        self.change_pass_btn.clicked.connect(self.emitChangePassBtn)
+        
         self.btn_layout.addWidget(self.change_pass_btn)
 
         self.policy_btn = QPushButton(self.layoutWidget_2)
@@ -409,6 +411,11 @@ class ProfileSettingsWidget(QWidget):
     def emitFeedbackBtn(self):
         # Emit the custom signal
         self.feedback_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitChangePassBtn(self):
+        # Emit the custom signal
+        self.change_pass_btn_clicked.emit()
         
     def set_user_id(self, user_id): 
         self.patient_id = user_id
