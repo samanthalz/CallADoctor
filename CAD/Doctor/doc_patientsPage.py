@@ -11,6 +11,7 @@ class PatientsPageWidget(QWidget):
     logout_btn_clicked = pyqtSignal()
     profile_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
+    add_record_btn_click = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -410,6 +411,7 @@ class PatientsPageWidget(QWidget):
         self.update_prescription_button.setFont(font)
         self.update_prescription_button.setStyleSheet("background-color: #B6D0E2; border-radius: 16px; color: black;\\n border: 1px solid gray;")
         self.update_prescription_button.setObjectName("update_prescription_button")
+        self.update_prescription_button.clicked.connect(self.emitAddRecordBtn)
         self.patient_list_label = QtWidgets.QLabel(self.background)
         self.patient_list_label.setGeometry(QtCore.QRect(50, 160, 341, 41))
         font = QtGui.QFont()
@@ -658,6 +660,11 @@ class PatientsPageWidget(QWidget):
     def emitProfileBtn(self):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitAddRecordBtn(self):
+        # Emit the custom signal
+        self.add_record_btn_click.emit()
 
 
 # If run file directly access this page
