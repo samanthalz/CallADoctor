@@ -214,7 +214,7 @@ class LoginWidget(QWidget):
             for doctor in doctors.each():
                 doctor_data = doctor.val()
                 if doctor_data['user_id'] == ic and doctor_data['password'] == password:
-                    rights = patient_data.get('rights', 1) # rights = 1
+                    rights = doctor_data.get('rights', 1) # rights = 1
                     self.showMessageBox('Info', 'Doctor login successful')
                     self.login_successful.emit(rights)
                     self.user_id.emit(ic)

@@ -20,14 +20,12 @@ class Doc_HomeWidget(QWidget):
         self.user_id = 0
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
-        self.set_user_id(self.user_id) # for testing, call direct in init
+        #self.set_user_id(self.user_id) # for testing, call direct in init
     
     def set_user_id(self, user_id): 
         self.user_id = user_id
+        #self.user_id = "Dr. John Doe" # for testing direct this page
         # Assign values after doctor_id is initialized
-        #self.get_patient_data()
-        self.user_id = "Dr. John Doe" # for testing direct this page
-        # Assign values after user_id is initialized
         self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
         self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
 
@@ -108,10 +106,11 @@ class Doc_HomeWidget(QWidget):
             for appt_id, appt_info in appointment_data.items():
                 if appt_info.get('doctor_id') == self.user_id:
                     patient_ic = appt_info['patient_id']
-                    for patient_id, patient_info in patient_data.items():
-                         if patient_id == patient_ic:
-                              patient_name = patient_info['patient_name']
-                              break # break out of for loop once patient name is obtained
+                    for i, patient_info in patient_data.items():
+                        if int(patient_info.get("patient_ic")) == int(patient_ic):
+                             patient_name = patient_info.get('patient_name')
+                             break
+
                     toa = appt_info['speciality']
                     appt_date = appt_info['date']
                     appt_date = self.translate_date(appt_date)
@@ -121,21 +120,25 @@ class Doc_HomeWidget(QWidget):
                         num_upcoming_appt += 1
                         upcoming_appt_info.append(appt_info)
                         #Create a frame for each appointment
+                        print("Creating appointment frame upcoming")
                         appt_frame = self.create_appointments_frame(patient_name, toa, appt_date, time)
                                
                         if appt_frame:
                                 upcoming_appt_frames.append(appt_frame)
                 
                     elif int(appt_info.get('date')) < int(current_date): # past appointments 
+                        print("Creating appointment frame past")
                         appt_frame = self.create_appointments_frame(patient_name, toa, appt_date, time)
                         if appt_frame:
                                 past_appt_frames.append(appt_frame)
 
         # Add visible appointments to the layout
         for appt_frame in upcoming_appt_frames:
+                print("Adding widgets to layout")
                 self.verticalLayout_upcomingAppt.addWidget(appt_frame)
 
         for appt_frame in past_appt_frames:
+             print("Adding widgets to layout")
              self.verticalLayout_pastAppt.addWidget(appt_frame)
 
         # Refresh the layout after adding all frames
