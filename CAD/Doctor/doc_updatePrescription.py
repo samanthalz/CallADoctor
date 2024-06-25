@@ -1,11 +1,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 from connection import db
 from datetime import date
 
 
 class UpdateRecordWidget(QWidget):
+    patients_btn_clicked = pyqtSignal()
+    logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.doctor_id = 0
@@ -118,13 +124,15 @@ class UpdateRecordWidget(QWidget):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.layoutWidget_4 = QtWidgets.QWidget(self.frame)
-        self.layoutWidget_4.setGeometry(QtCore.QRect(30, 19, 87, 871))
-        self.layoutWidget_4.setObjectName("layoutWidget_4")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget_4)
+        self.navigation_layout = QtWidgets.QWidget(self.frame)
+        self.navigation_layout.setGeometry(QtCore.QRect(30, 19, 87, 871))
+        self.navigation_layout.setObjectName("navigation_layout")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.navigation_layout)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.home_navigation = QtWidgets.QToolButton(self.layoutWidget_4)
+        
+        # Navigation buttons : 
+        self.home_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.home_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -141,42 +149,48 @@ class UpdateRecordWidget(QWidget):
         self.home_navigation.setFont(font)
         self.home_navigation.setStyleSheet("border: none; \n"
 "color: white;")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/home_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.home_navigation.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/home_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QtCore.QSize(70, 70))
         self.home_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.home_navigation.setObjectName("home_navigation")
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
-        self.appointments_navigation = QtWidgets.QToolButton(self.layoutWidget_4)
-        self.appointments_navigation.setEnabled(True)
+        self.schedule_navigation = QtWidgets.QToolButton(self.navigation_layout)
+        self.schedule_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.appointments_navigation.sizePolicy().hasHeightForWidth())
-        self.appointments_navigation.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.schedule_navigation.sizePolicy().hasHeightForWidth())
+        self.schedule_navigation.setSizePolicy(sizePolicy)
+        self.schedule_navigation.setMinimumSize(QtCore.QSize(85, 96))
+        self.schedule_navigation.setMaximumSize(QtCore.QSize(85, 96))
         font = QtGui.QFont()
         font.setFamily("Source Sans Pro Semibold")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.appointments_navigation.setFont(font)
-        self.appointments_navigation.setStyleSheet("border: none; \n"
+        self.schedule_navigation.setFont(font)
+        self.schedule_navigation.setStyleSheet("border: none; \n"
 "color: white;")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/appointment_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.appointments_navigation.setIcon(icon1)
-        self.appointments_navigation.setIconSize(QtCore.QSize(70, 70))
-        self.appointments_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
-        self.appointments_navigation.setObjectName("appointments_navigation")
-        self.verticalLayout.addWidget(self.appointments_navigation)
-        self.patients_navigation = QtWidgets.QToolButton(self.layoutWidget_4)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/appointment_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.schedule_navigation.setIcon(icon2)
+        self.schedule_navigation.setIconSize(QtCore.QSize(70, 70))
+        self.schedule_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
+        self.schedule_navigation.setObjectName("schedule_navigation")
+        # add connection to schedule emit function
+        self.verticalLayout.addWidget(self.schedule_navigation)
+        self.patients_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.patients_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.patients_navigation.sizePolicy().hasHeightForWidth())
         self.patients_navigation.setSizePolicy(sizePolicy)
+        self.patients_navigation.setMinimumSize(QtCore.QSize(85, 96))
+        self.patients_navigation.setMaximumSize(QtCore.QSize(85, 96))
         font = QtGui.QFont()
         font.setFamily("Source Sans Pro Semibold")
         font.setPointSize(10)
@@ -185,20 +199,23 @@ class UpdateRecordWidget(QWidget):
         self.patients_navigation.setFont(font)
         self.patients_navigation.setStyleSheet("border: none; \n"
 "color: white;")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/services_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.patients_navigation.setIcon(icon2)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/services_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.patients_navigation.setIcon(icon3)
         self.patients_navigation.setIconSize(QtCore.QSize(70, 70))
         self.patients_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.patients_navigation.setObjectName("patients_navigation")
+        self.patients_navigation.clicked.connect(self.emitPatientsBtn)
         self.verticalLayout.addWidget(self.patients_navigation)
-        self.settings_navigation = QtWidgets.QToolButton(self.layoutWidget_4)
+        self.settings_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.settings_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.settings_navigation.sizePolicy().hasHeightForWidth())
         self.settings_navigation.setSizePolicy(sizePolicy)
+        self.settings_navigation.setMinimumSize(QtCore.QSize(85, 96))
+        self.settings_navigation.setMaximumSize(QtCore.QSize(85, 96))
         font = QtGui.QFont()
         font.setFamily("Source Sans Pro Semibold")
         font.setPointSize(10)
@@ -207,20 +224,23 @@ class UpdateRecordWidget(QWidget):
         self.settings_navigation.setFont(font)
         self.settings_navigation.setStyleSheet("border: none; \n"
 "color: white;")
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/settings_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.settings_navigation.setIcon(icon3)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/settings_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QtCore.QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.settings_navigation.setObjectName("settings_navigation")
+        self.settings_navigation.clicked.connect(self.emitProfileBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
-        self.logout_navigation = QtWidgets.QToolButton(self.layoutWidget_4)
+        self.logout_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.logout_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.logout_navigation.sizePolicy().hasHeightForWidth())
         self.logout_navigation.setSizePolicy(sizePolicy)
+        self.logout_navigation.setMinimumSize(QtCore.QSize(85, 96))
+        self.logout_navigation.setMaximumSize(QtCore.QSize(85, 96))
         font = QtGui.QFont()
         font.setFamily("Source Sans Pro Semibold")
         font.setPointSize(10)
@@ -229,13 +249,16 @@ class UpdateRecordWidget(QWidget):
         self.logout_navigation.setFont(font)
         self.logout_navigation.setStyleSheet("border: none; \n"
 "color: white;")
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/logout_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.logout_navigation.setIcon(icon4)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/logout_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QtCore.QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.logout_navigation.setObjectName("logout_navigation")
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout.addWidget(self.logout_navigation)
+
+
         self.whitebg = QtWidgets.QWidget(Form)
         self.whitebg.setGeometry(QtCore.QRect(150, 0, 1771, 1080))
         self.whitebg.setStyleSheet("background-color: #F8F8F8;\n"
@@ -375,7 +398,7 @@ class UpdateRecordWidget(QWidget):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.home_navigation.setText(_translate("Form", "   Home   "))
-        self.appointments_navigation.setText(_translate("Form", "Schedule"))
+        self.schedule_navigation.setText(_translate("Form", "Schedule"))
         self.patients_navigation.setText(_translate("Form", "Patients"))
         self.settings_navigation.setText(_translate("Form", "Settings"))
         self.logout_navigation.setText(_translate("Form", "Logout"))
@@ -392,6 +415,27 @@ class UpdateRecordWidget(QWidget):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\'; font-size:8pt;\"><br /></p></body></html>"))
         self.patient_name_label.setText(_translate("Form", "Patient Name : "))
 
+
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()     
+
+    @pyqtSlot()
+    def emitPatientsBtn(self):
+        # Emit the custom signal
+        self.patients_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+        
+        
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
         
 
 # If run file directly access this page

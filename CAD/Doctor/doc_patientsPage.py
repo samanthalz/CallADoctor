@@ -1,20 +1,27 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 from connection import db
 from datetime import date
 
 class PatientsPageWidget(QWidget):
+    patients_btn_clicked = pyqtSignal()
+    logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.user_id = 0
         self.setupUi(self)
+        # For tesing : 
+        self.set_user_id("doctor1")
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
-        # Assign values after doctor_id is initialized
-        #self.get_patient_data()
-        self.user_id = "Dr. John Doe" # for testing direct this page
+        # Assign values after user_id is initialized
+        self.get_patient_data()
 
     def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
         day = date_str[-2:]
@@ -39,7 +46,7 @@ class PatientsPageWidget(QWidget):
             print("In if appt data") 
             for appt_id, appt_info in appointment_data.items():
                 print("In for apptinfo in apptdata")
-                if appt_info.get('doctor_id').lower() == self.doctor_id.lower() : 
+                if appt_info.get('doctor_id').lower() == self.user_id.lower() : 
                     print("In if doctor id")
                     if  int(appt_info.get('date')) >= int(current_date): # upcoming appointments
                         print("In if upcoming")
@@ -160,7 +167,7 @@ class PatientsPageWidget(QWidget):
         self.appt_date_label.setAlignment(QtCore.Qt.AlignCenter)
         self.appt_date_label.setObjectName("appt_date_label")
 
-        self.patient_name_label1.setText(patient_id)
+        self.patient_name_label1.setText(str(patient_id))
         self.patient_profile_logo1.setText("PN")
         self.appt_time_label.setText(appt_time)
         self.appt_date_label.setText(appt_date)
@@ -482,13 +489,16 @@ class PatientsPageWidget(QWidget):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.layoutWidget_2 = QtWidgets.QWidget(self.frame)
-        self.layoutWidget_2.setGeometry(QtCore.QRect(31, 20, 87, 851))
-        self.layoutWidget_2.setObjectName("layoutWidget_2")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget_2)
+        self.navigation_layout = QtWidgets.QWidget(self.frame)
+        self.navigation_layout.setGeometry(QtCore.QRect(31, 20, 87, 851))
+        self.navigation_layout.setObjectName("navigation_layout")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.navigation_layout)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.home_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        
+        
+        # Navigation buttons : 
+        self.home_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.home_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -511,8 +521,9 @@ class PatientsPageWidget(QWidget):
         self.home_navigation.setIconSize(QtCore.QSize(70, 70))
         self.home_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.home_navigation.setObjectName("home_navigation")
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
-        self.schedule_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        self.schedule_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.schedule_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -535,8 +546,9 @@ class PatientsPageWidget(QWidget):
         self.schedule_navigation.setIconSize(QtCore.QSize(70, 70))
         self.schedule_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.schedule_navigation.setObjectName("schedule_navigation")
+        # add connection to schedule emit function
         self.verticalLayout.addWidget(self.schedule_navigation)
-        self.patients_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        self.patients_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.patients_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -559,8 +571,9 @@ class PatientsPageWidget(QWidget):
         self.patients_navigation.setIconSize(QtCore.QSize(70, 70))
         self.patients_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.patients_navigation.setObjectName("patients_navigation")
+        self.patients_navigation.clicked.connect(self.emitPatientsBtn)
         self.verticalLayout.addWidget(self.patients_navigation)
-        self.settings_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        self.settings_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.settings_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -583,8 +596,9 @@ class PatientsPageWidget(QWidget):
         self.settings_navigation.setIconSize(QtCore.QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.settings_navigation.setObjectName("settings_navigation")
+        self.settings_navigation.clicked.connect(self.emitProfileBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
-        self.logout_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        self.logout_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.logout_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -607,6 +621,7 @@ class PatientsPageWidget(QWidget):
         self.logout_navigation.setIconSize(QtCore.QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.logout_navigation.setObjectName("logout_navigation")
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout.addWidget(self.logout_navigation)
 
         self.retranslateUi(Form)
@@ -647,6 +662,28 @@ class PatientsPageWidget(QWidget):
         self.patients_navigation.setText(_translate("Form", "Patients"))
         self.settings_navigation.setText(_translate("Form", "Settings"))
         self.logout_navigation.setText(_translate("Form", "Logout"))
+
+
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()     
+
+    @pyqtSlot()
+    def emitPatientsBtn(self):
+        # Emit the custom signal
+        self.patients_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+        
+        
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
 
 
 # If run file directly access this page

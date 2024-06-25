@@ -14,6 +14,7 @@ class Doc_HomeWidget(QWidget):
     patients_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
     profile_btn_clicked = pyqtSignal()
+    home_btn_clicked = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -380,18 +381,22 @@ class Doc_HomeWidget(QWidget):
 "color : #6ea0c4;\n"
 "")
         self.apptTime_label_3.setObjectName("apptTime_label_3")
+        
+        # Nav frame & Layout 
         self.frame = QtWidgets.QFrame(Form)
         self.frame.setGeometry(QtCore.QRect(0, 90, 141, 891))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.layoutWidget_2 = QtWidgets.QWidget(self.frame)
-        self.layoutWidget_2.setGeometry(QtCore.QRect(31, 20, 87, 851))
-        self.layoutWidget_2.setObjectName("layoutWidget_2")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget_2)
+        self.navigation_layout = QtWidgets.QWidget(self.frame)
+        self.navigation_layout.setGeometry(QtCore.QRect(31, 20, 87, 851))
+        self.navigation_layout.setObjectName("navigation_layout")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.navigation_layout)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.home_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        
+        # Navigation buttons : 
+        self.home_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.home_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -414,8 +419,9 @@ class Doc_HomeWidget(QWidget):
         self.home_navigation.setIconSize(QtCore.QSize(70, 70))
         self.home_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.home_navigation.setObjectName("home_navigation")
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
-        self.schedule_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        self.schedule_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.schedule_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -440,7 +446,7 @@ class Doc_HomeWidget(QWidget):
         self.schedule_navigation.setObjectName("schedule_navigation")
         # add connection to schedule emit function
         self.verticalLayout.addWidget(self.schedule_navigation)
-        self.patients_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        self.patients_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.patients_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -465,7 +471,7 @@ class Doc_HomeWidget(QWidget):
         self.patients_navigation.setObjectName("patients_navigation")
         self.patients_navigation.clicked.connect(self.emitPatientsBtn)
         self.verticalLayout.addWidget(self.patients_navigation)
-        self.settings_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        self.settings_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.settings_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -490,7 +496,7 @@ class Doc_HomeWidget(QWidget):
         self.settings_navigation.setObjectName("settings_navigation")
         self.settings_navigation.clicked.connect(self.emitProfileBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
-        self.logout_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
+        self.logout_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.logout_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -544,6 +550,10 @@ class Doc_HomeWidget(QWidget):
         self.settings_navigation.setText(_translate("Form", "Settings"))
         self.logout_navigation.setText(_translate("Form", "Logout"))
 
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        # Emit the custom signal
+        self.home_btn_clicked.emit()     
 
     @pyqtSlot()
     def emitPatientsBtn(self):
@@ -562,7 +572,7 @@ class Doc_HomeWidget(QWidget):
         self.profile_btn_clicked.emit()
 
 
-# # # If run directly from this page
+# # If run directly from this page
 # if __name__ == "__main__":
 #     import sys
 #     app = QtWidgets.QApplication(sys.argv)
