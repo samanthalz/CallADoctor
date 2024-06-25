@@ -179,14 +179,7 @@ class PatientsPageWidget(QWidget):
 "border-top-left-radius: 30px;\n"
 "text-align: center;")
         self.background.setObjectName("background")
-        self.noti_icon = QtWidgets.QPushButton(self.background)
-        self.noti_icon.setGeometry(QtCore.QRect(1380, 30, 70, 81))
-        self.noti_icon.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("CAD/Images/icon/notification.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.noti_icon.setIcon(icon)
-        self.noti_icon.setIconSize(QtCore.QSize(40, 40))
-        self.noti_icon.setObjectName("noti_icon")
+        
         self.user_frame = QtWidgets.QFrame(self.background)
         self.user_frame.setGeometry(QtCore.QRect(1480, 30, 251, 80))
         self.user_frame.setStyleSheet("border-radius: 20px; border: 2px solid #808080")

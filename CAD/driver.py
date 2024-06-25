@@ -170,6 +170,9 @@ class Ui_MainWindow(QMainWindow):
         self.paEditTncWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
         # doctor buttons
+        self.docHomeWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docHomeWidget.profile_btn_clicked.connect(self.showViewDoctorProfileWidget)
         
 
     def setupUi(self, MainWindow):
@@ -253,15 +256,18 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.paEditPrivacyPolicyWidget)
         self.stackedWidget.addWidget(self.paEditTncWidget)
         self.stackedWidget.addWidget(self.paProfileSettingsWidget)
-        self.stackedWidget.addWidget(self.docProfileSettingsWidget)
+        
         self.stackedWidget.addWidget(self.caProfileSettingsWidget)
         self.stackedWidget.addWidget(self.caHomeWidget)
         self.stackedWidget.addWidget(self.caPatientsPageWidget)
         self.stackedWidget.addWidget(self.caApproveRejectWidget)
         self.stackedWidget.addWidget(self.caViewDocWidget)     
         self.stackedWidget.addWidget(self.caAddDocWidget)   
+        
+        self.stackedWidget.addWidget(self.docHomeWidget) 
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
+        self.stackedWidget.addWidget(self.docProfileSettingsWidget)
 
 
         self.stackedWidget.setCurrentWidget(self.loginWidget)
@@ -436,7 +442,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.docPatientsWidget)
 
     @pyqtSlot()
-    def showDocHomeWidget(self): # this does not show doc home widget (remains at login page)
+    def showDocHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.docHomeWidget)
     
     @pyqtSlot()

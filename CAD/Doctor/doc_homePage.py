@@ -438,6 +438,7 @@ class Doc_HomeWidget(QWidget):
         self.schedule_navigation.setIconSize(QtCore.QSize(70, 70))
         self.schedule_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.schedule_navigation.setObjectName("schedule_navigation")
+        # add connection to schedule emit function
         self.verticalLayout.addWidget(self.schedule_navigation)
         self.patients_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
         self.patients_navigation.setEnabled(True)
@@ -462,6 +463,7 @@ class Doc_HomeWidget(QWidget):
         self.patients_navigation.setIconSize(QtCore.QSize(70, 70))
         self.patients_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.patients_navigation.setObjectName("patients_navigation")
+        self.patients_navigation.clicked.connect(self.emitPatientsBtn)
         self.verticalLayout.addWidget(self.patients_navigation)
         self.settings_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
         self.settings_navigation.setEnabled(True)
@@ -486,6 +488,7 @@ class Doc_HomeWidget(QWidget):
         self.settings_navigation.setIconSize(QtCore.QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.settings_navigation.setObjectName("settings_navigation")
+        self.settings_navigation.clicked.connect(self.emitProfileBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
         self.logout_navigation = QtWidgets.QToolButton(self.layoutWidget_2)
         self.logout_navigation.setEnabled(True)
@@ -510,6 +513,7 @@ class Doc_HomeWidget(QWidget):
         self.logout_navigation.setIconSize(QtCore.QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.logout_navigation.setObjectName("logout_navigation")
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout.addWidget(self.logout_navigation)
 
         self.retranslateUi(Form)
@@ -539,6 +543,23 @@ class Doc_HomeWidget(QWidget):
         self.patients_navigation.setText(_translate("Form", "Patients"))
         self.settings_navigation.setText(_translate("Form", "Settings"))
         self.logout_navigation.setText(_translate("Form", "Logout"))
+
+
+    @pyqtSlot()
+    def emitPatientsBtn(self):
+        # Emit the custom signal
+        self.patients_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+        
+        
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
 
 
 # # # If run directly from this page

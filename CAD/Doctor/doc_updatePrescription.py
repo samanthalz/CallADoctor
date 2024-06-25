@@ -8,13 +8,12 @@ from datetime import date
 class UpdateRecordWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.doctor_id = "Dr. John Doe" # ltr when get the doc id from login page, reinitialize this to empty
-        self.patient_id = "123456789123" # get from signal emitted from clicking add record. 
+        self.doctor_id = 0
+        self.patient_id = 0 # create signal to pass from patients page to update pres page
         self.setupUi(self)
-        self.set_doctor_id(self.doctor_id)
 
-    def set_doctor_id(self, doctor_id): 
-        self.user_id = doctor_id
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
         # Assign values after doctor_id is initialized
         self.get_patient_records(self.patient_id)
 
