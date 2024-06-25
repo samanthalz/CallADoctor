@@ -301,7 +301,6 @@ class Ui_MainWindow(QMainWindow):
             self.showHomeWidget()
         elif rights == 1: 
             self.showDocHomeWidget()
-            #self.showDocPatientsWidget()
         elif rights == 2:
             #self.showCaHomeWidget() # uncomment when update to show home widget for ca
             pass
