@@ -20,11 +20,10 @@ class Doc_HomeWidget(QWidget):
         self.user_id = 0
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
-        #self.set_user_id(self.user_id) # for testing, call direct in init
+        #self.set_user_id("doctor1") # for testing, call direct in init
     
     def set_user_id(self, user_id): 
         self.user_id = user_id
-        #self.user_id = "Dr. John Doe" # for testing direct this page
         # Assign values after doctor_id is initialized
         self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
         self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
@@ -120,29 +119,26 @@ class Doc_HomeWidget(QWidget):
                         num_upcoming_appt += 1
                         upcoming_appt_info.append(appt_info)
                         #Create a frame for each appointment
-                        print("Creating appointment frame upcoming")
                         appt_frame = self.create_appointments_frame(patient_name, toa, appt_date, time)
                                
                         if appt_frame:
                                 upcoming_appt_frames.append(appt_frame)
                 
                     elif int(appt_info.get('date')) < int(current_date): # past appointments 
-                        print("Creating appointment frame past")
                         appt_frame = self.create_appointments_frame(patient_name, toa, appt_date, time)
                         if appt_frame:
                                 past_appt_frames.append(appt_frame)
 
         # Add visible appointments to the layout
         for appt_frame in upcoming_appt_frames:
-                print("Adding widgets to layout")
                 self.verticalLayout_upcomingAppt.addWidget(appt_frame)
 
         for appt_frame in past_appt_frames:
-             print("Adding widgets to layout")
              self.verticalLayout_pastAppt.addWidget(appt_frame)
 
         # Refresh the layout after adding all frames
         self.verticalLayout_upcomingAppt.update()
+        self.verticalLayout_pastAppt.update()
 
 
         return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
@@ -165,22 +161,26 @@ class Doc_HomeWidget(QWidget):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet("background-color: \"#B6D0E2\" ")
-        self.background = QtWidgets.QWidget(Form)
-        self.background.setGeometry(QtCore.QRect(150, 0, 1771, 1061))
-        self.background.setStyleSheet("background-color: #F8F8F8;\n"
+#         Form.setStyleSheet("background-color: \"#B6D0E2\" ")
+#         self.background = QtWidgets.QWidget(Form)
+#         self.background.setGeometry(QtCore.QRect(150, 0, 1771, 1061))
+#         self.background.setStyleSheet("background-color: #F8F8F8;\n"
+# "border-bottom-left-radius: 30px;\n"
+# "border-top-left-radius: 30px;\n"
+# "text-align: center;")
+#         self.background.setObjectName("background")
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        self.background = QWidget(Form)
+        self.background.setObjectName(u"background")
+        self.background.setGeometry(QRect(150, 0, 1771, 1061))
+        self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
 "border-bottom-left-radius: 30px;\n"
-"border-top-left-radius: 30px;\n"
-"text-align: center;")
-        self.background.setObjectName("background")
-        self.noti_icon = QtWidgets.QPushButton(self.background)
-        self.noti_icon.setGeometry(QtCore.QRect(1380, 30, 70, 81))
-        self.noti_icon.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("CAD/Images/icon/notification.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.noti_icon.setIcon(icon)
-        self.noti_icon.setIconSize(QtCore.QSize(40, 40))
-        self.noti_icon.setObjectName("noti_icon")
+"border-top-left-radius: 30px;")
+
+        
         self.user_frame = QtWidgets.QFrame(self.background)
         self.user_frame.setGeometry(QtCore.QRect(1480, 30, 251, 80))
         self.user_frame.setStyleSheet("border-radius: 20px; border: 2px solid #808080")
@@ -541,12 +541,12 @@ class Doc_HomeWidget(QWidget):
         self.logout_navigation.setText(_translate("Form", "Logout"))
 
 
-# If run directly from this page
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Doc_HomeWidget()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec_())
+# # # If run directly from this page
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     Form = QtWidgets.QWidget()
+#     ui = Doc_HomeWidget()
+#     ui.setupUi(Form)
+#     Form.show()
+#     sys.exit(app.exec_())

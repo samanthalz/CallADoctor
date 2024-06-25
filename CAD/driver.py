@@ -436,7 +436,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.docPatientsWidget)
 
     @pyqtSlot()
-    def showDocHomeWidget(self):
+    def showDocHomeWidget(self): # this does not show doc home widget (remains at login page)
         self.stackedWidget.setCurrentWidget(self.docHomeWidget)
     
     @pyqtSlot()
