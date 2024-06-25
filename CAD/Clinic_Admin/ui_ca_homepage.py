@@ -661,7 +661,7 @@ class CA_homepageWidget(QWidget):
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         
-        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
+        self.settings_navigation_btn_clicked.connect(self.emitSettingsBtn)
 
         icon4 = QIcon()
         icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -682,7 +682,7 @@ class CA_homepageWidget(QWidget):
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         
-        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
+        self.logout_btn_clicked.connect(self.emitLogoutBtn)
 
         icon5 = QIcon()
         icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -696,6 +696,25 @@ class CA_homepageWidget(QWidget):
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
+
+        self.view_patient_details_button = QPushButton('View Patient Details')
+        self.logout_button = QPushButton('Logout')
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.view_patient_details_button)
+        layout.addWidget(self.logout_button)
+        self.setLayout(layout)
+
+        # Connect button clicks to methods
+        self.view_patient_details_button.clicked.connect(self.show_view_patient_details_message)
+        self.logout_button.clicked.connect(self.show_logout_message)
+
+    def show_view_patient_details_message(self):
+        QMessageBox.information(self, 'Info', 'View Patient Details button clicked.')
+
+    def show_logout_message(self):
+        QMessageBox.information(self, 'Info', 'Logout button clicked.')
     # setupUi
 
     def retranslateUi(self, Form):

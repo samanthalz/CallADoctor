@@ -448,6 +448,8 @@ class CA_patientsPageWidget(QWidget):
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
+
     # setupUi
 
     def retranslateUi(self, Form):

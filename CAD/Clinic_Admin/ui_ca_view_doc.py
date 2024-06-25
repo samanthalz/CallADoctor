@@ -20,8 +20,21 @@ class CA_view_docWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self.doctors_navigation = QToolButton(self)
 
+        
     def setupUi(self, Form):
+        self.view_patient_details_button = QPushButton(Form)
+        self.view_patient_details_button.setObjectName("view_patient_details_button")
+        self.view_patient_details_button.setText("View Patient Details")
+        self.view_patient_details_button.clicked.connect(self.handle_view_patient_details)
+
+    def handle_view_patient_details(self):
+        # Handle button click logic here
+        print("View Patient Details button clicked")
+    def on_view_patient_details_clicked(self):
+        # Example method when button is clicked
+        print("View Patient Details button clicked!")
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
@@ -37,7 +50,7 @@ class CA_view_docWidget(QWidget):
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
         icon = QIcon()
-        icon.addFile(u"../Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
         self.noti_icon.setIcon(icon)
         self.noti_icon.setIconSize(QSize(40, 40))
         self.user_frame = QFrame(self.background)
@@ -50,7 +63,7 @@ class CA_view_docWidget(QWidget):
         self.profile_icon.setObjectName(u"profile_icon")
         self.profile_icon.setGeometry(QRect(10, 10, 60, 60))
         self.profile_icon.setStyleSheet(u"border: none")
-        self.profile_icon.setPixmap(QPixmap(u"../Images/icon/profile_icon.png"))
+        self.profile_icon.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
         self.profile_icon.setScaledContents(True)
         self.profile_btn = QPushButton(self.user_frame)
         self.profile_btn.setObjectName(u"profile_btn")
@@ -352,7 +365,7 @@ class CA_view_docWidget(QWidget):
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon1 = QIcon()
-        icon1.addFile(u"../Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -372,7 +385,7 @@ class CA_view_docWidget(QWidget):
         self.doctors_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
-        icon2.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.doctors_navigation.setIcon(icon2)
         self.doctors_navigation.setIconSize(QSize(70, 70))
         self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -392,7 +405,7 @@ class CA_view_docWidget(QWidget):
         self.patients_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
-        icon3.addFile(u"../Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"CAD/Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.patients_navigation.setIcon(icon3)
         self.patients_navigation.setIconSize(QSize(70, 70))
         self.patients_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -412,7 +425,7 @@ class CA_view_docWidget(QWidget):
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
-        icon4.addFile(u"../Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -432,7 +445,7 @@ class CA_view_docWidget(QWidget):
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon5 = QIcon()
-        icon5.addFile(u"../Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
@@ -445,6 +458,24 @@ class CA_view_docWidget(QWidget):
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
+    def on_doctors_navigation_btn_clicked(self):
+        # Slot/function to handle doctors_navigation_btn clicked
+        # Display QMessageBox or perform other actions
+        QMessageBox.information(self, 'Info', 'View Doc button clicked.')
+
+    def on_add_doc_navigation_btn_clicked(self):
+        # Slot/function to handle add_doc_navigation_btn clicked
+        # Display QMessageBox or perform other actions
+        QMessageBox.information(self, 'Info', 'Add doctor button clicked.')
+
+
+    def show_view_patient_details_message(self):
+        QMessageBox.information(self, 'Info', 'View Patient Details button clicked.')
+
+    def show_logout_message(self):
+        QMessageBox.information(self, 'Info', 'Logout button clicked.')
+
     # setupUi
 
     def retranslateUi(self, Form):
@@ -519,4 +550,3 @@ class CA_view_docWidget(QWidget):
     def emitRemoveDocBtn(self):
         # Emit the custom signal
         self.remove_doc_navigation_btn_clicked.emit()
-
