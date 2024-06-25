@@ -484,7 +484,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
       </layout>
      </widget>
     </widget>
-    <widget class="QPushButton" name="change_img_btn">
+    <widget class="QPushButton" name="remove_doc_btn">
      <property name="geometry">
       <rect>
        <x>550</x>
@@ -768,8 +768,8 @@ max-height: 50px; </string>
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>31</x>
-      <y>20</y>
+      <x>30</x>
+      <y>50</y>
       <width>87</width>
       <height>851</height>
      </rect>
@@ -829,7 +829,7 @@ color: white;</string>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="clinic_navigation">
+      <widget class="QToolButton" name="doctors_navigation">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -864,7 +864,7 @@ color: white;</string>
 color: white;</string>
        </property>
        <property name="text">
-        <string>Clinics</string>
+        <string>Doctors</string>
        </property>
        <property name="icon">
         <iconset>
@@ -882,7 +882,7 @@ color: white;</string>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="feedback_navigation">
+      <widget class="QToolButton" name="patients_navigation">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -917,7 +917,7 @@ color: white;</string>
 color: white;</string>
        </property>
        <property name="text">
-        <string>Feedback</string>
+        <string>Patients</string>
        </property>
        <property name="icon">
         <iconset>

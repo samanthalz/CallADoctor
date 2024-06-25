@@ -26,10 +26,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: #F8F8F8;
-border-bottom-left-radius: 30px;
-border-top-left-radius: 30px;
-text-align: center;</string>
+    <string notr="true">background-color: #F8F8F8;\nborder-bottom-left-radius: 30px;\nborder-top-left-radius: 30px;\ntext-align: center;</string>
    </property>
    <widget class="QLabel" name="doc_label">
     <property name="geometry">
@@ -535,7 +532,7 @@ color: white;</string>
      </widget>
     </item>
     <item>
-     <widget class="QToolButton" name="clinic_navigation">
+     <widget class="QToolButton" name="doctors_navigation">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -570,7 +567,7 @@ color: white;</string>
 color: white;</string>
       </property>
       <property name="text">
-       <string>Clinics</string>
+       <string>Doctors</string>
       </property>
       <property name="icon">
        <iconset>
@@ -588,7 +585,7 @@ color: white;</string>
      </widget>
     </item>
     <item>
-     <widget class="QToolButton" name="feedback_navigation">
+     <widget class="QToolButton" name="patients_navigation">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -623,7 +620,7 @@ color: white;</string>
 color: white;</string>
       </property>
       <property name="text">
-       <string>Feedback</string>
+       <string>Patients</string>
       </property>
       <property name="icon">
        <iconset>

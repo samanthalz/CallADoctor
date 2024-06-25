@@ -8,6 +8,20 @@ from connection import db
 
 
 class CA_approved_rejectWidget(QWidget):
+    home_navigation_btn_clicked = pyqtSignal()
+    doctors_navigation_btn_clicked = pyqtSignal()
+    patients_navigation_btn_clicked = pyqtSignal()
+    logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
+    settings_navigation_btn_clicked = pyqtSignal()
+    approved_btn_clicked = pyqtSignal()
+    reject_btn_clicked = pyqtSignal()
+
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
@@ -24,7 +38,7 @@ class CA_approved_rejectWidget(QWidget):
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
         icon = QIcon()
-        icon.addFile(u"../Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
         self.noti_icon.setIcon(icon)
         self.noti_icon.setIconSize(QSize(40, 40))
         self.user_frame = QFrame(self.background)
@@ -37,7 +51,7 @@ class CA_approved_rejectWidget(QWidget):
         self.profile_icon.setObjectName(u"profile_icon")
         self.profile_icon.setGeometry(QRect(10, 10, 60, 60))
         self.profile_icon.setStyleSheet(u"border: none")
-        self.profile_icon.setPixmap(QPixmap(u"../Images/icon/profile_icon.png"))
+        self.profile_icon.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
         self.profile_icon.setScaledContents(True)
         self.profile_btn = QPushButton(self.user_frame)
         self.profile_btn.setObjectName(u"profile_btn")
@@ -180,11 +194,17 @@ class CA_approved_rejectWidget(QWidget):
         font5.setWeight(75)
         self.reject_btn.setFont(font5)
         self.reject_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+       
+        self.reject_btn.clicked.connect(self.emitRejectBtn)
+       
         self.approved_btn_2 = QPushButton(self.patient_details_outer_frame)
         self.approved_btn_2.setObjectName(u"approved_btn_2")
         self.approved_btn_2.setGeometry(QRect(360, 780, 181, 41))
         self.approved_btn_2.setFont(font5)
         self.approved_btn_2.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+      
+        self.approved_btn_2.clicked.connect(self.emitApprovedBtn)
+      
         self.patient_details_label = QLabel(self.background)
         self.patient_details_label.setObjectName(u"patient_details_label")
         self.patient_details_label.setGeometry(QRect(51, 130, 571, 41))
@@ -295,10 +315,12 @@ class CA_approved_rejectWidget(QWidget):
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon1 = QIcon()
-        icon1.addFile(u"../Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
 
         self.verticalLayout.addWidget(self.home_navigation)
 
@@ -313,10 +335,12 @@ class CA_approved_rejectWidget(QWidget):
         self.doctors_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
-        icon2.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.doctors_navigation.setIcon(icon2)
         self.doctors_navigation.setIconSize(QSize(70, 70))
         self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.doctors_navigation.clicked.connect(self.emitDoctorsBtn)
 
         self.verticalLayout.addWidget(self.doctors_navigation)
 
@@ -331,10 +355,12 @@ class CA_approved_rejectWidget(QWidget):
         self.patients_navigation_2.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
-        icon3.addFile(u"../Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"CAD/Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.patients_navigation_2.setIcon(icon3)
         self.patients_navigation_2.setIconSize(QSize(70, 70))
         self.patients_navigation_2.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.patients_navigation_2.clicked.connect(self.emitPatientsBtn)
 
         self.verticalLayout.addWidget(self.patients_navigation_2)
 
@@ -349,10 +375,12 @@ class CA_approved_rejectWidget(QWidget):
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
-        icon4.addFile(u"../Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
 
         self.verticalLayout.addWidget(self.settings_navigation)
 
@@ -367,10 +395,12 @@ class CA_approved_rejectWidget(QWidget):
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon5 = QIcon()
-        icon5.addFile(u"../Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
 
         self.verticalLayout.addWidget(self.logout_navigation)
 
@@ -414,3 +444,39 @@ class CA_approved_rejectWidget(QWidget):
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
 
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        self.home_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitDoctorsBtn(self):
+        self.doctors_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+    
+    @pyqtSlot()
+    def emitSettingsBtn(self):
+        # Emit the custom signal
+        self.settings_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitPatientsBtn(self):
+        self.patients_navigation_btn_clicked.emit()  
+
+    @pyqtSlot()
+    def emitApprovedBtn(self):
+        # Emit the custom signal
+        self.approved_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitRejectBtn(self):
+        # Emit the custom signal
+        self.reject_btn_clicked.emit()

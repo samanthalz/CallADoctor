@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2307</width>
-    <height>1082</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1648,7 +1648,7 @@ color: white;</string>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="clinic_navigation">
+      <widget class="QToolButton" name="doctors_navigation">
        <property name="enabled">
         <bool>true</bool>
        </property>

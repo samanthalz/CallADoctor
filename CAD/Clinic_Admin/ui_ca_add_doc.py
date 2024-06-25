@@ -8,6 +8,17 @@ from connection import db
 
 
 class CA_add_docWidget(QWidget):
+    home_navigation_btn_clicked = pyqtSignal()
+    doctors_navigation_btn_clicked = pyqtSignal()
+    patients_navigation_btn_clicked = pyqtSignal()
+    logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
+    settings_navigation_btn_clicked = pyqtSignal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
@@ -16,10 +27,7 @@ class CA_add_docWidget(QWidget):
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
-        self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
-"border-bottom-left-radius: 30px;\n"
-"border-top-left-radius: 30px;\n"
-"text-align: center;")
+        self.background.setStyleSheet(u"background-color: #F8F8F8;\\nborder-bottom-left-radius: 30px;\\nborder-top-left-radius: 30px;\\ntext-align: center;")
         self.doc_label = QLabel(self.background)
         self.doc_label.setObjectName(u"doc_label")
         self.doc_label.setGeometry(QRect(40, 40, 961, 61))
@@ -249,48 +257,54 @@ class CA_add_docWidget(QWidget):
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon = QIcon()
-        icon.addFile(u"../Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
+
         self.verticalLayout.addWidget(self.home_navigation)
 
-        self.clinic_navigation = QToolButton(self.layoutWidget_2)
-        self.clinic_navigation.setObjectName(u"clinic_navigation")
-        self.clinic_navigation.setEnabled(True)
-        sizePolicy.setHeightForWidth(self.clinic_navigation.sizePolicy().hasHeightForWidth())
-        self.clinic_navigation.setSizePolicy(sizePolicy)
-        self.clinic_navigation.setMinimumSize(QSize(85, 96))
-        self.clinic_navigation.setMaximumSize(QSize(85, 96))
-        self.clinic_navigation.setFont(font3)
-        self.clinic_navigation.setStyleSheet(u"border: none; \n"
+        self.doctors_navigation = QToolButton(self.layoutWidget_2)
+        self.doctors_navigation.setObjectName(u"doctors_navigation")
+        self.doctors_navigation.setEnabled(True)
+        sizePolicy.setHeightForWidth(self.doctors_navigation.sizePolicy().hasHeightForWidth())
+        self.doctors_navigation.setSizePolicy(sizePolicy)
+        self.doctors_navigation.setMinimumSize(QSize(85, 96))
+        self.doctors_navigation.setMaximumSize(QSize(85, 96))
+        self.doctors_navigation.setFont(font3)
+        self.doctors_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon1 = QIcon()
-        icon1.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.clinic_navigation.setIcon(icon1)
-        self.clinic_navigation.setIconSize(QSize(70, 70))
-        self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        icon1.addFile(u"CAD/Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.doctors_navigation.setIcon(icon1)
+        self.doctors_navigation.setIconSize(QSize(70, 70))
+        self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout.addWidget(self.clinic_navigation)
+        self.doctors_navigation.clicked.connect(self.emitDoctorsBtn)
 
-        self.feedback_navigation = QToolButton(self.layoutWidget_2)
-        self.feedback_navigation.setObjectName(u"feedback_navigation")
-        self.feedback_navigation.setEnabled(True)
-        sizePolicy.setHeightForWidth(self.feedback_navigation.sizePolicy().hasHeightForWidth())
-        self.feedback_navigation.setSizePolicy(sizePolicy)
-        self.feedback_navigation.setMinimumSize(QSize(85, 96))
-        self.feedback_navigation.setMaximumSize(QSize(85, 96))
-        self.feedback_navigation.setFont(font3)
-        self.feedback_navigation.setStyleSheet(u"border: none; \n"
+        self.verticalLayout.addWidget(self.doctors_navigation)
+
+        self.patients_navigation = QToolButton(self.layoutWidget_2)
+        self.patients_navigation.setObjectName(u"patients_navigation")
+        self.patients_navigation.setEnabled(True)
+        sizePolicy.setHeightForWidth(self.patients_navigation.sizePolicy().hasHeightForWidth())
+        self.patients_navigation.setSizePolicy(sizePolicy)
+        self.patients_navigation.setMinimumSize(QSize(85, 96))
+        self.patients_navigation.setMaximumSize(QSize(85, 96))
+        self.patients_navigation.setFont(font3)
+        self.patients_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
-        icon2.addFile(u"../Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.feedback_navigation.setIcon(icon2)
-        self.feedback_navigation.setIconSize(QSize(70, 70))
-        self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        icon2.addFile(u"CAD/Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.patients_navigation.setIcon(icon2)
+        self.patients_navigation.setIconSize(QSize(70, 70))
+        self.patients_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout.addWidget(self.feedback_navigation)
+        self.patients_navigation.clicked.connect(self.emitPatientsBtn)
+
+        self.verticalLayout.addWidget(self.patients_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_2)
         self.settings_navigation.setObjectName(u"settings_navigation")
@@ -303,10 +317,12 @@ class CA_add_docWidget(QWidget):
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
-        icon3.addFile(u"../Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon3)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
 
         self.verticalLayout.addWidget(self.settings_navigation)
 
@@ -321,14 +337,16 @@ class CA_add_docWidget(QWidget):
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon4 = QIcon()
-        icon4.addFile(u"../Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation.setIcon(icon4)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
+
         self.verticalLayout.addWidget(self.logout_navigation)
 
-
+        
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
@@ -347,9 +365,40 @@ class CA_add_docWidget(QWidget):
         self.email_label.setText(QCoreApplication.translate("Form", u"Email address", None))
         self.back_btn.setText(QCoreApplication.translate("Form", u"Back", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
-        self.clinic_navigation.setText(QCoreApplication.translate("Form", u"Clinics", None))
-        self.feedback_navigation.setText(QCoreApplication.translate("Form", u"Feedback", None))
+        self.doctors_navigation.setText(QCoreApplication.translate("Form", u"Doctors", None))
+        self.patients_navigation.setText(QCoreApplication.translate("Form", u"Patients", None))
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
+
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        self.home_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitDoctorsBtn(self):
+        self.doctors_navigation_btn_clicked.emit()
+        
+
+    @pyqtSlot()
+    def emitPatientsBtn(self):
+        self.patients_navigation_btn_clicked.emit()    
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+    
+    @pyqtSlot()
+    def emitSettingsBtn(self):
+        # Emit the custom signal
+        self.settings_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
+
+
+
 

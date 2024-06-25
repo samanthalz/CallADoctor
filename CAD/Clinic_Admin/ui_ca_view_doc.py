@@ -8,6 +8,19 @@ from connection import db
 
 
 class CA_view_docWidget(QWidget):
+    home_navigation_btn_clicked = pyqtSignal()
+    doctors_navigation_btn_clicked = pyqtSignal()
+    patients_navigation_btn_clicked = pyqtSignal()
+    logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
+    settings_navigation_btn_clicked = pyqtSignal()
+    add_doc_navigation_btn_clicked = pyqtSignal()
+    remove_doc_navigation_btn_clicked = pyqtSignal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
@@ -208,16 +221,19 @@ class CA_view_docWidget(QWidget):
 
         self.verticalLayout_2.addLayout(self.opening_hr_layout)
 
-        self.change_img_btn = QPushButton(self.request_detail_outer)
-        self.change_img_btn.setObjectName(u"change_img_btn")
-        self.change_img_btn.setGeometry(QRect(550, 790, 181, 41))
+        self.remove_doc_btn = QPushButton(self.request_detail_outer)
+        self.remove_doc_btn.setObjectName(u"remove_doc_btn")
+        self.remove_doc_btn.setGeometry(QRect(550, 790, 181, 41))
         font6 = QFont()
         font6.setFamily(u"Consolas")
         font6.setPointSize(10)
         font6.setBold(True)
         font6.setWeight(75)
-        self.change_img_btn.setFont(font6)
-        self.change_img_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        self.remove_doc_btn.setFont(font6)
+        self.remove_doc_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        
+        self.remove_doc_btn.clicked.connect(self.emitRemoveDocBtn)
+        
         self.filter = QComboBox(self.background)
         self.filter.addItem("")
         self.filter.addItem("")
@@ -303,6 +319,9 @@ class CA_view_docWidget(QWidget):
         font10.setWeight(75)
         self.add_doc_btn.setFont(font10)
         self.add_doc_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+       
+        self.add_doc_btn.clicked.connect(self.emitAddDocBtn)
+       
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
@@ -338,43 +357,49 @@ class CA_view_docWidget(QWidget):
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
+
         self.verticalLayout.addWidget(self.home_navigation)
 
-        self.clinic_navigation = QToolButton(self.layoutWidget_2)
-        self.clinic_navigation.setObjectName(u"clinic_navigation")
-        self.clinic_navigation.setEnabled(True)
-        sizePolicy.setHeightForWidth(self.clinic_navigation.sizePolicy().hasHeightForWidth())
-        self.clinic_navigation.setSizePolicy(sizePolicy)
-        self.clinic_navigation.setMinimumSize(QSize(85, 96))
-        self.clinic_navigation.setMaximumSize(QSize(85, 96))
-        self.clinic_navigation.setFont(font11)
-        self.clinic_navigation.setStyleSheet(u"border: none; \n"
+        self.doctors_navigation = QToolButton(self.layoutWidget_2)
+        self.doctors_navigation.setObjectName(u"doctors_navigation")
+        self.doctors_navigation.setEnabled(True)
+        sizePolicy.setHeightForWidth(self.doctors_navigation.sizePolicy().hasHeightForWidth())
+        self.doctors_navigation.setSizePolicy(sizePolicy)
+        self.doctors_navigation.setMinimumSize(QSize(85, 96))
+        self.doctors_navigation.setMaximumSize(QSize(85, 96))
+        self.doctors_navigation.setFont(font11)
+        self.doctors_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon2 = QIcon()
         icon2.addFile(u"../Images/nav_images/services_icon.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.clinic_navigation.setIcon(icon2)
-        self.clinic_navigation.setIconSize(QSize(70, 70))
-        self.clinic_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.doctors_navigation.setIcon(icon2)
+        self.doctors_navigation.setIconSize(QSize(70, 70))
+        self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout.addWidget(self.clinic_navigation)
+        self.doctors_navigation.clicked.connect(self.emitDoctorsBtn)
 
-        self.feedback_navigation = QToolButton(self.layoutWidget_2)
-        self.feedback_navigation.setObjectName(u"feedback_navigation")
-        self.feedback_navigation.setEnabled(True)
-        sizePolicy.setHeightForWidth(self.feedback_navigation.sizePolicy().hasHeightForWidth())
-        self.feedback_navigation.setSizePolicy(sizePolicy)
-        self.feedback_navigation.setMinimumSize(QSize(85, 96))
-        self.feedback_navigation.setMaximumSize(QSize(85, 96))
-        self.feedback_navigation.setFont(font11)
-        self.feedback_navigation.setStyleSheet(u"border: none; \n"
+        self.verticalLayout.addWidget(self.doctors_navigation)
+
+        self.patients_navigation = QToolButton(self.layoutWidget_2)
+        self.patients_navigation.setObjectName(u"patients_navigation")
+        self.patients_navigation.setEnabled(True)
+        sizePolicy.setHeightForWidth(self.patients_navigation.sizePolicy().hasHeightForWidth())
+        self.patients_navigation.setSizePolicy(sizePolicy)
+        self.patients_navigation.setMinimumSize(QSize(85, 96))
+        self.patients_navigation.setMaximumSize(QSize(85, 96))
+        self.patients_navigation.setFont(font11)
+        self.patients_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         icon3 = QIcon()
         icon3.addFile(u"../Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.feedback_navigation.setIcon(icon3)
-        self.feedback_navigation.setIconSize(QSize(70, 70))
-        self.feedback_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.patients_navigation.setIcon(icon3)
+        self.patients_navigation.setIconSize(QSize(70, 70))
+        self.patients_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout.addWidget(self.feedback_navigation)
+        self.patients_navigation.clicked.connect(self.emitPatientsBtn)
+
+        self.verticalLayout.addWidget(self.patients_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_2)
         self.settings_navigation.setObjectName(u"settings_navigation")
@@ -391,6 +416,8 @@ class CA_view_docWidget(QWidget):
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
 
         self.verticalLayout.addWidget(self.settings_navigation)
 
@@ -409,6 +436,8 @@ class CA_view_docWidget(QWidget):
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
 
         self.verticalLayout.addWidget(self.logout_navigation)
 
@@ -435,7 +464,7 @@ class CA_view_docWidget(QWidget):
         self.add_display.setText(QCoreApplication.translate("Form", u"No. 23, Jalan Telawi 3, Bangsar Baru, 59100 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur, Malaysia.", None))
         self.specialization_label.setText(QCoreApplication.translate("Form", u"Specialization:", None))
         self.hour_display.setText(QCoreApplication.translate("Form", u"speciality", None))
-        self.change_img_btn.setText(QCoreApplication.translate("Form", u"Remove Doctor", None))
+        self.remove_doc_btn.setText(QCoreApplication.translate("Form", u"Remove Doctor", None))
         self.filter.setItemText(0, QCoreApplication.translate("Form", u"Recent", None))
         self.filter.setItemText(1, QCoreApplication.translate("Form", u"Oldest", None))
 
@@ -446,10 +475,48 @@ class CA_view_docWidget(QWidget):
         self.doc_logo_label.setText(QCoreApplication.translate("Form", u"D", None))
         self.doc_detail_label.setText(QCoreApplication.translate("Form", u"Doctor Details", None))
         self.add_doc_btn.setText(QCoreApplication.translate("Form", u"Add New Doctor", None))
+
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
-        self.clinic_navigation.setText(QCoreApplication.translate("Form", u"Clinics", None))
-        self.feedback_navigation.setText(QCoreApplication.translate("Form", u"Feedback", None))
+        self.doctors_navigation.setText(QCoreApplication.translate("Form", u"Clinics", None))
+        self.patients_navigation.setText(QCoreApplication.translate("Form", u"Feedback", None))
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
+
+    @pyqtSlot()
+    def emitHomeBtn(self):
+        self.home_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitDoctorsBtn(self):
+        self.doctors_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitPatientsBtn(self):
+        self.patients_navigation_btn_clicked.emit()    
+        
+    @pyqtSlot()
+    def emitLogoutBtn(self):
+        # Emit the custom signal
+        self.logout_btn_clicked.emit()
+    
+    @pyqtSlot()
+    def emitSettingsBtn(self):
+        # Emit the custom signal
+        self.settings_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitProfileBtn(self):
+        # Emit the custom signal
+        self.profile_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitAddDocBtn(self):
+        # Emit the custom signal
+        self.add_doc_navigation_btn_clicked.emit()
+
+    @pyqtSlot()
+    def emitRemoveDocBtn(self):
+        # Emit the custom signal
+        self.remove_doc_navigation_btn_clicked.emit()
 
