@@ -20,10 +20,6 @@ class CA_homepageWidget(QWidget):
     settings_navigation_btn_clicked = pyqtSignal()
     redirect_fb = pyqtSignal(dict)
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setupUi(self)
-
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
@@ -206,6 +202,9 @@ class CA_homepageWidget(QWidget):
         self.profile_btn.setGeometry(QRect(110, 25, 111, 31))
         self.profile_btn.setFont(font3)
         self.profile_btn.setStyleSheet(u"border: none")
+
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
+
         self.clinic_req_frame = QFrame(self.background)
         self.clinic_req_frame.setObjectName(u"clinic_req_frame")
         self.clinic_req_frame.setGeometry(QRect(50, 140, 1000, 230))
@@ -218,9 +217,6 @@ class CA_homepageWidget(QWidget):
 "        stop: 0 #B6D0E2, \n"
 "        stop: 1 #FFFFFF\n"
 "    );")
-        
-        self.profile_btn.clicked.connect(self.emitProfileBtn)
-
         self.clinic_req_frame.setFrameShape(QFrame.StyledPanel)
         self.clinic_req_frame.setFrameShadow(QFrame.Raised)
         self.visit_for_today_label = QLabel(self.clinic_req_frame)
@@ -597,14 +593,13 @@ class CA_homepageWidget(QWidget):
         self.home_navigation.setFont(font9)
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
-        
-        self.view_detail_btn_clicked.connect(self.emitViewDetailBtn)
-
         icon1 = QIcon()
         icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.view_detail_btn_clicked.connect(self.emitViewDetailBtn)
 
         self.verticalLayout.addWidget(self.home_navigation)
 
@@ -624,7 +619,6 @@ class CA_homepageWidget(QWidget):
         self.doctors_navigation.setIconSize(QSize(70, 70))
         self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-
         self.doctors_navigation_btn_clicked.connect(self.emitDoctorsBtn)
 
         self.verticalLayout.addWidget(self.doctors_navigation)
@@ -639,14 +633,13 @@ class CA_homepageWidget(QWidget):
         self.patients_navigation.setFont(font9)
         self.patients_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
-        
-        self.patients_navigation_btn_clicked.connect(self.emitPatientsBtn)
-
         icon3 = QIcon()
         icon3.addFile(u"CAD/Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.patients_navigation.setIcon(icon3)
         self.patients_navigation.setIconSize(QSize(70, 70))
         self.patients_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.patients_navigation_btn_clicked.connect(self.emitPatientsBtn)
 
         self.verticalLayout.addWidget(self.patients_navigation)
 
@@ -660,14 +653,13 @@ class CA_homepageWidget(QWidget):
         self.settings_navigation.setFont(font9)
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
-        
-        self.settings_navigation_btn_clicked.connect(self.emitSettingsBtn)
-
         icon4 = QIcon()
         icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.settings_navigation_btn_clicked.connect(self.emitSettingsBtn)
 
         self.verticalLayout.addWidget(self.settings_navigation)
 
@@ -681,9 +673,6 @@ class CA_homepageWidget(QWidget):
         self.logout_navigation.setFont(font9)
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
-        
-        self.logout_btn_clicked.connect(self.emitLogoutBtn)
-
         icon5 = QIcon()
         icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation.setIcon(icon5)
@@ -692,6 +681,7 @@ class CA_homepageWidget(QWidget):
 
         self.verticalLayout.addWidget(self.logout_navigation)
 
+        self.logout_btn_clicked.connect(self.emitLogoutBtn)
 
         self.retranslateUi(Form)
 
@@ -788,3 +778,10 @@ class CA_homepageWidget(QWidget):
     def emitProfileBtn(self):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
+
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    mainWin = CA_homepageWidget()
+    mainWin.showMaximized()
+    sys.exit(app.exec_())
