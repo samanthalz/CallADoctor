@@ -1,0 +1,27 @@
+import unittest
+from unittest.mock import patch, MagicMock
+from Doctor.doc_updatePrescription import UpdateRecordWidget
+
+class TestUpdateRecordWidget(unittest.TestCase):
+
+    def setUp(self):
+        self.widget = UpdateRecordWidget()
+
+    def test_generate_new_record_id(self):
+        # Mock database data
+        mock_db = MagicMock()
+        mock_db.child.return_value.get.return_value.val.return_value = {
+            'record_1': {},  # Sample record
+            'record_2': {},  # Sample record
+            'record_3': {}   # Sample record
+        }
+
+        with patch('Doctor.doc_updatePrescription.db', new=mock_db):
+            # Execute the method
+            new_id = self.widget.generate_new_record_id()
+
+            # Assertions
+            self.assertEqual(new_id, "record_4")
+
+if __name__ == '__main__':
+    unittest.main()
