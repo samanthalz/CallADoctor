@@ -21,9 +21,13 @@ from User.ui_privacy_policy import PrivacyPolicyWidget
 from User.ui_privacy_register import PrivacyPolicyRegisterWidget
 from User.ui_tnc import TncWidget
 from User.ui_tnc_register import TncRegisterWidget
+from User.change_pass_email import ChangePassEmailWidget
+from User.change_pass_new import ChangePassNewWidget
+from User.change_pass_verify import ChangePassVerifyWidget
+#from User.change_pass_success import ch
+
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
-
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
 from Project_Admin.ui_view_clinic import ViewClinicWidget
 from Project_Admin.ui_edit_privacy_policy import EditPrivacyPolicyWidget
