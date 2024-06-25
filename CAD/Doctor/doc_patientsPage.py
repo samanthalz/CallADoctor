@@ -620,17 +620,7 @@ class PatientsPageWidget(QWidget):
         self.filter.setItemText(1, _translate("Form", "Oldest"))
         self.patient_list_label.setText(_translate("Form", "Patient List"))
         self.patient_details_label.setText(_translate("Form", "Patient Details"))
-        
-        # self.selected_patient_name_label.setText(_translate("Form", "Patient Name"))
-        # self.prescription_display.setText(_translate("Form", "Medicine1, Medicine2"))
-        # self.diagnosis_display.setText(_translate("Form", "diagnosis"))
-        # self.age_display.setText(_translate("Form", "50"))
-        # self.gender_display.setText(_translate("Form", "Male / Female"))
 
-        # self.patient_name_label2.setText(_translate("Form", "Patient Name"))
-        # self.patient_profile_logo_2.setText(_translate("Form", "PN"))
-        # self.appt_date_label2.setText(_translate("Form", "Date"))
-        # self.appt_time_label2.setText(_translate("Form", "Time"))
 
 
         self.home_navigation.setText(_translate("Form", "   Home   "))

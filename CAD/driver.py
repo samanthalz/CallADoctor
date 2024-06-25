@@ -283,6 +283,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
+        self.stackedWidget.addWidget(self.docUpdateRecordWidget)
 
 
         self.stackedWidget.setCurrentWidget(self.loginWidget)
