@@ -10,11 +10,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal
 
 from connection import db
 from datetime import date
 
 class Doc_HomeWidget(QWidget):
+    patients_btn_clicked = pyqtSignal()
+    logout_btn_clicked = pyqtSignal()
+    profile_btn_clicked = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.user_id = 0
