@@ -12,6 +12,7 @@ class PatientsPageWidget(QWidget):
     profile_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
     add_record_btn_click = pyqtSignal()
+    patient_id_signal = pyqtSignal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -209,6 +210,8 @@ class PatientsPageWidget(QWidget):
         button = self.sender()
         identifier = button.property("identifier")
         self.set_patient_details(identifier) # update patient details on the right side
+        self.update_prescription_button.clicked.connect(self.emitAddRecordBtn)
+        self.patient_id_signal.emit(identifier)
 
                     
 
@@ -665,6 +668,8 @@ class PatientsPageWidget(QWidget):
     def emitAddRecordBtn(self):
         # Emit the custom signal
         self.add_record_btn_click.emit()
+
+    
 
 
 # If run file directly access this page

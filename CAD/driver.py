@@ -181,7 +181,7 @@ class Ui_MainWindow(QMainWindow):
         self.paEditTncWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.paEditTncWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
-        # doctor buttons
+        # doctor signals connections
         self.docHomeWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docHomeWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -191,6 +191,8 @@ class Ui_MainWindow(QMainWindow):
         self.docPatientsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docPatientsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docPatientsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+        self.docPatientsWidget.add_record_btn_click.connect(self.showDocUpdateRecordWidget)
+        self.docPatientsWidget.patient_id_signal.connect(self.pass_pID_updateRecordWidget)
 
         self.docUpdateRecordWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docUpdateRecordWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
@@ -505,6 +507,14 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showDocProfileSettingsWidget(self):
         self.stackedWidget.setCurrentWidget(self.docProfileSettingsWidget)
+    
+    @pyqtSlot()
+    def showDocUpdateRecordWidget(self):
+        self.stackedWidget.setCurrentWidget(self.docUpdateRecordWidget)
+
+
+    def pass_pID_updateRecordWidget(self, patient_id):
+        self.docUpdateRecordWidget.set_patient_id(patient_id)
 
     # clinic admin widgets
     @pyqtSlot()
