@@ -283,7 +283,6 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
-        self.stackedWidget.addWidget(self.docUpdateRecordWidget)
         self.stackedWidget.addWidget(self.docHomeWidget)
 
 
@@ -448,12 +447,13 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
         self.paFeedbackInboxWidget.create_popup_widget(fb_data)
 
-    # Doctor widgets
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
         self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
         self.viewDoctorProfile.fetch_doctor_info_from_db()
 
+
+    # Doctor widgets
     @pyqtSlot()
     def showDocPatientsWidget(self):
         self.stackedWidget.setCurrentWidget(self.docPatientsWidget)
