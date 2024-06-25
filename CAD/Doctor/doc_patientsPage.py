@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSignal, pyqtSlot
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QRect
+from PyQt5.QtGui import QColor
 
 from connection import db
 from datetime import date
@@ -16,7 +17,7 @@ class PatientsPageWidget(QWidget):
         self.user_id = 0
         self.setupUi(self)
         # For tesing : 
-        #self.set_user_id("doctor1")
+        #self.set_user_id("Dr. John Doe")
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
@@ -40,86 +41,111 @@ class PatientsPageWidget(QWidget):
         today = date.today()
         current_date = today.strftime("%y%m%d")
         appointment_data = db.child("appointment").get().val()
+        patient_data = db.child("patients").get().val()
         patient_frames = []
         
         if appointment_data:
-            print("In if appt data") 
             for appt_id, appt_info in appointment_data.items():
-                print("In for apptinfo in apptdata")
                 if appt_info.get('doctor_id').lower() == self.user_id.lower() : 
-                    print("In if doctor id")
                     if  int(appt_info.get('date')) >= int(current_date): # upcoming appointments
-                        print("In if upcoming")
                         patient_id = appt_info['patient_id']
+                        
+                        for i, patient_info in patient_data.items():
+                            if int(patient_info.get("patient_ic")) == int(patient_id):
+                                patient_name = patient_info.get('patient_name')
+                                break
+                            
                         appt_date = appt_info['date']
                         appt_date = self.translate_date(appt_date)
                         appt_time = appt_info['time']
-                        patient_frame = self.create_patient_frame(patient_id, appt_date, appt_time)
+                        patient_frame = self.create_patient_frame(patient_name, appt_date, appt_time, patient_id)
 
                         if patient_frame:
-                                print("In if patient frame apprnd patient frame")
                                 patient_frames.append(patient_frame)
 
             # Add visible patients to the layout
             for patient_frame in patient_frames:
-                print("In for patient frame in patient frames")
                 self.verticalLayout_patient_list.addWidget(patient_frame)
-                print("Widget added to vertical layout")
 
         # Refresh the layout after adding all frames
         self.verticalLayout_patient_list.update()
         self.patient_list_frame.repaint()
 
-    def get_patient_details(self, patient_id): # pass patient id of selected patient into the method
-        patient_data = db.child("patients").get().val()
-        if patient_data: 
-            for patient_id, patient_info in patient_data.items():
-                if int(patient_info.get('patient_id')) == int(patient_id):
-                    patient_age = patient_info['patient_age']
-                    patient_name = patient_info['patient_name']
-                    patient_id = patient_info['patient_id']
-                    ic_last_char = patient_id[-1]  # last character
-                    if ic_last_char % 2 == 0: # even number = female
-                        patient_gender = "Female"
-                    elif ic_last_char % 2 != 0: # odd number = male
-                        patient_gender = "Male"
-                    else : 
-                        patient_gender = "Unspecified"
-        
-        # get medical records : 
-        today = date.today()
-        current_date = today.strftime("%y%m%d")
-        active_medication_list = []
-        medical_records = db.child("medical_records").get().val()
-        if medical_records: 
-            for record_id, record_info in enumerate(medical_records):
-                if int(record_info.get('patient_id')) == int(patient_id):
-                    if  int(record_info.get('end_date')) >= int(current_date): 
-                        for medicine in record_info.get('medicine'):
-                            active_medication_list.append(medicine)
-                        patient_diagnosis = record_info.get('diagnosis')
+    def set_patient_details(self, patient_id): # pass patient id of selected patient into the method
+        try : 
+                patient_data = db.child("patients").get().val()
+                if patient_data: 
+                    for id, patient_info in patient_data.items():
+                        if int(id) == int(patient_id):
+                            try : 
+                                patient_age = patient_info['patient_age']
+                                patient_name = patient_info['patient_name']
+
+                                ic_last_char = id[-1]  # last character
+                                if int(ic_last_char) % 2 == 0: # even number = female
+                                        patient_gender = "Female"
+                                elif int(ic_last_char) % 2 != 0: # odd number = male
+                                        patient_gender = "Male"
+                                else : 
+                                        patient_gender = "Unspecified"
+                            except Exception as e: 
+                                self.showMessageBox('Error', f"Error fetching patient data: {e}") 
+                        
                 
-            if not patient_diagnosis:
-                patient_diagnosis = "Unavailable"
-            if not active_medication_list:
-                active_medication_list.append("No medication")
+                # get medical records : 
+                today = date.today()
+                current_date = today.strftime("%y%m%d")
+                active_medication_list = []
+                patient_diagnosis = ""
 
-        # update text of selected patient:   
-        self.selected_patient_name_label.setText(patient_name)
-        self.prescription_display.setText(", ".join(active_medication_list))
-        self.diagnosis_display.setText(patient_diagnosis)
-        self.age_display.setText(patient_age)
-        self.gender_display.setText(patient_gender)  
+                medical_records = db.child("medical_records").get().val()
+                if medical_records: 
+                    for record_id, record_info in enumerate(medical_records):
+                        if int(record_info['patient_id']) == int(patient_id):
+                            if  int(record_info.get('end_date')) >= int(current_date): 
+                                for medicine in record_info.get('medicine'):
+                                    active_medication_list.append(medicine)
+                                    patient_diagnosis = record_info.get('diagnosis')
+
+        
+                if not patient_diagnosis:
+                        patient_diagnosis = "Unavailable"
+                if not active_medication_list:
+                        active_medication_list.append("No medication")
+
+                # update text of selected patient:   
+                self.selected_patient_name_label.setText(patient_name)
+                self.prescription_display.setText(", ".join(active_medication_list))
+                self.diagnosis_display.setText(patient_diagnosis)
+                self.age_display.setText(str(patient_age))
+                self.gender_display.setText(patient_gender) 
+
+        except Exception as e:
+            self.showMessageBox('Error', f"{e}") 
+             
+
+        return patient_name, active_medication_list, patient_diagnosis, patient_age, patient_gender 
 
 
-    def create_patient_frame(self, patient_id, appt_date, appt_time):
+    def create_patient_frame(self, patient_name, appt_date, appt_time, patient_id):
         # Patient list frame : 
-        self.patient_frame1 = QtWidgets.QFrame(self.patient_list_frame)
-        #self.patient_frame1.setGeometry(QtCore.QRect(0, 20, 801, 81)) # specifies position as well
+        #self.patient_frame1 = QtWidgets.QFrame(self.patient_list_frame)
+        # self.patient_frame1.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        # self.patient_frame1.setFrameShadow(QtWidgets.QFrame.Raised)
+        
+        self.patient_frame1 = QtWidgets.QPushButton(self.patient_list_frame)
         self.patient_frame1.setFixedSize(801, 81) # set fixed size of frame
-        self.patient_frame1.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.patient_frame1.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.patient_frame1.setObjectName("patient_frame1")
+        self.patient_frame1.setStyleSheet("""
+        QPushButton {
+            border: 1px solid #dcdcdc;
+            text-align: left;
+        }
+        QPushButton:hover {
+            background-color: #f0f0f0;
+        }
+    """)
+        self.patient_frame1.setObjectName("patient_frame_" + str(patient_id))
+        self.patient_frame1.setProperty("identifier", patient_id)
         self.patient_name_label1 = QtWidgets.QLabel(self.patient_frame1)
         self.patient_name_label1.setGeometry(QtCore.QRect(90, 30, 121, 21))
         font = QtGui.QFont()
@@ -167,25 +193,37 @@ class PatientsPageWidget(QWidget):
         self.appt_date_label.setAlignment(QtCore.Qt.AlignCenter)
         self.appt_date_label.setObjectName("appt_date_label")
 
-        self.patient_name_label1.setText(str(patient_id))
+        self.patient_name_label1.setText(str(patient_name))
         self.patient_profile_logo1.setText("PN")
         self.appt_time_label.setText(appt_time)
         self.appt_date_label.setText(appt_date)
 
+        # Connect the clicked signal to a slot method
+        self.patient_frame1.clicked.connect(self.on_patient_frame_clicked)
+
         return self.patient_frame1
+    
+    def on_patient_frame_clicked(self):
+        # Get the button that was clicked
+        button = self.sender()
+        identifier = button.property("identifier")
+        self.set_patient_details(identifier) # update patient details on the right side
+
                     
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet("background-color: \"#B6D0E2\" ")
-        self.background = QtWidgets.QWidget(Form)
-        self.background.setGeometry(QtCore.QRect(150, 0, 1771, 1061))
-        self.background.setStyleSheet("background-color: #F8F8F8;\n"
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        self.background = QWidget(Form)
+        self.background.setObjectName(u"background")
+        self.background.setGeometry(QRect(150, 0, 1771, 1061))
+        self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
 "border-bottom-left-radius: 30px;\n"
-"border-top-left-radius: 30px;\n"
-"text-align: center;")
-        self.background.setObjectName("background")
+"border-top-left-radius: 30px;")
         
         self.user_frame = QtWidgets.QFrame(self.background)
         self.user_frame.setGeometry(QtCore.QRect(1480, 30, 251, 80))
@@ -208,21 +246,7 @@ class PatientsPageWidget(QWidget):
         self.profile_btn.setFont(font)
         self.profile_btn.setStyleSheet("border: none")
         self.profile_btn.setObjectName("profile_btn")
-        self.search_patient = QtWidgets.QLineEdit(self.background)
-        self.search_patient.setGeometry(QtCore.QRect(40, 40, 831, 71))
-        font = QtGui.QFont()
-        font.setFamily("Consolas")
-        font.setPointSize(11)
-        self.search_patient.setFont(font)
-        self.search_patient.setStyleSheet("background-color: #f0f0f0; border-radius: 16px; padding: 60px; color: Black;\n"
-" background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
-"background-repeat: no-repeat; \n"
-"background-position: left center; \n"
-"background-size: 20px 20px; \n"
-"border: 1px solid gray;\n"
-"")
-        self.search_patient.setClearButtonEnabled(False)
-        self.search_patient.setObjectName("search_patient")
+        
         self.patient_details_outer_frame = QtWidgets.QFrame(self.background)
         self.patient_details_outer_frame.setGeometry(QtCore.QRect(979, 200, 751, 841))
         self.patient_details_outer_frame.setStyleSheet("background-color : #ffffff;")
@@ -386,17 +410,6 @@ class PatientsPageWidget(QWidget):
         self.update_prescription_button.setFont(font)
         self.update_prescription_button.setStyleSheet("background-color: #B6D0E2; border-radius: 16px; color: black;\\n border: 1px solid gray;")
         self.update_prescription_button.setObjectName("update_prescription_button")
-        self.filter = QtWidgets.QComboBox(self.background)
-        self.filter.setGeometry(QtCore.QRect(710, 170, 151, 31))
-        font = QtGui.QFont()
-        font.setFamily("Consolas")
-        font.setPointSize(12)
-        self.filter.setFont(font)
-        self.filter.setStyleSheet("\n"
-"border: 1px solid gray;")
-        self.filter.setObjectName("filter")
-        self.filter.addItem("")
-        self.filter.addItem("")
         self.patient_list_label = QtWidgets.QLabel(self.background)
         self.patient_list_label.setGeometry(QtCore.QRect(50, 160, 341, 41))
         font = QtGui.QFont()
@@ -607,8 +620,6 @@ class PatientsPageWidget(QWidget):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.profile_btn.setText(_translate("Form", "Doctor"))
-        self.search_patient.setText(_translate("Form", "Search for Patient"))
-        self.search_patient.setPlaceholderText(_translate("Form", "Search Clinic Name"))
         self.selected_patient_profile_logo.setText(_translate("Form", "A"))
         self.gender_label.setText(_translate("Form", "Gender: "))
         self.age_label.setText(_translate("Form", "Age: "))
@@ -616,8 +627,6 @@ class PatientsPageWidget(QWidget):
         self.prescription_label.setText(_translate("Form", "Prescription : "))
         
         self.update_prescription_button.setText(_translate("Form", "Add record"))
-        self.filter.setItemText(0, _translate("Form", "Recent"))
-        self.filter.setItemText(1, _translate("Form", "Oldest"))
         self.patient_list_label.setText(_translate("Form", "Patient List"))
         self.patient_details_label.setText(_translate("Form", "Patient Details"))
 

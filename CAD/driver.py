@@ -189,20 +189,6 @@ class Ui_MainWindow(QMainWindow):
         self.docProfileSettingsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
-
-        #self.login_widget = LoginWidget()
-        #self.setCentralWidget(self.login_widget)
-
-
-        # self.login_widget.ui_ca_homepage.connect(self.showCA_homepageWidget)
-
-        # self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
-        # self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAAddDocWidget)
-        # self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
-        # self.caHomeWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
-        # self.caHomeWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
-        # self.caHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-
         
 
     def setupUi(self, MainWindow):
@@ -293,7 +279,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.caApproveRejectWidget)
         self.stackedWidget.addWidget(self.caViewDocWidget)     
         self.stackedWidget.addWidget(self.caAddDocWidget)   
-        
+
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
