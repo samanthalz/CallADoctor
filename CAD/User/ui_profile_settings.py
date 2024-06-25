@@ -224,7 +224,7 @@ class ProfileSettingsWidget(QWidget):
         self.change_pass_btn.setMaximumSize(QSize(546, 16777215))
         self.change_pass_btn.setFont(font3)
         self.change_pass_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
-        self.change_pass_btn.clicked.emit(self.emitChangePassBtn)
+        self.change_pass_btn.clicked.connect(self.emitChangePassBtn)
         
         self.btn_layout.addWidget(self.change_pass_btn)
 
