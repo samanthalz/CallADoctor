@@ -293,10 +293,12 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.caApproveRejectWidget)
         self.stackedWidget.addWidget(self.caViewDocWidget)     
         self.stackedWidget.addWidget(self.caAddDocWidget)   
+        
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
         self.stackedWidget.addWidget(self.docUpdateRecordWidget)
+        self.stackedWidget.addWidget(self.docHomeWidget)
 
 
         self.stackedWidget.setCurrentWidget(self.loginWidget)
@@ -311,7 +313,7 @@ class Ui_MainWindow(QMainWindow):
         
         
     def handle_login_success(self, rights):
-        print(f'Rights : {rights}') # not printed
+
         if rights == 0:
             self.showHomeWidget()
         elif rights == 1: 
