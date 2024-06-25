@@ -21,13 +21,14 @@ class DocProfileSettingsWidget(QWidget):
         super().__init__(parent)
         self.user_id = 0
         self.setupUi(self)
+        #self.set_user_id("Dr. John Doe")
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
         self.get_user_credentials(self.user_id)
 
     def get_user_credentials(self, user_id):
-        doctors = db.child("doctors").get.val()
+        doctors = db.child("doctors").get().val()
         for i, doctor_info in doctors.items():
             if int(doctor_info.get("doctor_id")) == int(user_id):
                     doctor_name = doctor_info.get('doctor_name')
