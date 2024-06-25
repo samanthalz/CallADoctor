@@ -173,22 +173,22 @@ class Ui_MainWindow(QMainWindow):
         self.docHomeWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docHomeWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-        self.docHomeWidget.profile_btn_clicked.connect(self.showViewDoctorProfileWidget)
+        self.docHomeWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
 
         self.docPatientsWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docPatientsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docPatientsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-        self.docPatientsWidget.profile_btn_clicked.connect(self.showViewDoctorProfileWidget)
+        self.docPatientsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
 
         self.docUpdateRecordWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docUpdateRecordWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docUpdateRecordWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-        self.docUpdateRecordWidget.profile_btn_clicked.connect(self.showViewDoctorProfileWidget)
+        self.docUpdateRecordWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
         
         self.docProfileSettingsWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docProfileSettingsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-        self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showViewDoctorProfileWidget)
+        self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -301,6 +301,7 @@ class Ui_MainWindow(QMainWindow):
             self.showHomeWidget()
         elif rights == 1: 
             self.showDocHomeWidget()
+
         elif rights == 2:
             #self.showCaHomeWidget() # uncomment when update to show home widget for ca
             pass
@@ -445,11 +446,17 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
         self.paFeedbackInboxWidget.create_popup_widget(fb_data)
 
-    # Doctor widgets
+
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
         self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
         self.viewDoctorProfile.fetch_doctor_info_from_db()
+
+
+    # Doctor widgets
+    @pyqtSlot()
+    def showDocProfileSettingsWidget(self):
+        self.stackedWidget.setCurrentWidget(self.docProfileSettingsWidget)
 
     @pyqtSlot()
     def showDocPatientsWidget(self):

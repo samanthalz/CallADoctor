@@ -16,7 +16,7 @@ class PatientsPageWidget(QWidget):
         self.user_id = 0
         self.setupUi(self)
         # For tesing : 
-        self.set_user_id("doctor1")
+        #self.set_user_id("doctor1")
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
@@ -523,31 +523,7 @@ class PatientsPageWidget(QWidget):
         self.home_navigation.setObjectName("home_navigation")
         self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
-        self.schedule_navigation = QtWidgets.QToolButton(self.navigation_layout)
-        self.schedule_navigation.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.schedule_navigation.sizePolicy().hasHeightForWidth())
-        self.schedule_navigation.setSizePolicy(sizePolicy)
-        self.schedule_navigation.setMinimumSize(QtCore.QSize(85, 96))
-        self.schedule_navigation.setMaximumSize(QtCore.QSize(85, 96))
-        font = QtGui.QFont()
-        font.setFamily("Source Sans Pro Semibold")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.schedule_navigation.setFont(font)
-        self.schedule_navigation.setStyleSheet("border: none; \n"
-"color: white;")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/appointment_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.schedule_navigation.setIcon(icon2)
-        self.schedule_navigation.setIconSize(QtCore.QSize(70, 70))
-        self.schedule_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
-        self.schedule_navigation.setObjectName("schedule_navigation")
-        # add connection to schedule emit function
-        self.verticalLayout.addWidget(self.schedule_navigation)
+        
         self.patients_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.patients_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -658,7 +634,6 @@ class PatientsPageWidget(QWidget):
 
 
         self.home_navigation.setText(_translate("Form", "   Home   "))
-        self.schedule_navigation.setText(_translate("Form", "Schedule"))
         self.patients_navigation.setText(_translate("Form", "Patients"))
         self.settings_navigation.setText(_translate("Form", "Settings"))
         self.logout_navigation.setText(_translate("Form", "Logout"))
