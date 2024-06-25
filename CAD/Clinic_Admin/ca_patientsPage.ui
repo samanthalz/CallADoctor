@@ -1036,7 +1036,7 @@ color: white;</string>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="clinic_navigation">
+      <widget class="QToolButton" name="doctors_navigation">
        <property name="enabled">
         <bool>true</bool>
        </property>

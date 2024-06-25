@@ -598,7 +598,7 @@ class CA_homepageWidget(QWidget):
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         
-        self.view_detail_btn_clicked.connect(self.emitViewDetailBtn)
+        self.view_detail_btn.clicked.connect(self.emitViewDetailBtn)
 
         icon1 = QIcon()
         icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -625,7 +625,7 @@ class CA_homepageWidget(QWidget):
         self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
 
-        self.doctors_navigation_btn_clicked.connect(self.emitDoctorsBtn)
+        self.doctors_navigation.clicked.connect(self.emitDoctorsBtn)
 
         self.verticalLayout.addWidget(self.doctors_navigation)
 
@@ -640,7 +640,7 @@ class CA_homepageWidget(QWidget):
         self.patients_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         
-        self.patients_navigation_btn_clicked.connect(self.emitPatientsBtn)
+        self.patients_navigation.clicked.connect(self.emitPatientsBtn)
 
         icon3 = QIcon()
         icon3.addFile(u"CAD/Images/nav_images/feedback_icon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -661,7 +661,7 @@ class CA_homepageWidget(QWidget):
         self.settings_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         
-        self.settings_navigation_btn_clicked.connect(self.emitSettingsBtn)
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
 
         icon4 = QIcon()
         icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -682,7 +682,7 @@ class CA_homepageWidget(QWidget):
         self.logout_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         
-        self.logout_btn_clicked.connect(self.emitLogoutBtn)
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
 
         icon5 = QIcon()
         icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)

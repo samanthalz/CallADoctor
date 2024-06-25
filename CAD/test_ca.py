@@ -190,20 +190,42 @@ class Ui_MainWindow(QMainWindow):
         self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
 
-        #self.login_widget = LoginWidget()
-        #self.setCentralWidget(self.login_widget)
-
-
-        # self.login_widget.ui_ca_homepage.connect(self.showCA_homepageWidget)
-
+        #clinic admin buttons
         self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
-        self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAAddDocWidget)
+        self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
         self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
         self.caHomeWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caHomeWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
 
-        
+        self.caViewDocWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
+        self.caViewDocWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caViewDocWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
+        self.caViewDocWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
+        self.caViewDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.caViewDocWidget.add_doc_navigation_btn_clicked.connect(self.showCAAddDocWidget)
+
+        self.caAddDocWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
+        self.caAddDocWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
+        self.caAddDocWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caAddDocWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
+        self.caAddDocWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
+        self.caAddDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+     
+        self.caPatientsPageWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
+        self.caPatientsPageWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
+        self.caPatientsPageWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caPatientsPageWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
+        self.caPatientsPageWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.caPatientsPageWidget.doc_name_btn_clicked.connect(self.showCAApproveRejectWidget)
+
+        self.caApproveRejectWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
+        self.caApproveRejectWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
+        self.caApproveRejectWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caApproveRejectWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
+        self.caApproveRejectWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.caApproveRejectWidget.doc_name_btn_clicked.connect(self.showCAApproveRejectWidget)
+
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
