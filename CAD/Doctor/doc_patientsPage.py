@@ -58,14 +58,51 @@ class PatientsPageWidget(QWidget):
             for patient_frame in patient_frames:
                 print("In for patient frame in patient frames")
                 self.verticalLayout_patient_list.addWidget(patient_frame)
+                print("Widget added to vertical layout")
 
         # Refresh the layout after adding all frames
         self.verticalLayout_patient_list.update()
+        self.patient_list_frame.repaint()
+
+    def get_patient_details(self, patient_id): # pass patient id of selected patient into the method
+        patient_data = db.child("patients").get().val()
+        if patient_data: 
+            for patient_id, patient_info in patient_data.items():
+                if int(patient_info.get('patient_id')) == int(patient_id):
+                    patient_age = patient_info['patient_age']
+                    patient_name = patient_info['patient_name']
+                    if patient_info['gender']:
+                        patient_gender = patient_info['gender']
+                    else : 
+                        patient_gender = "Unspecified"
+        
+        # get medical records : 
+        today = date.today()
+        current_date = today.strftime("%y%m%d")
+        active_medication_list = []
+        medical_records = db.child("medical_records").get().val()
+        if medical_records: 
+            for record_id, record_info in enumerate(medical_records):
+                if int(record_info.get('patient_id')) == int(patient_id):
+                    if  int(record_info.get('end_date')) >= int(current_date): 
+                        for medicine in record_info.get('medicine'):
+                            active_medication_list.append(medicine)
+                        patient_diagnosis = record_info.get('diagnosis')
+                
+            if not patient_diagnosis:
+                patient_diagnosis = "Unavailable"
+            if not active_medication_list:
+                active_medication_list.append("No medication")
+                        
+
+        
+
 
     def create_patient_frame(self, patient_id, appt_date, appt_time):
         # Patient list frame : 
         self.patient_frame1 = QtWidgets.QFrame(self.patient_list_frame)
-        self.patient_frame1.setGeometry(QtCore.QRect(0, 20, 801, 81))
+        #self.patient_frame1.setGeometry(QtCore.QRect(0, 20, 801, 81)) # specifies position as well
+        self.patient_frame1.setFixedSize(801, 81) # set fixed size of frame
         self.patient_frame1.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.patient_frame1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.patient_frame1.setObjectName("patient_frame1")
