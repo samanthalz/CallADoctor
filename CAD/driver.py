@@ -170,7 +170,23 @@ class Ui_MainWindow(QMainWindow):
         self.paEditTncWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
         # doctor buttons
+        self.docHomeWidget.home_btn_clicked.connect(self.showDocHomeWidget)
+        self.docHomeWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docHomeWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+        self.docPatientsWidget.home_btn_clicked.connect(self.showDocHomeWidget)
+        self.docPatientsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docPatientsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docPatientsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+        self.docUpdateRecordWidget.home_btn_clicked.connect(self.showDocHomeWidget)
+        self.docUpdateRecordWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docUpdateRecordWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docUpdateRecordWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
         
+        self.docProfileSettingsWidget.home_btn_clicked.connect(self.showDocHomeWidget)
+        self.docProfileSettingsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
 
         # clinic admin buttons
         self.login_widget = LoginWidget()
@@ -459,7 +475,7 @@ class Ui_MainWindow(QMainWindow):
     def showDocUpdateRecordWidget(self):
         self.stackedWidget.setCurrentWidget(self.docUpdateRecordWidget)
 
-      # clinic admin widgets
+    # clinic admin widgets
     @pyqtSlot()
     def showCAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.caHomeWidget)
