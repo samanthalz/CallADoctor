@@ -33,6 +33,7 @@ from Project_Admin.ui_pa_profile_settings import PAProfileSettingsWidget
 from Doctor.ui_doc_profile_settings import DocProfileSettingsWidget
 from Doctor.doc_patientsPage import PatientsPageWidget
 from Doctor.doc_updatePrescription import UpdateRecordWidget
+from Doctor.doc_homePage import Doc_HomeWidget
 
 from Clinic_Admin.ui_ca_profile_settings import CAProfileSettingsWidget
 from Clinic_Admin.ui_ca_homepage import CA_homepageWidget
@@ -168,7 +169,7 @@ class Ui_MainWindow(QMainWindow):
         self.paEditTncWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.paEditTncWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
-        # doctor widgets
+        # doctor buttons
         
 
     def setupUi(self, MainWindow):
@@ -223,7 +224,7 @@ class Ui_MainWindow(QMainWindow):
         self.docProfileSettingsWidget = DocProfileSettingsWidget()
         self.docPatientsWidget = PatientsPageWidget()
         self.docUpdateRecordWidget = UpdateRecordWidget()
-        
+        self.docHomeWidget = Doc_HomeWidget()
         
         
         self.stackedWidget.addWidget(self.loginWidget)
@@ -278,8 +279,8 @@ class Ui_MainWindow(QMainWindow):
         if rights == 0:
             self.showHomeWidget()
         elif rights == 1: 
-            #self.showDocHomeWidget()
-            self.showDocPatientsWidget()
+            self.showDocHomeWidget()
+            #self.showDocPatientsWidget()
         elif rights == 2:
             #self.showCaHomeWidget() # uncomment when update to show home widget for ca
             pass
@@ -436,8 +437,7 @@ class Ui_MainWindow(QMainWindow):
 
     @pyqtSlot()
     def showDocHomeWidget(self):
-        #self.stackedWidget.setCurrentWidget(self.docHomeWidget)
-        pass
+        self.stackedWidget.setCurrentWidget(self.docHomeWidget)
     
     @pyqtSlot()
     def showDocUpdateRecordWidget(self):

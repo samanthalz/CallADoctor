@@ -9,9 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
 
+from connection import db
+from datetime import date
 
-class Ui_Form(object):
+class Doc_HomeWidget(QWidget):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1920, 1080)
@@ -27,7 +30,7 @@ class Ui_Form(object):
         self.noti_icon.setGeometry(QtCore.QRect(1380, 30, 70, 81))
         self.noti_icon.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../Images/icon/notification.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("CAD/Images/icon/notification.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.noti_icon.setIcon(icon)
         self.noti_icon.setIconSize(QtCore.QSize(40, 40))
         self.noti_icon.setObjectName("noti_icon")
@@ -41,7 +44,7 @@ class Ui_Form(object):
         self.profile_icon.setGeometry(QtCore.QRect(10, 10, 60, 60))
         self.profile_icon.setStyleSheet("border: none")
         self.profile_icon.setText("")
-        self.profile_icon.setPixmap(QtGui.QPixmap("../Images/icon/profile_icon.png"))
+        self.profile_icon.setPixmap(QtGui.QPixmap("CAD/Images/icon/profile_icon.png"))
         self.profile_icon.setScaledContents(True)
         self.profile_icon.setObjectName("profile_icon")
         self.profile_btn = QtWidgets.QPushButton(self.user_frame)
@@ -613,7 +616,7 @@ class Ui_Form(object):
         self.home_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../Images/nav_images/home_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/home_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.home_navigation.setIcon(icon1)
         self.home_navigation.setIconSize(QtCore.QSize(70, 70))
         self.home_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -637,7 +640,7 @@ class Ui_Form(object):
         self.schedule_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../Images/nav_images/appointment_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/appointment_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.schedule_navigation.setIcon(icon2)
         self.schedule_navigation.setIconSize(QtCore.QSize(70, 70))
         self.schedule_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -661,7 +664,7 @@ class Ui_Form(object):
         self.patients_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../Images/nav_images/services_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/services_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.patients_navigation.setIcon(icon3)
         self.patients_navigation.setIconSize(QtCore.QSize(70, 70))
         self.patients_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -685,7 +688,7 @@ class Ui_Form(object):
         self.settings_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("../Images/nav_images/settings_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/settings_page_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.settings_navigation.setIcon(icon4)
         self.settings_navigation.setIconSize(QtCore.QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -709,7 +712,7 @@ class Ui_Form(object):
         self.logout_navigation.setStyleSheet("border: none; \n"
 "color: white;")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("../Images/nav_images/logout_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap("CAD/Images/nav_images/logout_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.logout_navigation.setIcon(icon5)
         self.logout_navigation.setIconSize(QtCore.QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
@@ -771,11 +774,12 @@ class Ui_Form(object):
         self.logout_navigation.setText(_translate("Form", "Logout"))
 
 
+# If run directly from this page
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
-    ui = Ui_Form()
+    ui = Doc_HomeWidget()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())
