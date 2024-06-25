@@ -190,17 +190,18 @@ class Ui_MainWindow(QMainWindow):
         self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
 
-        # clinic admin buttons
-        self.login_widget = LoginWidget()
-        self.setCentralWidget(self.login_widget)
-        self.login_widget.ui_ca_homepage.connect(self.showCA_homepageWidget)
+        #self.login_widget = LoginWidget()
+        #self.setCentralWidget(self.login_widget)
 
-        self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
-        self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAAddDocWidget)
-        self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
-        self.caHomeWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
-        self.caHomeWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
-        self.caHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+
+        # self.login_widget.ui_ca_homepage.connect(self.showCA_homepageWidget)
+
+        # self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
+        # self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAAddDocWidget)
+        # self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        # self.caHomeWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
+        # self.caHomeWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
+        # self.caHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
 
         
 
@@ -310,13 +311,13 @@ class Ui_MainWindow(QMainWindow):
         
         
     def handle_login_success(self, rights):
+        print(f'Rights : {rights}') # not printed
         if rights == 0:
             self.showHomeWidget()
         elif rights == 1: 
             self.showDocHomeWidget()
-            #self.showDocPatientsWidget()
         elif rights == 2:
-            self.showCaHomeWidget() # uncomment when update to show home widget for ca
+            #self.showCaHomeWidget() # uncomment when update to show home widget for ca
             pass
         elif rights == 4:
             self.showPAHomeWidget()
