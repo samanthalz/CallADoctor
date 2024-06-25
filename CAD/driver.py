@@ -170,21 +170,25 @@ class Ui_MainWindow(QMainWindow):
         self.paEditTncWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
         # doctor buttons
+        self.docHomeWidget.home_btn_clicked.connect(self.showDocHomeWidget)
+        self.docHomeWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docHomeWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+
+        self.docPatientsWidget.home_btn_clicked.connect(self.showDocHomeWidget)
+        self.docPatientsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docPatientsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docPatientsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+
+        self.docUpdateRecordWidget.home_btn_clicked.connect(self.showDocHomeWidget)
+        self.docUpdateRecordWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docUpdateRecordWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docUpdateRecordWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
         
-
-        # clinic admin buttons
-        self.login_widget = LoginWidget()
-        self.setCentralWidget(self.login_widget)
-        self.login_widget.ui_ca_homepage.connect(self.showCA_homepageWidget)
-
-        self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
-        self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAAddDocWidget)
-        self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
-        self.caHomeWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
-        self.caHomeWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
-        self.caHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-
-        
+        self.docProfileSettingsWidget.home_btn_clicked.connect(self.showDocHomeWidget)
+        self.docProfileSettingsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
+        self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -267,20 +271,19 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.paEditPrivacyPolicyWidget)
         self.stackedWidget.addWidget(self.paEditTncWidget)
         self.stackedWidget.addWidget(self.paProfileSettingsWidget)
-        self.stackedWidget.addWidget(self.docProfileSettingsWidget)
+        
         self.stackedWidget.addWidget(self.caProfileSettingsWidget)
         self.stackedWidget.addWidget(self.caHomeWidget)
         self.stackedWidget.addWidget(self.caPatientsPageWidget)
         self.stackedWidget.addWidget(self.caApproveRejectWidget)
         self.stackedWidget.addWidget(self.caViewDocWidget)     
         self.stackedWidget.addWidget(self.caAddDocWidget)   
+        
+        self.stackedWidget.addWidget(self.docHomeWidget) 
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
-<<<<<<< HEAD
-=======
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
         self.stackedWidget.addWidget(self.docUpdateRecordWidget)
->>>>>>> c00d17004d6392c2477bb90f861e86a07ae27d38
 
 
         self.stackedWidget.setCurrentWidget(self.loginWidget)
@@ -299,9 +302,9 @@ class Ui_MainWindow(QMainWindow):
             self.showHomeWidget()
         elif rights == 1: 
             self.showDocHomeWidget()
-            #self.showDocPatientsWidget()
+
         elif rights == 2:
-            self.showCaHomeWidget() # uncomment when update to show home widget for ca
+            #self.showCaHomeWidget() # uncomment when update to show home widget for ca
             pass
         elif rights == 4:
             self.showPAHomeWidget()
@@ -444,11 +447,17 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
         self.paFeedbackInboxWidget.create_popup_widget(fb_data)
 
-    # Doctor widgets
+
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
         self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
         self.viewDoctorProfile.fetch_doctor_info_from_db()
+
+
+    # Doctor widgets
+    @pyqtSlot()
+    def showDocProfileSettingsWidget(self):
+        self.stackedWidget.setCurrentWidget(self.docProfileSettingsWidget)
 
     @pyqtSlot()
     def showDocPatientsWidget(self):
@@ -461,32 +470,6 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showDocUpdateRecordWidget(self):
         self.stackedWidget.setCurrentWidget(self.docUpdateRecordWidget)
-
-    # clinic admin widgets
-    @pyqtSlot()
-    def showCAHomeWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caHomeWidget)
-        self.caHomeWidget.admins_data()
-        
-    @pyqtSlot()
-    def showCAPatientsPageWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caPatientsPageWidget)
-        
-    @pyqtSlot()
-    def showCAAddDocWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caAddDocWidget)
-        
-    @pyqtSlot()
-    def showCAApproveRejectWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caApproveRejectWidget)
-        
-    @pyqtSlot()
-    def showCAViewDocWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caViewDocWidget)
-        
-    @pyqtSlot()
-    def showCAProfileSettingsWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caProfileSettingsWidget)
 
 
     def set_user_id(self, user_id):  
