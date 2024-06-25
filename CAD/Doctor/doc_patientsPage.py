@@ -71,8 +71,12 @@ class PatientsPageWidget(QWidget):
                 if int(patient_info.get('patient_id')) == int(patient_id):
                     patient_age = patient_info['patient_age']
                     patient_name = patient_info['patient_name']
-                    if patient_info['gender']:
-                        patient_gender = patient_info['gender']
+                    patient_id = patient_info['patient_id']
+                    ic_last_char = patient_id[-1]  # last character
+                    if ic_last_char % 2 == 0: # even number = female
+                        patient_gender = "Female"
+                    elif ic_last_char % 2 != 0: # odd number = male
+                        patient_gender = "Male"
                     else : 
                         patient_gender = "Unspecified"
         
@@ -93,9 +97,13 @@ class PatientsPageWidget(QWidget):
                 patient_diagnosis = "Unavailable"
             if not active_medication_list:
                 active_medication_list.append("No medication")
-                        
 
-        
+        # update text of selected patient:   
+        self.selected_patient_name_label.setText(patient_name)
+        self.prescription_display.setText(", ".join(active_medication_list))
+        self.diagnosis_display.setText(patient_diagnosis)
+        self.age_display.setText(patient_age)
+        self.gender_display.setText(patient_gender)  
 
 
     def create_patient_frame(self, patient_id, appt_date, appt_time):
@@ -618,23 +626,23 @@ class PatientsPageWidget(QWidget):
         self.profile_btn.setText(_translate("Form", "Doctor"))
         self.search_patient.setText(_translate("Form", "Search for Patient"))
         self.search_patient.setPlaceholderText(_translate("Form", "Search Clinic Name"))
-        self.selected_patient_name_label.setText(_translate("Form", "Patient Name"))
         self.selected_patient_profile_logo.setText(_translate("Form", "A"))
         self.gender_label.setText(_translate("Form", "Gender: "))
-        self.gender_display.setText(_translate("Form", "Male / Female"))
         self.age_label.setText(_translate("Form", "Age: "))
-        self.age_display.setText(_translate("Form", "50"))
         self.diagnosis_label.setText(_translate("Form", "Diagnosis : "))
-        self.diagnosis_display.setText(_translate("Form", "diagnosis"))
         self.prescription_label.setText(_translate("Form", "Prescription : "))
-        self.prescription_display.setText(_translate("Form", "Medicine1, Medicine2"))
+        
         self.update_prescription_button.setText(_translate("Form", "Add record"))
         self.filter.setItemText(0, _translate("Form", "Recent"))
         self.filter.setItemText(1, _translate("Form", "Oldest"))
         self.patient_list_label.setText(_translate("Form", "Patient List"))
         self.patient_details_label.setText(_translate("Form", "Patient Details"))
         
-
+        # self.selected_patient_name_label.setText(_translate("Form", "Patient Name"))
+        # self.prescription_display.setText(_translate("Form", "Medicine1, Medicine2"))
+        # self.diagnosis_display.setText(_translate("Form", "diagnosis"))
+        # self.age_display.setText(_translate("Form", "50"))
+        # self.gender_display.setText(_translate("Form", "Male / Female"))
 
         # self.patient_name_label2.setText(_translate("Form", "Patient Name"))
         # self.patient_profile_logo_2.setText(_translate("Form", "PN"))
