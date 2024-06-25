@@ -27,6 +27,7 @@ class Doc_HomeWidget(QWidget):
         self.user_id = user_id
         # Assign values after doctor_id is initialized
         self.num_upcoming_appt, self.upcoming_appt_info = self.get_upcoming_appt_data()
+        self.get_todays_appt(self.upcoming_appt_info)
         self.num_appt_number_label.setText(QCoreApplication.translate("Form", str(self.num_upcoming_appt), None))
 
     def create_appointments_frame(self, patient_name, toa, appt_date, time):
@@ -144,6 +145,66 @@ class Doc_HomeWidget(QWidget):
 
         return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
     
+    def create_todays_appt_frame(self, patient_name, appt_time):
+
+        self.appt_frame1 = QtWidgets.QFrame(self.schedule_frame)
+        self.appt_frame1.setGeometry(QtCore.QRect(0, 50, 481, 71))
+        self.appt_frame1.setFixedHeight(71)
+        self.appt_frame1.setStyleSheet("border : none;\n"
+"border-radius : 0;\n"
+"background-color : #FFFFFF;")
+        self.appt_frame1.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.appt_frame1.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.appt_frame1.setObjectName("appt_frame1")
+        self.patientName_label = QtWidgets.QLabel(self.appt_frame1)
+        self.patientName_label.setGeometry(QtCore.QRect(60, 10, 241, 16))
+        font = QtGui.QFont()
+        font.setFamily("Cascadia Code")
+        font.setPointSize(11)
+        self.patientName_label.setFont(font)
+        self.patientName_label.setObjectName("patientName_label")
+        self.patientName_label.setText(patient_name)
+        self.appt_time_label = QtWidgets.QLabel(self.appt_frame1)
+        self.appt_time_label.setGeometry(QtCore.QRect(60, 30, 161, 21))
+        font = QtGui.QFont()
+        font.setFamily("Cascadia Code")
+        font.setPointSize(10)
+        self.appt_time_label.setFont(font)
+        self.appt_time_label.setStyleSheet("border : none;\n"
+"color : #6ea0c4;\n"
+"")
+        self.appt_time_label.setObjectName("appt_time_label")
+        self.appt_time_label.setText(appt_time)
+
+        return self.appt_frame1
+
+
+    def get_todays_appt(self, upcoming_appt_info):
+        patient_data = db.child("patients").get().val()
+        today = date.today()
+        current_date = today.strftime("%y%m%d")
+        appt_frames = []
+
+        for appt in upcoming_appt_info:
+            if int(appt['date']) == int(current_date) : # today's date
+                #Create a frame for each medication
+                patient_id = appt.get('patient_id')
+                for i, patient_info in patient_data.items():
+                    if int(patient_info.get("patient_ic")) == int(patient_id):
+                        patient_name = patient_info.get('patient_name')
+                        break
+                appt_time = appt['time']
+                appt_frame = self.create_todays_appt_frame(patient_name, appt_time)
+                if appt_frame:
+                    appt_frames.append(appt_frame)
+            
+        # Add visible appointments to the layout
+        for appt_frame in appt_frames:
+                self.verticalLayout_schedule.addWidget(appt_frame)
+
+        # Refresh the layout after adding all frames
+        self.verticalLayout_schedule.update()
+    
     
     def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
         day = date_str[-2:]
@@ -162,14 +223,6 @@ class Doc_HomeWidget(QWidget):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1920, 1080)
-#         Form.setStyleSheet("background-color: \"#B6D0E2\" ")
-#         self.background = QtWidgets.QWidget(Form)
-#         self.background.setGeometry(QtCore.QRect(150, 0, 1771, 1061))
-#         self.background.setStyleSheet("background-color: #F8F8F8;\n"
-# "border-bottom-left-radius: 30px;\n"
-# "border-top-left-radius: 30px;\n"
-# "text-align: center;")
-#         self.background.setObjectName("background")
         Form.setAutoFillBackground(True)
         p = Form.palette()
         p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
@@ -296,6 +349,9 @@ class Doc_HomeWidget(QWidget):
 "border-radius: 10px;")
         self.schedule_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.schedule_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        # Create a vertical layout and set it to the frame
+        self.verticalLayout_schedule = QVBoxLayout(self.schedule_frame)
+        self.schedule_frame.setLayout(self.verticalLayout_schedule)
         self.schedule_frame.setObjectName("schedule_frame")
         self.todays_schedule_label = QtWidgets.QLabel(self.schedule_frame)
         self.todays_schedule_label.setGeometry(QtCore.QRect(20, 10, 451, 41))
@@ -306,81 +362,8 @@ class Doc_HomeWidget(QWidget):
         self.todays_schedule_label.setStyleSheet("border : none;\n"
 "")
         self.todays_schedule_label.setObjectName("todays_schedule_label")
-        self.appt_frame1 = QtWidgets.QFrame(self.schedule_frame)
-        self.appt_frame1.setGeometry(QtCore.QRect(0, 50, 481, 71))
-        self.appt_frame1.setStyleSheet("border : none;\n"
-"border-radius : 0;\n"
-"background-color : #FFFFFF;")
-        self.appt_frame1.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.appt_frame1.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.appt_frame1.setObjectName("appt_frame1")
-        self.patientName_label = QtWidgets.QLabel(self.appt_frame1)
-        self.patientName_label.setGeometry(QtCore.QRect(60, 10, 241, 16))
-        font = QtGui.QFont()
-        font.setFamily("Cascadia Code")
-        font.setPointSize(11)
-        self.patientName_label.setFont(font)
-        self.patientName_label.setObjectName("patientName_label")
-        self.appt_time_label = QtWidgets.QLabel(self.appt_frame1)
-        self.appt_time_label.setGeometry(QtCore.QRect(60, 30, 161, 21))
-        font = QtGui.QFont()
-        font.setFamily("Cascadia Code")
-        font.setPointSize(10)
-        self.appt_time_label.setFont(font)
-        self.appt_time_label.setStyleSheet("border : none;\n"
-"color : #6ea0c4;\n"
-"")
-        self.appt_time_label.setObjectName("appt_time_label")
-        self.appt_frame2 = QtWidgets.QFrame(self.schedule_frame)
-        self.appt_frame2.setGeometry(QtCore.QRect(0, 140, 481, 71))
-        self.appt_frame2.setStyleSheet("border : none;\n"
-"border-radius : 0;\n"
-"background-color : #FFFFFF;")
-        self.appt_frame2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.appt_frame2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.appt_frame2.setObjectName("appt_frame2")
-        self.patientName_label_2 = QtWidgets.QLabel(self.appt_frame2)
-        self.patientName_label_2.setGeometry(QtCore.QRect(60, 10, 241, 16))
-        font = QtGui.QFont()
-        font.setFamily("Cascadia Code")
-        font.setPointSize(11)
-        self.patientName_label_2.setFont(font)
-        self.patientName_label_2.setObjectName("patientName_label_2")
-        self.appt_time_label_2 = QtWidgets.QLabel(self.appt_frame2)
-        self.appt_time_label_2.setGeometry(QtCore.QRect(60, 30, 161, 21))
-        font = QtGui.QFont()
-        font.setFamily("Cascadia Code")
-        font.setPointSize(10)
-        self.appt_time_label_2.setFont(font)
-        self.appt_time_label_2.setStyleSheet("border : none;\n"
-"color : #6ea0c4;\n"
-"")
-        self.appt_time_label_2.setObjectName("appt_time_label_2")
-        self.appt_frame3 = QtWidgets.QFrame(self.schedule_frame)
-        self.appt_frame3.setGeometry(QtCore.QRect(0, 230, 481, 71))
-        self.appt_frame3.setStyleSheet("border : none;\n"
-"border-radius : 0;\n"
-"background-color : #FFFFFF;")
-        self.appt_frame3.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.appt_frame3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.appt_frame3.setObjectName("appt_frame3")
-        self.patientName_label_3 = QtWidgets.QLabel(self.appt_frame3)
-        self.patientName_label_3.setGeometry(QtCore.QRect(60, 10, 241, 16))
-        font = QtGui.QFont()
-        font.setFamily("Cascadia Code")
-        font.setPointSize(11)
-        self.patientName_label_3.setFont(font)
-        self.patientName_label_3.setObjectName("patientName_label_3")
-        self.apptTime_label_3 = QtWidgets.QLabel(self.appt_frame3)
-        self.apptTime_label_3.setGeometry(QtCore.QRect(60, 30, 161, 21))
-        font = QtGui.QFont()
-        font.setFamily("Cascadia Code")
-        font.setPointSize(10)
-        self.apptTime_label_3.setFont(font)
-        self.apptTime_label_3.setStyleSheet("border : none;\n"
-"color : #6ea0c4;\n"
-"")
-        self.apptTime_label_3.setObjectName("apptTime_label_3")
+        
+
         
         # Nav frame & Layout 
         self.frame = QtWidgets.QFrame(Form)
@@ -512,12 +495,6 @@ class Doc_HomeWidget(QWidget):
         self.past_label.setText(_translate("Form", "Past"))
         self.todays_schedule_label.setText(_translate("Form", "Today\'s Schedule"))
         
-        self.patientName_label.setText(_translate("Form", "Patient Name"))
-        self.appt_time_label.setText(_translate("Form", "Time"))
-        self.patientName_label_2.setText(_translate("Form", "Patient Name"))
-        self.appt_time_label_2.setText(_translate("Form", "Time"))
-        self.patientName_label_3.setText(_translate("Form", "Patient Name"))
-        self.apptTime_label_3.setText(_translate("Form", "Time"))
         
         
         self.home_navigation.setText(_translate("Form", "   Home   "))

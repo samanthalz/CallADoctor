@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSignal, pyqtSlot, Qt
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, Qt, QRect
+from PyQt5.QtGui import QColor
 
 from connection import db
 from datetime import date
@@ -73,8 +74,9 @@ class UpdateRecordWidget(QWidget):
 
     def set_medical_records(self):  # method to call when the submit button is clicked
         print("In set medical records method")
-        diagnosis = self.diagnosis_input.text().strip()
-        medication_string = self.medication_input.text().strip()
+        diagnosis = self.diagnosis_input.text()
+        print(f"Diagnosis : {diagnosis}")
+        medication_string = self.medication_input.text()
         medication_list = medication_string.split(",")
 
 
@@ -84,7 +86,12 @@ class UpdateRecordWidget(QWidget):
         
         medical_records = db.child("medical_records").get().val()
         if medical_records: 
+            print("In if medical records")
             for record_id, record_info in enumerate(medical_records):
+                print("In for record in medical records")
+                print(record_info)
+                print(f"PID form record info : {int(record_info.get('patient_id')) }")
+                print(f"PID from self : {self.patient_id}")
                 if int(record_info.get('patient_id')) == int(self.patient_id): # existing record exists
                     record_exists = True
                     existing_record_id = record_id
@@ -118,14 +125,26 @@ class UpdateRecordWidget(QWidget):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet("background-color: \"#B6D0E2\" ")
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        self.background = QWidget(Form)
+        self.background.setObjectName(u"background")
+        self.background.setGeometry(QRect(150, 0, 1771, 1061))
+        self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
+"border-bottom-left-radius: 30px;\n"
+"border-top-left-radius: 30px;")
+
+
+        # Nav frame & Layout 
         self.frame = QtWidgets.QFrame(Form)
         self.frame.setGeometry(QtCore.QRect(0, 90, 141, 891))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.navigation_layout = QtWidgets.QWidget(self.frame)
-        self.navigation_layout.setGeometry(QtCore.QRect(30, 19, 87, 871))
+        self.navigation_layout.setGeometry(QtCore.QRect(31, 20, 87, 851))
         self.navigation_layout.setObjectName("navigation_layout")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.navigation_layout)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -157,8 +176,7 @@ class UpdateRecordWidget(QWidget):
         self.home_navigation.setObjectName("home_navigation")
         self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
-        
-        
+
         self.patients_navigation = QtWidgets.QToolButton(self.navigation_layout)
         self.patients_navigation.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
