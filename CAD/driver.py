@@ -25,6 +25,7 @@ from User.change_pass_email import ChangePassEmailWidget
 from User.change_pass_new import ChangePassNewWidget
 from User.change_pass_verify import ChangePassVerifyWidget
 from User.change_pass_success import ChangePassSuccessWidget
+from User.ui_view_appt import ViewApptWidget
 
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
@@ -83,6 +84,7 @@ class Ui_MainWindow(QMainWindow):
         self.homeWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.homeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.homeWidget.profile_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.homeWidget.appt_btn_clicked.connect(self.showViewApptWidget)
         
         self.findClinicWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.findClinicWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -242,6 +244,7 @@ class Ui_MainWindow(QMainWindow):
         self.changePassVerifyWidget = ChangePassVerifyWidget()
         self.changePassNewWidget = ChangePassNewWidget()
         self.changePassSuccessWidget = ChangePassSuccessWidget()
+        self.viewApptWidget = ViewApptWidget()
         
         self.paHomeWidget = PAHomeWidget()
         self.registerClinicWidget = RegisterClinicWidget()
@@ -302,6 +305,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.changePassNewWidget)  
         self.stackedWidget.addWidget(self.changePassSuccessWidget)  
         self.stackedWidget.addWidget(self.changePassVerifyWidget)  
+        self.stackedWidget.addWidget(self.viewApptWidget)
         
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
@@ -333,8 +337,14 @@ class Ui_MainWindow(QMainWindow):
             self.showPAHomeWidget()
             
     @pyqtSlot()
+    def showViewApptWidget(self):
+        self.stackedWidget.setCurrentWidget(self.viewApptWidget)
+        self.viewApptWidget.fetch_appt_data()
+        
+    @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
+    
     
     @pyqtSlot()
     def showForgotPw_verificationWidget(self):

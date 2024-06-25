@@ -14,6 +14,7 @@ class HomeWidget(QWidget):
     service_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
     profile_btn_clicked = pyqtSignal()
+    appt_btn_clicked = pyqtSignal()
         
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -452,7 +453,7 @@ class HomeWidget(QWidget):
         self.appointments_navigation.setIcon(icon2)
         self.appointments_navigation.setIconSize(QSize(70, 70))
         self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.appointments_navigation.clicked.connect(self.emitApptBtn)
         self.verticalLayout.addWidget(self.appointments_navigation)
 
         self.services_navigation = QToolButton(self.widget)
@@ -553,6 +554,11 @@ class HomeWidget(QWidget):
     def emitProfileBtn(self):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitApptBtn(self):
+        # Emit the custom signal
+        self.appt_btn_clicked.emit()
 
     def initialize_db(self):
         return db 
