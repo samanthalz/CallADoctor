@@ -4,7 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,QMouseEvent,
     QRadialGradient)
 from PyQt5.QtWidgets import *
-import datetime
+from datetime import datetime
 from connection import db
 
 
@@ -17,6 +17,7 @@ class ViewApptWidget(QWidget):
     
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.patient_id = 0
         self.appt_data_list = []
         self.selected_status = ""
         self.setupUi(self)
@@ -62,16 +63,14 @@ class ViewApptWidget(QWidget):
         self.profile_btn.setStyleSheet(u"border: none")
         
         self.filter = QComboBox(self.background)
-        self.filter.addItem("")
-        self.filter.addItem("")
         self.filter.setObjectName(u"filter")
         self.filter.setGeometry(QRect(710, 170, 151, 31))
         font4 = QFont()
         font4.setFamily(u"Consolas")
         font4.setPointSize(12)
         self.filter.setFont(font4)
-        self.filter.setStyleSheet(u"\n"
-"border: 1px solid gray;")
+        self.filter.setStyleSheet(u"border: 1px solid gray;")
+        self.filter.activated.connect(self.updateSelectedStatus)
         self.load_status()
         
         self.appt_list = QLabel(self.background)
@@ -93,19 +92,20 @@ class ViewApptWidget(QWidget):
         
         self.scrollArea = QScrollArea(self.background)
         self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setGeometry(QRect(40, 230, 821, 731))
+        self.scrollArea.setGeometry(QRect(40, 240, 831, 781))
+        self.scrollArea.setMinimumSize(QSize(831, 781))
+        self.scrollArea.setMaximumSize(QSize(831, 781))
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 821, 731))
-        
-        self.vLayout = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 831, 781))
+        self.widget = QWidget(self.scrollAreaWidgetContents)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(10, 10, 803, 751))
+        self.vLayout = QVBoxLayout(self.widget)
+        self.vLayout.setObjectName(u"vLayout")
         self.vLayout.setSpacing(10)
-        self.vLayout.setObjectName(u"vlayout")
         self.vLayout.setContentsMargins(0, 0, 0, 0)
-
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.scrollAreaWidgetContents.setLayout(self.vLayout)
         
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
@@ -115,9 +115,9 @@ class ViewApptWidget(QWidget):
         self.layoutWidget_4 = QWidget(self.frame)
         self.layoutWidget_4.setObjectName(u"layoutWidget_4")
         self.layoutWidget_4.setGeometry(QRect(30, 19, 87, 871))
-        self.verticalLayout_3 = QVBoxLayout(self.layoutWidget_4)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.vLayout_3 = QVBoxLayout(self.layoutWidget_4)
+        self.vLayout_3.setObjectName(u"vLayout_3")
+        self.vLayout_3.setContentsMargins(0, 0, 0, 0)
         self.home_navigation = QToolButton(self.layoutWidget_4)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
@@ -141,8 +141,8 @@ class ViewApptWidget(QWidget):
         self.home_navigation.setIcon(icon)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_3.addWidget(self.home_navigation)
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
+        self.vLayout_3.addWidget(self.home_navigation)
 
         self.appointments_navigation = QToolButton(self.layoutWidget_4)
         self.appointments_navigation.setObjectName(u"appointments_navigation")
@@ -158,7 +158,7 @@ class ViewApptWidget(QWidget):
         self.appointments_navigation.setIconSize(QSize(70, 70))
         self.appointments_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_3.addWidget(self.appointments_navigation)
+        self.vLayout_3.addWidget(self.appointments_navigation)
 
         self.services_navigation = QToolButton(self.layoutWidget_4)
         self.services_navigation.setObjectName(u"services_navigation")
@@ -173,8 +173,8 @@ class ViewApptWidget(QWidget):
         self.services_navigation.setIcon(icon2)
         self.services_navigation.setIconSize(QSize(70, 70))
         self.services_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_3.addWidget(self.services_navigation)
+        self.services_navigation.clicked.connect(self.emitServiceBtn)
+        self.vLayout_3.addWidget(self.services_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_4)
         self.settings_navigation.setObjectName(u"settings_navigation")
@@ -189,8 +189,8 @@ class ViewApptWidget(QWidget):
         self.settings_navigation.setIcon(icon3)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_3.addWidget(self.settings_navigation)
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
+        self.vLayout_3.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.layoutWidget_4)
         self.logout_navigation.setObjectName(u"logout_navigation")
@@ -205,8 +205,8 @@ class ViewApptWidget(QWidget):
         self.logout_navigation.setIcon(icon4)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_3.addWidget(self.logout_navigation)
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
+        self.vLayout_3.addWidget(self.logout_navigation)
 
 
         self.retranslateUi(Form)
@@ -242,37 +242,43 @@ class ViewApptWidget(QWidget):
         # Emit the custom signal
         self.home_btn_clicked.emit()
         
+    @pyqtSlot()
+    def emitServiceBtn(self):
+        # Emit the custom signal
+        self.service_btn_clicked.emit()
+        
     def initialize_db(self):
         return db 
 
     def fetch_appt_data(self):
         db = self.initialize_db()
         try:
-                #print("Initializing database connection...")  # Debug statement
+                # Initialize database connection and fetch appointment data
                 appointments = db.child("appointment").get()
-                #print(f"Fetched appointments from database: {appointments}")  # Debug statement
-
+                
                 if appointments.each():
-                        self.appt_data_list = []
+                        self.appt_data_list = []  # Initialize the list to store appointment data
+
                         for appointment in appointments.each():
                                 appt_id = appointment.key()
                                 appt_data = appointment.val()
-                                #print(f"Processing appointment ID: {appt_id}, Data: {appt_data}")  # Debug statement
-                                appt_data["appt_id"] = appt_id
-                                self.appt_data_list.append(appt_data)
-                
-                # Debug: Print the fetched data
-                        print("Fetched appointments Data:", self.appt_data_list)  # Debug statement
-                
-                        self.populate_appt_info()
+                                appt_data["appt_id"] = appt_id  # Add the appointment ID to the data
+
+                                # Get doctor name using doctor ID from appointment data
+                                doc_id = appt_data.get("doctor_id")
+                                doc_data = db.child("doctors").child(doc_id).get().val()
+                                #print(f"doc data {doc_data}")
+                                doc_name = doc_data.get("name", "Unknown")
+                                appt_data["doctor_name"] = doc_name  # Add the doctor's name to the appointment data
+                                
+                                self.appt_data_list.append(appt_data)  # Append the updated data to the list
+
+                        self.populate_appt_info()  # Populate the appointment info
                 else:
                         print("No appointments data found.")
         except Exception as e:
                 print(f"An error occurred while fetching data: {e}")
-
-
-            
-            
+         
     def clear_layout(self):
         while self.vLayout.count():
                 item = self.vLayout.takeAt(0) 
@@ -281,9 +287,12 @@ class ViewApptWidget(QWidget):
                         widget.deleteLater()
                         
     def create_appt_list_frame(self, appt_data):
-        appt_frame = QFrame(self.scrollAreaWidgetContents)
+        appt_frame = QFrame(self.widget)
         appt_frame.setObjectName(u"clinic_frame")
         appt_frame.setGeometry(QRect(60, 240, 801, 81))
+        appt_frame.setMinimumSize(QSize(801, 81))
+        appt_frame.setMaximumSize(QSize(801, 81))
+        appt_frame.setStyleSheet(u"border: 1px solid gray; border-radius: 10px;")
         appt_frame.setFrameShape(QFrame.StyledPanel)
         appt_frame.setFrameShadow(QFrame.Raised)
         appt_name_label = QLabel(appt_frame)
@@ -291,7 +300,7 @@ class ViewApptWidget(QWidget):
         appt_name_label.setGeometry(QRect(30, 30, 611, 21))
         appt_name_label.setText(f"{appt_data.get('clinic_name', 'Unknown')} - {appt_data.get('speciality', 'Unknown')}")
         
-        #appt_name_label.mousePressEvent = lambda event, clinic=appt_data: self.create_popup_widget(clinic)
+        appt_name_label.mousePressEvent = lambda event, appt=appt_data: self.create_popup_widget(appt)
         
         font6 = QFont()
         font6.setFamily(u"Consolas")
@@ -301,51 +310,64 @@ class ViewApptWidget(QWidget):
         status = QLabel(appt_frame)
         status.setObjectName(u"status")
         status.setGeometry(QRect(690, 20, 91, 41))
+        status.setMinimumSize(QSize(91, 41))
+        status.setMaximumSize(QSize(91, 41))
         status.setFont(font6)
-        status.setStyleSheet(u"background-color: rgba(18, 137, 131, 0.15);color: #128983; text-align: center;\n")
+        status.setStyleSheet(u"background-color: #B6D0E2;color: black; text-align: center;border:none;")
         status.setAlignment(Qt.AlignCenter)
+        status.setText(appt_data.get("status", "Unknown"))
         return appt_frame
+
 
     def populate_appt_info(self):
         self.clear_layout()
 
         visible_appt = []
         db = self.initialize_db()  
-        
+        #print("Fetched appointments Data:", self.appt_data_list)  # Uncomment for debugging
+
         for i, appt_data in enumerate(self.appt_data_list):
                 if isinstance(appt_data, dict):
                         clinic_id = appt_data.get("clinic_id", "")
-                        doc_id = appt_data.get("doctor_id", "")
+                        #print(f"clinic id {clinic_id}")
+                        
+                        try:
+                                # Fetch clinic name using clinic_id
+                                clinic_data = db.child("clinic").child(clinic_id).get().val()
+                                clinic_name = clinic_data.get("clinic_name", "Unknown")
+                                appt_data["clinic_name"] = clinic_name
+                                #print(f"clinic name {clinic_name}")
 
-                        # Fetch clinic name using clinic_id
-                        clinic_data = db.child("clinic").child(clinic_id).get().val()
-                        clinic_name = clinic_data.get("clinic_name", "Unknown")
-                        appt_data["clinic_name"] = clinic_name
+                                status = appt_data.get("status", "").lower()
+                                #print(f"status {status}")
 
-                        # Fetch doctor name using doc_id
-                        doc_data = db.child("doctors").child(doc_id).get().val()
-                        doc_name = doc_data.get("doc_name", "Unknown")
-                        appt_data["doc_name"] = doc_name
+                                if self.selected_status and status.lower() != self.selected_status.lower():
+                                        continue
 
-                        clinic_name_lower = clinic_name.lower()
-                        status = appt_data.get("status", "").lower()
-
-                        if self.selected_status and status.lower() != self.selected_status.lower():
-                                continue
-
-                       
-                        appt_frame = self.create_appt_list_frame(appt_data)
-                        if appt_frame:
-                                visible_appt.append(appt_frame)
+                                # Check if the appointment is for the current patient
+                                if appt_data.get("patient_id") == self.patient_id:
+                                        appt_frame = self.create_appt_list_frame(appt_data)
+                                        if appt_frame:
+                                                visible_appt.append(appt_frame)
+                        except Exception as e:
+                                print(f"An error occurred while processing appointment data: {e}")
+        # Clear existing layout
+        for i in reversed(range(self.vLayout.count())):
+                widget = self.vLayout.itemAt(i).widget()
+                if widget is not None:
+                        widget.deleteLater()
 
         # Add visible appointments to the layout in reverse order
         for appt_frame in reversed(visible_appt):
                 self.vLayout.addWidget(appt_frame)
 
-        self.scrollAreaWidgetContents.setLayout(self.vLayout)
+        # Update the layout and scroll area
         self.vLayout.setAlignment(Qt.AlignTop)
         self.vLayout.update()
-        self.scrollAreaWidgetContents.update()
+        self.widget.update()
+        self.scrollAreaWidgetContents.setLayout(self.vLayout)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.scrollArea.update()
 
 
     def create_appt_details_frame(self, appt_data):
@@ -363,9 +385,9 @@ class ViewApptWidget(QWidget):
         layoutWidget = QWidget(appt_details_inner)
         layoutWidget.setObjectName(u"layoutWidget")
         layoutWidget.setGeometry(QRect(3, 3, 701, 731))
-        verticalLayout_2 = QVBoxLayout(layoutWidget)
-        verticalLayout_2.setObjectName(u"verticalLayout_2")
-        verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        vLayout_2 = QVBoxLayout(layoutWidget)
+        vLayout_2.setObjectName(u"vLayout_2")
+        vLayout_2.setContentsMargins(0, 0, 0, 0)
         
         date_layout = QHBoxLayout()
         date_layout.setObjectName(u"date_layout")
@@ -394,11 +416,26 @@ class ViewApptWidget(QWidget):
         font2.setWeight(50)
         date_display.setFont(font2)
         date_display.setStyleSheet(u"border: none;")
-        date_display.setText(appt_data.get("clinic_name", "Unknown"))
+        
+        # Fetch the date string from fb_data
+        date_str = appt_data.get("date", "Unknown")
+        # Check if the date is valid and not "Unknown"
+        if date_str != "Unknown":
+            # Parse the date string to a datetime object
+            date_obj = datetime.strptime(date_str, "%y%m%d")
+            
+            # Format the datetime object to the desired string format
+            formatted_date = date_obj.strftime("%d %B %Y")
+        else:
+            formatted_date = "Unknown"
+
+        # Set the text to the formatted date
+        date_display.setText(formatted_date)
+        
         date_layout.addWidget(date_display)
 
 
-        verticalLayout_2.addLayout(date_layout)
+        vLayout_2.addLayout(date_layout)
 
         time_layout = QHBoxLayout()
         time_layout.setObjectName(u"time_layout")
@@ -420,7 +457,7 @@ class ViewApptWidget(QWidget):
         time_layout.addWidget(time_display)
 
 
-        verticalLayout_2.addLayout(time_layout)
+        vLayout_2.addLayout(time_layout)
 
         clinic_layout = QHBoxLayout()
         clinic_layout.setSpacing(6)
@@ -446,7 +483,7 @@ class ViewApptWidget(QWidget):
         clinic_layout.addWidget(clinic_display)
 
 
-        verticalLayout_2.addLayout(clinic_layout)
+        vLayout_2.addLayout(clinic_layout)
 
         doc_spec_layout = QHBoxLayout()
         doc_spec_layout.setObjectName(u"doc_spec_layout")
@@ -473,7 +510,7 @@ class ViewApptWidget(QWidget):
         doc_spec_layout.addWidget(doc_spec_display)
 
 
-        verticalLayout_2.addLayout(doc_spec_layout)
+        vLayout_2.addLayout(doc_spec_layout)
 
         med_con_layout = QHBoxLayout()
         med_con_layout.setObjectName(u"med_con_layout")
@@ -497,7 +534,7 @@ class ViewApptWidget(QWidget):
         med_con_display.setText(appt_data.get("med_concern", "Unknown"))
 
         med_con_layout.addWidget(med_con_display)
-        verticalLayout_2.addLayout(med_con_layout)
+        vLayout_2.addLayout(med_con_layout)
         
         cancel_btn = QPushButton(request_detail_outer)
         cancel_btn.setObjectName(u"cancel_btn")
@@ -510,26 +547,21 @@ class ViewApptWidget(QWidget):
         cancel_btn.setFont(font3)
         cancel_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
         cancel_btn.setText("Cancel Appointment")
-
+        cancel_btn.clicked.connect(self.cancel_appt)
         status = appt_data.get("status")
         
-        if status == "pending":
-                cancel_btn.show()
-        else:
-                cancel_btn.hide()
-
         self.temp_appt_id = appt_data["appt_id"]
         
         return request_detail_outer
         
     def create_popup_widget(self, appt_data):
         self.hide_appt_details_frame()
-        self.clinic_appt_frame = self.create_appt_details_frame(appt_data)
-        self.clinic_appt_frame.setVisible(True)
+        self.appt_details_frame = self.create_appt_details_frame(appt_data)
+        self.appt_details_frame.setVisible(True)
         
     def hide_appt_details_frame(self):
-        if self.clinic_appt_frame:
-            self.clinic_appt_frame.setVisible(False)
+        if self.appt_details_frame:
+            self.appt_details_frame.setVisible(False)
             
     def load_status(self):
         status = [
@@ -574,10 +606,10 @@ class ViewApptWidget(QWidget):
         if appt_data:
                 try:
                         # Check if the current date is at least 3 days before the appointment date
-                        current_date = datetime.datetime.now().date()
-                        appt_date_str = appt_data.get("appt_date", "")
-                        appt_date = datetime.datetime.strptime(appt_date_str, "%y%m%d").date()
-
+                        current_date = datetime.now().date()
+                        appt_date_str = appt_data.get("date", "")
+                        appt_date = datetime.strptime(appt_date_str, "%y%m%d").date()
+                        
                         if (appt_date - current_date).days >= 3:
                                 # Remove the appointment from the database
                                 db.child("appointment").child(appt_id).remove()
@@ -601,3 +633,8 @@ class ViewApptWidget(QWidget):
                         QMessageBox.critical(self, "Error", f"Failed to cancel appointment: {str(e)}")
         else:
                 QMessageBox.warning(self, "No Appointment Selected", "Please select an appointment to cancel.")
+
+    def set_user_id(self, user_id): 
+        self.patient_id = user_id
+        #print("enter set user id for user profile")
+        #print(f"set user id is {self.patient_id}")

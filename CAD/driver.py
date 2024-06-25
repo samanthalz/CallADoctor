@@ -80,6 +80,7 @@ class Ui_MainWindow(QMainWindow):
         self.servicesWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.servicesWidget.profile_btn_clicked.connect(self.showProfileSettingsWidget)
         self.servicesWidget.home_btn_clicked.connect(self.showHomeWidget)
+        self.servicesWidget.schedule_btn_clicked.connect(self.showViewApptWidget)
         
         self.homeWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.homeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -92,6 +93,7 @@ class Ui_MainWindow(QMainWindow):
         self.findClinicWidget.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         self.findClinicWidget.profile_btn_clicked.connect(self.showProfileSettingsWidget)
         self.findClinicWidget.home_btn_clicked.connect(self.showHomeWidget)
+        self.findClinicWidget.schedule_btn_clicked.connect(self.showViewApptWidget)
         
         self.findDocWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.findDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -99,6 +101,7 @@ class Ui_MainWindow(QMainWindow):
         self.findDocWidget.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         self.findDocWidget.profile_btn_clicked.connect(self.showProfileSettingsWidget)
         self.findDocWidget.home_btn_clicked.connect(self.showHomeWidget)
+        self.findDocWidget.schedule_btn_clicked.connect(self.showViewApptWidget)
         
         self.viewDoctorProfile.service_btn_clicked.connect(self.showServicesWidget)
         self.viewDoctorProfile.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -106,6 +109,7 @@ class Ui_MainWindow(QMainWindow):
         self.viewDoctorProfile.makeAppointmentRequested.connect(self.showPrefillMakeApptWidget)
         self.viewDoctorProfile.profile_btn_clicked.connect(self.showProfileSettingsWidget)
         self.viewDoctorProfile.home_btn_clicked.connect(self.showHomeWidget)
+        self.viewDoctorProfile.schedule_btn_clicked.connect(self.showViewApptWidget)
         
         self.viewClinicProfile.service_btn_clicked.connect(self.showServicesWidget)
         self.viewClinicProfile.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -114,13 +118,20 @@ class Ui_MainWindow(QMainWindow):
         self.viewClinicProfile.viewDocterRequested.connect(self.showPrefillFindDocWidget)
         self.viewClinicProfile.profile_btn_clicked.connect(self.showProfileSettingsWidget)
         self.viewClinicProfile.home_btn_clicked.connect(self.showHomeWidget)
+        self.viewClinicProfile.schedule_btn_clicked.connect(self.showViewApptWidget)
         
         self.makeApptWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.cancel_btn_clicked.connect(self.showServicesWidget)
         self.makeApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.makeApptWidget.profile_btn_clicked.connect(self.showProfileSettingsWidget)
-        #self.makeApptWidget.redirect_appt.connect(self.showAppointmentWidget) to be modified to show appointment page
+        self.makeApptWidget.redirect_appt.connect(self.showViewApptWidget)
+        self.makeApptWidget.schedule_btn_clicked.connect(self.showViewApptWidget)
         self.makeApptWidget.home_btn_clicked.connect(self.showHomeWidget)
+        
+        self.viewApptWidget.service_btn_clicked.connect(self.showServicesWidget)
+        self.viewApptWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.viewApptWidget.profile_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.viewApptWidget.home_btn_clicked.connect(self.showHomeWidget)
         
         self.forgotPwWidget.continue_successful.connect(self.showForgotPw_verificationWidget)
         self.forgotPwWidget.back_successful.connect(self.showLoginWidget)       
@@ -135,6 +146,7 @@ class Ui_MainWindow(QMainWindow):
         self.profileSettingsWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.profileSettingsWidget.home_btn_clicked.connect(self.showHomeWidget)
         self.profileSettingsWidget.change_pass_btn_clicked.connect(self.showChangePassEmailWidget)
+        self.profileSettingsWidget.schedule_btn_clicked.connect(self.showViewApptWidget)
         
         self.changePassEmailWidget.back_successful.connect(self.showProfileSettingsWidget)
         self.changePassEmailWidget.continue_successful.connect(self.showChangePassVerifyWidget)
@@ -556,11 +568,12 @@ class Ui_MainWindow(QMainWindow):
     def set_user_id(self, user_id):  
         try:
             if user_id.isdigit(): 
-                self.homeWidget.set_user_id(user_id)
+                #self.homeWidget.set_user_id(user_id)
                 self.makeApptWidget.set_user_id(user_id)
                 self.profileSettingsWidget.set_user_id(user_id)
                 self.sendFeedbackWidget.set_user_id(user_id)
                 self.paProfileSettingsWidget.set_user_id(user_id)
+                self.viewApptWidget.set_user_id(user_id)
 
             else :  # doctor user id is a string
                 self.docPatientsWidget.set_user_id(user_id)

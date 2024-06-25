@@ -658,7 +658,6 @@ class MakeApptWidget(QWidget):
             max_id = 0
             if appointments.each():
                 for appointment in appointments.each():
-                    print(f"appt is {appointment}")
                     appt_id = appointment.key()
                     id_num = int(appt_id.replace("appt_id", ""))
                     if id_num > max_id:
@@ -672,10 +671,28 @@ class MakeApptWidget(QWidget):
     
     def set_user_id(self, user_id): 
         self.patient_id = user_id
-        
+  
+    def get_doctor_id_by_name(self, doctor_name, clinic_name):
+        try:
+            db = self.initialize_db()
+            clinics = db.child("clinic").get()
+            for clinic in clinics.each():
+                clinic_data = clinic.val()
+                if clinic_data.get("clinic_name") == clinic_name:
+                    doctors_table = clinic_data.get("doctors")
+                    if doctors_table:
+                        for doctor_id, doctor_data in doctors_table.items():
+                            if doctor_data.get("doctor_name") == doctor_name:
+                                return clinic.key(), doctor_id  # Return the clinic_id and doctor_id associated with the names
+        except Exception as e:
+            print(f"Error fetching clinic and doctor IDs: {e}")
+        return "", ""
+
+
+      
     def save_appointment_to_db(self):
         db = self.initialize_db()
-        clinic, doctor, time, speciality, date, med_concern, admin_reassign = self.get_selected_data()
+        clinic, doctor_name, time, speciality, date, med_concern, admin_reassign = self.get_selected_data()
         new_appt_id = self.generate_new_appt_id()
         
         if not new_appt_id:
@@ -683,22 +700,24 @@ class MakeApptWidget(QWidget):
             return
         
         # Validate dropdowns and line edit
-        if not all([clinic, doctor, time, speciality, date, med_concern]):
+        if not all([clinic, doctor_name, time, speciality, date, med_concern]):
             QMessageBox.warning(self, "Input Error", "Missing fields found.")
             return
          
         #print(f"user id is {self.patient_id}")
+        clinic_id, doctor_id = self.get_doctor_id_by_name(doctor_name, clinic)
         
         appointment_data = {
-            "clinic_id": clinic,
+            "clinic_id": clinic_id,
             "date": date,
-            "doctor_id": doctor,
+            "doctor_id": doctor_id,
             "patient_id": self.patient_id, 
             "record_id": 1,  # Replace with actual record ID
             "time": time,
             "speciality": speciality,
             "med_concern": med_concern,
-            "admin_reassign": admin_reassign
+            "admin_reassign": admin_reassign,
+            "status": "pending"
         }
 
         try:
