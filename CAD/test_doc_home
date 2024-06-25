@@ -1,0 +1,64 @@
+import unittest
+import sys
+from unittest.mock import MagicMock, patch
+from PyQt5.QtWidgets import QApplication, QMessageBox
+from Doctor.doc_homePage import Doc_HomeWidget
+
+class TestDocHomeWidget(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.app = QApplication([])  # Create a QApplication instance
+
+    def setUp(self):
+        self.widget = Doc_HomeWidget()
+        self.widget.user_id = 'doc123'
+
+    def test_get_upcoming_appt_data(self):
+        mock_db = MagicMock()
+        mock_db.child.return_value.get.return_value.val.return_value =  {
+            'appt1': {
+                'doctor_id': 'doc123',
+                'patient_id': 'patient1',
+                'speciality': 'cardiology',
+                'date': '240625',  # Assume date format is YYMMDD
+                'time': '10:00'
+            },
+            'appt2': {
+                'doctor_id': 'doc123',
+                'patient_id': 'patient2',
+                'speciality': 'neurology',
+                'date': '240624',  # Yesterday's date
+                'time': '12:00'
+            },
+            'appt3': {
+                'doctor_id': 'doc456',  # Different doctor
+                'patient_id': 'patient3',
+                'speciality': 'orthopedics',
+                'date': '240626',
+                'time': '09:00'
+            }
+        }
+
+        mock_db.child.return_value.get.return_value.val.return_value = {
+            'patient1': {'patient_ic': 'patient1', 'patient_name': 'John Doe'},
+            'patient2': {'patient_ic': 'patient2', 'patient_name': 'Jane Smith'},
+            'patient3': {'patient_ic': 'patient3', 'patient_name': 'Jim Brown'}
+        }
+
+        # Execute the method
+        num_upcoming_appt, upcoming_appt_info = self.widget.get_upcoming_appt_data()
+
+        # Assertions
+        self.assertEqual(num_upcoming_appt, 1)
+        self.assertEqual(len(upcoming_appt_info), 1)
+
+
+    def test_translate_date(self):
+        self.assertEqual(self.widget.translate_date("240620"), "20 Jun 2024")
+        self.assertEqual(self.widget.translate_date("200101"), "01 Jan 2020")
+        self.assertEqual(self.widget.translate_date("120715"), "15 Jul 2012")
+        self.assertEqual(self.widget.translate_date("041231"), "31 Dec 2004")
+
+
+if __name__ == '__main__':
+    unittest.main()
