@@ -184,7 +184,7 @@ class ChangePassNewWidget(QWidget):
             if patients.each():
                 for patient in patients.each():
                     patient_data = patient.val()
-                    if patient_data['patient_email'] == email:
+                    if patient_data['patient_email'].lower() == email.lower():
                         user_id = patient.key()
                         db.child("patients").child(user_id).update({"patient_pass": new_password})
                         print(f"Password updated for {email}")

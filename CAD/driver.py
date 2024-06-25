@@ -24,7 +24,7 @@ from User.ui_tnc_register import TncRegisterWidget
 from User.change_pass_email import ChangePassEmailWidget
 from User.change_pass_new import ChangePassNewWidget
 from User.change_pass_verify import ChangePassVerifyWidget
-#from User.change_pass_success import ch
+from User.change_pass_success import ChangePassSuccessWidget
 
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
@@ -132,6 +132,14 @@ class Ui_MainWindow(QMainWindow):
         self.profileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.profileSettingsWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.profileSettingsWidget.home_btn_clicked.connect(self.showHomeWidget)
+        self.profileSettingsWidget.change_pass_btn_clicked.connect(self.showChangePassEmailWidget)
+        
+        self.changePassEmailWidget.back_successful.connect(self.showProfileSettingsWidget)
+        self.changePassEmailWidget.continue_successful.connect(self.showChangePassVerifyWidget)
+        self.changePassVerifyWidget.continue_successful.connect(self.showChangePassNew)
+        self.changePassNewWidget.update_successful.connect(self.showChangePassSuccess)
+        self.changePassSuccessWidget.continue_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.changePassEmailWidget.email_changed.connect(self.changePassNewWidget.set_email)
         
         self.sendFeedbackWidget.redirect_profile.connect(self.showProfileSettingsWidget)
         self.sendFeedbackWidget.cancel_btn_clicked.connect(self.showProfileSettingsWidget)
@@ -227,6 +235,10 @@ class Ui_MainWindow(QMainWindow):
         self.privacyPolicyRegisterWidget = PrivacyPolicyRegisterWidget()
         self.tncWidget = TncWidget()
         self.tncRegisterWidget = TncRegisterWidget()
+        self.changePassEmailWidget = ChangePassEmailWidget()
+        self.changePassVerifyWidget = ChangePassVerifyWidget()
+        self.changePassNewWidget = ChangePassNewWidget()
+        self.changePassSuccessWidget = ChangePassSuccessWidget()
         
         self.paHomeWidget = PAHomeWidget()
         self.registerClinicWidget = RegisterClinicWidget()
@@ -283,7 +295,11 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.caApproveRejectWidget)
         self.stackedWidget.addWidget(self.caViewDocWidget)     
         self.stackedWidget.addWidget(self.caAddDocWidget)   
-
+        self.stackedWidget.addWidget(self.changePassEmailWidget)  
+        self.stackedWidget.addWidget(self.changePassNewWidget)  
+        self.stackedWidget.addWidget(self.changePassSuccessWidget)  
+        self.stackedWidget.addWidget(self.changePassVerifyWidget)  
+        
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
@@ -369,6 +385,22 @@ class Ui_MainWindow(QMainWindow):
     def showNewPassword(self):
         self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
         
+    @pyqtSlot()
+    def showChangePassEmailWidget(self):
+        self.stackedWidget.setCurrentWidget(self.changePassEmailWidget)
+        
+    @pyqtSlot()
+    def showChangePassVerifyWidget(self):
+        self.stackedWidget.setCurrentWidget(self.changePassVerifyWidget)
+        
+    @pyqtSlot()
+    def showChangePassNew(self):
+        self.stackedWidget.setCurrentWidget(self.changePassNewWidget)
+        
+    @pyqtSlot()
+    def showChangePassSuccess(self):
+        self.stackedWidget.setCurrentWidget(self.changePassSuccessWidget)
+                
     @pyqtSlot()
     def showFindClinicWidget(self):
         self.stackedWidget.setCurrentWidget(self.findClinicWidget)
