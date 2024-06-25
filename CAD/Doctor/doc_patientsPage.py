@@ -11,12 +11,12 @@ class PatientsPageWidget(QWidget):
         #self.user_id = "Dr. John Doe" # for testing direct this page
         self.user_id = 0
         self.setupUi(self)
-        self.set_doctor_id(self.doctor_id)
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
         # Assign values after doctor_id is initialized
         #self.get_patient_data()
+        self.user_id = "Dr. John Doe"
 
     def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
         day = date_str[-2:]

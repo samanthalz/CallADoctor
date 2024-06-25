@@ -446,12 +446,14 @@ class Ui_MainWindow(QMainWindow):
 
     def set_user_id(self, user_id):  
         try:
-            self.homeWidget.set_user_id(user_id)
-            self.makeApptWidget.set_user_id(user_id)
-            self.profileSettingsWidget.set_user_id(user_id)
-            self.sendFeedbackWidget.set_user_id(user_id)
-            self.paProfileSettingsWidget.set_user_id(user_id)
-            self.docPatientsWidget.set_user_id(user_id)
+            if type(user_id) == int :  # for error Error setting user id in widgets: invalid literal for int() with base 10: 'doctor1'
+                self.homeWidget.set_user_id(user_id)
+                self.makeApptWidget.set_user_id(user_id)
+                self.profileSettingsWidget.set_user_id(user_id)
+                self.sendFeedbackWidget.set_user_id(user_id)
+                self.paProfileSettingsWidget.set_user_id(user_id)
+            else : 
+                self.docPatientsWidget.set_user_id(user_id)
 
             
         except Exception as e:
