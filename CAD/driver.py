@@ -31,6 +31,8 @@ from Project_Admin.ui_edit_tnc import EditTncWidget
 from Project_Admin.ui_pa_profile_settings import PAProfileSettingsWidget
 
 from Doctor.ui_doc_profile_settings import DocProfileSettingsWidget
+from Doctor.doc_patientsPage import PatientsPageWidget
+from Doctor.doc_updatePrescription import UpdateRecordWidget
 
 from Clinic_Admin.ui_ca_profile_settings import CAProfileSettingsWidget
 from Clinic_Admin.ui_ca_homepage import CA_homepageWidget
@@ -166,6 +168,9 @@ class Ui_MainWindow(QMainWindow):
         self.paEditTncWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.paEditTncWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
+        # doctor widgets
+        
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1920, 1080)
@@ -212,11 +217,15 @@ class Ui_MainWindow(QMainWindow):
         self.caApproveRejectWidget = CA_approved_rejectWidget()
         self.caViewDocWidget = CA_view_docWidget()
         self.caAddDocWidget = CA_add_docWidget()
-
-        self.docProfileSettingsWidget = DocProfileSettingsWidget()
         self.caProfileSettingsWidget = CAProfileSettingsWidget()
-         
 
+        # Doctor widgets
+        self.docProfileSettingsWidget = DocProfileSettingsWidget()
+        self.docPatientsWidget = PatientsPageWidget()
+        self.docUpdateRecordWidget = UpdateRecordWidget()
+        
+        
+        
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.forgotPw_newpwWidget)
@@ -250,6 +259,8 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.caApproveRejectWidget)
         self.stackedWidget.addWidget(self.caViewDocWidget)     
         self.stackedWidget.addWidget(self.caAddDocWidget)   
+        self.stackedWidget.addWidget(self.docPatientsWidget) 
+        self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
 
 
         self.stackedWidget.setCurrentWidget(self.loginWidget)
@@ -266,6 +277,12 @@ class Ui_MainWindow(QMainWindow):
     def handle_login_success(self, rights):
         if rights == 0:
             self.showHomeWidget()
+        elif rights == 1: 
+            #self.showDocHomeWidget()
+            self.showDocPatientsWidget()
+        elif rights == 2:
+            #self.showCaHomeWidget() # uncomment when update to show home widget for ca
+            pass
         elif rights == 4:
             self.showPAHomeWidget()
             
@@ -397,11 +414,6 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.paEditTncWidget)
         self.paEditTncWidget.set_default_text()
         
-    def showViewDoctorProfileWidget(self, doc_id, clinic_name):
-        self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
-        self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
-        self.viewDoctorProfile.fetch_doctor_info_from_db()
-        
     def showViewClinicProfileWidget(self, clinic_name, temp):
         #print(f"clinic name is {clinic_name} temp is {temp}")
         self.stackedWidget.setCurrentWidget(self.viewClinicProfile)
@@ -411,6 +423,26 @@ class Ui_MainWindow(QMainWindow):
     def showPrefillPAFbWidget(self, fb_data):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
         self.paFeedbackInboxWidget.create_popup_widget(fb_data)
+
+    # Doctor widgets
+    def showViewDoctorProfileWidget(self, doc_id, clinic_name):
+        self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
+        self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
+        self.viewDoctorProfile.fetch_doctor_info_from_db()
+
+    @pyqtSlot()
+    def showDocPatientsWidget(self):
+        self.stackedWidget.setCurrentWidget(self.docPatientsWidget)
+
+    @pyqtSlot()
+    def showDocHomeWidget(self):
+        #self.stackedWidget.setCurrentWidget(self.docHomeWidget)
+        pass
+    
+    @pyqtSlot()
+    def showDocUpdateRecordWidget(self):
+        self.stackedWidget.setCurrentWidget(self.docUpdateRecordWidget)
+
 
     def set_user_id(self, user_id):  
         try:
