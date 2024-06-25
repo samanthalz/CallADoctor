@@ -174,10 +174,12 @@ class Ui_MainWindow(QMainWindow):
         self.docHomeWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docHomeWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+
         self.docPatientsWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docPatientsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docPatientsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docPatientsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+
         self.docUpdateRecordWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docUpdateRecordWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docUpdateRecordWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -474,6 +476,10 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showDocUpdateRecordWidget(self):
         self.stackedWidget.setCurrentWidget(self.docUpdateRecordWidget)
+
+    @pyqtSlot()
+    def showDocProfileSettingsWidget(self):
+        self.stackedWidget.setCurrentWidget(self.docProfileSettingsWidget)
 
     # clinic admin widgets
     @pyqtSlot()
