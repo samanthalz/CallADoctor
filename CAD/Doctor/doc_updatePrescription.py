@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSignal, pyqtSlot
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, Qt
 
 from connection import db
 from datetime import date
@@ -11,6 +11,7 @@ class UpdateRecordWidget(QWidget):
     logout_btn_clicked = pyqtSignal()
     profile_btn_clicked = pyqtSignal()
     home_btn_clicked = pyqtSignal()
+    redirect_doc_patients_page = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -19,6 +20,8 @@ class UpdateRecordWidget(QWidget):
 
     def set_patient_id(self, patient_id):
         self.patient_id = patient_id
+        print(f"Patient_ID : {self.patient_id}")
+        self.get_patient_records(patient_id)
 
     def get_patient_records(self, patient_id): 
         today = date.today()
@@ -27,8 +30,10 @@ class UpdateRecordWidget(QWidget):
 
         patient_data = db.child("patients").get().val()
         if patient_data: 
-            for patient_id, patient_info in patient_data.items():
-                if int(patient_info.get('patient_ic')) == int(patient_id):
+            for id, patient_info in patient_data.items():
+                if int(id) == int(patient_id):
+                    print(f"Patient ID from patient info : {id}")
+                    print(f"Patient ID from signal : {patient_id}")
                     patient_name = patient_info['patient_name']
 
         medical_records = db.child("medical_records").get().val()
@@ -47,6 +52,7 @@ class UpdateRecordWidget(QWidget):
 
         # update text of selected patient:   
         self.name_display.setText(patient_name)
+        self.name_display.setAlignment(Qt.AlignLeft)
         self.diagnosis_input.setText(patient_diagnosis)
         self.medication_input.setText(", ".join(active_medication_list))
 
@@ -65,7 +71,8 @@ class UpdateRecordWidget(QWidget):
             print(f"Error generating new record ID: {e}")
             return None
 
-    def set_medical_records(self):  # method to call when the add record button is clicked
+    def set_medical_records(self):  # method to call when the submit button is clicked
+        print("In set medical records method")
         diagnosis = self.diagnosis_input.text().strip()
         medication_string = self.medication_input.text().strip()
         medication_list = medication_string.split(",")
@@ -100,12 +107,13 @@ class UpdateRecordWidget(QWidget):
             msgBox.setText("Prescription updated successfully!")
             msgBox.setStandardButtons(QMessageBox.Ok)
             msgBox.setDefaultButton(QMessageBox.Ok)
-            msgBox.buttonClicked.connect(self.redirect_to_profile)
+            msgBox.buttonClicked.connect(self.redirect_to_patients)
             msgBox.exec_()
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to upload prescription: {str(e)}")
         
-        
+    
+
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -280,6 +288,7 @@ class UpdateRecordWidget(QWidget):
         self.submit_btn.setFont(font)
         self.submit_btn.setStyleSheet("background-color: \"#B6D0E2\"; border-radius: 10px;")
         self.submit_btn.setObjectName("submit_btn")
+        self.submit_btn.clicked.connect(self.set_medical_records)
         self.layoutWidget = QtWidgets.QWidget(self.whitebg)
         self.layoutWidget.setGeometry(QtCore.QRect(60, 260, 1504, 631))
         self.layoutWidget.setObjectName("layoutWidget")
@@ -351,6 +360,7 @@ class UpdateRecordWidget(QWidget):
         self.patient_name_label.setObjectName("patient_name_label")
         self.horizontalLayout.addWidget(self.patient_name_label)
         self.name_display = QtWidgets.QLabel(self.widget)
+        self.name_display.setAlignment(Qt.AlignLeft)
         font = QtGui.QFont()
         font.setFamily("Consolas")
         font.setPointSize(23)
@@ -404,6 +414,14 @@ class UpdateRecordWidget(QWidget):
     def emitProfileBtn(self):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
+
+    def redirect_to_patients(self, button):
+        if button.text() == "OK":
+            self.redirect_doc_patients_page.emit()
+
+        
+
+    
         
 
 # If run file directly access this page
