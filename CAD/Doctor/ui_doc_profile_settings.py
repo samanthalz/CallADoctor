@@ -283,6 +283,11 @@ class DocProfileSettingsWidget(QWidget):
         self.user_id_display.setText("")
         self.pas.setText(QCoreApplication.translate("Form", u"Password", None))
         self.pass_display.setText("")
+
+        self.home_navigation.setText(QCoreApplication.translate("Form", "   Home   "))
+        self.patients_navigation.setText(QCoreApplication.translate("Form", "Patients"))
+        self.settings_navigation.setText(QCoreApplication.translate("Form", "Settings"))
+        self.logout_navigation.setText(QCoreApplication.translate("Form", "Logout"))
     # retranslateUi
 
     @pyqtSlot()
