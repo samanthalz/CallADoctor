@@ -28,6 +28,11 @@ class UpdateRecordWidget(QWidget):
         # Assign values after doctor_id is initialized
         self.get_patient_records(self.patient_id)
 
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
+        # Assign values after doctor_id is initialized
+        self.user_id = "Dr. John Doe" # for testing direct this page
+
     def get_patient_records(self, patient_id): 
         today = date.today()
         current_date = today.strftime("%y%m%d")

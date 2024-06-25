@@ -247,8 +247,8 @@ class LoginWidget(QWidget):
                 for admin in ca_admins.each():
                     admin_data = admin.val()
                     if admin_data['ca_id'] == ic and admin_data['ca_pass'] == password:
-                        rights = admin_data.get('rights', 4)
-                        self.showMessageBox('Info', 'Admin login successful')
+                        rights = admin_data.get('rights', 2)
+                        self.showMessageBox('Info', 'Clinic Admin login successful')
                         self.login_successful.emit(rights)
                         self.user_id.emit(ic)
                     

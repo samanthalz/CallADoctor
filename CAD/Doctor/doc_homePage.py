@@ -15,6 +15,17 @@ from connection import db
 from datetime import date
 
 class Doc_HomeWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.user_id = 0
+        self.setupUi(self)
+    
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
+        # Assign values after doctor_id is initialized
+        #self.get_patient_data()
+        self.user_id = "Dr. John Doe" # for testing direct this page
+
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1920, 1080)

@@ -452,8 +452,9 @@ class Ui_MainWindow(QMainWindow):
                 self.profileSettingsWidget.set_user_id(user_id)
                 self.sendFeedbackWidget.set_user_id(user_id)
                 self.paProfileSettingsWidget.set_user_id(user_id)
-            else : 
+            else :  # doctor user id is a string
                 self.docPatientsWidget.set_user_id(user_id)
+                self.docHomeWidget.set_user_id(user_id)
 
             
         except Exception as e:
