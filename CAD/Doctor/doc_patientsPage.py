@@ -8,12 +8,13 @@ from datetime import date
 class PatientsPageWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.doctor_id = "Dr. John Doe" # ltr when get the doc id from login page, reinitialize this to empty
+        #self.user_id = "Dr. John Doe" # for testing direct this page
+        self.user_id = 0
         self.setupUi(self)
         self.set_doctor_id(self.doctor_id)
 
-    def set_doctor_id(self, doctor_id): 
-        self.user_id = doctor_id
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
         # Assign values after doctor_id is initialized
         #self.get_patient_data()
 

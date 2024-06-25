@@ -451,7 +451,8 @@ class Ui_MainWindow(QMainWindow):
             self.profileSettingsWidget.set_user_id(user_id)
             self.sendFeedbackWidget.set_user_id(user_id)
             self.paProfileSettingsWidget.set_user_id(user_id)
-            
+            self.docPatientsWidget.set_user_id(user_id)
+
             
         except Exception as e:
             print(f"Error setting user id in widgets: {e}")
