@@ -14,19 +14,11 @@ class UpdateRecordWidget(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.doctor_id = 0
-        self.patient_id = 0 # create signal to pass from patients page to update pres page
+        self.patient_id = 0
         self.setupUi(self)
 
-    def set_user_id(self, user_id): 
-        self.user_id = user_id
-        # Assign values after doctor_id is initialized
-        self.get_patient_records(self.patient_id)
-
-    def set_user_id(self, user_id): 
-        self.user_id = user_id
-        # Assign values after doctor_id is initialized
-        self.user_id = "Dr. John Doe" # for testing direct this page
+    def set_patient_id(self, patient_id):
+        self.patient_id = patient_id
 
     def get_patient_records(self, patient_id): 
         today = date.today()

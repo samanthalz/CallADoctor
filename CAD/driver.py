@@ -21,9 +21,13 @@ from User.ui_privacy_policy import PrivacyPolicyWidget
 from User.ui_privacy_register import PrivacyPolicyRegisterWidget
 from User.ui_tnc import TncWidget
 from User.ui_tnc_register import TncRegisterWidget
+from User.change_pass_email import ChangePassEmailWidget
+from User.change_pass_new import ChangePassNewWidget
+from User.change_pass_verify import ChangePassVerifyWidget
+from User.change_pass_success import ChangePassSuccessWidget
+
 from Project_Admin.ui_pa_homepage import PAHomeWidget
 from ui_register_clinic import RegisterClinicWidget
-
 from Project_Admin.ui_feedback_inbox import FeedbackInboxWidget
 from Project_Admin.ui_view_clinic import ViewClinicWidget
 from Project_Admin.ui_edit_privacy_policy import EditPrivacyPolicyWidget
@@ -128,6 +132,14 @@ class Ui_MainWindow(QMainWindow):
         self.profileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.profileSettingsWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.profileSettingsWidget.home_btn_clicked.connect(self.showHomeWidget)
+        self.profileSettingsWidget.change_pass_btn_clicked.connect(self.showChangePassEmailWidget)
+        
+        self.changePassEmailWidget.back_successful.connect(self.showProfileSettingsWidget)
+        self.changePassEmailWidget.continue_successful.connect(self.showChangePassVerifyWidget)
+        self.changePassVerifyWidget.continue_successful.connect(self.showChangePassNew)
+        self.changePassNewWidget.update_successful.connect(self.showChangePassSuccess)
+        self.changePassSuccessWidget.continue_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.changePassEmailWidget.email_changed.connect(self.changePassNewWidget.set_email)
         
         self.sendFeedbackWidget.redirect_profile.connect(self.showProfileSettingsWidget)
         self.sendFeedbackWidget.cancel_btn_clicked.connect(self.showProfileSettingsWidget)
@@ -169,7 +181,7 @@ class Ui_MainWindow(QMainWindow):
         self.paEditTncWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.paEditTncWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
-        # doctor buttons
+        # doctor signals connections
         self.docHomeWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docHomeWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -179,6 +191,8 @@ class Ui_MainWindow(QMainWindow):
         self.docPatientsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docPatientsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docPatientsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+        self.docPatientsWidget.add_record_btn_click.connect(self.showDocUpdateRecordWidget)
+        self.docPatientsWidget.patient_id_signal.connect(self.pass_pID_updateRecordWidget)
 
         self.docUpdateRecordWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docUpdateRecordWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
@@ -189,20 +203,6 @@ class Ui_MainWindow(QMainWindow):
         self.docProfileSettingsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
-
-        #self.login_widget = LoginWidget()
-        #self.setCentralWidget(self.login_widget)
-
-
-        # self.login_widget.ui_ca_homepage.connect(self.showCA_homepageWidget)
-
-        # self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
-        # self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAAddDocWidget)
-        # self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
-        # self.caHomeWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
-        # self.caHomeWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
-        # self.caHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-
         
 
     def setupUi(self, MainWindow):
@@ -237,6 +237,10 @@ class Ui_MainWindow(QMainWindow):
         self.privacyPolicyRegisterWidget = PrivacyPolicyRegisterWidget()
         self.tncWidget = TncWidget()
         self.tncRegisterWidget = TncRegisterWidget()
+        self.changePassEmailWidget = ChangePassEmailWidget()
+        self.changePassVerifyWidget = ChangePassVerifyWidget()
+        self.changePassNewWidget = ChangePassNewWidget()
+        self.changePassSuccessWidget = ChangePassSuccessWidget()
         
         self.paHomeWidget = PAHomeWidget()
         self.registerClinicWidget = RegisterClinicWidget()
@@ -293,11 +297,14 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.caApproveRejectWidget)
         self.stackedWidget.addWidget(self.caViewDocWidget)     
         self.stackedWidget.addWidget(self.caAddDocWidget)   
+        self.stackedWidget.addWidget(self.changePassEmailWidget)  
+        self.stackedWidget.addWidget(self.changePassNewWidget)  
+        self.stackedWidget.addWidget(self.changePassSuccessWidget)  
+        self.stackedWidget.addWidget(self.changePassVerifyWidget)  
         
         self.stackedWidget.addWidget(self.docPatientsWidget) 
         self.stackedWidget.addWidget(self.docUpdateRecordWidget) 
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
-        self.stackedWidget.addWidget(self.docUpdateRecordWidget)
         self.stackedWidget.addWidget(self.docHomeWidget)
 
 
@@ -381,6 +388,22 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
         
     @pyqtSlot()
+    def showChangePassEmailWidget(self):
+        self.stackedWidget.setCurrentWidget(self.changePassEmailWidget)
+        
+    @pyqtSlot()
+    def showChangePassVerifyWidget(self):
+        self.stackedWidget.setCurrentWidget(self.changePassVerifyWidget)
+        
+    @pyqtSlot()
+    def showChangePassNew(self):
+        self.stackedWidget.setCurrentWidget(self.changePassNewWidget)
+        
+    @pyqtSlot()
+    def showChangePassSuccess(self):
+        self.stackedWidget.setCurrentWidget(self.changePassSuccessWidget)
+                
+    @pyqtSlot()
     def showFindClinicWidget(self):
         self.stackedWidget.setCurrentWidget(self.findClinicWidget)
         self.findClinicWidget.fetch_clinic_data()
@@ -462,12 +485,13 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
         self.paFeedbackInboxWidget.create_popup_widget(fb_data)
 
-    # Doctor widgets
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
         self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
         self.viewDoctorProfile.fetch_doctor_info_from_db()
 
+
+    # Doctor widgets
     @pyqtSlot()
     def showDocPatientsWidget(self):
         self.stackedWidget.setCurrentWidget(self.docPatientsWidget)
@@ -483,6 +507,14 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showDocProfileSettingsWidget(self):
         self.stackedWidget.setCurrentWidget(self.docProfileSettingsWidget)
+    
+    @pyqtSlot()
+    def showDocUpdateRecordWidget(self):
+        self.stackedWidget.setCurrentWidget(self.docUpdateRecordWidget)
+
+
+    def pass_pID_updateRecordWidget(self, patient_id):
+        self.docUpdateRecordWidget.set_patient_id(patient_id)
 
     # clinic admin widgets
     @pyqtSlot()
