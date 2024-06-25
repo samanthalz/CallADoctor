@@ -209,6 +209,20 @@ class LoginWidget(QWidget):
             self.showMessageBox('Error', f"Error fetching patient data: {e}")
 
         try:
+            # Fetch data from Firebase for doctor
+            doctors = db.child('doctors').get()
+            for doctor in doctors.each():
+                doctor_data = doctor.val()
+                if doctor_data['user_id'] == ic and doctor_data['password'] == password:
+                    rights = patient_data.get('rights', 1) # rights = 1
+                    self.showMessageBox('Info', 'Doctor login successful')
+                    self.login_successful.emit(rights)
+                    self.user_id.emit(ic)
+                    return
+        except Exception as e:
+            self.showMessageBox('Error', f"Error fetching patient data: {e}")
+
+        try:
             # Fetch data from Firebase for pa
             pa_admins = db.child('project_admin').get()
             if pa_admins.each() is not None:

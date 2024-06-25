@@ -15,7 +15,7 @@ class PatientsPageWidget(QWidget):
     def set_doctor_id(self, doctor_id): 
         self.user_id = doctor_id
         # Assign values after doctor_id is initialized
-        self.get_patient_data()
+        #self.get_patient_data()
 
     def translate_date(self, date_str): # date_str = appt_data['date'] for appt_data in appt_info    ("240620")
         day = date_str[-2:]
@@ -657,6 +657,7 @@ class PatientsPageWidget(QWidget):
         self.logout_navigation.setText(_translate("Form", "Logout"))
 
 
+# If run file directly access this page
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

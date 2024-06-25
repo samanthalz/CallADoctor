@@ -400,7 +400,7 @@ class UpdateRecordWidget(QWidget):
 
         
 
-
+# If run file directly access this page
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
