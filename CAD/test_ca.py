@@ -219,13 +219,18 @@ class Ui_MainWindow(QMainWindow):
         self.caPatientsPageWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.caPatientsPageWidget.doc_name_btn_clicked.connect(self.showCAApproveRejectWidget)
 
-        """self.caApproveRejectWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
+        self.caApproveRejectWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
         self.caApproveRejectWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
+        self.caApproveRejectWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caApproveRejectWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
         self.caApproveRejectWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caApproveRejectWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-        self.caApproveRejectWidget.doc_name_btn_clicked.connect(self.showCAApproveRejectWidget) """
 
+        self.caProfileSettingsWidget.home_navigation_btn_clicked.connect(self.showHomeWidget)
+        self.caProfileSettingsWidget.doctors_navigation_btn_clicked.connect(self.showHomeWidget)
+        self.caProfileSettingsWidget.patients_navigation_btn_clicked.connect(self.showHomeWidget)
+        self.caProfileSettingsWidget.settings_navigation_btn_clicked.connect(self.showHomeWidget)
+        self.caProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
