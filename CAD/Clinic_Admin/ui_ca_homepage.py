@@ -22,9 +22,17 @@ class CA_homepageWidget(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.clinic_id = ""
+        self.doc_data_list = []
+        self.patient_data_list = []
         self.setupUi(self)
+        #self.fetch_patient_data()
+       # self.fetch_doc_data()
+        self.patient_details_frame = None
+        self.temp_patient_name = ""
 
     def setupUi(self, Form):
+
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
@@ -65,137 +73,16 @@ class CA_homepageWidget(QWidget):
         self.upcoming_label_2.setFont(font)
         self.upcoming_label_2.setStyleSheet(u"border : none;\n"
 "")
-        self.clinicReq_frame_6 = QFrame(self.upcomin_appt_frame_2)
-        self.clinicReq_frame_6.setObjectName(u"clinicReq_frame_6")
-        self.clinicReq_frame_6.setGeometry(QRect(20, 70, 401, 81))
-        self.clinicReq_frame_6.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame_6.setFrameShadow(QFrame.Raised)
-        self.doc_name_label_6 = QLabel(self.clinicReq_frame_6)
-        self.doc_name_label_6.setObjectName(u"doc_name_label_6")
-        self.doc_name_label_6.setGeometry(QRect(90, 30, 121, 21))
-        font1 = QFont()
-        font1.setFamily(u"Cascadia Code")
-        font1.setPointSize(10)
-        self.doc_name_label_6.setFont(font1)
-        self.doc_name_label_6.setStyleSheet(u"border : none;\n"
-"")
-        self.doc_logo_label_2 = QLabel(self.clinicReq_frame_6)
-        self.doc_logo_label_2.setObjectName(u"doc_logo_label_2")
-        self.doc_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
-        font2 = QFont()
-        font2.setFamily(u"Cascadia Code")
-        font2.setPointSize(9)
-        self.doc_logo_label_2.setFont(font2)
-        self.doc_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.doc_logo_label_2.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label_6 = QLabel(self.clinicReq_frame_6)
-        self.patient_visit_reason_label_6.setObjectName(u"patient_visit_reason_label_6")
-        self.patient_visit_reason_label_6.setGeometry(QRect(90, 60, 55, 16))
-        self.patient_visit_reason_label_6.setStyleSheet(u"color: #128983")
-        self.clinicReq_frame_7 = QFrame(self.upcomin_appt_frame_2)
-        self.clinicReq_frame_7.setObjectName(u"clinicReq_frame_7")
-        self.clinicReq_frame_7.setGeometry(QRect(20, 170, 401, 81))
-        self.clinicReq_frame_7.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame_7.setFrameShadow(QFrame.Raised)
-        self.doc_name_label_7 = QLabel(self.clinicReq_frame_7)
-        self.doc_name_label_7.setObjectName(u"doc_name_label_7")
-        self.doc_name_label_7.setGeometry(QRect(90, 30, 151, 21))
-        self.doc_name_label_7.setFont(font1)
-        self.doc_name_label_7.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_name_label = QLabel(self.clinicReq_frame_7)
-        self.clinic_name_label.setObjectName(u"clinic_name_label")
-        self.clinic_name_label.setGeometry(QRect(90, 60, 55, 16))
-        self.clinic_name_label.setStyleSheet(u"color: #128983")
-        self.doc_logo_label_3 = QLabel(self.clinicReq_frame_7)
-        self.doc_logo_label_3.setObjectName(u"doc_logo_label_3")
-        self.doc_logo_label_3.setGeometry(QRect(10, 10, 54, 54))
-        self.doc_logo_label_3.setFont(font2)
-        self.doc_logo_label_3.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.doc_logo_label_3.setAlignment(Qt.AlignCenter)
-        self.comboBox_2 = QComboBox(self.upcomin_appt_frame_2)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
-        self.comboBox_2.setGeometry(QRect(290, 30, 131, 31))
-        font3 = QFont()
-        font3.setFamily(u"Consolas")
-        font3.setPointSize(10)
-        self.comboBox_2.setFont(font3)
-        self.clinicReq_frame_8 = QFrame(self.upcomin_appt_frame_2)
-        self.clinicReq_frame_8.setObjectName(u"clinicReq_frame_8")
-        self.clinicReq_frame_8.setGeometry(QRect(20, 270, 401, 81))
-        self.clinicReq_frame_8.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame_8.setFrameShadow(QFrame.Raised)
-        self.doc_name_label_8 = QLabel(self.clinicReq_frame_8)
-        self.doc_name_label_8.setObjectName(u"doc_name_label_8")
-        self.doc_name_label_8.setGeometry(QRect(90, 30, 151, 21))
-        self.doc_name_label_8.setFont(font1)
-        self.doc_name_label_8.setStyleSheet(u"border : none;\n"
-"")
-        self.doc_logo_label_7 = QLabel(self.clinicReq_frame_8)
-        self.doc_logo_label_7.setObjectName(u"doc_logo_label_7")
-        self.doc_logo_label_7.setGeometry(QRect(10, 10, 54, 54))
-        self.doc_logo_label_7.setFont(font2)
-        self.doc_logo_label_7.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.doc_logo_label_7.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label_8 = QLabel(self.clinicReq_frame_8)
-        self.patient_visit_reason_label_8.setObjectName(u"patient_visit_reason_label_8")
-        self.patient_visit_reason_label_8.setGeometry(QRect(90, 60, 55, 16))
-        self.patient_visit_reason_label_8.setStyleSheet(u"color: #128983")
-        self.clinicReq_frame_9 = QFrame(self.upcomin_appt_frame_2)
-        self.clinicReq_frame_9.setObjectName(u"clinicReq_frame_9")
-        self.clinicReq_frame_9.setGeometry(QRect(20, 370, 401, 81))
-        self.clinicReq_frame_9.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame_9.setFrameShadow(QFrame.Raised)
-        self.patient_name_label_9 = QLabel(self.clinicReq_frame_9)
-        self.patient_name_label_9.setObjectName(u"patient_name_label_9")
-        self.patient_name_label_9.setGeometry(QRect(90, 30, 151, 21))
-        self.patient_name_label_9.setFont(font1)
-        self.patient_name_label_9.setStyleSheet(u"border : none;\n"
-"")
-        self.doc_logo_label_8 = QLabel(self.clinicReq_frame_9)
-        self.doc_logo_label_8.setObjectName(u"doc_logo_label_8")
-        self.doc_logo_label_8.setGeometry(QRect(10, 10, 54, 54))
-        self.doc_logo_label_8.setFont(font2)
-        self.doc_logo_label_8.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.doc_logo_label_8.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label_9 = QLabel(self.clinicReq_frame_9)
-        self.patient_visit_reason_label_9.setObjectName(u"patient_visit_reason_label_9")
-        self.patient_visit_reason_label_9.setGeometry(QRect(90, 60, 55, 16))
-        self.patient_visit_reason_label_9.setStyleSheet(u"color: #128983")
-        self.noti_icon = QPushButton(self.background)
-        self.noti_icon.setObjectName(u"noti_icon")
-        self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
-        icon = QIcon()
-        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.noti_icon.setIcon(icon)
-        self.noti_icon.setIconSize(QSize(40, 40))
+        self.widget2 = QWidget(self.upcomin_appt_frame_2)
+        self.widget2.setObjectName(u"widget")
+        self.widget2.setGeometry(QRect(20, 70, 403, 241))
+        self.verticalLayout_4 = QVBoxLayout(self.widget2)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+
+
         self.user_frame = QFrame(self.background)
+
         self.user_frame.setObjectName(u"user_frame")
         self.user_frame.setGeometry(QRect(1480, 30, 251, 80))
         self.user_frame.setStyleSheet(u"border-radius: 20px; border: 2px solid #808080")
@@ -254,6 +141,7 @@ class CA_homepageWidget(QWidget):
         self.details_frame.setFrameShape(QFrame.StyledPanel)
         self.details_frame.setFrameShadow(QFrame.Raised)
         self.details_frame.setLineWidth(6)
+
         self.upcomin_appt_frame = QFrame(self.details_frame)
         self.upcomin_appt_frame.setObjectName(u"upcomin_appt_frame")
         self.upcomin_appt_frame.setGeometry(QRect(30, 30, 450, 551))
@@ -266,314 +154,16 @@ class CA_homepageWidget(QWidget):
         self.upcoming_label.setFont(font)
         self.upcoming_label.setStyleSheet(u"border : none;\n"
 "")
-        self.clinicReq_frame = QFrame(self.upcomin_appt_frame)
-        self.clinicReq_frame.setObjectName(u"clinicReq_frame")
-        self.clinicReq_frame.setGeometry(QRect(20, 70, 401, 81))
-        self.clinicReq_frame.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame.setFrameShadow(QFrame.Raised)
-        self.patient_name_label = QLabel(self.clinicReq_frame)
-        self.patient_name_label.setObjectName(u"patient_name_label")
-        self.patient_name_label.setGeometry(QRect(90, 30, 121, 21))
-        self.patient_name_label.setFont(font1)
-        self.patient_name_label.setStyleSheet(u"border : none;\n"
-"")
-        self.patient_logo_label = QLabel(self.clinicReq_frame)
-        self.patient_logo_label.setObjectName(u"patient_logo_label")
-        self.patient_logo_label.setGeometry(QRect(10, 10, 54, 54))
-        self.patient_logo_label.setFont(font2)
-        self.patient_logo_label.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.patient_logo_label.setAlignment(Qt.AlignCenter)
-        self.label = QLabel(self.clinicReq_frame)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(290, 20, 91, 41))
-        self.label.setFont(font3)
-        self.label.setStyleSheet(u"background-color: rgba(18, 137, 131, 0.10);\n"
-"color: #128983; text-align: center;\n"
-"")
-        self.label.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label = QLabel(self.clinicReq_frame)
-        self.patient_visit_reason_label.setObjectName(u"patient_visit_reason_label")
-        self.patient_visit_reason_label.setGeometry(QRect(90, 60, 55, 16))
-        self.patient_visit_reason_label.setStyleSheet(u"color: #128983")
-        self.clinicReq_frame_2 = QFrame(self.upcomin_appt_frame)
-        self.clinicReq_frame_2.setObjectName(u"clinicReq_frame_2")
-        self.clinicReq_frame_2.setGeometry(QRect(20, 170, 401, 81))
-        self.clinicReq_frame_2.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame_2.setFrameShadow(QFrame.Raised)
-        self.patient_name_label_2 = QLabel(self.clinicReq_frame_2)
-        self.patient_name_label_2.setObjectName(u"patient_name_label_2")
-        self.patient_name_label_2.setGeometry(QRect(90, 30, 151, 21))
-        self.patient_name_label_2.setFont(font1)
-        self.patient_name_label_2.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_logo_label_2 = QLabel(self.clinicReq_frame_2)
-        self.clinic_logo_label_2.setObjectName(u"clinic_logo_label_2")
-        self.clinic_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_2.setFont(font2)
-        self.clinic_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_2.setAlignment(Qt.AlignCenter)
-        self.label_2 = QLabel(self.clinicReq_frame_2)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(290, 20, 91, 41))
-        self.label_2.setFont(font3)
-        self.label_2.setStyleSheet(u"background-color: rgba(18, 137, 131, 0.10);\n"
-"color: #128983; text-align: center;\n"
-"")
-        self.label_2.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label_2 = QLabel(self.clinicReq_frame_2)
-        self.patient_visit_reason_label_2.setObjectName(u"patient_visit_reason_label_2")
-        self.patient_visit_reason_label_2.setGeometry(QRect(90, 60, 121, 16))
-        self.patient_visit_reason_label_2.setStyleSheet(u"color: #128983")
-        self.comboBox = QComboBox(self.upcomin_appt_frame)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setGeometry(QRect(290, 30, 131, 31))
-        self.comboBox.setFont(font3)
-        self.clinicReq_frame_3 = QFrame(self.upcomin_appt_frame)
-        self.clinicReq_frame_3.setObjectName(u"clinicReq_frame_3")
-        self.clinicReq_frame_3.setGeometry(QRect(20, 270, 401, 81))
-        self.clinicReq_frame_3.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame_3.setFrameShadow(QFrame.Raised)
-        self.patient_name_label_3 = QLabel(self.clinicReq_frame_3)
-        self.patient_name_label_3.setObjectName(u"patient_name_label_3")
-        self.patient_name_label_3.setGeometry(QRect(90, 30, 151, 21))
-        self.patient_name_label_3.setFont(font1)
-        self.patient_name_label_3.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_logo_label_3 = QLabel(self.clinicReq_frame_3)
-        self.clinic_logo_label_3.setObjectName(u"clinic_logo_label_3")
-        self.clinic_logo_label_3.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_3.setFont(font2)
-        self.clinic_logo_label_3.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_3.setAlignment(Qt.AlignCenter)
-        self.label_3 = QLabel(self.clinicReq_frame_3)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(290, 20, 91, 41))
-        self.label_3.setFont(font3)
-        self.label_3.setStyleSheet(u"background-color: rgba(18, 137, 131, 0.10);\n"
-"color: #128983; text-align: center;\n"
-"\n"
-"")
-        self.label_3.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label_3 = QLabel(self.clinicReq_frame_3)
-        self.patient_visit_reason_label_3.setObjectName(u"patient_visit_reason_label_3")
-        self.patient_visit_reason_label_3.setGeometry(QRect(90, 60, 121, 16))
-        self.patient_visit_reason_label_3.setStyleSheet(u"color: #128983")
-        self.clinicReq_frame_4 = QFrame(self.upcomin_appt_frame)
-        self.clinicReq_frame_4.setObjectName(u"clinicReq_frame_4")
-        self.clinicReq_frame_4.setGeometry(QRect(20, 370, 401, 81))
-        self.clinicReq_frame_4.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame_4.setFrameShadow(QFrame.Raised)
-        self.patient_name_label_4 = QLabel(self.clinicReq_frame_4)
-        self.patient_name_label_4.setObjectName(u"patient_name_label_4")
-        self.patient_name_label_4.setGeometry(QRect(90, 30, 151, 21))
-        self.patient_name_label_4.setFont(font1)
-        self.patient_name_label_4.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_logo_label_4 = QLabel(self.clinicReq_frame_4)
-        self.clinic_logo_label_4.setObjectName(u"clinic_logo_label_4")
-        self.clinic_logo_label_4.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_4.setFont(font2)
-        self.clinic_logo_label_4.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_4.setAlignment(Qt.AlignCenter)
-        self.label_4 = QLabel(self.clinicReq_frame_4)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(290, 20, 91, 41))
-        self.label_4.setFont(font3)
-        self.label_4.setStyleSheet(u"background-color: rgba(18, 137, 131, 0.10);\n"
-"color: #128983; text-align: center;\n"
-"")
-        self.label_4.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label_4 = QLabel(self.clinicReq_frame_4)
-        self.patient_visit_reason_label_4.setObjectName(u"patient_visit_reason_label_4")
-        self.patient_visit_reason_label_4.setGeometry(QRect(90, 60, 55, 16))
-        self.patient_visit_reason_label_4.setStyleSheet(u"color: #128983")
-        self.clinicReq_frame_5 = QFrame(self.upcomin_appt_frame)
-        self.clinicReq_frame_5.setObjectName(u"clinicReq_frame_5")
-        self.clinicReq_frame_5.setGeometry(QRect(20, 470, 401, 81))
-        self.clinicReq_frame_5.setFrameShape(QFrame.StyledPanel)
-        self.clinicReq_frame_5.setFrameShadow(QFrame.Raised)
-        self.patient_name_label_5 = QLabel(self.clinicReq_frame_5)
-        self.patient_name_label_5.setObjectName(u"patient_name_label_5")
-        self.patient_name_label_5.setGeometry(QRect(90, 30, 151, 21))
-        self.patient_name_label_5.setFont(font1)
-        self.patient_name_label_5.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_logo_label_5 = QLabel(self.clinicReq_frame_5)
-        self.clinic_logo_label_5.setObjectName(u"clinic_logo_label_5")
-        self.clinic_logo_label_5.setGeometry(QRect(10, 10, 54, 54))
-        self.clinic_logo_label_5.setFont(font2)
-        self.clinic_logo_label_5.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.clinic_logo_label_5.setAlignment(Qt.AlignCenter)
-        self.label_5 = QLabel(self.clinicReq_frame_5)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(290, 20, 91, 41))
-        self.label_5.setFont(font3)
-        self.label_5.setStyleSheet(u"background-color: rgba(18, 137, 131, 0.10);\n"
-"color: #128983; text-align: center;\n"
-"")
-        self.label_5.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label_5 = QLabel(self.clinicReq_frame_5)
-        self.patient_visit_reason_label_5.setObjectName(u"patient_visit_reason_label_5")
-        self.patient_visit_reason_label_5.setGeometry(QRect(80, 60, 91, 16))
-        self.patient_visit_reason_label_5.setStyleSheet(u"color: #128983")
-        self.request_detail_outer = QFrame(self.details_frame)
-        self.request_detail_outer.setObjectName(u"request_detail_outer")
-        self.request_detail_outer.setGeometry(QRect(510, 30, 450, 551))
-        self.request_detail_outer.setStyleSheet(u"background-color : #ffffff;")
-        self.request_detail_outer.setFrameShape(QFrame.StyledPanel)
-        self.request_detail_outer.setFrameShadow(QFrame.Raised)
-        self.req_detail_label = QLabel(self.request_detail_outer)
-        self.req_detail_label.setObjectName(u"req_detail_label")
-        self.req_detail_label.setGeometry(QRect(30, 20, 381, 41))
-        self.req_detail_label.setFont(font)
-        self.req_detail_label.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_details_inner = QFrame(self.request_detail_outer)
-        self.clinic_details_inner.setObjectName(u"clinic_details_inner")
-        self.clinic_details_inner.setGeometry(QRect(20, 70, 411, 421))
-        self.clinic_details_inner.setFrameShape(QFrame.StyledPanel)
-        self.clinic_details_inner.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_2 = QVBoxLayout(self.clinic_details_inner)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.patient_logo = QLabel(self.clinic_details_inner)
-        self.patient_logo.setObjectName(u"patient_logo")
-        self.patient_logo.setFont(font2)
-        self.patient_logo.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.patient_logo.setAlignment(Qt.AlignCenter)
+        
+        
+        self.widget = QWidget(self.upcomin_appt_frame)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(20, 70, 403, 431))
+        self.patientlist_layout = QVBoxLayout(self.widget)
+        self.patientlist_layout.setObjectName(u"patientlist_layout")
+        self.patientlist_layout.setSpacing(10)
+        self.patientlist_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.verticalLayout_2.addWidget(self.patient_logo)
-
-        self.patient_name = QLabel(self.clinic_details_inner)
-        self.patient_name.setObjectName(u"patient_name")
-        self.patient_name.setFont(font1)
-        self.patient_name.setStyleSheet(u"border : none;\n"
-"")
-
-        self.verticalLayout_2.addWidget(self.patient_name)
-
-        self.line = QFrame(self.clinic_details_inner)
-        self.line.setObjectName(u"line")
-        self.line.setMinimumSize(QSize(357, 3))
-        self.line.setMaximumSize(QSize(16777215, 3))
-        self.line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
-        self.line.setFrameShape(QFrame.StyledPanel)
-        self.line.setFrameShadow(QFrame.Raised)
-
-        self.verticalLayout_2.addWidget(self.line)
-
-        self.splitter = QSplitter(self.clinic_details_inner)
-        self.splitter.setObjectName(u"splitter")
-        self.splitter.setOrientation(Qt.Horizontal)
-        self.phone_label = QLabel(self.splitter)
-        self.phone_label.setObjectName(u"phone_label")
-        font6 = QFont()
-        font6.setFamily(u"Consolas")
-        font6.setPointSize(10)
-        font6.setBold(True)
-        font6.setWeight(75)
-        self.phone_label.setFont(font6)
-        self.phone_label.setStyleSheet(u"border: none;")
-        self.phone_label.setLineWidth(0)
-        self.splitter.addWidget(self.phone_label)
-        self.add_display_2 = QLabel(self.splitter)
-        self.add_display_2.setObjectName(u"add_display_2")
-        font7 = QFont()
-        font7.setFamily(u"Consolas")
-        font7.setPointSize(10)
-        font7.setBold(False)
-        font7.setWeight(50)
-        self.add_display_2.setFont(font7)
-        self.add_display_2.setStyleSheet(u"border: none;")
-        self.add_display_2.setScaledContents(False)
-        self.add_display_2.setWordWrap(True)
-        self.splitter.addWidget(self.add_display_2)
-
-        self.verticalLayout_2.addWidget(self.splitter)
-
-        self.splitter_2 = QSplitter(self.clinic_details_inner)
-        self.splitter_2.setObjectName(u"splitter_2")
-        self.splitter_2.setOrientation(Qt.Horizontal)
-        self.diagnosis_label = QLabel(self.splitter_2)
-        self.diagnosis_label.setObjectName(u"diagnosis_label")
-        self.diagnosis_label.setFont(font6)
-        self.diagnosis_label.setStyleSheet(u"border: none;")
-        self.splitter_2.addWidget(self.diagnosis_label)
-        self.add_display = QLabel(self.splitter_2)
-        self.add_display.setObjectName(u"add_display")
-        self.add_display.setFont(font7)
-        self.add_display.setStyleSheet(u"border: none;")
-        self.add_display.setScaledContents(False)
-        self.add_display.setWordWrap(True)
-        self.splitter_2.addWidget(self.add_display)
-
-        self.verticalLayout_2.addWidget(self.splitter_2)
-
-        self.splitter_3 = QSplitter(self.clinic_details_inner)
-        self.splitter_3.setObjectName(u"splitter_3")
-        self.splitter_3.setOrientation(Qt.Horizontal)
-        self.date_text = QLabel(self.splitter_3)
-        self.date_text.setObjectName(u"date_text")
-        self.date_text.setFont(font6)
-        self.date_text.setStyleSheet(u"border: none;")
-        self.date_text.setWordWrap(True)
-        self.splitter_3.addWidget(self.date_text)
-        self.hour_display = QLabel(self.splitter_3)
-        self.hour_display.setObjectName(u"hour_display")
-        self.hour_display.setFont(font7)
-        self.hour_display.setStyleSheet(u"border: none;")
-        self.hour_display.setScaledContents(False)
-        self.hour_display.setWordWrap(True)
-        self.splitter_3.addWidget(self.hour_display)
-
-        self.verticalLayout_2.addWidget(self.splitter_3)
-
-        self.view_detail_btn = QPushButton(self.request_detail_outer)
-        self.view_detail_btn.setObjectName(u"view_detail_btn")
-        self.view_detail_btn.setGeometry(QRect(320, 510, 93, 28))
-        font8 = QFont()
-        font8.setFamily(u"Consolas")
-        font8.setPointSize(9)
-        font8.setUnderline(True)
-        self.view_detail_btn.setFont(font8)
-        self.view_detail_btn.setStyleSheet(u"color: #007E85; border: none;")
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
@@ -604,7 +194,7 @@ class CA_homepageWidget(QWidget):
         self.home_navigation.setStyleSheet(u"border: none; \n"
 "color: white;")
         
-        self.view_detail_btn.clicked.connect(self.emitViewDetailBtn)
+       
 
         icon1 = QIcon()
         icon1.addFile(u"CAD/Images/nav_images/home_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -734,51 +324,14 @@ class CA_homepageWidget(QWidget):
         self.comboBox_2.setItemText(0, QCoreApplication.translate("Form", u"Recent", None))
         self.comboBox_2.setItemText(1, QCoreApplication.translate("Form", u"Oldest", None))
 
-        self.doc_name_label_8.setText(QCoreApplication.translate("Form", u"Dr Name", None))
-        self.doc_logo_label_7.setText(QCoreApplication.translate("Form", u"DR", None))
-        self.patient_visit_reason_label_8.setText(QCoreApplication.translate("Form", u"Clinic A", None))
-        self.patient_name_label_9.setText(QCoreApplication.translate("Form", u"Dr Name", None))
-        self.doc_logo_label_8.setText(QCoreApplication.translate("Form", u"DR", None))
-        self.patient_visit_reason_label_9.setText(QCoreApplication.translate("Form", u"Clinic A", None))
-        self.noti_icon.setText("")
+        
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic name", None))
         self.visit_for_today_label.setText(QCoreApplication.translate("Form", u"Visits for today:", None))
         self.clinic_req__label.setText(QCoreApplication.translate("Form", u"10", None))
         self.upcoming_label.setText(QCoreApplication.translate("Form", u"Patient List", None))
-        self.patient_name_label.setText(QCoreApplication.translate("Form", u"A", None))
-        self.patient_logo_label.setText(QCoreApplication.translate("Form", u"A", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.patient_visit_reason_label.setText(QCoreApplication.translate("Form", u"Report", None))
-        self.patient_name_label_2.setText(QCoreApplication.translate("Form", u"Patient Name", None))
-        self.clinic_logo_label_2.setText(QCoreApplication.translate("Form", u"PN", None))
-        self.label_2.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.patient_visit_reason_label_2.setText(QCoreApplication.translate("Form", u"Weekly visit", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("Form", u"Recent", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("Form", u"Oldest", None))
+       
 
-        self.patient_name_label_3.setText(QCoreApplication.translate("Form", u"Patient Name", None))
-        self.clinic_logo_label_3.setText(QCoreApplication.translate("Form", u"PN", None))
-        self.label_3.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.patient_visit_reason_label_3.setText(QCoreApplication.translate("Form", u"Routine Checkup", None))
-        self.patient_name_label_4.setText(QCoreApplication.translate("Form", u"Patient Name", None))
-        self.clinic_logo_label_4.setText(QCoreApplication.translate("Form", u"PN", None))
-        self.label_4.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.patient_visit_reason_label_4.setText(QCoreApplication.translate("Form", u"Report", None))
-        self.patient_name_label_5.setText(QCoreApplication.translate("Form", u"Patient Name", None))
-        self.clinic_logo_label_5.setText(QCoreApplication.translate("Form", u"PN", None))
-        self.label_5.setText(QCoreApplication.translate("Form", u"Time", None))
-        self.patient_visit_reason_label_5.setText(QCoreApplication.translate("Form", u"Weekly Visit", None))
-        self.req_detail_label.setText(QCoreApplication.translate("Form", u"Consultation Details", None))
-        self.patient_logo.setText(QCoreApplication.translate("Form", u"A", None))
-        self.patient_name.setText(QCoreApplication.translate("Form", u"Patient Name", None))
-        self.phone_label.setText(QCoreApplication.translate("Form", u"Last Checked:", None))
-        self.add_display_2.setText(QCoreApplication.translate("Form", u"Dr name", None))
-        self.diagnosis_label.setText(QCoreApplication.translate("Form", u"Dianogsis:", None))
-        self.add_display.setText(QCoreApplication.translate("Form", u"diagnosis", None))
-        self.date_text.setText(QCoreApplication.translate("Form", u"Date:", None))
-        self.hour_display.setText(QCoreApplication.translate("Form", u"date", None))
-        self.view_detail_btn.setText(QCoreApplication.translate("Form", u"View More", None))
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.doctors_navigation.setText(QCoreApplication.translate("Form", u"Doctors", None))
         self.patients_navigation.setText(QCoreApplication.translate("Form", u"Patients", None))
@@ -812,3 +365,411 @@ class CA_homepageWidget(QWidget):
     def emitProfileBtn(self):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
+        
+    def fetch_patient_data(self):
+        print(f"id fetch{self.clinic_id}")
+        db = self.initialize_db()  # Assuming this method initializes your Firebase connection
+        try:
+            patients = db.child("patients").get()
+
+            # Debug statement to print the raw patients data
+            print(f"Fetched patients data: {patients.val()}")
+                
+          
+                
+            for patient in patients.each():
+                patient_data = patient.val()
+                patient_id = patient.key()  # Assuming patient ID is stored as the key
+                
+
+                # Fetch all appointments
+                appointments = db.child("appointment").get()
+                
+                if appointments.each():
+                        for appointment in appointments.each():
+                                appointment_data = appointment.val()
+                                #print(f"id {self.clinic_id}")
+
+                        # Check if appointment is associated with the current patient and clinic
+                        if appointment_data.get("patient_id") == patient_id and appointment_data.get("clinic_id").lower() == self.clinic_id.lower():
+                                med_concern = appointment_data.get("med_concern", "N/A")  # Replace "N/A" with default if not found
+                                time = appointment_data.get("time", "N/A")
+                                date = appointment_data.get("date", "N/A")
+
+                                # Add fetched data to patient data
+                                patient_data["med_concern"] = med_concern
+                                patient_data["time"] = time
+                                patient_data["date"] = date
+
+                                # Print debug statements
+                                print(f"Patient ID: {patient_id}")
+                                print(f"Med Concern: {med_concern}")
+                                print(f"Time: {time}")
+                                print(f"Date: {date}")
+
+                                # Save patient data only if they have appointment details
+                                self.patient_data_list.append(patient_data)
+                                print(f"Updated patient data list: {self.patient_data_list}")
+
+                                break  # Assuming only one appointment per patient is needed
+                        
+                # Populate patient information on the UI
+                self.populate_patient_info()
+             
+        
+        except Exception as e:
+                print(f"An error occurred while fetching data: {e}")
+
+    def create_patient_list_frame(self, patient_data):
+        patientReq_frame = QFrame(self.widget)
+        patientReq_frame.setObjectName(u"patientReq_frame")
+        patientReq_frame.setGeometry(QRect(20, 70, 401, 81))
+        patientReq_frame.setMinimumSize(QSize(401, 81))
+        patientReq_frame.setMaximumSize(QSize(401, 81))
+        patientReq_frame.setFrameShape(QFrame.StyledPanel)
+        patientReq_frame.setFrameShadow(QFrame.Raised)
+        patient_name_label = QLabel(patientReq_frame)
+        patient_name_label.setObjectName(u"patient_name_label")
+        patient_name_label.setGeometry(QRect(90, 30, 121, 21))
+        patient_name_label.setMinimumSize(QSize(121, 21))
+        patient_name_label.setMaximumSize(QSize(121, 21))
+        font1 = QFont()
+        font1.setFamily(u"Cascadia Code")
+        font1.setPointSize(10)
+        patient_name_label.setFont(font1)
+        patient_name_label.setStyleSheet(u"border : none;\n"
+"")
+        patient_logo_label = QLabel(patientReq_frame)
+        patient_logo_label.setObjectName(u"patient_logo_label")
+        patient_logo_label.setGeometry(QRect(10, 10, 54, 54))
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(9)
+        patient_logo_label.setFont(font2)
+        patient_logo_label.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+"border-radius: 25px; /* Radius to make it round */\n"
+"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+"min-width: 50px; /* Ensure the QLabel is a circle */\n"
+"min-height: 50px; /* Ensure the QLabel is a circle */\n"
+"max-width: 50px; /* Ensure the QLabel is a circle */\n"
+"max-height: 50px; /* Ensure the QLabel is a circle */")
+        patient_logo_label.setAlignment(Qt.AlignCenter)
+        label = QLabel(patientReq_frame)
+        label.setObjectName(u"label")
+        label.setGeometry(QRect(290, 20, 91, 41))
+        label.setMinimumSize(QSize(91, 41))
+        label.setMaximumSize(QSize(91, 41))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(10)
+        label.setFont(font3)
+        label.setStyleSheet(u"background-color: rgba(18, 137, 131, 0.10);\n"
+"color: #128983; text-align: center;\n"
+"")
+
+        label.setAlignment(Qt.AlignCenter)
+        patient_visit_reason_label = QLabel(patientReq_frame)
+        patient_visit_reason_label.setObjectName(u"patient_visit_reason_label")
+        patient_visit_reason_label.setGeometry(QRect(90, 60, 55, 16))
+        patient_visit_reason_label.setMinimumSize(QSize(55, 16))
+        patient_visit_reason_label.setMaximumSize(QSize(55, 16))
+        patient_visit_reason_label.setStyleSheet(u"color: #128983")
+        
+        label.setText(patient_data.get("time", "Unknown"))
+        patient_name_label.setText(patient_data.get("patient_name", "Unknown"))
+        patient_visit_reason_label.setText(patient_data.get("med_concern", "Unknown"))
+
+        print(f"name is {patient_data.get("patient_name", "Unknown")}")
+        return patientReq_frame
+    
+      
+    def clear_layout(self):
+        while self.patientlist_layout.count():
+                item = self.patientlist_layout.takeAt(0) 
+                widget = item.widget()
+                if widget is not None:
+                        widget.destroy()
+
+    def populate_patient_info(self):
+        self.clear_layout()
+        visible_patients = []
+        
+        #print(f"list is {self.clinic_data_list}")
+        
+        # Debug: Print the initial patient data list
+        #print(f"Initial patient data list: {self.patient_data_list}")
+
+        for i, patient_data in enumerate(self.patient_data_list):
+                patient_frame = self.create_patient_list_frame(patient_data)
+                if patient_frame:
+                        visible_patients.append(patient_frame)
+        # Debug: Print each patient data and corresponding frame creation status
+        #print(f"Processing patient {i}: {patient_data}")
+        #print(f"Patient frame created: {bool(patient_frame)}")
+
+        print(f"Number of frames in visible_patients: {len(visible_patients)}")
+        # Clear existing layout
+        for i in reversed(range(self.patientlist_layout.count())):
+                widget = self.patientlist_layout.itemAt(i).widget()
+                if widget is not None:
+                        widget.deleteLater()
+
+        # Add visible appointments to the layout in reverse order
+        for appt_frame in reversed(visible_patients):
+                self.patientlist_layout.addWidget(appt_frame)
+
+        print(f"Number of frames added to the layout: {len(list(reversed(visible_patients))[:5])}")
+
+        self.widget.setLayout(self.patientlist_layout)
+        self.patientlist_layout.setAlignment(Qt.AlignTop)
+        self.patientlist_layout.update()
+        self.widget.update()
+        
+
+         # Debug: Final update status
+        print("Layout and widget updated.")
+        
+
+    def create_popup_widget(self, patient_data):
+        self.hide_patient_details_frame()
+        self.patient_details_frame = self.create_patient_details_frame(patient_data)
+        self.patient_details_frame.setVisible(True)
+
+    def hide_patient_details_frame(self):
+        if self.patient_details_frame:
+            self.patient_details_frame.setVisible(False)
+
+    def create_patient_details_frame(self, patient_data):
+        request_detail_outer = QFrame(self.background)
+        request_detail_outer.setObjectName(u"request_detail_outer")
+        request_detail_outer.setGeometry(QRect(510, 30, 450, 551))
+        request_detail_outer.setStyleSheet(u"background-color : #ffffff;")
+        request_detail_outer.setFrameShape(QFrame.StyledPanel)
+        request_detail_outer.setFrameShadow(QFrame.Raised)
+        req_detail_label = QLabel(request_detail_outer)
+        req_detail_label.setObjectName(u"req_detail_label")
+        req_detail_label.setGeometry(QRect(30, 20, 381, 41))
+        font = QFont()
+        font.setFamily(u"Cascadia Code")
+        font.setPointSize(11)
+        req_detail_label.setFont(font)
+        req_detail_label.setStyleSheet(u"border : none;\n"
+"")
+        clinic_details_inner = QFrame(request_detail_outer)
+        clinic_details_inner.setObjectName(u"clinic_details_inner")
+        clinic_details_inner.setGeometry(QRect(20, 70, 411, 421))
+        clinic_details_inner.setFrameShape(QFrame.StyledPanel)
+        clinic_details_inner.setFrameShadow(QFrame.Raised)
+        verticalLayout_2 = QVBoxLayout(clinic_details_inner)
+        verticalLayout_2.setObjectName(u"verticalLayout_2")
+        patient_logo = QLabel(clinic_details_inner)
+        patient_logo.setObjectName(u"patient_logo")
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(9)
+        patient_logo.setFont(font2)
+        patient_logo.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+"border-radius: 25px; /* Radius to make it round */\n"
+"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+"min-width: 50px; /* Ensure the QLabel is a circle */\n"
+"min-height: 50px; /* Ensure the QLabel is a circle */\n"
+"max-width: 50px; /* Ensure the QLabel is a circle */\n"
+"max-height: 50px; /* Ensure the QLabel is a circle */")
+        patient_logo.setAlignment(Qt.AlignCenter)
+
+        verticalLayout_2.addWidget(patient_logo)
+
+        patient_name = QLabel(clinic_details_inner)
+        patient_name.setObjectName(u"patient_name")
+        font1 = QFont()
+        font1.setFamily(u"Cascadia Code")
+        font1.setPointSize(10)
+        patient_name.setFont(font1)
+        patient_name.setText(patient_data.get("patient_name", "Unknown"))
+        patient_name.setStyleSheet(u"border : none;\n"
+"")
+
+        verticalLayout_2.addWidget(patient_name)
+
+        line = QFrame(clinic_details_inner)
+        line.setObjectName(u"line")
+        line.setMinimumSize(QSize(357, 3))
+        line.setMaximumSize(QSize(16777215, 3))
+        line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
+        line.setFrameShape(QFrame.StyledPanel)
+        line.setFrameShadow(QFrame.Raised)
+
+        verticalLayout_2.addWidget(line)
+
+        splitter = QSplitter(clinic_details_inner)
+        splitter.setObjectName(u"splitter")
+        splitter.setOrientation(Qt.Horizontal)
+        lastCheck_label = QLabel(splitter)
+        lastCheck_label.setObjectName(u"lastCheck_label")
+        font6 = QFont()
+        font6.setFamily(u"Consolas")
+        font6.setPointSize(10)
+        font6.setBold(True)
+        font6.setWeight(75)
+        lastCheck_label.setFont(font6)
+        lastCheck_label.setStyleSheet(u"border: none;")
+        lastCheck_label.setLineWidth(0)
+        lastCheck_label.setText("Last Checked:")
+        splitter.addWidget(lastCheck_label)
+        diagnosis_display_2 = QLabel(splitter)
+        diagnosis_display_2.setObjectName(u"diagnosis_display_2")
+        font7 = QFont()
+        font7.setFamily(u"Consolas")
+        font7.setPointSize(10)
+        font7.setBold(False)
+        font7.setWeight(50)
+        diagnosis_display_2.setFont(font7)
+        diagnosis_display_2.setStyleSheet(u"border: none;")
+        diagnosis_display_2.setScaledContents(False)
+        diagnosis_display_2.setWordWrap(True)
+        splitter.addWidget(diagnosis_display_2)
+
+        verticalLayout_2.addWidget(splitter)
+
+        splitter_2 = QSplitter(clinic_details_inner)
+        splitter_2.setObjectName(u"splitter_2")
+        splitter_2.setOrientation(Qt.Horizontal)
+        diagnosis_label = QLabel(splitter_2)
+        diagnosis_label.setObjectName(u"diagnosis_label")
+        diagnosis_label.setFont(font6)
+        diagnosis_label.setStyleSheet(u"border: none;")
+        splitter_2.addWidget(diagnosis_label)
+        diagnosis_display = QLabel(splitter_2)
+        diagnosis_display.setObjectName(u"diagnosis_display")
+        diagnosis_display.setFont(font7)
+        diagnosis_display.setStyleSheet(u"border: none;")
+        diagnosis_display.setScaledContents(False)
+        diagnosis_display.setWordWrap(True)
+        diagnosis_display.setText(patient_data.get("med_concern", "Unknown"))
+        splitter_2.addWidget(diagnosis_display)
+
+        verticalLayout_2.addWidget(splitter_2)
+
+        splitter_3 = QSplitter(clinic_details_inner)
+        splitter_3.setObjectName(u"splitter_3")
+        splitter_3.setOrientation(Qt.Horizontal)
+        date_text = QLabel(splitter_3)
+        date_text.setObjectName(u"date_text")
+        date_text.setFont(font6)
+        date_text.setStyleSheet(u"border: none;")
+        date_text.setWordWrap(True)
+        date_text.setText("Date:")
+        splitter_3.addWidget(date_text)
+        hour_display = QLabel(splitter_3)
+        hour_display.setObjectName(u"hour_display")
+        hour_display.setFont(font7)
+        hour_display.setText(hour_display.get("date", "Unknown"))
+        hour_display.setStyleSheet(u"border: none;")
+        hour_display.setScaledContents(False)
+        hour_display.setWordWrap(True)
+        splitter_3.addWidget(hour_display)
+
+        verticalLayout_2.addWidget(splitter_3)
+
+        view_detail_btn = QPushButton(request_detail_outer)
+        view_detail_btn.setObjectName(u"view_detail_btn")
+        view_detail_btn.setGeometry(QRect(320, 510, 93, 28))
+        font8 = QFont()
+        font8.setFamily(u"Consolas")
+        font8.setPointSize(9)
+        font8.setUnderline(True)
+        view_detail_btn.setFont(font8)
+        view_detail_btn.setStyleSheet(u"color: #007E85; border: none;")
+        view_detail_btn.clicked.connect(self.emitViewDetailBtn)
+        return request_detail_outer
+    
+
+    def initialize_db(self):
+        return db
+    
+    def set_user_id(self, user_id): 
+        print(f"id in ca {user_id}")
+        self.clinic_id = user_id
+
+    def create_fb_list_frame(self, fb_data):
+         
+        self.patientReq_frame_6 = QFrame(self.upcomin_appt_frame_2)
+        self.patientReq_frame_6.setObjectName(u"patientReq_frame_6")
+        self.patientReq_frame_6.setGeometry(QRect(20, 70, 401, 81))
+        self.patientReq_frame_6.setFrameShape(QFrame.StyledPanel)
+        self.patientReq_frame_6.setFrameShadow(QFrame.Raised)
+        self.doc_name_label_6 = QLabel(self.patientReq_frame_6)
+        self.doc_name_label_6.setObjectName(u"doc_name_label_6")
+        self.doc_name_label_6.setGeometry(QRect(90, 30, 121, 21))
+        font1 = QFont()
+        font1.setFamily(u"Cascadia Code")
+        font1.setPointSize(10)
+        self.doc_name_label_6.setFont(font1)
+        self.doc_name_label_6.setStyleSheet(u"border : none;\n"
+"")
+        self.doc_logo_label_2 = QLabel(self.patientReq_frame_6)
+        self.doc_logo_label_2.setObjectName(u"doc_logo_label_2")
+        self.doc_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(9)
+        self.doc_logo_label_2.setFont(font2)
+        self.doc_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+"border-radius: 25px; /* Radius to make it round */\n"
+"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+"min-width: 50px; /* Ensure the QLabel is a circle */\n"
+"min-height: 50px; /* Ensure the QLabel is a circle */\n"
+"max-width: 50px; /* Ensure the QLabel is a circle */\n"
+"max-height: 50px; /* Ensure the QLabel is a circle */")
+        self.doc_logo_label_2.setAlignment(Qt.AlignCenter)
+        self.patient_visit_reason_label_6 = QLabel(self.patientReq_frame_6)
+        self.patient_visit_reason_label_6.setObjectName(u"patient_visit_reason_label_6")
+        self.patient_visit_reason_label_6.setGeometry(QRect(90, 60, 55, 16))
+        self.patient_visit_reason_label_6.setStyleSheet(u"color: #128983")
+        self.patientReq_frame_7 = QFrame(self.upcomin_appt_frame_2)
+        self.patientReq_frame_7.setObjectName(u"patientReq_frame_7")
+        self.patientReq_frame_7.setGeometry(QRect(20, 170, 401, 81))
+        self.patientReq_frame_7.setFrameShape(QFrame.StyledPanel)
+        self.patientReq_frame_7.setFrameShadow(QFrame.Raised)
+        self.doc_name_label_7 = QLabel(self.patientReq_frame_7)
+        self.doc_name_label_7.setObjectName(u"doc_name_label_7")
+        self.doc_name_label_7.setGeometry(QRect(90, 30, 151, 21))
+        self.doc_name_label_7.setFont(font1)
+        self.doc_name_label_7.setStyleSheet(u"border : none;\n"
+"")
+        self.clinic_name_label = QLabel(self.patientReq_frame_7)
+        self.clinic_name_label.setObjectName(u"clinic_name_label")
+        self.clinic_name_label.setGeometry(QRect(90, 60, 55, 16))
+        self.clinic_name_label.setStyleSheet(u"color: #128983")
+        self.doc_logo_label_3 = QLabel(self.patientReq_frame_7)
+        self.doc_logo_label_3.setObjectName(u"doc_logo_label_3")
+        self.doc_logo_label_3.setGeometry(QRect(10, 10, 54, 54))
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(9)
+        self.doc_logo_label_3.setFont(font2)
+        self.doc_logo_label_3.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+"border-radius: 25px; /* Radius to make it round */\n"
+"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+"min-width: 50px; /* Ensure the QLabel is a circle */\n"
+"min-height: 50px; /* Ensure the QLabel is a circle */\n"
+"max-width: 50px; /* Ensure the QLabel is a circle */\n"
+"max-height: 50px; /* Ensure the QLabel is a circle */")
+        self.doc_logo_label_3.setAlignment(Qt.AlignCenter)
+        self.comboBox_2 = QComboBox(self.upcomin_appt_frame_2)
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.comboBox_2.setGeometry(QRect(290, 30, 131, 31))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(10)
+        self.comboBox_2.setFont(font3)
+         
+                
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    mainWin = CA_homepageWidget()
+    mainWin.showMaximized()
+    sys.exit(app.exec_())

@@ -243,7 +243,7 @@ class Ui_MainWindow(QMainWindow):
      
         self.caPatientsPageWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
         self.caPatientsPageWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
-        self.caPatientsPageWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
+        self.caPatientsPageWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
         self.caPatientsPageWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caPatientsPageWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.caPatientsPageWidget.doc_name_btn_clicked.connect(self.showCAApproveRejectWidget)
@@ -583,6 +583,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showCAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.caHomeWidget)
+        self.caHomeWidget.fetch_patient_data()
         #self.caHomeWidget.admins_data()
         
     @pyqtSlot()
@@ -607,6 +608,7 @@ class Ui_MainWindow(QMainWindow):
 
 
     def set_user_id(self, user_id):  
+        
         try:
             if user_id.isdigit(): 
                 #self.homeWidget.set_user_id(user_id)
@@ -615,11 +617,13 @@ class Ui_MainWindow(QMainWindow):
                 self.sendFeedbackWidget.set_user_id(user_id)
                 self.paProfileSettingsWidget.set_user_id(user_id)
                 self.viewApptWidget.set_user_id(user_id)
-
+                print(f"id driver(if) {user_id}")
+                
             else :  # doctor user id is a string
                 self.docPatientsWidget.set_user_id(user_id)
                 self.docHomeWidget.set_user_id(user_id)
-            
+                self.caHomeWidget.set_user_id(user_id)
+                print(f"id driver {user_id}")
         except Exception as e:
             print(f"Error setting user id in widgets: {e}")
         

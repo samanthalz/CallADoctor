@@ -17,6 +17,7 @@ class PAHomeWidget(QWidget):
         
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.patient_id = 0
         self.fb_data_list = []
         self.clinic_data_list = []
         self.setupUi(self)
