@@ -24,28 +24,34 @@ class CA_view_docWidget(QWidget):
 
         
     def setupUi(self, Form):
-        self.view_patient_details_button = QPushButton(Form)
+        """ self.view_patient_details_button = QPushButton(Form)
         self.view_patient_details_button.setObjectName("view_patient_details_button")
         self.view_patient_details_button.setText("View Patient Details")
-        self.view_patient_details_button.clicked.connect(self.handle_view_patient_details)
-
-    def handle_view_patient_details(self):
-        # Handle button click logic here
-        print("View Patient Details button clicked")
-    def on_view_patient_details_clicked(self):
-        # Example method when button is clicked
-        print("View Patient Details button clicked!")
+        self.view_patient_details_button.clicked.connect(self.handle_view_patient_details) """
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+        
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
         self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
-"border-bottom-left-radius: 30px;\n"
-"border-top-left-radius: 30px;\n"
-"text-align: center;")
+        "border-bottom-left-radius: 30px;\n"
+        "border-top-left-radius: 30px;\n"
+        "text-align: center;")
+
+        """ def handle_view_patient_details(self):
+        # Handle button click logic here
+        print("View Patient Details button clicked")
+    def on_view_patient_details_clicked(self):
+        # Example method when button is clicked
+        print("View Patient Details button clicked!") """
+        
         self.noti_icon = QPushButton(self.background)
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
@@ -73,33 +79,36 @@ class CA_view_docWidget(QWidget):
         font.setPointSize(10)
         self.profile_btn.setFont(font)
         self.profile_btn.setStyleSheet(u"border: none")
-        self.search_clinic = QLineEdit(self.background)
-        self.search_clinic.setObjectName(u"search_clinic")
-        self.search_clinic.setGeometry(QRect(40, 40, 831, 71))
+        self.search_doctors = QLineEdit(self.background)
+        self.search_doctors.setObjectName(u"search_doctors")
+        self.search_doctors.setGeometry(QRect(40, 40, 831, 71))
         font1 = QFont()
         font1.setFamily(u"Consolas")
         font1.setPointSize(11)
-        self.search_clinic.setFont(font1)
-        self.search_clinic.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 60px; color: Black;\n"
+        self.search_doctors.setFont(font1)
+        self.search_doctors.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 60px; color: Black;\n"
 " background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 "background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
-        self.search_clinic.setClearButtonEnabled(False)
+        
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
+
+        self.search_doctors.setClearButtonEnabled(False)
         self.request_detail_outer = QFrame(self.background)
         self.request_detail_outer.setObjectName(u"request_detail_outer")
         self.request_detail_outer.setGeometry(QRect(979, 200, 751, 841))
         self.request_detail_outer.setStyleSheet(u"background-color : #ffffff;")
         self.request_detail_outer.setFrameShape(QFrame.StyledPanel)
         self.request_detail_outer.setFrameShadow(QFrame.Raised)
-        self.clinic_details_inner = QFrame(self.request_detail_outer)
-        self.clinic_details_inner.setObjectName(u"clinic_details_inner")
-        self.clinic_details_inner.setGeometry(QRect(20, 20, 711, 771))
-        self.clinic_details_inner.setFrameShape(QFrame.StyledPanel)
-        self.clinic_details_inner.setFrameShadow(QFrame.Raised)
-        self.doc_name = QLabel(self.clinic_details_inner)
+        self.doctors_details_inner = QFrame(self.request_detail_outer)
+        self.doctors_details_inner.setObjectName(u"doctors_details_inner")
+        self.doctors_details_inner.setGeometry(QRect(20, 20, 711, 771))
+        self.doctors_details_inner.setFrameShape(QFrame.StyledPanel)
+        self.doctors_details_inner.setFrameShadow(QFrame.Raised)
+        self.doc_name = QLabel(self.doctors_details_inner)
         self.doc_name.setObjectName(u"doc_name")
         self.doc_name.setGeometry(QRect(100, 30, 121, 21))
         font2 = QFont()
@@ -108,7 +117,7 @@ class CA_view_docWidget(QWidget):
         self.doc_name.setFont(font2)
         self.doc_name.setStyleSheet(u"border : none;\n"
 "")
-        self.doc_logo = QLabel(self.clinic_details_inner)
+        self.doc_logo = QLabel(self.doctors_details_inner)
         self.doc_logo.setObjectName(u"doc_logo")
         self.doc_logo.setGeometry(QRect(10, 10, 54, 54))
         font3 = QFont()
@@ -123,7 +132,7 @@ class CA_view_docWidget(QWidget):
 "max-width: 50px; /* Ensure the QLabel is a circle */\n"
 "max-height: 50px; /* Ensure the QLabel is a circle */")
         self.doc_logo.setAlignment(Qt.AlignCenter)
-        self.line = QFrame(self.clinic_details_inner)
+        self.line = QFrame(self.doctors_details_inner)
         self.line.setObjectName(u"line")
         self.line.setGeometry(QRect(20, 100, 671, 3))
         self.line.setMinimumSize(QSize(357, 3))
@@ -131,7 +140,7 @@ class CA_view_docWidget(QWidget):
         self.line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
         self.line.setFrameShape(QFrame.StyledPanel)
         self.line.setFrameShadow(QFrame.Raised)
-        self.layoutWidget = QWidget(self.clinic_details_inner)
+        self.layoutWidget = QWidget(self.doctors_details_inner)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(3, 123, 701, 641))
         self.verticalLayout_2 = QVBoxLayout(self.layoutWidget)
@@ -482,9 +491,9 @@ class CA_view_docWidget(QWidget):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.noti_icon.setText("")
         self.profile_icon.setText("")
-        self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic name", None))
-        self.search_clinic.setText(QCoreApplication.translate("Form", u"Search Doctor name", None))
-        self.search_clinic.setPlaceholderText(QCoreApplication.translate("Form", u"Search Clinic Name", None))
+        self.profile_btn.setText(QCoreApplication.translate("Form", u"clinic name", None))
+        self.search_doctors.setText(QCoreApplication.translate("Form", u"Search Doctor name", None))
+        self.search_doctors.setPlaceholderText(QCoreApplication.translate("Form", u"Search doctors Name", None))
         self.doc_name.setText(QCoreApplication.translate("Form", u"Doctor Name", None))
         self.doc_logo.setText(QCoreApplication.translate("Form", u"D", None))
         self.phone_label.setText(QCoreApplication.translate("Form", u"Phone: ", None))
@@ -508,8 +517,8 @@ class CA_view_docWidget(QWidget):
         self.add_doc_btn.setText(QCoreApplication.translate("Form", u"Add New Doctor", None))
 
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
-        self.doctors_navigation.setText(QCoreApplication.translate("Form", u"Clinics", None))
-        self.patients_navigation.setText(QCoreApplication.translate("Form", u"Feedback", None))
+        self.doctors_navigation.setText(QCoreApplication.translate("Form", u"doctorss", None))
+        self.patients_navigation.setText(QCoreApplication.translate("Form", u"patients", None))
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
@@ -550,3 +559,4 @@ class CA_view_docWidget(QWidget):
     def emitRemoveDocBtn(self):
         # Emit the custom signal
         self.remove_doc_navigation_btn_clicked.emit()
+

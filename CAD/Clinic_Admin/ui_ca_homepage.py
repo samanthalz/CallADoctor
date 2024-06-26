@@ -27,15 +27,21 @@ class CA_homepageWidget(QWidget):
     def setupUi(self, Form):
         if Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(2307, 1082)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+        Form.resize(1920, 1080)
+        
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
         self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
-"border-bottom-left-radius: 30px;\n"
-"border-top-left-radius: 30px;\n"
-"text-align: center;")
+        "border-bottom-left-radius: 30px;\n"
+        "border-top-left-radius: 30px;\n"
+        "text-align: center;")
+        
         self.feedback_frame = QFrame(self.background)
         self.feedback_frame.setObjectName(u"feedback_frame")
         self.feedback_frame.setGeometry(QRect(1090, 180, 481, 831))
@@ -624,7 +630,6 @@ class CA_homepageWidget(QWidget):
         self.doctors_navigation.setIconSize(QSize(70, 70))
         self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-
         self.doctors_navigation.clicked.connect(self.emitDoctorsBtn)
 
         self.verticalLayout.addWidget(self.doctors_navigation)
@@ -698,23 +703,23 @@ class CA_homepageWidget(QWidget):
         QMetaObject.connectSlotsByName(Form)
 
 
-        self.view_patient_details_button = QPushButton('View Patient Details')
-        self.logout_button = QPushButton('Logout')
+        """self.view_patient_details_button = QPushButton('View Patient Details')
+        #self.logout_button = QPushButton('Logout') """
 
-        layout = QVBoxLayout()
+        """ layout = QVBoxLayout()
         layout.addWidget(self.view_patient_details_button)
         layout.addWidget(self.logout_button)
-        self.setLayout(layout)
+        self.setLayout(layout) """
 
         # Connect button clicks to methods
-        self.view_patient_details_button.clicked.connect(self.show_view_patient_details_message)
-        self.logout_button.clicked.connect(self.show_logout_message)
+        """ self.view_patient_details_button.clicked.connect(self.show_view_patient_details_message)
+        self.logout_button.clicked.connect(self.show_logout_message) """
 
-    def show_view_patient_details_message(self):
+    """ def show_view_patient_details_message(self):
         QMessageBox.information(self, 'Info', 'View Patient Details button clicked.')
 
     def show_logout_message(self):
-        QMessageBox.information(self, 'Info', 'Logout button clicked.')
+        QMessageBox.information(self, 'Info', 'Logout button clicked.') """
     # setupUi
 
     def retranslateUi(self, Form):

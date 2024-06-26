@@ -222,13 +222,13 @@ class Ui_MainWindow(QMainWindow):
          #clinic admin widgets
         self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
-        self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caHomeWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caHomeWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
 
         self.caViewDocWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
-        self.caViewDocWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caViewDocWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caViewDocWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caViewDocWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caViewDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -236,14 +236,14 @@ class Ui_MainWindow(QMainWindow):
 
         self.caAddDocWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
         self.caAddDocWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
-        self.caAddDocWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caAddDocWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caAddDocWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caAddDocWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caAddDocWidget.logout_btn_clicked.connect(self.showLogoutPopup)
      
         self.caPatientsPageWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
         self.caPatientsPageWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
-        self.caPatientsPageWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caPatientsPageWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caPatientsPageWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caPatientsPageWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.caPatientsPageWidget.doc_name_btn_clicked.connect(self.showCAApproveRejectWidget)
@@ -255,11 +255,12 @@ class Ui_MainWindow(QMainWindow):
         self.caApproveRejectWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caApproveRejectWidget.logout_btn_clicked.connect(self.showLogoutPopup)
 
-        self.caProfileSettingsWidget.home_navigation_btn_clicked.connect(self.showHomeWidget)
-        self.caProfileSettingsWidget.doctors_navigation_btn_clicked.connect(self.showHomeWidget)
-        self.caProfileSettingsWidget.patients_navigation_btn_clicked.connect(self.showHomeWidget)
-        self.caProfileSettingsWidget.settings_navigation_btn_clicked.connect(self.showHomeWidget)
+        self.caProfileSettingsWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
+        self.caProfileSettingsWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
+        self.caProfileSettingsWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
+        self.caProfileSettingsWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
         self.caProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1920, 1080)
@@ -383,7 +384,7 @@ class Ui_MainWindow(QMainWindow):
         elif rights == 1: 
             self.showDocHomeWidget()
         elif rights == 2:
-            #self.showCaHomeWidget() # uncomment when update to show home widget for ca
+            self.showCAHomeWidget() # uncomment when update to show home widget for ca
             pass
         elif rights == 4:
             self.showPAHomeWidget()
@@ -582,7 +583,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showCAHomeWidget(self):
         self.stackedWidget.setCurrentWidget(self.caHomeWidget)
-        self.caHomeWidget.admins_data()
+        #self.caHomeWidget.admins_data()
         
     @pyqtSlot()
     def showCAPatientsPageWidget(self):

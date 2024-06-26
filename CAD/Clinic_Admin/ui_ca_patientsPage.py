@@ -23,14 +23,19 @@ class CA_patientsPageWidget(QWidget):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+        
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))
         self.background.setStyleSheet(u"background-color: #F8F8F8;\n"
-"border-bottom-left-radius: 30px;\n"
-"border-top-left-radius: 30px;\n"
-"text-align: center;")
+        "border-bottom-left-radius: 30px;\n"
+        "border-top-left-radius: 30px;\n"
+        "text-align: center;")
         self.noti_icon = QPushButton(self.background)
         self.noti_icon.setObjectName(u"noti_icon")
         self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
