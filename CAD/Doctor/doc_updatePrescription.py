@@ -21,7 +21,6 @@ class UpdateRecordWidget(QWidget):
 
     def set_patient_id(self, patient_id):
         self.patient_id = patient_id
-        print(f"Patient_ID : {self.patient_id}")
         self.get_patient_records(patient_id)
 
     def get_patient_records(self, patient_id): 
@@ -33,8 +32,6 @@ class UpdateRecordWidget(QWidget):
         if patient_data: 
             for id, patient_info in patient_data.items():
                 if int(id) == int(patient_id):
-                    print(f"Patient ID from patient info : {id}")
-                    print(f"Patient ID from signal : {patient_id}")
                     patient_name = patient_info['patient_name']
 
         medical_records = db.child("medical_records").get().val()
@@ -58,6 +55,7 @@ class UpdateRecordWidget(QWidget):
         self.medication_input.setText(", ".join(active_medication_list))
 
     def generate_new_record_id(self):
+        print("In generate new record id")
         try:
             medical_records = db.child("medical_records").get().val()
             max_id = 0
@@ -73,12 +71,13 @@ class UpdateRecordWidget(QWidget):
             return None
 
     def set_medical_records(self):  # method to call when the submit button is clicked
-        print("In set medical records method")
-        diagnosis = self.diagnosis_input.text()
+        print("In set medical records")
+        diagnosis = self.diagnosis_input.text().strip()
         print(f"Diagnosis : {diagnosis}")
-        medication_string = self.medication_input.text()
+        medication_string = self.medication_input.toPlainText().strip()
         medication_list = medication_string.split(",")
-
+        print(f"Diagnosis : {diagnosis}")
+        print(f"Medication : {medication_list}")
 
         if not diagnosis or not medication_string:
             QMessageBox.warning(self, "Missing Data", "Please fill in all fields.")
@@ -86,12 +85,7 @@ class UpdateRecordWidget(QWidget):
         
         medical_records = db.child("medical_records").get().val()
         if medical_records: 
-            print("In if medical records")
             for record_id, record_info in enumerate(medical_records):
-                print("In for record in medical records")
-                print(record_info)
-                print(f"PID form record info : {int(record_info.get('patient_id')) }")
-                print(f"PID from self : {self.patient_id}")
                 if int(record_info.get('patient_id')) == int(self.patient_id): # existing record exists
                     record_exists = True
                     existing_record_id = record_id
@@ -298,6 +292,7 @@ class UpdateRecordWidget(QWidget):
         self.cancel_btn.setFont(font)
         self.cancel_btn.setStyleSheet("background-color: \"#D3D3D3\"; border-radius: 10px;")
         self.cancel_btn.setObjectName("cancel_btn")
+        self.cancel_btn.clicked.connect(self.redirect_to_patients)
         self.submit_btn = QtWidgets.QPushButton(self.whitebg)
         self.submit_btn.setGeometry(QtCore.QRect(850, 950, 321, 50))
         font = QtGui.QFont()
@@ -433,9 +428,13 @@ class UpdateRecordWidget(QWidget):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
 
-    def redirect_to_patients(self, button):
-        if button.text() == "OK":
+    def redirect_to_patients(self, button = None):
+        if button : 
+            if button.text() == "OK":
+                self.redirect_doc_patients_page.emit()
+        else : 
             self.redirect_doc_patients_page.emit()
+        
 
         
 

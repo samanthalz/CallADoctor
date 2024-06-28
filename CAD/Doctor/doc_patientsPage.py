@@ -39,7 +39,22 @@ class PatientsPageWidget(QWidget):
 
         return date_str # returns in format 20 Jun 2024 (used for display)
 
+    def clear_patient_details(self):
+        self.selected_patient_name_label.setText("")
+        self.prescription_display.setText("")
+        self.diagnosis_display.setText("")
+        self.age_display.setText("")
+        self.gender_display.setText("") 
+
+    def clear_verticalLayout_patient_list(self):
+        while self.verticalLayout_patient_list.count():
+                item = self.verticalLayout_patient_list.takeAt(0) 
+                widget = item.widget()
+                if widget is not None:
+                        widget.destroy()
+
     def get_patient_data(self):
+        self.clear_verticalLayout_patient_list()
         today = date.today()
         current_date = today.strftime("%y%m%d")
         appointment_data = db.child("appointment").get().val()

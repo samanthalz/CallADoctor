@@ -559,6 +559,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showDocPatientsWidget(self):
         self.docPatientsWidget.get_patient_data()
+        self.docPatientsWidget.clear_patient_details()
         self.stackedWidget.setCurrentWidget(self.docPatientsWidget)
 
     @pyqtSlot()

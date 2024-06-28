@@ -21,7 +21,6 @@ class Doc_HomeWidget(QWidget):
         self.user_id = 0
         self.num_upcoming_appt, self.upcoming_appt_info = 0, 0
         self.setupUi(self)
-        #self.set_user_id("doctor1") # for testing, call direct in init
     
     def set_user_id(self, user_id): 
         self.user_id = user_id
@@ -92,9 +91,23 @@ class Doc_HomeWidget(QWidget):
 
         return self.patientAppt_frame
 
-    
+    def clear_verticalLayout_upcomingAppt(self):
+        while self.verticalLayout_upcomingAppt.count():
+                item = self.verticalLayout_upcomingAppt.takeAt(0) 
+                widget = item.widget()
+                if widget is not None:
+                        widget.destroy()
+
+    def clear_verticalLayout_pastAppt(self):
+        while self.verticalLayout_pastAppt.count():
+                item = self.verticalLayout_pastAppt.takeAt(0) 
+                widget = item.widget()
+                if widget is not None:
+                        widget.destroy()
 
     def get_upcoming_appt_data(self):
+        self.clear_verticalLayout_pastAppt()
+        self.clear_verticalLayout_upcomingAppt()
         appointment_data = db.child("appointment").get().val()
         patient_data = db.child("patients").get().val()
         num_upcoming_appt = 0 # Initialize as 0
