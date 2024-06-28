@@ -159,11 +159,14 @@ class HomeWidget(QWidget):
         if appointment_data: 
             for appt_id, appt_info in appointment_data.items():
                 if int(appt_info.get('patient_id')) == int(self.user_id):
-                    clinic_name = appt_info['clinic_id']
-                    
+                    clinic_id = appt_info['clinic_id']
+                    print(f'Clinic_id {clinic_id}')
                     for i, clinic in clinics.items():
-                        if clinic.get("clinic_name") == clinic_name:
+                        print(f"In for clinic {i} in clinics ")
+                        if i == clinic_id:
                              clinic_logo = clinic.get("clinic_img") # image path
+                             clinic_name = clinic.get("clinic_name")
+                             print(f"clinic_logo{clinic_logo}")
                              break
                     if not clinic_logo:
                          clinic_logo = "CAD/Images/clinic_img/clinic_1.png"
