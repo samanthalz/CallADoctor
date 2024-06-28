@@ -165,7 +165,8 @@ class HomeWidget(QWidget):
                         if clinic.get("clinic_name") == clinic_name:
                              clinic_logo = clinic.get("clinic_img") # image path
                              break
-
+                    if not clinic_logo:
+                         clinic_logo = "CAD/Images/clinic_img/clinic_1.png"
                     toa = appt_info['speciality']
                     appt_date = appt_info['date']
                     appt_date = self.translate_date(appt_date)

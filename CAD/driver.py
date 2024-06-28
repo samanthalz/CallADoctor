@@ -612,7 +612,7 @@ class Ui_MainWindow(QMainWindow):
         
         try:
             if user_id.isdigit(): 
-                #self.homeWidget.set_user_id(user_id)
+                self.homeWidget.set_user_id(user_id)
                 self.makeApptWidget.set_user_id(user_id)
                 self.profileSettingsWidget.set_user_id(user_id)
                 self.sendFeedbackWidget.set_user_id(user_id)
