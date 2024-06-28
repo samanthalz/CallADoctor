@@ -55,7 +55,6 @@ class UpdateRecordWidget(QWidget):
         self.medication_input.setText(", ".join(active_medication_list))
 
     def generate_new_record_id(self):
-        print("In generate new record id")
         try:
             medical_records = db.child("medical_records").get().val()
             max_id = 0
@@ -71,13 +70,9 @@ class UpdateRecordWidget(QWidget):
             return None
 
     def set_medical_records(self):  # method to call when the submit button is clicked
-        print("In set medical records")
         diagnosis = self.diagnosis_input.text().strip()
-        print(f"Diagnosis : {diagnosis}")
         medication_string = self.medication_input.toPlainText().strip()
         medication_list = medication_string.split(",")
-        print(f"Diagnosis : {diagnosis}")
-        print(f"Medication : {medication_list}")
 
         if not diagnosis or not medication_string:
             QMessageBox.warning(self, "Missing Data", "Please fill in all fields.")

@@ -21,7 +21,6 @@ class DocProfileSettingsWidget(QWidget):
         super().__init__(parent)
         self.user_id = 0
         self.setupUi(self)
-        #self.set_user_id("Dr. John Doe")
 
     def set_user_id(self, user_id): 
         self.user_id = user_id
@@ -30,13 +29,11 @@ class DocProfileSettingsWidget(QWidget):
     def get_user_credentials(self, user_id):
         doctors = db.child("doctors").get().val()
         for i, doctor_info in doctors.items():
-            if int(doctor_info.get("doctor_id")) == int(user_id):
-                    doctor_name = doctor_info.get('doctor_name')
+            if i == (user_id):
                     password = doctor_info.get('password')
                     break
             
-        if doctor_name: 
-            self.user_id_display.setText(doctor_name)
+        self.user_id_display.setText(user_id)
         if password : 
             self.pass_display.setText(password)
         
@@ -298,9 +295,7 @@ class DocProfileSettingsWidget(QWidget):
         self.profile_btn.setText(QCoreApplication.translate("Form", u"Doctor", None))
         self.profile_icon_2.setText("")
         self.user_id.setText(QCoreApplication.translate("Form", u"User ID", None))
-        self.user_id_display.setText("")
         self.pas.setText(QCoreApplication.translate("Form", u"Password", None))
-        self.pass_display.setText("")
 
         self.home_navigation.setText(QCoreApplication.translate("Form", "   Home   "))
         self.patients_navigation.setText(QCoreApplication.translate("Form", "Patients"))
