@@ -26,8 +26,8 @@ class CA_homepageWidget(QWidget):
         self.doc_data_list = []
         self.patient_data_list = []
         self.setupUi(self)
-        #self.fetch_patient_data()
-       # self.fetch_doc_data()
+        self.fetch_patient_data()
+        self.fetch_doc_data()
         self.patient_details_frame = None
         self.temp_patient_name = ""
 
@@ -378,8 +378,7 @@ class CA_homepageWidget(QWidget):
             # Debug statement to print the raw patients data
             print(f"Fetched patients data: {patients.val()}")
                 
-          
-                
+            
             for patient in patients.each():
                 patient_data = patient.val()
                 patient_id = patient.key()  # Assuming patient ID is stored as the key
@@ -686,6 +685,141 @@ class CA_homepageWidget(QWidget):
         view_detail_btn.clicked.connect(self.emitViewDetailBtn)
         return request_detail_outer
     
+    def fetch_doc_data(self):
+        db = self.initialize_db()  # Assuming this method initializes your Firebase connection
+        try:
+                clinics = db.child("clinics").get()
+                
+                # Debug statement to print the raw clinics data
+                print(f"Fetched clinics data: {clinics.val()}")
+                
+                if clinics.each():
+                        self.doctor_data_list = []
+                        
+                        for clinic in clinics.each():
+                                clinic_data = clinic.val()
+                                clinic_id = clinic.key()  # Assuming clinic ID is stored as the key
+                                
+                                # Debug statement to print the clinic ID
+                                print(f"Fetched clinic ID: {clinic_id}")
+                                
+                                if clinic_id == self.clinic_id:
+                                        doctors = clinic_data.get("doctors", {})
+                                        
+                                        for doctor_id, doctor_info in doctors.items():
+                                                doctor_name = doctor_info.get("name", "Unknown")
+                                                
+                                                # Add fetched doctor data to the list
+                                                self.doctor_data_list.append({"doctor_id": doctor_id, "doctor_name": doctor_name})
+
+                                                # Print debug statements
+                                                print(f"Doctor ID: {doctor_id}")
+                                                print(f"Doctor Name: {doctor_name}")
+                                        
+                                        break  # Assuming each clinic_id is unique and we only need to process the relevant clinic
+                                
+                                # Populate doctor information on the UI
+                                self.populate_doctor_info()
+                else:
+                        print("No clinics data found.")
+                        
+        except Exception as e:
+                print(f"An error occurred while fetching data: {e}")
+
+    def create_doctor_list_frame(self, doc_data):
+        clinicReq_frame_6 = QFrame(clinicReq_frame_6)
+        clinicReq_frame_6.setObjectName(u"clinicReq_frame_6")
+        clinicReq_frame_6.setGeometry(QRect(20, 70, 401, 81))
+        clinicReq_frame_6.setFrameShape(QFrame.StyledPanel)
+        clinicReq_frame_6.setFrameShadow(QFrame.Raised)
+        doc_name_label_6 = QLabel(clinicReq_frame_6)
+        doc_name_label_6.setObjectName(u"doc_name_label_6")
+        doc_name_label_6.setGeometry(QRect(90, 30, 121, 21))
+        font1 = QFont()
+        font1.setFamily(u"Cascadia Code")
+        font1.setPointSize(10)
+        doc_name_label_6.setFont(font1)
+        doc_name_label_6.setStyleSheet(u"border : none;\n"
+"")
+        doc_name_label_6.setText(doc_data.get("doctor_name", "Unknown"))
+        doc_logo_label_2 = QLabel(clinicReq_frame_6)
+        doc_logo_label_2.setObjectName(u"doc_logo_label_2")
+        doc_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(9)
+        doc_logo_label_2.setFont(font2)
+        doc_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+"border-radius: 25px; /* Radius to make it round */\n"
+"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+"min-width: 50px; /* Ensure the QLabel is a circle */\n"
+"min-height: 50px; /* Ensure the QLabel is a circle */\n"
+"max-width: 50px; /* Ensure the QLabel is a circle */\n"
+"max-height: 50px; /* Ensure the QLabel is a circle */")
+        doc_logo_label_2.setAlignment(Qt.AlignCenter)
+        patient_visit_reason_label_6 = QLabel(clinicReq_frame_6)
+        patient_visit_reason_label_6.setObjectName(u"patient_visit_reason_label_6")
+        patient_visit_reason_label_6.setGeometry(QRect(90, 60, 55, 16))
+        patient_visit_reason_label_6.setStyleSheet(u"color: #128983")
+        patientReq_frame_7 = QFrame(clinicReq_frame_6)
+        patientReq_frame_7.setObjectName(u"patientReq_frame_7")
+        patientReq_frame_7.setGeometry(QRect(20, 170, 401, 81))
+        patientReq_frame_7.setFrameShape(QFrame.StyledPanel)
+        patientReq_frame_7.setFrameShadow(QFrame.Raised)
+        doc_name_label_7 = QLabel(patientReq_frame_7)
+        doc_name_label_7.setObjectName(u"doc_name_label_7")
+        doc_name_label_7.setGeometry(QRect(90, 30, 151, 21))
+        doc_name_label_7.setFont(font1)
+        doc_name_label_7.setStyleSheet(u"border : none;\n"
+"")
+        clinic_name_label = QLabel(patientReq_frame_7)
+        clinic_name_label.setObjectName(u"clinic_name_label")
+        clinic_name_label.setGeometry(QRect(90, 60, 55, 16))
+        clinic_name_label.setStyleSheet(u"color: #128983")
+        doc_logo_label_3 = QLabel(patientReq_frame_7)
+        doc_logo_label_3.setObjectName(u"doc_logo_label_3")
+        doc_logo_label_3.setGeometry(QRect(10, 10, 54, 54))
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(9)
+        doc_logo_label_3.setFont(font2)
+        doc_logo_label_3.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+"border-radius: 25px; /* Radius to make it round */\n"
+"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+"min-width: 50px; /* Ensure the QLabel is a circle */\n"
+"min-height: 50px; /* Ensure the QLabel is a circle */\n"
+"max-width: 50px; /* Ensure the QLabel is a circle */\n"
+"max-height: 50px; /* Ensure the QLabel is a circle */")
+        doc_logo_label_3.setAlignment(Qt.AlignCenter)
+        comboBox_2 = QComboBox(upcomin_appt_frame_2)
+        comboBox_2.addItem("")
+        comboBox_2.addItem("")
+        comboBox_2.setObjectName(u"comboBox_2")
+        comboBox_2.setGeometry(QRect(290, 30, 131, 31))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(10)
+        comboBox_2.setFont(font3)
+
+   
+    def populate_doctor_info(self):
+        # Clear the layout before populating new data
+        for i in reversed(range(self.verticalLayout_4.count())): 
+                widget_to_remove = self.verticalLayout_4.itemAt(i).widget()
+                self.verticalLayout_4.removeWidget(widget_to_remove)
+                widget_to_remove.setParent(None)
+
+        for doctor_data in self.doctor_data_list:
+                doctor_name_label = QLabel()
+                doctor_name_label.setText(doctor_data.get("doctor_name", "Unknown"))
+                
+                # Add the label to the vertical layout
+                self.verticalLayout_4.addWidget(doctor_name_label)
+
+        self.verticalLayout_4.update()
+
+        # Ensure you call fetch_doctor_data to start the process
+        self.fetch_doctor_data()
 
     def initialize_db(self):
         return db
@@ -694,80 +828,8 @@ class CA_homepageWidget(QWidget):
         print(f"id in ca {user_id}")
         self.clinic_id = user_id
 
-    def create_fb_list_frame(self, fb_data):
-         
-        self.patientReq_frame_6 = QFrame(self.upcomin_appt_frame_2)
-        self.patientReq_frame_6.setObjectName(u"patientReq_frame_6")
-        self.patientReq_frame_6.setGeometry(QRect(20, 70, 401, 81))
-        self.patientReq_frame_6.setFrameShape(QFrame.StyledPanel)
-        self.patientReq_frame_6.setFrameShadow(QFrame.Raised)
-        self.doc_name_label_6 = QLabel(self.patientReq_frame_6)
-        self.doc_name_label_6.setObjectName(u"doc_name_label_6")
-        self.doc_name_label_6.setGeometry(QRect(90, 30, 121, 21))
-        font1 = QFont()
-        font1.setFamily(u"Cascadia Code")
-        font1.setPointSize(10)
-        self.doc_name_label_6.setFont(font1)
-        self.doc_name_label_6.setStyleSheet(u"border : none;\n"
-"")
-        self.doc_logo_label_2 = QLabel(self.patientReq_frame_6)
-        self.doc_logo_label_2.setObjectName(u"doc_logo_label_2")
-        self.doc_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
-        font2 = QFont()
-        font2.setFamily(u"Cascadia Code")
-        font2.setPointSize(9)
-        self.doc_logo_label_2.setFont(font2)
-        self.doc_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.doc_logo_label_2.setAlignment(Qt.AlignCenter)
-        self.patient_visit_reason_label_6 = QLabel(self.patientReq_frame_6)
-        self.patient_visit_reason_label_6.setObjectName(u"patient_visit_reason_label_6")
-        self.patient_visit_reason_label_6.setGeometry(QRect(90, 60, 55, 16))
-        self.patient_visit_reason_label_6.setStyleSheet(u"color: #128983")
-        self.patientReq_frame_7 = QFrame(self.upcomin_appt_frame_2)
-        self.patientReq_frame_7.setObjectName(u"patientReq_frame_7")
-        self.patientReq_frame_7.setGeometry(QRect(20, 170, 401, 81))
-        self.patientReq_frame_7.setFrameShape(QFrame.StyledPanel)
-        self.patientReq_frame_7.setFrameShadow(QFrame.Raised)
-        self.doc_name_label_7 = QLabel(self.patientReq_frame_7)
-        self.doc_name_label_7.setObjectName(u"doc_name_label_7")
-        self.doc_name_label_7.setGeometry(QRect(90, 30, 151, 21))
-        self.doc_name_label_7.setFont(font1)
-        self.doc_name_label_7.setStyleSheet(u"border : none;\n"
-"")
-        self.clinic_name_label = QLabel(self.patientReq_frame_7)
-        self.clinic_name_label.setObjectName(u"clinic_name_label")
-        self.clinic_name_label.setGeometry(QRect(90, 60, 55, 16))
-        self.clinic_name_label.setStyleSheet(u"color: #128983")
-        self.doc_logo_label_3 = QLabel(self.patientReq_frame_7)
-        self.doc_logo_label_3.setObjectName(u"doc_logo_label_3")
-        self.doc_logo_label_3.setGeometry(QRect(10, 10, 54, 54))
-        font2 = QFont()
-        font2.setFamily(u"Cascadia Code")
-        font2.setPointSize(9)
-        self.doc_logo_label_3.setFont(font2)
-        self.doc_logo_label_3.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.doc_logo_label_3.setAlignment(Qt.AlignCenter)
-        self.comboBox_2 = QComboBox(self.upcomin_appt_frame_2)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
-        self.comboBox_2.setGeometry(QRect(290, 30, 131, 31))
-        font3 = QFont()
-        font3.setFamily(u"Consolas")
-        font3.setPointSize(10)
-        self.comboBox_2.setFont(font3)
+
+
          
                 
 if __name__ == "__main__":
