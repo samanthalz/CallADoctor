@@ -3,6 +3,9 @@ from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient)
+from PyQt5 import QtGui
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 from connection import db
 
@@ -18,6 +21,21 @@ class CAProfileSettingsWidget(QWidget):
         super().__init__(parent)
         self.ca_id = 0
         self.setupUi(self)
+ 
+    def set_user_id(self, user_id): 
+        self.user_id = user_id
+        self.get_user_credentials(self.user_id)
+
+    def get_user_credentials(self, user_id):
+        clinic_admin = db.child("clinic_admin").get().val()
+        for i, doctor_info in clinic_admin.items():
+            if i == (user_id):
+                    password = doctor_info.get('password')
+                    break
+            
+        self.user_id_display.setText(user_id)
+        if password : 
+            self.pass_display.setText(password)
 
     def setupUi(self, Form):
         if Form.objectName():
@@ -270,7 +288,7 @@ class CAProfileSettingsWidget(QWidget):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.settings_label.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.profile_icon.setText("")
-        self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic name", None))
+        self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic", None))
         self.profile_icon_2.setText("")
         self.user_id.setText(QCoreApplication.translate("Form", u"User ID", None))
         self.user_id_display.setText("")
@@ -306,3 +324,13 @@ class CAProfileSettingsWidget(QWidget):
     def emitPatientsBtn(self):
         self.patients_navigation_btn_clicked.emit()  
 
+
+# # # If run directly from this page
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Form = QtWidgets.QWidget()
+    ui = CAProfileSettingsWidget()
+    ui.setupUi(Form)
+    Form.show()
+    sys.exit(app.exec_())
