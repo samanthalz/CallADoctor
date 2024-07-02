@@ -27,6 +27,7 @@ class DocProfileSettingsWidget(QWidget):
         self.get_user_credentials(self.user_id)
 
     def get_user_credentials(self, user_id):
+        password = 0 # default
         doctors = db.child("doctors").get().val()
         for i, doctor_info in doctors.items():
             if i == (user_id):
