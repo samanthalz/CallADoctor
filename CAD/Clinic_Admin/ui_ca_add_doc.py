@@ -23,7 +23,12 @@ class CA_add_docWidget(QWidget):
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
-        Form.setStyleSheet(u"background-color: \"#B6D0E2\" ")
+       
+        Form.setAutoFillBackground(True)
+        p = Form.palette()
+        p.setColor(Form.backgroundRole(), QColor('#B6D0E2'))
+        Form.setPalette(p)
+        
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1061))

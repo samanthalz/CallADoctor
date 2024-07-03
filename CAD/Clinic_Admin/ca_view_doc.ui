@@ -393,7 +393,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
             <string notr="true">border: none;</string>
            </property>
            <property name="text">
-            <string>Address:</string>
+            <string>Doctor hours</string>
            </property>
           </widget>
          </item>
@@ -411,7 +411,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
             <string notr="true">border: none;</string>
            </property>
            <property name="text">
-            <string>No. 23, Jalan Telawi 3, Bangsar Baru, 59100 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur, Malaysia.</string>
+            <string>hours</string>
            </property>
            <property name="scaledContents">
             <bool>false</bool>

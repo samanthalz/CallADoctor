@@ -243,7 +243,7 @@ class Ui_MainWindow(QMainWindow):
      
         self.caPatientsPageWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
         self.caPatientsPageWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
-        self.caPatientsPageWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caPatientsPageWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caPatientsPageWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caPatientsPageWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.caPatientsPageWidget.doc_name_btn_clicked.connect(self.showCAApproveRejectWidget)
@@ -258,7 +258,7 @@ class Ui_MainWindow(QMainWindow):
         self.caProfileSettingsWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
         self.caProfileSettingsWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
         self.caProfileSettingsWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
-        self.caProfileSettingsWidget.settings_navigation_btn_clicked.connect(self.showProfileSettingsWidget)
+        self.caProfileSettingsWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
 
     def setupUi(self, MainWindow):

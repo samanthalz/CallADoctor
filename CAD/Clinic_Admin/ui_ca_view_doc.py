@@ -19,8 +19,14 @@ class CA_view_docWidget(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.clinic_id = ""
+        self.doc_data_list = []
+        self.selected_status = ""
         self.setupUi(self)
+        self.fetch_doc_data()
         self.doctors_navigation = QToolButton(self)
+        self.doctors_details_frame = None
+        self.temp_doctors_name = ""
 
         
     def setupUi(self, Form):
@@ -93,180 +99,12 @@ class CA_view_docWidget(QWidget):
 "background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
-        
+
         self.profile_btn.clicked.connect(self.emitProfileBtn)
 
         self.search_doctors.setClearButtonEnabled(False)
-        self.request_detail_outer = QFrame(self.background)
-        self.request_detail_outer.setObjectName(u"request_detail_outer")
-        self.request_detail_outer.setGeometry(QRect(979, 200, 751, 841))
-        self.request_detail_outer.setStyleSheet(u"background-color : #ffffff;")
-        self.request_detail_outer.setFrameShape(QFrame.StyledPanel)
-        self.request_detail_outer.setFrameShadow(QFrame.Raised)
-        self.doctors_details_inner = QFrame(self.request_detail_outer)
-        self.doctors_details_inner.setObjectName(u"doctors_details_inner")
-        self.doctors_details_inner.setGeometry(QRect(20, 20, 711, 771))
-        self.doctors_details_inner.setFrameShape(QFrame.StyledPanel)
-        self.doctors_details_inner.setFrameShadow(QFrame.Raised)
-        self.doc_name = QLabel(self.doctors_details_inner)
-        self.doc_name.setObjectName(u"doc_name")
-        self.doc_name.setGeometry(QRect(100, 30, 121, 21))
-        font2 = QFont()
-        font2.setFamily(u"Cascadia Code")
-        font2.setPointSize(10)
-        self.doc_name.setFont(font2)
-        self.doc_name.setStyleSheet(u"border : none;\n"
-"")
-        self.doc_logo = QLabel(self.doctors_details_inner)
-        self.doc_logo.setObjectName(u"doc_logo")
-        self.doc_logo.setGeometry(QRect(10, 10, 54, 54))
-        font3 = QFont()
-        font3.setFamily(u"Cascadia Code")
-        font3.setPointSize(9)
-        self.doc_logo.setFont(font3)
-        self.doc_logo.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.doc_logo.setAlignment(Qt.AlignCenter)
-        self.line = QFrame(self.doctors_details_inner)
-        self.line.setObjectName(u"line")
-        self.line.setGeometry(QRect(20, 100, 671, 3))
-        self.line.setMinimumSize(QSize(357, 3))
-        self.line.setMaximumSize(QSize(16777215, 3))
-        self.line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
-        self.line.setFrameShape(QFrame.StyledPanel)
-        self.line.setFrameShadow(QFrame.Raised)
-        self.layoutWidget = QWidget(self.doctors_details_inner)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(3, 123, 701, 641))
-        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.phone_layout = QHBoxLayout()
-        self.phone_layout.setObjectName(u"phone_layout")
-        self.phone_label = QLabel(self.layoutWidget)
-        self.phone_label.setObjectName(u"phone_label")
-        font4 = QFont()
-        font4.setFamily(u"Consolas")
-        font4.setPointSize(11)
-        font4.setBold(True)
-        font4.setWeight(75)
-        self.phone_label.setFont(font4)
-        self.phone_label.setStyleSheet(u"border: none;")
-        self.phone_label.setLineWidth(0)
 
-        self.phone_layout.addWidget(self.phone_label)
-
-        self.phone_display = QLabel(self.layoutWidget)
-        self.phone_display.setObjectName(u"phone_display")
-        self.phone_display.setMinimumSize(QSize(390, 102))
-        font5 = QFont()
-        font5.setFamily(u"Consolas")
-        font5.setPointSize(11)
-        font5.setBold(False)
-        font5.setWeight(50)
-        self.phone_display.setFont(font5)
-        self.phone_display.setStyleSheet(u"border: none;")
-
-        self.phone_layout.addWidget(self.phone_display)
-
-
-        self.verticalLayout_2.addLayout(self.phone_layout)
-
-        self.email_layout = QHBoxLayout()
-        self.email_layout.setObjectName(u"email_layout")
-        self.email_label = QLabel(self.layoutWidget)
-        self.email_label.setObjectName(u"email_label")
-        self.email_label.setFont(font4)
-        self.email_label.setStyleSheet(u"border: none;")
-
-        self.email_layout.addWidget(self.email_label)
-
-        self.email_display = QLabel(self.layoutWidget)
-        self.email_display.setObjectName(u"email_display")
-        self.email_display.setMinimumSize(QSize(390, 102))
-        self.email_display.setFont(font5)
-        self.email_display.setStyleSheet(u"border: none;")
-
-        self.email_layout.addWidget(self.email_display)
-
-
-        self.verticalLayout_2.addLayout(self.email_layout)
-
-        self.add_layout = QHBoxLayout()
-        self.add_layout.setSpacing(135)
-        self.add_layout.setObjectName(u"add_layout")
-        self.add_label = QLabel(self.layoutWidget)
-        self.add_label.setObjectName(u"add_label")
-        self.add_label.setFont(font4)
-        self.add_label.setStyleSheet(u"border: none;")
-
-        self.add_layout.addWidget(self.add_label)
-
-        self.add_display = QLabel(self.layoutWidget)
-        self.add_display.setObjectName(u"add_display")
-        self.add_display.setFont(font5)
-        self.add_display.setStyleSheet(u"border: none;")
-        self.add_display.setScaledContents(False)
-        self.add_display.setWordWrap(True)
-
-        self.add_layout.addWidget(self.add_display)
-
-
-        self.verticalLayout_2.addLayout(self.add_layout)
-
-        self.opening_hr_layout = QHBoxLayout()
-        self.opening_hr_layout.setObjectName(u"opening_hr_layout")
-        self.opening_hr_layout.setSizeConstraint(QLayout.SetFixedSize)
-        self.specialization_label = QLabel(self.layoutWidget)
-        self.specialization_label.setObjectName(u"specialization_label")
-        self.specialization_label.setFont(font4)
-        self.specialization_label.setStyleSheet(u"border: none;")
-        self.specialization_label.setWordWrap(True)
-
-        self.opening_hr_layout.addWidget(self.specialization_label)
-
-        self.hour_display = QLabel(self.layoutWidget)
-        self.hour_display.setObjectName(u"hour_display")
-        self.hour_display.setMinimumSize(QSize(390, 0))
-        self.hour_display.setFont(font5)
-        self.hour_display.setStyleSheet(u"border: none;")
-        self.hour_display.setScaledContents(False)
-        self.hour_display.setWordWrap(True)
-
-        self.opening_hr_layout.addWidget(self.hour_display)
-
-
-        self.verticalLayout_2.addLayout(self.opening_hr_layout)
-
-        self.remove_doc_btn = QPushButton(self.request_detail_outer)
-        self.remove_doc_btn.setObjectName(u"remove_doc_btn")
-        self.remove_doc_btn.setGeometry(QRect(550, 790, 181, 41))
-        font6 = QFont()
-        font6.setFamily(u"Consolas")
-        font6.setPointSize(10)
-        font6.setBold(True)
-        font6.setWeight(75)
-        self.remove_doc_btn.setFont(font6)
-        self.remove_doc_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
-        
-        self.remove_doc_btn.clicked.connect(self.emitRemoveDocBtn)
-        
-        self.filter = QComboBox(self.background)
-        self.filter.addItem("")
-        self.filter.addItem("")
-        self.filter.setObjectName(u"filter")
-        self.filter.setGeometry(QRect(710, 170, 151, 31))
-        font7 = QFont()
-        font7.setFamily(u"Consolas")
-        font7.setPointSize(12)
-        self.filter.setFont(font7)
-        self.filter.setStyleSheet(u"\n"
-"border: 1px solid gray;")
+       
         self.upcoming_label = QLabel(self.background)
         self.upcoming_label.setObjectName(u"upcoming_label")
         self.upcoming_label.setGeometry(QRect(50, 160, 341, 41))
@@ -276,52 +114,8 @@ class CA_view_docWidget(QWidget):
         self.upcoming_label.setFont(font8)
         self.upcoming_label.setStyleSheet(u"border : none;\n"
 "")
-        self.doc_frame_2 = QFrame(self.background)
-        self.doc_frame_2.setObjectName(u"doc_frame_2")
-        self.doc_frame_2.setGeometry(QRect(60, 390, 801, 81))
-        self.doc_frame_2.setFrameShape(QFrame.StyledPanel)
-        self.doc_frame_2.setFrameShadow(QFrame.Raised)
-        self.doc_name_label_2 = QLabel(self.doc_frame_2)
-        self.doc_name_label_2.setObjectName(u"doc_name_label_2")
-        self.doc_name_label_2.setGeometry(QRect(90, 30, 121, 21))
-        self.doc_name_label_2.setFont(font2)
-        self.doc_name_label_2.setStyleSheet(u"border : none;\n"
-"")
-        self.doc_logo_label_2 = QLabel(self.doc_frame_2)
-        self.doc_logo_label_2.setObjectName(u"doc_logo_label_2")
-        self.doc_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
-        self.doc_logo_label_2.setFont(font3)
-        self.doc_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
-        self.doc_logo_label_2.setAlignment(Qt.AlignCenter)
-        self.doc_frame = QFrame(self.background)
-        self.doc_frame.setObjectName(u"doc_frame")
-        self.doc_frame.setGeometry(QRect(60, 290, 801, 81))
-        self.doc_frame.setFrameShape(QFrame.StyledPanel)
-        self.doc_frame.setFrameShadow(QFrame.Raised)
-        self.doc_name_label = QLabel(self.doc_frame)
-        self.doc_name_label.setObjectName(u"doc_name_label")
-        self.doc_name_label.setGeometry(QRect(90, 30, 121, 21))
-        self.doc_name_label.setFont(font2)
-        self.doc_name_label.setStyleSheet(u"border : none;\n"
-"")
-        self.doc_logo_label = QLabel(self.doc_frame)
-        self.doc_logo_label.setObjectName(u"doc_logo_label")
-        self.doc_logo_label.setGeometry(QRect(10, 10, 54, 54))
-        self.doc_logo_label.setFont(font3)
-        self.doc_logo_label.setStyleSheet(u"background-color: #B6D0E2; \n"
-"border-radius: 25px; \n"
-"border: 2px solid #B6D0F7; \n"
-"min-width: 50px; \n"
-"min-height: 50px; \n"
-"max-width: 50px;\n"
-"max-height: 50px; ")
-        self.doc_logo_label.setAlignment(Qt.AlignCenter)
+
+
         self.doc_detail_label = QLabel(self.background)
         self.doc_detail_label.setObjectName(u"doc_detail_label")
         self.doc_detail_label.setGeometry(QRect(990, 150, 571, 41))
@@ -489,30 +283,12 @@ class CA_view_docWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.noti_icon.setText("")
         self.profile_icon.setText("")
         self.profile_btn.setText(QCoreApplication.translate("Form", u"clinic name", None))
-        self.search_doctors.setText(QCoreApplication.translate("Form", u"Search Doctor name", None))
         self.search_doctors.setPlaceholderText(QCoreApplication.translate("Form", u"Search doctors Name", None))
-        self.doc_name.setText(QCoreApplication.translate("Form", u"Doctor Name", None))
-        self.doc_logo.setText(QCoreApplication.translate("Form", u"D", None))
-        self.phone_label.setText(QCoreApplication.translate("Form", u"Phone: ", None))
-        self.phone_display.setText(QCoreApplication.translate("Form", u"+60322845678", None))
-        self.email_label.setText(QCoreApplication.translate("Form", u"Email:", None))
-        self.email_display.setText(QCoreApplication.translate("Form", u"info@gmail.my", None))
-        self.add_label.setText(QCoreApplication.translate("Form", u"Address:", None))
-        self.add_display.setText(QCoreApplication.translate("Form", u"No. 23, Jalan Telawi 3, Bangsar Baru, 59100 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur, Malaysia.", None))
-        self.specialization_label.setText(QCoreApplication.translate("Form", u"Specialization:", None))
-        self.hour_display.setText(QCoreApplication.translate("Form", u"speciality", None))
-        self.remove_doc_btn.setText(QCoreApplication.translate("Form", u"Remove Doctor", None))
-        self.filter.setItemText(0, QCoreApplication.translate("Form", u"Recent", None))
-        self.filter.setItemText(1, QCoreApplication.translate("Form", u"Oldest", None))
+        
 
         self.upcoming_label.setText(QCoreApplication.translate("Form", u"Doctors List", None))
-        self.doc_name_label_2.setText(QCoreApplication.translate("Form", u"Doctor Name", None))
-        self.doc_logo_label_2.setText(QCoreApplication.translate("Form", u"D", None))
-        self.doc_name_label.setText(QCoreApplication.translate("Form", u"Doctor Name", None))
-        self.doc_logo_label.setText(QCoreApplication.translate("Form", u"D", None))
         self.doc_detail_label.setText(QCoreApplication.translate("Form", u"Doctor Details", None))
         self.add_doc_btn.setText(QCoreApplication.translate("Form", u"Add New Doctor", None))
 
@@ -522,6 +298,351 @@ class CA_view_docWidget(QWidget):
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi
+
+
+    def fetch_doc_data(self):
+        db = self.initialize_db()  # Assuming this method initializes your Firebase connection
+        try:
+                clinics = db.child("clinic").get()
+         
+                
+                if clinics.each():
+                        print(f"if clinic.each():{clinics}")
+                        self.doc_data_list = []
+                        
+                        for clinic in clinics.each():
+                                print(f"for clinic in clinics.each():{clinics}")
+                                clinic_data = clinic.val()
+                                clinic_id = clinic.key()  # Assuming clinic ID is stored as the key
+                                
+                              
+                                
+                                if clinic_id == self.clinic_id:
+                                        print(f"if clinic_id == self.clinic_id:{clinic_id}")
+                                        doctors = clinic_data.get("doctors", {})
+                                        
+                                        for doctor_id, doctor_info in doctors.items():
+                                                print(f"for doctor_id, doctor_info in doctors.items():{doctor_id}")
+                                                doctor_name = doctor_info.get("name", "Unknown")
+                                                
+                                                # Add fetched doctor data to the list
+                                                self.doc_data_list.append({"doctor_id": doctor_id, "doctor_name": doctor_name})
+
+                                            
+                                        
+                                        break  # Assuming each clinic_id is unique and we only need to process the relevant clinic
+                                
+                                # Populate doctor information on the UI
+                                self.populate_doctor_info()
+                else:
+                        print("No clinics data found.")
+                        
+        except Exception as e:
+                print(f"An error occurred while fetching data: {e}")
+
+    def create_doctor_list_frame(self, doc_data):
+        doc_frame = QFrame(self.background)
+        doc_frame.setObjectName(u"doc_frame")
+        doc_frame.setGeometry(QRect(60, 290, 801, 81))
+        doc_frame.setFrameShape(QFrame.StyledPanel)
+        doc_frame.setFrameShadow(QFrame.Raised)
+        doc_name_label = QLabel(doc_frame)
+        doc_name_label.setObjectName(u"doc_name_label")
+        doc_name_label.setGeometry(QRect(90, 30, 121, 21))
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(10)
+        doc_name_label.setFont(font2)
+        doc_name_label.setStyleSheet(u"border : none;\n"
+"")
+        doc_name_label = QLabel(doc_data["doctor_name"])
+        doc_name_label.mousePressEvent = lambda event, doctors=doc_data: self.create_popup_widget(doctors)
+        
+        doc_logo_label = QLabel(doc_frame)
+        doc_logo_label.setObjectName(u"doc_logo_label")
+        doc_logo_label.setGeometry(QRect(10, 10, 54, 54))
+        font3 = QFont()
+        font3.setFamily(u"Cascadia Code")
+        font3.setPointSize(9)
+        doc_logo_label.setFont(font3)
+        doc_logo_label.setStyleSheet(u"background-color: #B6D0E2; \n"
+"border-radius: 25px; \n"
+"border: 2px solid #B6D0F7; \n"
+"min-width: 50px; \n"
+"min-height: 50px; \n"
+"max-width: 50px;\n"
+"max-height: 50px; ")
+        doc_logo_label.setAlignment(Qt.AlignCenter)
+    
+        doc_img_path = doc_data.get("doc_img", "Path Not Found")
+        if doc_img_path:
+                pixmap = QPixmap(doc_img_path)
+                doc_logo_label.setPixmap(pixmap.scaled(doc_logo_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+        return doc_frame
+    
+    def clear_layout(self):
+        while self.vLayout.count():
+                item = self.vLayout.takeAt(0) 
+                widget = item.widget()
+                if widget is not None:
+                        widget.deleteLater()
+         
+
+    def populate_doctor_info(self, search_query=None):
+        self.clear_layout()
+
+        visible_doctors = []
+
+        for doc_data in self.doc_data_list:
+            if isinstance(doc_data, dict):
+                doctor_name = doc_data.get("doctor_name", "").lower()
+
+            # Check search query if provided
+            if not search_query or search_query.lower() in doctor_name:
+                doctor_frame = self.create_doctor_list_frame(doc_data)
+                if doctor_frame:
+                    visible_doctors.append(doctor_frame)
+
+        # Add visible doctors to the layout in reverse order
+        for doctor_frame in reversed(visible_doctors):
+            self.verticalLayout_4.addWidget(doctor_frame)
+
+        self.scrollAreaWidgetContents.setLayout(self.verticalLayout_4)
+        self.verticalLayout_4.setAlignment(Qt.AlignTop)
+        self.verticalLayout_4.update()
+        self.scrollAreaWidgetContents.update()
+
+  
+         # Debug: Final update status
+        print("Layout and widget updated.")
+
+    def create_doctors_details_frame(self, doc_data):
+        request_detail_outer = QFrame(self.background)
+        request_detail_outer.setObjectName(u"request_detail_outer")
+        request_detail_outer.setGeometry(QRect(979, 200, 751, 841))
+        request_detail_outer.setStyleSheet(u"background-color : #ffffff;")
+        request_detail_outer.setFrameShape(QFrame.StyledPanel)
+        request_detail_outer.setFrameShadow(QFrame.Raised)
+
+        doctors_details_inner = QFrame(request_detail_outer)
+        doctors_details_inner.setObjectName(u"doctors_details_inner")
+        doctors_details_inner.setGeometry(QRect(20, 20, 711, 771))
+        doctors_details_inner.setFrameShape(QFrame.StyledPanel)
+        doctors_details_inner.setFrameShadow(QFrame.Raised)
+
+        doc_name = QLabel(doctors_details_inner)
+        doc_name.setObjectName(u"doc_name")
+        doc_name.setGeometry(QRect(100, 30, 121, 21))
+        font2 = QFont()
+        font2.setFamily(u"Cascadia Code")
+        font2.setPointSize(10)
+        doc_name.setFont(font2)
+        doc_name.setStyleSheet(u"border : none;\n"
+"")
+        
+        self.temp_doc_name = doc_data["doctor_name"]
+
+        doc_logo = QLabel(doctors_details_inner)
+        doc_logo.setObjectName(u"doc_logo")
+        doc_logo.setGeometry(QRect(10, 10, 54, 54))
+        font3 = QFont()
+        font3.setFamily(u"Cascadia Code")
+        font3.setPointSize(9)
+        doc_logo.setFont(font3)
+        doc_logo.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
+"border-radius: 25px; /* Radius to make it round */\n"
+"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
+"min-width: 50px; /* Ensure the QLabel is a circle */\n"
+"min-height: 50px; /* Ensure the QLabel is a circle */\n"
+"max-width: 50px; /* Ensure the QLabel is a circle */\n"
+"max-height: 50px; /* Ensure the QLabel is a circle */")
+        doc_logo.setAlignment(Qt.AlignCenter)
+
+        doc_img_path = doc_data.get("doc_img", "")
+        if doc_img_path:
+                pixmap = QPixmap(doc_img_path)
+                doc_logo.setPixmap(pixmap.scaled(doc_logo.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+        line = QFrame(doctors_details_inner)
+        line.setObjectName(u"line")
+        line.setGeometry(QRect(20, 100, 671, 3))
+        line.setMinimumSize(QSize(357, 3))
+        line.setMaximumSize(QSize(16777215, 3))
+        line.setStyleSheet(u"background-color: #B6D0E2; border: none;")
+        line.setFrameShape(QFrame.StyledPanel)
+        line.setFrameShadow(QFrame.Raised)
+
+        layoutWidget = QWidget(doctors_details_inner)
+        layoutWidget.setObjectName(u"layoutWidget")
+        layoutWidget.setGeometry(QRect(3, 123, 701, 641))
+
+        verticalLayout_2 = QVBoxLayout(layoutWidget)
+        verticalLayout_2.setObjectName(u"verticalLayout_2")
+        verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+
+        phone_layout = QHBoxLayout()
+        phone_layout.setObjectName(u"phone_layout")
+        phone_label = QLabel(layoutWidget)
+        phone_label.setObjectName(u"phone_label")
+        phone_label.setText("Phone Number: ")
+        font4 = QFont()
+        font4.setFamily(u"Consolas")
+        font4.setPointSize(11)
+        font4.setBold(True)
+        font4.setWeight(75)
+        phone_label.setFont(font4)
+        phone_label.setStyleSheet(u"border: none;")
+        phone_label.setLineWidth(0)
+
+        phone_layout.addWidget(phone_label)
+
+        phone_display = QLabel(layoutWidget)
+        phone_display.setObjectName(u"phone_display")
+        phone_display.setMinimumSize(QSize(390, 102))
+        font5 = QFont()
+        font5.setFamily(u"Consolas")
+        font5.setPointSize(11)
+        font5.setBold(False)
+        font5.setWeight(50)
+        phone_display.setFont(font5)
+        phone_display.setStyleSheet(u"border: none;")
+        phone_display.setText(doc_data.get("contact_number", "Unknown"))
+        phone_layout.addWidget(phone_display)
+
+
+        verticalLayout_2.addLayout(phone_layout)
+
+        email_layout = QHBoxLayout()
+        email_layout.setObjectName(u"email_layout")
+        email_label = QLabel(layoutWidget)
+        email_label.setObjectName(u"email_label")
+        email_label.setFont(font4)
+        email_label.setStyleSheet(u"border: none;")
+        email_label.setText("Email: ")
+        email_layout.addWidget(email_label)
+
+        email_display = QLabel(layoutWidget)
+        email_display.setObjectName(u"email_display")
+        email_display.setMinimumSize(QSize(390, 102))
+        email_display.setFont(font5)
+        email_display.setStyleSheet(u"border: none;")
+        email_display.setText(doc_data.get("doctor_email", "Unknown"))
+        email_layout.addWidget(email_display)
+
+
+        verticalLayout_2.addLayout(email_layout)
+
+        add_layout = QHBoxLayout()
+        add_layout.setSpacing(135)
+        add_layout.setObjectName(u"add_layout")
+        add_label = QLabel(layoutWidget)
+        add_label.setObjectName(u"add_label")
+        add_label.setFont(font4)
+        add_label.setStyleSheet(u"border: none;")
+        add_label.setText("Doctor hours: ")
+        add_layout.addWidget(add_label)
+
+        add_display = QLabel(layoutWidget)
+        add_display.setObjectName(u"add_display")
+        add_display.setFont(font5)
+        add_display.setStyleSheet(u"border: none;")
+        add_display.setScaledContents(False)
+        add_display.setWordWrap(True)
+        add_display.setText(doc_data.get("doctor_hours", "Unknown"))
+        add_layout.addWidget(add_display)
+
+
+        verticalLayout_2.addLayout(add_layout)
+
+        opening_hr_layout = QHBoxLayout()
+        opening_hr_layout.setObjectName(u"opening_hr_layout")
+        opening_hr_layout.setSizeConstraint(QLayout.SetFixedSize)
+        specialization_label = QLabel(layoutWidget)
+        specialization_label.setObjectName(u"specialization_label")
+        specialization_label.setFont(font4)
+        specialization_label.setStyleSheet(u"border: none;")
+        specialization_label.setWordWrap(True)
+        specialization_label.setText(" Specialization: ")
+        opening_hr_layout.addWidget(specialization_label)
+
+        specialization_display = QLabel(layoutWidget)
+        specialization_display.setObjectName(u"specialization_display")
+        specialization_display.setMinimumSize(QSize(390, 0))
+        specialization_display.setFont(font5)
+        specialization_display.setStyleSheet(u"border: none;")
+        specialization_display.setScaledContents(False)
+        specialization_display.setWordWrap(True)
+        specialization_display.setText(doc_data.get("specialization", "Unknown"))
+        opening_hr_layout.addWidget(specialization_display)
+
+
+        verticalLayout_2.addLayout(opening_hr_layout)
+
+        remove_doc_btn = QPushButton(request_detail_outer)
+        remove_doc_btn.setObjectName(u"remove_doc_btn")
+        remove_doc_btn.setGeometry(QRect(550, 790, 181, 41))
+        font6 = QFont()
+        font6.setFamily(u"Consolas")
+        font6.setPointSize(10)
+        font6.setBold(True)
+        font6.setWeight(75)
+        remove_doc_btn.setFont(font6)
+        remove_doc_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        remove_doc_btn.setText("Remove Doctor")
+        remove_doc_btn.clicked.connect(self.emitRemoveDocBtn)   
+
+        return request_detail_outer
+
+    def create_popup_widget(self, doc_data):
+        self.hide_doctors_details_frame()
+        self.doctors_details_frame = self.create_doctors_details_frame(doc_data)
+        self.doctors_details_frame.setVisible(True)
+
+    def search_doctors(self):
+        search_text = self.search_doctors.text().strip().lower()
+        if search_text:
+                self.hide_doctors_details_frame()
+                self.populate_doctors_info(search_text)
+                self.hide_doctors_details_frame()
+                
+        else:
+                self.hide_doctors_details_frame()
+                self.populate_doctors_info()
+                self.hide_doctors_details_frame()
+        
+    def clear_search(self):
+        self.search_doctors.clear()
+        self.hide_doctors_details_frame()
+
+         # Remove all widgets from the layout
+        while self.vLayout.count():
+                widget = self.vLayout.takeAt(0).widget()
+                if widget:
+                        widget.deleteLater()
+        self.hide_clinic_details_frame()
+        self.populate_clinic_info()
+        self.hide_clinic_details_frame()
+
+
+    def hide_doctors_details_frame(self):
+        if self.doctors_details_frame:
+            self.doctors_details_frame.setVisible(False)
+
+
+    def set_user_id(self, user_id): 
+        #self.clinic_id = user_id
+        user_id = user_id.lower()
+        clinics = db.child("clinic").get().val()
+        for clinic_id, clinic_data in clinics.items():
+                clinic_name = clinic_data.get("clinic_name")
+                if clinic_name.lower().replace(" ", "") == user_id:
+                      self.clinic_id = clinic_id
+                      break
+        self.fetch_doc_data()
+
+    def initialize_db(self):
+        return db
 
     @pyqtSlot()
     def emitHomeBtn(self):
