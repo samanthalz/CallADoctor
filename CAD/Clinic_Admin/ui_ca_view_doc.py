@@ -21,7 +21,6 @@ class CA_view_docWidget(QWidget):
         super().__init__(parent)
         self.clinic_id = ""
         self.doc_data_list = []
-        self.selected_status = ""
         self.setupUi(self)
         self.fetch_doc_data()
         self.doctors_navigation = QToolButton(self)
@@ -303,42 +302,38 @@ class CA_view_docWidget(QWidget):
     def fetch_doc_data(self):
         db = self.initialize_db()  # Assuming this method initializes your Firebase connection
         try:
-                clinics = db.child("clinic").get()
-         
+            clinics = db.child("clinic").get()
+            
+            if clinics.each():
+                print(f"if clinic.each(): {clinics}")
+                self.doc_data_list = []
                 
-                if clinics.each():
-                        print(f"if clinic.each():{clinics}")
-                        self.doc_data_list = []
+                for clinic in clinics.each():
+                    print(f"for clinic in clinics.each(): {clinic}")
+                    clinic_data = clinic.val()
+                    clinic_id = clinic.key()  # Assuming clinic ID is stored as the key
+                    
+                    if clinic_id == self.clinic_id:
+                        print(f"if clinic_id == self.clinic_id: {clinic_id}")
+                        doctors = clinic_data.get("doctors", {})
                         
-                        for clinic in clinics.each():
-                                print(f"for clinic in clinics.each():{clinics}")
-                                clinic_data = clinic.val()
-                                clinic_id = clinic.key()  # Assuming clinic ID is stored as the key
-                                
-                              
-                                
-                                if clinic_id == self.clinic_id:
-                                        print(f"if clinic_id == self.clinic_id:{clinic_id}")
-                                        doctors = clinic_data.get("doctors", {})
-                                        
-                                        for doctor_id, doctor_info in doctors.items():
-                                                print(f"for doctor_id, doctor_info in doctors.items():{doctor_id}")
-                                                doctor_name = doctor_info.get("name", "Unknown")
-                                                
-                                                # Add fetched doctor data to the list
-                                                self.doc_data_list.append({"doctor_id": doctor_id, "doctor_name": doctor_name})
-
-                                            
-                                        
-                                        break  # Assuming each clinic_id is unique and we only need to process the relevant clinic
-                                
-                                # Populate doctor information on the UI
-                                self.populate_doctor_info()
-                else:
-                        print("No clinics data found.")
+                        for doctor_id, doctor_info in doctors.items():
+                            print(f"for doctor_id, doctor_info in doctors.items(): {doctor_id}")
+                            doctor_name = doctor_info.get("name", "Unknown")
+                            
+                            # Add fetched doctor data to the list
+                            self.doc_data_list.append({"doctor_id": doctor_id, "doctor_name": doctor_name})
                         
+                        break  # Assuming each clinic_id is unique and we only need to process the relevant clinic
+                
+                # Populate doctor information on the UI
+                self.populate_doctor_info()
+            else:
+                print("No clinics data found.")
+        
         except Exception as e:
-                print(f"An error occurred while fetching data: {e}")
+            print(f"An error occurred while fetching data: {e}")
+
 
     def create_doctor_list_frame(self, doc_data):
         doc_frame = QFrame(self.background)
@@ -382,15 +377,13 @@ class CA_view_docWidget(QWidget):
         return doc_frame
     
     def clear_layout(self):
-        while self.vLayout.count():
-                item = self.vLayout.takeAt(0) 
+        while self.create_doctor_list_frame.count():
+                item = self.create_doctor_list_frame.takeAt(0) 
                 widget = item.widget()
                 if widget is not None:
-                        widget.deleteLater()
-         
-
+                        widget.destroy()
+            
     def populate_doctor_info(self, search_query=None):
-        self.clear_layout()
 
         visible_doctors = []
 
@@ -408,14 +401,29 @@ class CA_view_docWidget(QWidget):
         for doctor_frame in reversed(visible_doctors):
             self.verticalLayout_4.addWidget(doctor_frame)
 
-        self.scrollAreaWidgetContents.setLayout(self.verticalLayout_4)
-        self.verticalLayout_4.setAlignment(Qt.AlignTop)
-        self.verticalLayout_4.update()
-        self.scrollAreaWidgetContents.update()
+        self.widget.setLayout(self.doctors_details_frame)
+        self.doctors_details_frame.setAlignment(Qt.AlignTop)
+        self.widget.update()
+        self.doctors_details_frame.update()
 
   
          # Debug: Final update status
         print("Layout and widget updated.")
+
+    def initialize_db(self):
+        return db
+
+    def set_user_id(self, user_id): 
+        #self.clinic_id = user_id
+        user_id = user_id.lower()
+        clinics = db.child("clinic").get().val()
+        for clinic_id, clinic_data in clinics.items():
+                clinic_name = clinic_data.get("clinic_name")
+                if clinic_name.lower().replace(" ", "") == user_id:
+                      self.clinic_id = clinic_id
+                      break
+        self.fetch_doc_data()
+
 
     def create_doctors_details_frame(self, doc_data):
         request_detail_outer = QFrame(self.background)
@@ -630,19 +638,8 @@ class CA_view_docWidget(QWidget):
             self.doctors_details_frame.setVisible(False)
 
 
-    def set_user_id(self, user_id): 
-        #self.clinic_id = user_id
-        user_id = user_id.lower()
-        clinics = db.child("clinic").get().val()
-        for clinic_id, clinic_data in clinics.items():
-                clinic_name = clinic_data.get("clinic_name")
-                if clinic_name.lower().replace(" ", "") == user_id:
-                      self.clinic_id = clinic_id
-                      break
-        self.fetch_doc_data()
+    
 
-    def initialize_db(self):
-        return db
 
     @pyqtSlot()
     def emitHomeBtn(self):

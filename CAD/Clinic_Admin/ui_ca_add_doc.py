@@ -1,8 +1,8 @@
 from PyQt5.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot, QDate)
+    QRect, QSize, QUrl, Qt, pyqtSignal, pyqtSlot, QDate, QRegExp)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
+    QRadialGradient, QIntValidator, QRegExpValidator)
 from PyQt5.QtWidgets import *
 from connection import db
 
@@ -14,10 +14,13 @@ class CA_add_docWidget(QWidget):
     logout_btn_clicked = pyqtSignal()
     profile_btn_clicked = pyqtSignal()
     settings_navigation_btn_clicked = pyqtSignal()
+    back_btn_clicked = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self.fetch_doc_data()
+        self.clinic_id = ""
 
     def setupUi(self, Form):
         if Form.objectName():
@@ -31,8 +34,9 @@ class CA_add_docWidget(QWidget):
         
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
-        self.background.setGeometry(QRect(150, 0, 1771, 1061))
+        self.background.setGeometry(QRect(150, 0, 1771, 1080))
         self.background.setStyleSheet(u"background-color: #F8F8F8;\\nborder-bottom-left-radius: 30px;\\nborder-top-left-radius: 30px;\\ntext-align: center;")
+        
         self.doc_label = QLabel(self.background)
         self.doc_label.setObjectName(u"doc_label")
         self.doc_label.setGeometry(QRect(40, 40, 961, 61))
@@ -41,29 +45,19 @@ class CA_add_docWidget(QWidget):
         font.setPointSize(22)
         self.doc_label.setFont(font)
         self.doc_label.setWordWrap(True)
-        self.doc_img = QLabel(self.background)
-        self.doc_img.setObjectName(u"doc_img")
-        self.doc_img.setGeometry(QRect(120, 180, 200, 200))
-        self.doc_img.setStyleSheet(u"border-radius: 100px; \n"
-"background-color: #B6D0E2;  \n"
-"color: white; \n"
-"font-size: 16px;\n"
-"text-align: center;")
-        self.upload_img_btn = QPushButton(self.background)
-        self.upload_img_btn.setObjectName(u"upload_img_btn")
-        self.upload_img_btn.setGeometry(QRect(70, 420, 301, 51))
+       
         font1 = QFont()
         font1.setFamily(u"Consolas")
         font1.setPointSize(12)
         font1.setBold(True)
         font1.setWeight(75)
-        self.upload_img_btn.setFont(font1)
-        self.upload_img_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+       
         self.add_btn = QPushButton(self.background)
         self.add_btn.setObjectName(u"add_btn")
-        self.add_btn.setGeometry(QRect(1400, 970, 301, 51))
+        self.add_btn.setGeometry(QRect(850, 950, 321, 50))
         self.add_btn.setFont(font1)
         self.add_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.add_btn.clicked.connect(self.add_doctor)
         self.layoutWidget = QWidget(self.background)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(540, 202, 1181, 751))
@@ -73,6 +67,7 @@ class CA_add_docWidget(QWidget):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setSpacing(50)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        
         self.name_layout = QVBoxLayout()
         self.name_layout.setSpacing(10)
         self.name_layout.setObjectName(u"name_layout")
@@ -119,19 +114,19 @@ class CA_add_docWidget(QWidget):
 
         self.services_layout.addWidget(self.specialization_label)
 
-        self.services_input = QLineEdit(self.layoutWidget)
-        self.services_input.setObjectName(u"services_input")
-        self.services_input.setMinimumSize(QSize(500, 40))
-        self.services_input.setMaximumSize(QSize(16777215, 40))
-        self.services_input.setBaseSize(QSize(0, 0))
-        self.services_input.setStyleSheet(u" padding: 60px; color: Black;\n"
+        self.specialization_input = QLineEdit(self.layoutWidget)
+        self.specialization_input.setObjectName(u"specialization_input")
+        self.specialization_input.setMinimumSize(QSize(500, 40))
+        self.specialization_input.setMaximumSize(QSize(16777215, 40))
+        self.specialization_input.setBaseSize(QSize(0, 0))
+        self.specialization_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 "background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
 
-        self.services_layout.addWidget(self.services_input)
+        self.services_layout.addWidget(self.specialization_input)
 
 
         self.horizontalLayout_2.addLayout(self.services_layout)
@@ -145,26 +140,26 @@ class CA_add_docWidget(QWidget):
         self.add_layout = QVBoxLayout()
         self.add_layout.setSpacing(10)
         self.add_layout.setObjectName(u"add_layout")
-        self.address_label = QLabel(self.layoutWidget)
-        self.address_label.setObjectName(u"address_label")
-        self.address_label.setMinimumSize(QSize(0, 23))
-        self.address_label.setMaximumSize(QSize(16777215, 23))
-        self.address_label.setFont(font2)
+        self.qualification_label = QLabel(self.layoutWidget)
+        self.qualification_label.setObjectName(u"qualification_label")
+        self.qualification_label.setMinimumSize(QSize(0, 23))
+        self.qualification_label.setMaximumSize(QSize(16777215, 23))
+        self.qualification_label.setFont(font2)
 
-        self.add_layout.addWidget(self.address_label)
+        self.add_layout.addWidget(self.qualification_label)
 
-        self.address_input = QLineEdit(self.layoutWidget)
-        self.address_input.setObjectName(u"address_input")
-        self.address_input.setMinimumSize(QSize(500, 140))
-        self.address_input.setMaximumSize(QSize(16777215, 140))
-        self.address_input.setBaseSize(QSize(0, 0))
-        self.address_input.setStyleSheet(u" padding: 60px; color: Black;\n"
+        self.qualification_input = QLineEdit(self.layoutWidget)
+        self.qualification_input.setObjectName(u"qualification_input")
+        self.qualification_input.setMinimumSize(QSize(500, 140))
+        self.qualification_input.setMaximumSize(QSize(16777215, 140))
+        self.qualification_input.setBaseSize(QSize(0, 0))
+        self.qualification_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-position: left center; \n"
 "border: 1px solid gray;\n"
 "border-radius: 0px; \n"
 "")
 
-        self.add_layout.addWidget(self.address_input)
+        self.add_layout.addWidget(self.qualification_input)
 
 
         self.horizontalLayout_5.addLayout(self.add_layout)
@@ -196,7 +191,8 @@ class CA_add_docWidget(QWidget):
 "background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
-
+        int_validator = QIntValidator(self.phone_input)
+        self.phone_input.setValidator(int_validator)
         self.phone_layout.addWidget(self.phone_input)
 
 
@@ -223,6 +219,14 @@ class CA_add_docWidget(QWidget):
 "background-size: 20px 20px; \n"
 "border: 1px solid gray;\n"
 "")
+        # Create a regular expression that requires '@' in the email
+        regex = QRegExp("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}")
+
+        # Create a validator with the regex
+        email_validator = QRegExpValidator(regex, self.email_input)
+        
+        # Set validator to enforce the regex
+        self.email_input.setValidator(email_validator)
 
         self.email_layout.addWidget(self.email_input)
 
@@ -234,9 +238,11 @@ class CA_add_docWidget(QWidget):
 
         self.back_btn = QPushButton(self.background)
         self.back_btn.setObjectName(u"back_btn")
-        self.back_btn.setGeometry(QRect(1060, 970, 301, 51))
+        self.back_btn.setGeometry(QRect(440, 950, 321, 50))
         self.back_btn.setFont(font1)
         self.back_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.back_btn.clicked.connect(self.emitBackBtn)
+       
         self.layoutWidget_2 = QWidget(Form)
         self.layoutWidget_2.setObjectName(u"layoutWidget_2")
         self.layoutWidget_2.setGeometry(QRect(30, 120, 87, 851))
@@ -355,17 +361,118 @@ class CA_add_docWidget(QWidget):
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
+
+    def add_doctor(self):
+        db = self.initialize_db()
+        clinic_id = self.clinic_id
+
+        # Fetching input data
+        doctor_name = self.name_input.text().strip()
+        specialization = self.specialization_input.text().strip()
+        qualification = self.qualification_input.text().strip()
+        phone_number = self.phone_input.text().strip()
+        email = self.email_input.text().strip()
+
+        # Validating input fields (example validation)
+        if not doctor_name or not specialization or not qualification or not phone_number or not email:
+            QMessageBox.warning(self, "Warning", "Please fill in all fields.")
+            return
+
+        # Example: Saving doctor request under clinic's doctor_requests node
+        try:
+            # Prepare doctor request data
+            doctor_data = {
+                "doctor_name": doctor_name,
+                "specialization": specialization,
+                "qualification": qualification,
+                "contact_number": phone_number,
+                "doctor_email": email,
+            }
+
+            # Save doctor request in the database
+            doctors = db.child("clinic").child(clinic_id).child("doctors").push(doctor_data).key()
+
+            if doctors:
+                QMessageBox.information(self, "Success", "Doctor added successfully.")
+                self.clear_input_fields()  # Clear input fields after successful submission
+            else:
+                QMessageBox.critical(self, "Error", "Failed to add doctor request.")
+
+        except Exception as e:
+            print(f"Failed to add doctor request: {e}")
+            QMessageBox.critical(self, "Error", f"Failed to add doctor request: {str(e)}")
+
+
+
+    def clear_input_fields(self):
+        self.name_input.clear()
+        self.specialization_input.clear()
+        self.qualification_input.clear()
+        self.phone_input.clear()
+        self.email_input.clear()
+
+    def fetch_doc_data(self):
+        db = self.initialize_db()  # Assuming this method initializes your Firebase connection
+        try:
+                clinics = db.child("clinic").get()
+        
+                
+                if clinics.each():
+                        print(f"if clinic.each():{clinics}")
+                        self.doc_data_list = []
+                        
+                        for clinic in clinics.each():
+                                print(f"for clinic in clinics.each():{clinics}")
+                                clinic_data = clinic.val()
+                                clinic_id = clinic.key()  # Assuming clinic ID is stored as the key
+                                
+                            
+                                
+                                if clinic_id == self.clinic_id:
+                                        print(f"if clinic_id == self.clinic_id:{clinic_id}")
+                                        doctors = clinic_data.get("doctors", {})
+                                        
+                                        for doctor_id, doctor_info in doctors.items():
+                                                print(f"for doctor_id, doctor_info in doctors.items():{doctor_id}")
+                                                doctor_name = doctor_info.get("name", "Unknown")
+                                                
+                                                # Add fetched doctor data to the list
+                                                self.doc_data_list.append({"doctor_id": doctor_id, "doctor_name": doctor_name})
+
+                                            
+                                        
+                                        break  # Assuming each clinic_id is unique and we only need to process the relevant clinic
+                                
+                                # Populate doctor information on the UI
+                                self.populate_doctor_info()
+
+                else:
+                    print("No clinics data found.")
+                    
+        except Exception as e:
+                print(f"An error occurred while fetching data: {e}")
+
+    def set_user_id(self, user_id): 
+        #self.clinic_id = user_id
+        user_id = user_id.lower()
+        clinics = db.child("clinic").get().val()
+        for clinic_id, clinic_data in clinics.items():
+                clinic_name = clinic_data.get("clinic_name")
+                if clinic_name.lower().replace(" ", "") == user_id:
+                      self.clinic_id = clinic_id
+                      break
+        self.fetch_doc_data()
+
     # setupUi
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.doc_label.setText(QCoreApplication.translate("Form", u"Add Doctor", None))
-        self.doc_img.setText("")
-        self.upload_img_btn.setText(QCoreApplication.translate("Form", u"Upload Image", None))
         self.add_btn.setText(QCoreApplication.translate("Form", u"Add", None))
         self.name.setText(QCoreApplication.translate("Form", u"Doctor Name", None))
         self.specialization_label.setText(QCoreApplication.translate("Form", u"Specialization", None))
-        self.address_label.setText(QCoreApplication.translate("Form", u"Address", None))
+        self.qualification_label.setText(QCoreApplication.translate("Form", u"Qualification", None))
         self.phone_label.setText(QCoreApplication.translate("Form", u"Phone number", None))
         self.email_label.setText(QCoreApplication.translate("Form", u"Email address", None))
         self.back_btn.setText(QCoreApplication.translate("Form", u"Back", None))
@@ -404,6 +511,14 @@ class CA_add_docWidget(QWidget):
         # Emit the custom signal
         self.profile_btn_clicked.emit()
 
+    @pyqtSlot()
+    def emitBackBtn(self):
+        # Emit the custom signal
+        self.back_btn_clicked.emit()
+
+    
+    def initialize_db(self):
+        return db
 
 
 

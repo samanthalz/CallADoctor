@@ -221,7 +221,7 @@ border: 1px solid gray;
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="services_input">
+          <widget class="QLineEdit" name="specialization_input">
            <property name="minimumSize">
             <size>
              <width>500</width>
@@ -285,12 +285,12 @@ border: 1px solid gray;
             </font>
            </property>
            <property name="text">
-            <string>Address</string>
+            <string>Qualification</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="address_input">
+          <widget class="QLineEdit" name="qualification_input">
            <property name="minimumSize">
             <size>
              <width>500</width>

@@ -180,6 +180,7 @@ class CA_homepageWidget(QWidget):
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        
         self.home_navigation = QToolButton(self.layoutWidget)
         self.home_navigation.setObjectName(u"home_navigation")
         self.home_navigation.setEnabled(True)
