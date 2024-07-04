@@ -682,7 +682,7 @@ class CA_view_docWidget(QWidget):
                             doctors = db.child("doctors").get()
                             for doctors in doctors.each():
                                     doctors = doctors.val()
-                                    if doctors_data.get("clinic_id").lower() == clinic_id.lower():
+                                    if clinic_data.get("clinic_id").lower() == clinic_id.lower():
                                             doctors_id = doctors.key()
                                             db.child("doctors").child(doctors_id).remove()
                                             break
