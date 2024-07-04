@@ -575,7 +575,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
       <string>Reject</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="approved_btn_2">
+    <widget class="QPushButton" name="approved_btn">
      <property name="geometry">
       <rect>
        <x>360</x>

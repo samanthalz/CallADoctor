@@ -21,21 +21,27 @@ class CAProfileSettingsWidget(QWidget):
         super().__init__(parent)
         self.ca_id = 0
         self.setupUi(self)
- 
-    def set_user_id(self, user_id): 
-        self.user_id = user_id
-        self.get_user_credentials(self.user_id)
 
-    def get_user_credentials(self, user_id):
+    def set_user_id(self, ca_id):
+        self.ca_id = ca_id
+        self.get_user_credentials(self.ca_id)
+
+    def get_user_credentials(self, ca_id):
+        ca_pass = ""  # default
         clinic_admin = db.child("clinic_admin").get().val()
-        for i, doctor_info in clinic_admin.items():
-            if i == (user_id):
-                    password = doctor_info.get('password')
+        
+        # Debug: Print the fetched clinic_admin data
+        print("Clinic Admin Data:", clinic_admin)
+        
+        if clinic_admin is not None:
+            for i, ca_info in clinic_admin.items():
+                if i == ca_id:
+                    ca_pass = ca_info.get('ca_pass')
                     break
-            
-        self.user_id_display.setText(user_id)
-        if password : 
-            self.pass_display.setText(password)
+        
+        self.user_id_display.setText(ca_id)
+        self.pass_display.setText(ca_pass)
+
 
     def setupUi(self, Form):
         if Form.objectName():
@@ -68,6 +74,7 @@ class CAProfileSettingsWidget(QWidget):
         self.user_frame.setStyleSheet(u"border-radius: 20px; border: 2px solid #808080")
         self.user_frame.setFrameShape(QFrame.StyledPanel)
         self.user_frame.setFrameShadow(QFrame.Raised)
+        
         self.profile_icon = QLabel(self.user_frame)
         self.profile_icon.setObjectName(u"profile_icon")
         self.profile_icon.setGeometry(QRect(10, 10, 60, 60))
@@ -82,6 +89,7 @@ class CAProfileSettingsWidget(QWidget):
         font1.setPointSize(10)
         self.profile_btn.setFont(font1)
         self.profile_btn.setStyleSheet(u"border: none")
+        
         self.updateFrame = QFrame(self.whitebg)
         self.updateFrame.setObjectName(u"updateFrame")
         self.updateFrame.setGeometry(QRect(180, 160, 741, 461))
@@ -291,9 +299,8 @@ class CAProfileSettingsWidget(QWidget):
         self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic", None))
         self.profile_icon_2.setText("")
         self.user_id.setText(QCoreApplication.translate("Form", u"User ID", None))
-        self.user_id_display.setText("")
         self.pas.setText(QCoreApplication.translate("Form", u"Password", None))
-        self.pass_display.setText("")
+        
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.doctors_navigation.setText(QCoreApplication.translate("Form", u"Doctors", None))
         self.patients_navigation_2.setText(QCoreApplication.translate("Form", u"Patients", None))
@@ -332,5 +339,6 @@ if __name__ == "__main__":
     Form = QtWidgets.QWidget()
     ui = CAProfileSettingsWidget()
     ui.setupUi(Form)
+    ui.set_user_id("ABCClinic")
     Form.show()
     sys.exit(app.exec_())

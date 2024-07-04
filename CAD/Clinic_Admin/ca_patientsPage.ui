@@ -458,33 +458,6 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="doctor_preferred_label">
-      <property name="geometry">
-       <rect>
-        <x>13</x>
-        <y>610</y>
-        <width>301</width>
-        <height>148</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>11</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border: none;</string>
-      </property>
-      <property name="text">
-       <string>Doctor preferred:</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
      <widget class="QLabel" name="time_display_3">
       <property name="geometry">
        <rect>
@@ -548,27 +521,53 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="doc_name_btn">
+     <widget class="QPushButton" name="reject_btn">
       <property name="geometry">
        <rect>
-        <x>240</x>
-        <y>630</y>
-        <width>211</width>
-        <height>91</height>
+        <x>510</x>
+        <y>700</y>
+        <width>181</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>Consolas</family>
         <pointsize>10</pointsize>
-        <underline>true</underline>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: #007E85; border: none;</string>
+       <string notr="true">background-color: #E73030; border-radius: 16px; color: white;\n border: 1px solid gray;</string>
       </property>
       <property name="text">
-       <string>Dr name</string>
+       <string>Reject</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="approved_btn">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>700</y>
+        <width>181</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(18, 137, 131);
+border-radius: 16px; color: white;\n border: 1px solid gray;</string>
+      </property>
+      <property name="text">
+       <string>Approved</string>
       </property>
      </widget>
     </widget>
@@ -760,6 +759,33 @@ color: #128983; text-align: center;
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
+     <widget class="QLabel" name="status">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>20</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(18, 137, 131, 0.15);
+color: #128983; text-align: center;
+</string>
+      </property>
+      <property name="text">
+       <string>Approved</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </widget>
     <widget class="QFrame" name="patient_frame2">
      <property name="geometry">
@@ -852,6 +878,33 @@ color: #128983; text-align: center;
       </property>
       <property name="text">
        <string>Time</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="status_2">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>20</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(246, 32, 136, 0.15);
+color: #F62088; text-align: center;
+</string>
+      </property>
+      <property name="text">
+       <string>Pending</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

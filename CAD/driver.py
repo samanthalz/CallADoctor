@@ -247,8 +247,7 @@ class Ui_MainWindow(QMainWindow):
         self.caPatientsPageWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caPatientsPageWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caPatientsPageWidget.logout_btn_clicked.connect(self.showLogoutPopup)
-        self.caPatientsPageWidget.doc_name_btn_clicked.connect(self.showCAApproveRejectWidget)
-
+    
         self.caApproveRejectWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
         self.caApproveRejectWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
         self.caApproveRejectWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)

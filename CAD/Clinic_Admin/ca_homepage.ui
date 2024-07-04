@@ -118,7 +118,7 @@ background-color: white</string>
        </property>
       </item>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -561,7 +561,7 @@ border-radius: 10px;
        </property>
       </item>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -570,9 +570,9 @@ border-radius: 10px;
         <height>431</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="patientlist_layout">
        <item>
-        <widget class="QFrame" name="clinicReq_frame">
+        <widget class="QFrame" name="patientReq_frame">
          <property name="minimumSize">
           <size>
            <width>401</width>
