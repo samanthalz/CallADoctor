@@ -35,7 +35,7 @@ class CA_add_docWidget(QWidget):
         self.background = QWidget(Form)
         self.background.setObjectName(u"background")
         self.background.setGeometry(QRect(150, 0, 1771, 1080))
-        self.background.setStyleSheet(u"background-color: #F8F8F8;\\nborder-bottom-left-radius: 30px;\\nborder-top-left-radius: 30px;\\ntext-align: center;")
+        self.background.setStyleSheet(u"background-color: #F8F8F8;border-bottom-left-radius: 30px;border-top-left-radius: 30px;text-align: center;")
         
         self.doc_label = QLabel(self.background)
         self.doc_label.setObjectName(u"doc_label")
@@ -56,7 +56,7 @@ class CA_add_docWidget(QWidget):
         self.add_btn.setObjectName(u"add_btn")
         self.add_btn.setGeometry(QRect(850, 950, 321, 50))
         self.add_btn.setFont(font1)
-        self.add_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.add_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white; border: 1px solid gray;")
         self.add_btn.clicked.connect(self.add_doctor)
         self.layoutWidget = QWidget(self.background)
         self.layoutWidget.setObjectName(u"layoutWidget")
@@ -89,7 +89,7 @@ class CA_add_docWidget(QWidget):
         self.name_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
+
 "border: 1px solid gray;\n"
 "")
 
@@ -122,7 +122,7 @@ class CA_add_docWidget(QWidget):
         self.specialization_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
+
 "border: 1px solid gray;\n"
 "")
 
@@ -188,7 +188,7 @@ class CA_add_docWidget(QWidget):
         self.phone_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
+
 "border: 1px solid gray;\n"
 "")
         int_validator = QIntValidator(self.phone_input)
@@ -216,7 +216,7 @@ class CA_add_docWidget(QWidget):
         self.email_input.setStyleSheet(u" padding: 60px; color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
+
 "border: 1px solid gray;\n"
 "")
         # Create a regular expression that requires '@' in the email
@@ -240,7 +240,7 @@ class CA_add_docWidget(QWidget):
         self.back_btn.setObjectName(u"back_btn")
         self.back_btn.setGeometry(QRect(440, 950, 321, 50))
         self.back_btn.setFont(font1)
-        self.back_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.back_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white; border: 1px solid gray;")
         self.back_btn.clicked.connect(self.emitBackBtn)
        
         self.layoutWidget_2 = QWidget(Form)
@@ -365,7 +365,7 @@ class CA_add_docWidget(QWidget):
 
     def add_doctor(self):
         db = self.initialize_db()
-        clinic_id = self.clinic_id
+        #clinic_id = self.clinic_id
 
         # Fetching input data
         doctor_name = self.name_input.text().strip()

@@ -23,7 +23,7 @@ class CA_homepageWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.clinic_id = ""
-        self.doc_data_list = []
+        self.doctor_data_list = []
         self.patient_data_list = []
         self.setupUi(self)
         self.patient_details_frame = None
@@ -381,8 +381,6 @@ class CA_homepageWidget(QWidget):
         db = self.initialize_db()  # Assuming this method initializes your Firebase connection
         try:
             patients = db.child("patients").get().val()
-
-            
             for patient_id, patient_data in patients.items():
 
                 # Fetch all appointments
@@ -406,7 +404,6 @@ class CA_homepageWidget(QWidget):
                                     doctor_name = doctor_data.get("name")
                                    
                                     if doctor_id == doctorId:
-                        
                                         doctor_name = doctor_name
                                         break
                                 if not doctor_name : 
@@ -416,8 +413,6 @@ class CA_homepageWidget(QWidget):
                                 patient_data["time"] = time
                                 patient_data["date"] = date
                                 patient_data["doctor_name"] = doctor_name
-
-                        
 
                                 # Save patient data only if they have appointment details
                                 self.patient_data_list.append(patient_data)
@@ -472,11 +467,10 @@ class CA_homepageWidget(QWidget):
         patient_logo_label.setAlignment(Qt.AlignCenter)
         patient_logo_label.setAlignment(Qt.AlignCenter)
         patient_img_path = patient_data.get("patient_img", "Path Not Found")
-        if patient_img_path:
-                pixmap = QPixmap(patient_img_path)
-                patient_logo_label.setPixmap(pixmap.scaled(patient_logo_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
-
-
+        
+        #if patient_img_path:
+                #pixmap = QPixmap(patient_img_path)
+                #patient_logo_label.setPixmap(pixmap.scaled(patient_logo_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
 
         label = QLabel(patientReq_frame)
         label.setObjectName(u"label")
@@ -504,7 +498,6 @@ class CA_homepageWidget(QWidget):
         patient_visit_reason_label.setText(patient_data.get("med_concern", "Unknown"))
 
         return patientReq_frame
-    
       
     def clear_layout(self):
         while self.patientlist_layout.count():
@@ -542,9 +535,8 @@ class CA_homepageWidget(QWidget):
         
 
          # Debug: Final update status
-        print("Layout and widget updated.")
+        #print("Layout and widget updated.")
         
-
     def create_popup_widget(self, patient_data):
         self.hide_patient_details_frame()
         self.patient_details_frame = self.create_patient_details_frame(patient_data)
@@ -711,39 +703,35 @@ class CA_homepageWidget(QWidget):
         return request_detail_outer
     
     def fetch_doc_data(self):
-        db = self.initialize_db()  # Assuming this method initializes your Firebase connection
+            # clear list
+        self.doctor_data_list = []
+        db = self.initialize_db() 
         try:
                 clinics = db.child("clinic").get()
-         
-                
+                         
                 if clinics.each():
-                        print(f"if clinic.each():{clinics}")
+                        #print(f"if clinic.each():{clinics}")
                         self.doctor_data_list = []
                         
                         for clinic in clinics.each():
-                                print(f"for clinic in clinics.each():{clinics}")
+                                #print(f"for clinic in clinics.each():{clinics}")
                                 clinic_data = clinic.val()
-                                clinic_id = clinic.key()  # Assuming clinic ID is stored as the key
-                                
-                              
+                                clinic_id = clinic.key()  
                                 
                                 if clinic_id == self.clinic_id:
-                                        print(f"if clinic_id == self.clinic_id:{clinic_id}")
+                                        #print(f"if clinic_id == self.clinic_id:{self.clinic_id}")
                                         doctors = clinic_data.get("doctors", {})
-                                        
+                                        #print(f"docs is {doctors}")
                                         for doctor_id, doctor_info in doctors.items():
-                                                print(f"for doctor_id, doctor_info in doctors.items():{doctor_id}")
-                                                doctor_name = doctor_info.get("name", "Unknown")
+                                                #print(f"for doctor_id, doctor_info in doctors.items():{doctor_id}")
+                                                #print(doctor_info)
                                                 
                                                 # Add fetched doctor data to the list
-                                                self.doctor_data_list.append({"doctor_id": doctor_id, "doctor_name": doctor_name})
-
-                                            
-                                        
-                                        break  # Assuming each clinic_id is unique and we only need to process the relevant clinic
-                                
-                                # Populate doctor information on the UI
-                                self.populate_doctor_info()
+                                                self.doctor_data_list.append(doctor_info)
+                                                #print(self.doctor_data_list)
+                                        break  
+                        # Populate doctor information on the UI
+                        self.populate_doctor_info()
                 else:
                         print("No clinics data found.")
                         
@@ -751,14 +739,19 @@ class CA_homepageWidget(QWidget):
                 print(f"An error occurred while fetching data: {e}")
 
     def create_doctor_list_frame(self, doc_data):
-        clinicReq_frame_6 = QFrame(clinicReq_frame_6)
+        clinicReq_frame_6 = QFrame(self.widget2)
         clinicReq_frame_6.setObjectName(u"clinicReq_frame_6")
         clinicReq_frame_6.setGeometry(QRect(20, 70, 401, 81))
+        clinicReq_frame_6.setMinimumSize(QSize(401, 81))
+        clinicReq_frame_6.setMaximumSize(QSize(401, 81))
         clinicReq_frame_6.setFrameShape(QFrame.StyledPanel)
         clinicReq_frame_6.setFrameShadow(QFrame.Raised)
         doc_name_label_6 = QLabel(clinicReq_frame_6)
         doc_name_label_6.setObjectName(u"doc_name_label_6")
         doc_name_label_6.setGeometry(QRect(90, 30, 121, 21))
+        doc_name_label_6.setMinimumSize(QSize(121, 21))
+        doc_name_label_6.setMaximumSize(QSize(121, 21))
+        
         font1 = QFont()
         font1.setFamily(u"Cascadia Code")
         font1.setPointSize(10)
@@ -766,10 +759,12 @@ class CA_homepageWidget(QWidget):
         doc_name_label_6.setStyleSheet(u"border : none;\n"
 "")
         doc_name_label_6.setText(doc_data.get("doctor_name", "Unknown"))
-
+        
         doc_logo_label_2 = QLabel(clinicReq_frame_6)
         doc_logo_label_2.setObjectName(u"doc_logo_label_2")
         doc_logo_label_2.setGeometry(QRect(10, 10, 54, 54))
+        doc_logo_label_2.setMinimumSize(QSize(54, 54))
+        doc_logo_label_2.setMaximumSize(QSize(54, 54))
         font2 = QFont()
         font2.setFamily(u"Cascadia Code")
         font2.setPointSize(9)
@@ -787,10 +782,14 @@ class CA_homepageWidget(QWidget):
         patient_visit_reason_label_6 = QLabel(clinicReq_frame_6)
         patient_visit_reason_label_6.setObjectName(u"patient_visit_reason_label_6")
         patient_visit_reason_label_6.setGeometry(QRect(90, 60, 55, 16))
+        patient_visit_reason_label_6.setMinimumSize(QSize(55, 16))
+        patient_visit_reason_label_6.setMaximumSize(QSize(55, 16))
         patient_visit_reason_label_6.setStyleSheet(u"color: #128983")
         patientReq_frame_7 = QFrame(clinicReq_frame_6)
         patientReq_frame_7.setObjectName(u"patientReq_frame_7")
         patientReq_frame_7.setGeometry(QRect(20, 170, 401, 81))
+        patientReq_frame_7.setMinimumSize(QSize(401, 81))
+        patientReq_frame_7.setMaximumSize(QSize(401, 81))
         patientReq_frame_7.setFrameShape(QFrame.StyledPanel)
         patientReq_frame_7.setFrameShadow(QFrame.Raised)
 
@@ -798,40 +797,47 @@ class CA_homepageWidget(QWidget):
         doc_name_label_7 = QLabel(patientReq_frame_7)
         doc_name_label_7.setObjectName(u"doc_name_label_7")
         doc_name_label_7.setGeometry(QRect(90, 30, 151, 21))
+        doc_name_label_7.setMinimumSize(QSize(151, 21))
+        doc_name_label_7.setMaximumSize(QSize(151, 21))
         doc_name_label_7.setFont(font1)
         doc_name_label_7.setStyleSheet(u"border : none;\n"
 "")
         clinic_name_label = QLabel(patientReq_frame_7)
         clinic_name_label.setObjectName(u"clinic_name_label")
         clinic_name_label.setGeometry(QRect(90, 60, 55, 16))
+        clinic_name_label.setMinimumSize(QSize(55, 16))
+        clinic_name_label.setMaximumSize(QSize(55, 16))
         clinic_name_label.setStyleSheet(u"color: #128983")
         doc_logo_label_3 = QLabel(patientReq_frame_7)
         doc_logo_label_3.setObjectName(u"doc_logo_label_3")
         doc_logo_label_3.setGeometry(QRect(10, 10, 54, 54))
+        doc_logo_label_3.setMinimumSize(QSize(54, 54))
+        doc_logo_label_3.setMaximumSize(QSize(54, 54))
         font2 = QFont()
         font2.setFamily(u"Cascadia Code")
         font2.setPointSize(9)
 
         doc_logo_label_3.setFont(font2)
-        doc_logo_label_3.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
+        doc_logo_label_3.setStyleSheet(u"background-color: #B6D0E2;"
+"border-radius: 25px; "
+"border: 2px solid #B6D0F7; "
+"min-width: 50px;"
+"min-height: 50px; "
+"max-width: 50px; "
+"max-height: 50px;")
         doc_logo_label_3.setAlignment(Qt.AlignCenter)
         
         font3 = QFont()
         font3.setFamily(u"Consolas")
         font3.setPointSize(10)
+        return clinicReq_frame_6
 
    
     def populate_doctor_info(self):
         visible_doctors = []
-        
-        for i, doctor_data in enumerate(self.doc_data_list):
-                print(f"for doc data in data{doctor_data}")
+        #print(f"doc data is {self.doctor_data_list}")
+        for i, doctor_data in enumerate(self.doctor_data_list):
+                #print(f"for doc data in data{doctor_data}")
                 doctor_frame = self.create_doctor_list_frame(doctor_data)
                 if doctor_frame:
                         visible_doctors.append(doctor_frame)
@@ -840,22 +846,22 @@ class CA_homepageWidget(QWidget):
         print(f"Number of frames in visible_doctors: {len(visible_doctors)}")
         # Clear existing layout
         for i in reversed(range(self.verticalLayout_4.count())):
-                print(f"for i in reversed(range(self.verticalLayout_4.count())")
+                #print(f"for i in reversed(range(self.verticalLayout_4.count())")
                 widget = self.verticalLayout_4.itemAt(i).widget()
                 if widget is not None:
                         widget.deleteLater()
 
         # Add visible doctors to the layout in reverse order
         for appt_frame in reversed(visible_doctors):
-                print(f" for appt_frame in reversed(visible_doctors):")
+                #print(f" for appt_frame in reversed(visible_doctors):")
                 self.verticalLayout_4.addWidget(appt_frame)
 
         print(f"Number of frames added to the doc layout: {len(list(reversed(visible_doctors))[:5])}")
 
-        self.widget.setLayout(self.verticalLayout_4)
+        self.widget2.setLayout(self.verticalLayout_4)
         self.verticalLayout_4.setAlignment(Qt.AlignTop)
         self.verticalLayout_4.update()
-        self.widget.update()
+        self.widget2.update()
         
         
          # Debug: Final update status

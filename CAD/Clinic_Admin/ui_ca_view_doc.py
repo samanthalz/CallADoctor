@@ -97,7 +97,7 @@ class CA_view_docWidget(QWidget):
 " background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
+
 "border: 1px solid gray;\n"
 "")
 
@@ -135,7 +135,7 @@ class CA_view_docWidget(QWidget):
         font10.setBold(True)
         font10.setWeight(75)
         self.add_doc_btn.setFont(font10)
-        self.add_doc_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.add_doc_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white; border: 1px solid gray;")
        
         self.add_doc_btn.clicked.connect(self.emitAddDocBtn)
        
@@ -598,7 +598,7 @@ class CA_view_docWidget(QWidget):
         font6.setBold(True)
         font6.setWeight(75)
         remove_doc_btn.setFont(font6)
-        remove_doc_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        remove_doc_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white; border: 1px solid gray;")
         remove_doc_btn.setText("Remove Doctor")
         remove_doc_btn.clicked.connect(self.emitRemoveDocBtn)   
 

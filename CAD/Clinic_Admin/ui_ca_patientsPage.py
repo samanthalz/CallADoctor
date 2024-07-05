@@ -83,7 +83,7 @@ class CA_patientsPageWidget(QWidget):
 " background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
-"background-size: 20px 20px; \n"
+
 "border: 1px solid gray;\n"
 "")
         self.search_patient.setClearButtonEnabled(False)
@@ -620,7 +620,7 @@ class CA_patientsPageWidget(QWidget):
         font6.setBold(True)
         font6.setWeight(75)
         reject_btn.setFont(font6)
-        reject_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        reject_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white; border: 1px solid gray;")
         reject_btn.setText("Reject")
         reject_btn.clicked.connect(self.reject_patient)
 
@@ -629,7 +629,7 @@ class CA_patientsPageWidget(QWidget):
         approved_btn.setGeometry(QRect(320, 700, 181, 41))
         approved_btn.setFont(font6)
         approved_btn.setStyleSheet(u"background-color: rgba(18, 137, 131);\n"
-"border-radius: 16px; color: white;\\n border: 1px solid gray;")
+"border-radius: 16px; color: white; border: 1px solid gray;")
         approved_btn.setText("Approved")
         approved_btn.clicked.connect(self.approved_patient)
 

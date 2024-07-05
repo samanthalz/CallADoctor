@@ -193,7 +193,7 @@ class CA_approved_rejectWidget(QWidget):
         font5.setBold(True)
         font5.setWeight(75)
         self.reject_btn.setFont(font5)
-        self.reject_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        self.reject_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white; border: 1px solid gray;")
        
         self.reject_btn.clicked.connect(self.emitRejectBtn)
        
@@ -201,7 +201,7 @@ class CA_approved_rejectWidget(QWidget):
         self.approved_btn_2.setObjectName(u"approved_btn_2")
         self.approved_btn_2.setGeometry(QRect(360, 780, 181, 41))
         self.approved_btn_2.setFont(font5)
-        self.approved_btn_2.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white;\\n border: 1px solid gray;")
+        self.approved_btn_2.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white; border: 1px solid gray;")
       
         self.approved_btn_2.clicked.connect(self.emitApprovedBtn)
       
