@@ -59,13 +59,6 @@ class CA_view_docWidget(QWidget):
         # Example method when button is clicked
         print("View Patient Details button clicked!") """
         
-        self.noti_icon = QPushButton(self.background)
-        self.noti_icon.setObjectName(u"noti_icon")
-        self.noti_icon.setGeometry(QRect(1380, 30, 70, 81))
-        icon = QIcon()
-        icon.addFile(u"CAD/Images/icon/notification.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.noti_icon.setIcon(icon)
-        self.noti_icon.setIconSize(QSize(40, 40))
         self.user_frame = QFrame(self.background)
         self.user_frame.setObjectName(u"user_frame")
         self.user_frame.setGeometry(QRect(1480, 30, 251, 80))
@@ -371,7 +364,7 @@ class CA_view_docWidget(QWidget):
 "max-height: 50px; ")
         doc_logo_label.setAlignment(Qt.AlignCenter)
     
-        doc_img_path = doc_data.get("doc_img", "Path Not Found")
+        doc_img_path = doc_data.get("doctor_img", "Path Not Found")
         if doc_img_path:
                 pixmap = QPixmap(doc_img_path)
                 doc_logo_label.setPixmap(pixmap.scaled(doc_logo_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
@@ -401,7 +394,7 @@ class CA_view_docWidget(QWidget):
 
         # Add visible doctors to the layout in reverse order
         for doctor_frame in reversed(visible_doctors):
-            self.verticalLayout_4.addWidget(doctor_frame)
+            self.verticalLayout.addWidget(doctor_frame)
 
         self.widget.setLayout(self.doctors_details_frame)
         self.doctors_details_frame.setAlignment(Qt.AlignTop)

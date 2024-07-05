@@ -226,6 +226,7 @@ class Ui_MainWindow(QMainWindow):
         self.caHomeWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caHomeWidget.profile_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.caHomeWidget.redirect_doc.connect(self.showPrefillCADocWidget)
 
         self.caViewDocWidget.home_navigation_btn_clicked.connect(self.showCAHomeWidget)
         self.caViewDocWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
@@ -548,6 +549,11 @@ class Ui_MainWindow(QMainWindow):
     def showPrefillPAFbWidget(self, fb_data):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
         self.paFeedbackInboxWidget.create_popup_widget(fb_data)
+    
+    #test   
+    def showPrefillCADocWidget(self, doc_data):
+        self.stackedWidget.setCurrentWidget(self.caViewDocWidget)
+        self.caViewDocWidget.create_popup_widget(doc_data)
 
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)

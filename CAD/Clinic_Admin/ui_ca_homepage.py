@@ -18,7 +18,7 @@ class CA_homepageWidget(QWidget):
     logout_btn_clicked = pyqtSignal()
     profile_btn_clicked = pyqtSignal()
     settings_navigation_btn_clicked = pyqtSignal()
-    redirect_fb = pyqtSignal(dict)
+    redirect_doc = pyqtSignal(dict)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -744,11 +744,13 @@ class CA_homepageWidget(QWidget):
         clinicReq_frame_6.setMaximumSize(QSize(401, 81))
         clinicReq_frame_6.setFrameShape(QFrame.StyledPanel)
         clinicReq_frame_6.setFrameShadow(QFrame.Raised)
-        doc_name_label_6 = QLabel(clinicReq_frame_6)
+        doc_name_label_6 = QPushButton(clinicReq_frame_6)
         doc_name_label_6.setObjectName(u"doc_name_label_6")
-        doc_name_label_6.setGeometry(QRect(90, 30, 121, 21))
-        doc_name_label_6.setMinimumSize(QSize(121, 21))
-        doc_name_label_6.setMaximumSize(QSize(121, 21))
+        doc_name_label_6.setGeometry(QRect(90, 30, 200, 21))
+        doc_name_label_6.setMinimumSize(QSize(200, 21))
+        doc_name_label_6.setMaximumSize(QSize(200, 21))
+        
+        doc_name_label_6.clicked.connect(lambda: self.redirect_to_doc(doc_data))
         
         font1 = QFont()
         font1.setFamily(u"Cascadia Code")
@@ -767,14 +769,13 @@ class CA_homepageWidget(QWidget):
         font2.setFamily(u"Cascadia Code")
         font2.setPointSize(9)
         doc_logo_label_2.setFont(font2)
-        doc_logo_label_2.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
-"border-radius: 25px; /* Radius to make it round */\n"
-"border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
-"min-width: 50px; /* Ensure the QLabel is a circle */\n"
-"min-height: 50px; /* Ensure the QLabel is a circle */\n"
-"max-width: 50px; /* Ensure the QLabel is a circle */\n"
-"max-height: 50px; /* Ensure the QLabel is a circle */")
+        doc_logo_label_2.setStyleSheet(u"background-color: transparent; ")
         doc_logo_label_2.setAlignment(Qt.AlignCenter)
+        
+        doc_img_path = doc_data.get("doctor_img", "")
+        if doc_img_path:
+                pixmap = QPixmap(doc_img_path)
+                doc_logo_label_2.setPixmap(pixmap.scaled(doc_logo_label_2.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
 
 
         patient_visit_reason_label_6 = QLabel(clinicReq_frame_6)
@@ -882,7 +883,9 @@ class CA_homepageWidget(QWidget):
         self.fetch_doc_data()
 
 
-
+    @pyqtSlot()
+    def redirect_to_doc(self, doc_data):
+        self.redirect_doc.emit(doc_data)
          
                 
 if __name__ == "__main__":
