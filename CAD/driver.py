@@ -624,6 +624,7 @@ class Ui_MainWindow(QMainWindow):
                 self.docHomeWidget.set_user_id(user_id)
                 self.docProfileSettingsWidget.set_user_id(user_id)
                 self.caHomeWidget.set_user_id(user_id)
+                self.caProfileSettingsWidget.set_user_id(user_id)
 
         except Exception as e:
             print(f"Error setting user id in widgets: {e}")

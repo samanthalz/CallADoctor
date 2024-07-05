@@ -24,6 +24,7 @@ class CAProfileSettingsWidget(QWidget):
 
     def set_user_id(self, ca_id):
         self.ca_id = ca_id
+        print(f"ca id is {self.ca_id}")
         self.get_user_credentials(self.ca_id)
 
     def get_user_credentials(self, ca_id):

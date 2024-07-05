@@ -468,9 +468,7 @@ class CA_homepageWidget(QWidget):
         patient_logo_label.setAlignment(Qt.AlignCenter)
         patient_img_path = patient_data.get("patient_img", "Path Not Found")
         
-        #if patient_img_path:
-                #pixmap = QPixmap(patient_img_path)
-                #patient_logo_label.setPixmap(pixmap.scaled(patient_logo_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        
 
         label = QLabel(patientReq_frame)
         label.setObjectName(u"label")
