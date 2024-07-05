@@ -86,7 +86,7 @@ class CA_add_docWidget(QWidget):
         self.name_input.setMinimumSize(QSize(500, 40))
         self.name_input.setMaximumSize(QSize(16777215, 40))
         self.name_input.setBaseSize(QSize(0, 0))
-        self.name_input.setStyleSheet(u" padding: 60px; color: Black;\n"
+        self.name_input.setStyleSheet(u" color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 
@@ -119,7 +119,7 @@ class CA_add_docWidget(QWidget):
         self.specialization_input.setMinimumSize(QSize(500, 40))
         self.specialization_input.setMaximumSize(QSize(16777215, 40))
         self.specialization_input.setBaseSize(QSize(0, 0))
-        self.specialization_input.setStyleSheet(u" padding: 60px; color: Black;\n"
+        self.specialization_input.setStyleSheet(u" color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 
@@ -153,7 +153,7 @@ class CA_add_docWidget(QWidget):
         self.qualification_input.setMinimumSize(QSize(500, 140))
         self.qualification_input.setMaximumSize(QSize(16777215, 140))
         self.qualification_input.setBaseSize(QSize(0, 0))
-        self.qualification_input.setStyleSheet(u" padding: 60px; color: Black;\n"
+        self.qualification_input.setStyleSheet(u" color: Black;\n"
 "background-position: left center; \n"
 "border: 1px solid gray;\n"
 "border-radius: 0px; \n"
@@ -185,7 +185,7 @@ class CA_add_docWidget(QWidget):
         self.phone_input.setMinimumSize(QSize(500, 40))
         self.phone_input.setMaximumSize(QSize(16777215, 40))
         self.phone_input.setBaseSize(QSize(0, 0))
-        self.phone_input.setStyleSheet(u" padding: 60px; color: Black;\n"
+        self.phone_input.setStyleSheet(u" color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 
@@ -213,7 +213,7 @@ class CA_add_docWidget(QWidget):
         self.email_input.setMinimumSize(QSize(500, 40))
         self.email_input.setMaximumSize(QSize(16777215, 40))
         self.email_input.setBaseSize(QSize(0, 0))
-        self.email_input.setStyleSheet(u" padding: 60px; color: Black;\n"
+        self.email_input.setStyleSheet(u" color: Black;\n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 
@@ -391,7 +391,7 @@ class CA_add_docWidget(QWidget):
             }
 
             # Save doctor request in the database
-            doctors = db.child("clinic").child(clinic_id).child("doctors").push(doctor_data).key()
+            doctors = db.child("clinic").child(self.clinic_id).child("doctors").push(doctor_data).key()
 
             if doctors:
                 QMessageBox.information(self, "Success", "Doctor added successfully.")
