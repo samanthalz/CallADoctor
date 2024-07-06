@@ -131,7 +131,13 @@ class CA_view_docWidget(QWidget):
         self.add_doc_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white; border: 1px solid gray;")
        
         self.add_doc_btn.clicked.connect(self.emitAddDocBtn)
-       
+
+        self.doctorlist_layout = QWidget(self.background)
+        self.doctorlist_layout.setObjectName(u"doctorlist_layout")
+        self.doctorlist_layout.setGeometry(QRect(40, 300, 901, 241))
+        self.verticalLayout_3 = QVBoxLayout(self.doctorlist_layout)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(0, 90, 141, 891))
@@ -363,7 +369,7 @@ class CA_view_docWidget(QWidget):
 "max-width: 50px;\n"
 "max-height: 50px; ")
         doc_logo_label.setAlignment(Qt.AlignCenter)
-    
+
         doc_img_path = doc_data.get("doctor_img", "Path Not Found")
         if doc_img_path:
                 pixmap = QPixmap(doc_img_path)
@@ -388,19 +394,18 @@ class CA_view_docWidget(QWidget):
 
             # Check search query if provided
             if not search_query or search_query.lower() in doctor_name:
-                doctor_frame = self.create_doctor_list_frame(doc_data)
-                if doctor_frame:
-                    visible_doctors.append(doctor_frame)
+                doc_frame = self.create_doctor_list_frame(doc_data)
+                if doc_frame:
+                    visible_doctors.append(doc_frame)
 
         # Add visible doctors to the layout in reverse order
-        for doctor_frame in reversed(visible_doctors):
-            self.verticalLayout.addWidget(doctor_frame)
+        for doc_frame in reversed(visible_doctors):
+            self.verticalLayout_3.addWidget(doc_frame)
 
-        self.widget.setLayout(self.doctors_details_frame)
-        self.doctors_details_frame.setAlignment(Qt.AlignTop)
-        self.widget.update()
-        self.doctors_details_frame.update()
-
+        self.doctorlist_layout.setLayout(self.verticalLayout_3)
+        self.verticalLayout_3.setAlignment(Qt.AlignTop)
+        self.verticalLayout_3.update()
+        self.doctorlist_layout.update()
   
          # Debug: Final update status
         print("Layout and widget updated.")

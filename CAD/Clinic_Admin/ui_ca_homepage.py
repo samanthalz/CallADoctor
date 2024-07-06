@@ -466,7 +466,7 @@ class CA_homepageWidget(QWidget):
         
         patient_logo_label.setAlignment(Qt.AlignCenter)
         patient_logo_label.setAlignment(Qt.AlignCenter)
-        patient_img_path = patient_data.get("patient_img", "Path Not Found")
+        patient_logo_label.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
         
         
 
@@ -573,6 +573,7 @@ class CA_homepageWidget(QWidget):
         font2.setFamily(u"Cascadia Code")
         font2.setPointSize(9)
         patient_logo.setFont(font2)
+        patient_logo.setPixmap(QPixmap(u"CAD/Images/icon/profile_icon.png"))
         patient_logo.setStyleSheet(u"background-color: #B6D0E2; /* Fill color */\n"
 "border-radius: 25px; /* Radius to make it round */\n"
 "border: 2px solid #B6D0F7; /*  Border color and thickness */\n"
@@ -583,11 +584,7 @@ class CA_homepageWidget(QWidget):
         patient_logo.setAlignment(Qt.AlignCenter)
         patient_logo.setAlignment(Qt.AlignCenter)
         patient_logo.setAlignment(Qt.AlignCenter)
-
-        patient_img_path = patient_data.get("patient_img","")
-        if patient_img_path:
-                pixmap = QPixmap(patient_img_path)
-                patient_logo.setPixmap(pixmap.scaled(patient_logo.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        
 
         verticalLayout_2.addWidget(patient_logo)
 
