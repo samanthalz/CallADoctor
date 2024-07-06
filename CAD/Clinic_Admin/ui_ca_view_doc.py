@@ -35,6 +35,7 @@ class CA_view_docWidget(QWidget):
         self.view_patient_details_button.setObjectName("view_patient_details_button")
         self.view_patient_details_button.setText("View Patient Details")
         self.view_patient_details_button.clicked.connect(self.handle_view_patient_details) """
+        
         if Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1920, 1080)
@@ -134,7 +135,7 @@ class CA_view_docWidget(QWidget):
 
         self.doctorlist_layout = QWidget(self.background)
         self.doctorlist_layout.setObjectName(u"doctorlist_layout")
-        self.doctorlist_layout.setGeometry(QRect(40, 300, 901, 241))
+        self.doctorlist_layout.setGeometry(QRect(60, 290, 901, 741))
         self.verticalLayout_3 = QVBoxLayout(self.doctorlist_layout)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
 
@@ -143,6 +144,7 @@ class CA_view_docWidget(QWidget):
         self.frame.setGeometry(QRect(0, 90, 141, 891))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
+        
         self.layoutWidget_2 = QWidget(self.frame)
         self.layoutWidget_2.setObjectName(u"layoutWidget_2")
         self.layoutWidget_2.setGeometry(QRect(31, 20, 87, 851))
@@ -306,27 +308,26 @@ class CA_view_docWidget(QWidget):
             clinics = db.child("clinic").get()
             
             if clinics.each():
-                print(f"if clinic.each(): {clinics}")
+                #print(f"if clinic.each(): {clinics}")
                 self.doc_data_list = []
                 
                 for clinic in clinics.each():
-                    print(f"for clinic in clinics.each(): {clinic}")
+                    #print(f"for clinic in clinics.each(): {clinic}")
                     clinic_data = clinic.val()
                     clinic_id = clinic.key()  # Assuming clinic ID is stored as the key
                     
                     if clinic_id == self.clinic_id:
-                        print(f"if clinic_id == self.clinic_id: {clinic_id}")
+                        #print(f"if clinic_id == self.clinic_id: {clinic_id}")
                         doctors = clinic_data.get("doctors", {})
                         
                         for doctor_id, doctor_info in doctors.items():
-                            print(f"for doctor_id, doctor_info in doctors.items(): {doctor_id}")
+                            #print(f"for doctor_id, doctor_info in doctors.items(): {doctor_id}")
                             doctor_name = doctor_info.get("name", "Unknown")
                             
                             # Add fetched doctor data to the list
                             self.doc_data_list.append({"doctor_id": doctor_id, "doctor_name": doctor_name})
                         
-                        break  # Assuming each clinic_id is unique and we only need to process the relevant clinic
-                
+                        break 
                 # Populate doctor information on the UI
                 self.populate_doctor_info()
             else:
@@ -387,6 +388,8 @@ class CA_view_docWidget(QWidget):
     def populate_doctor_info(self, search_query=None):
 
         visible_doctors = []
+        
+        print(f"doc detals is {self.doc_data_list}")
 
         for doc_data in self.doc_data_list:
             if isinstance(doc_data, dict):
@@ -401,6 +404,8 @@ class CA_view_docWidget(QWidget):
         # Add visible doctors to the layout in reverse order
         for doc_frame in reversed(visible_doctors):
             self.verticalLayout_3.addWidget(doc_frame)
+            
+        #print(f"count is {len(visible_doctors)}")
 
         self.doctorlist_layout.setLayout(self.verticalLayout_3)
         self.verticalLayout_3.setAlignment(Qt.AlignTop)
@@ -408,7 +413,7 @@ class CA_view_docWidget(QWidget):
         self.doctorlist_layout.update()
   
          # Debug: Final update status
-        print("Layout and widget updated.")
+        #print("Layout and widget updated.")
 
     def initialize_db(self):
         return db
@@ -611,12 +616,12 @@ class CA_view_docWidget(QWidget):
         search_text = self.search_doctors.text().strip().lower()
         if search_text:
                 self.hide_doctors_details_frame()
-                self.populate_doctors_info(search_text)
+                self.populate_doctor_info(search_text)
                 self.hide_doctors_details_frame()
                 
         else:
                 self.hide_doctors_details_frame()
-                self.populate_doctors_info()
+                self.populate_doctor_info()
                 self.hide_doctors_details_frame()
         
     def clear_search(self):
@@ -624,13 +629,13 @@ class CA_view_docWidget(QWidget):
         self.hide_doctors_details_frame()
 
          # Remove all widgets from the layout
-        while self.vLayout.count():
-                widget = self.vLayout.takeAt(0).widget()
-                if widget:
-                        widget.deleteLater()
-        self.hide_clinic_details_frame()
-        self.populate_clinic_info()
-        self.hide_clinic_details_frame()
+        #while self.vLayout.count():
+                #widget = self.vLayout.takeAt(0).widget()
+                #if widget:
+                        #widget.deleteLater()
+        #self.hide_clinic_details_frame()
+        #self.populate_clinic_info()
+        #self.hide_clinic_details_frame()
 
 
     def hide_doctors_details_frame(self):
@@ -645,7 +650,7 @@ class CA_view_docWidget(QWidget):
             if clinics.each():
                 self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
                 #print("Fetched Clinics Data:", self.clinic_data_list)  # Debug: Print the fetched data
-                self.populate_clinic_info()
+                #self.populate_clinic_info()
             else:
                 print("No clinics data found.")
         except Exception as e:
@@ -690,7 +695,7 @@ class CA_view_docWidget(QWidget):
                             self.hide_doctors_details_frame()
                             
                             # Remove the doctor from doc_data_list
-                            self.doc_data_list = [doctors for doctors in self.doc_data_list if doctors.get("doctor_name") != doctor_name]
+                            #self.doc_data_list = [doctors for doctors in self.doc_data_list if doctors.get("doctor_name") != doctor_name]
 
                             # Refresh the clinic list after removal
                             self.populate_doctor_info()
