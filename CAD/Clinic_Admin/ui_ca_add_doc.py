@@ -387,7 +387,7 @@ class CA_add_docWidget(QWidget):
             new_doctor_id = self.generate_new_doctor_id()
             if new_doctor_id:
                 # Upload the form data to the database with the new ID
-                db.child("doctors").child(new_doctor_id).set({
+                db.child("clinic").child(self.clinic_id).child("doctors").child(new_doctor_id).set({
                     "doctor_name": doctor_name,
                     "specialization": specialization,
                     "qualification": qualification,
@@ -403,7 +403,7 @@ class CA_add_docWidget(QWidget):
 
     def generate_new_doctor_id(self):
         try:
-            doctor_data = db.child("doctors").get().val()
+            doctor_data = db.child("clinic").child(self.clinic_id).child("doctors").get().val()
 
             if doctor_data is None:
                 raise ValueError("Doctor data is not available in the database.")
@@ -411,12 +411,12 @@ class CA_add_docWidget(QWidget):
             # Get the maximum clinic ID currently in the database
             max_id = 0
             for cid in doctor_data.keys():
-                if cid.startswith("doctors") and cid[6:].isdigit():
+                if cid.startswith("doctor") and cid[6:].isdigit():
                     current_id = int(cid[6:])
                     max_id = max(max_id, current_id)
 
             # Increment the maximum ID to generate a new ID
-            new_doctor_id = f"doctors{max_id + 1}"
+            new_doctor_id = f"doctor{max_id + 1}"
             #print(f"new id is {new_doctor_id}")
             
             return new_doctor_id
