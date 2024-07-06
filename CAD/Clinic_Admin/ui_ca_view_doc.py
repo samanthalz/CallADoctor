@@ -293,8 +293,8 @@ class CA_view_docWidget(QWidget):
         self.add_doc_btn.setText(QCoreApplication.translate("Form", u"Add New Doctor", None))
 
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
-        self.doctors_navigation.setText(QCoreApplication.translate("Form", u"doctorss", None))
-        self.patients_navigation.setText(QCoreApplication.translate("Form", u"patients", None))
+        self.doctors_navigation.setText(QCoreApplication.translate("Form", u"Doctors", None))
+        self.patients_navigation.setText(QCoreApplication.translate("Form", u"Patients", None))
         self.settings_navigation.setText(QCoreApplication.translate("Form", u"Settings", None))
         self.logout_navigation.setText(QCoreApplication.translate("Form", u"Logout", None))
     # retranslateUi

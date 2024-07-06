@@ -395,11 +395,7 @@ class CA_patientsPageWidget(QWidget):
 "max-width: 50px;\n"
 "max-height: 50px; ")
         patient_profile_logo1.setAlignment(Qt.AlignCenter)
-        patient_img_path = patient_data.get("patient_img", "Path Not Found")
-        if patient_img_path:
-                pixmap = QPixmap(patient_img_path)
-                patient_profile_logo1.setPixmap(pixmap.scaled(patient_profile_logo1.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
-
+    
         appt_time_label = QLabel(patient_frame1)
         appt_time_label.setObjectName(u"appt_time_label")
         appt_time_label.setGeometry(QRect(690, 20, 91, 41))
@@ -422,7 +418,7 @@ class CA_patientsPageWidget(QWidget):
         "color: #128983; text-align: center;\n"
         "")
         status.setAlignment(Qt.AlignCenter)
-        status.setText(appointment_data.get("status", "Unknown"))
+        status.setText(patient_data.get("status", "Unknown"))
 
         return patient_frame1
     
@@ -453,12 +449,12 @@ class CA_patientsPageWidget(QWidget):
 
         # Add visible clinics to the layout in reverse order
         for patient_frame in reversed(visible_patients):
-                self.vLayout.addWidget(patient_frame)
+                self.patient_list_frame.addWidget(patient_frame)
 
-        self.scrollAreaWidgetContents.setLayout(self.vLayout)
-        self.vLayout.setAlignment(Qt.AlignTop)
-        self.vLayout.update()
-        self.scrollAreaWidgetContents.update()
+       # self.scrollAreaWidgetContents.setLayout(self.patient_list_frame)
+        self.patient_list_frame.setAlignment(Qt.AlignTop)
+        self.patient_list_frame.update()
+       # self.scrollAreaWidgetContents.update()
         
 
          # Debug: Final update status

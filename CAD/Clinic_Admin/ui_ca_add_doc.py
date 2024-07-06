@@ -371,46 +371,66 @@ class CA_add_docWidget(QWidget):
         doctor_name = self.name_input.text().strip()
         specialization = self.specialization_input.text().strip()
         qualification = self.qualification_input.text().strip()
-        phone_number = self.phone_input.text().strip()
-        email = self.email_input.text().strip()
+        contact_number = self.phone_input.text().strip()
+        doctor_email = self.email_input.text().strip()
 
         # Validating input fields (example validation)
-        if not doctor_name or not specialization or not qualification or not phone_number or not email:
+        if not doctor_name or not specialization or not qualification or not contact_number or not doctor_email:
             QMessageBox.warning(self, "Warning", "Please fill in all fields.")
             return
 
-        # Example: Saving doctor request under clinic's doctor_requests node
+        self.submitForm(doctor_name, specialization, qualification, contact_number, doctor_email)
+
+    def submitForm(self, doctor_name, specialization, qualification, contact_number, doctor_email):
         try:
-            # Prepare doctor request data
-            doctor_data = {
-                "doctor_name": doctor_name,
-                "specialization": specialization,
-                "qualification": qualification,
-                "contact_number": phone_number,
-                "doctor_email": email,
-            }
-
-            # Save doctor request in the database
-            doctors = db.child("clinic").child(self.clinic_id).child("doctors").push(doctor_data).key()
-
-            if doctors:
-                QMessageBox.information(self, "Success", "Doctor added successfully.")
-                self.clear_input_fields()  # Clear input fields after successful submission
-            else:
-                QMessageBox.critical(self, "Error", "Failed to add doctor request.")
-
+        # Generate the new clinic ID
+            new_doctor_id = self.generate_new_doctor_id()
+            if new_doctor_id:
+                # Upload the form data to the database with the new ID
+                db.child("doctors").child(new_doctor_id).set({
+                    "doctor_name": doctor_name,
+                    "specialization": specialization,
+                    "qualification": qualification,
+                    "contact_number": contact_number,
+                    "doctor_email": doctor_email,
+                })
+                QMessageBox.information(self, "Success", "Form submitted successfully.")
+                #self.emitRedLogin()
         except Exception as e:
-            print(f"Failed to add doctor request: {e}")
-            QMessageBox.critical(self, "Error", f"Failed to add doctor request: {str(e)}")
+            QMessageBox.critical(self, "Error", f"Failed to submit form: {str(e)}")
 
+        self.clearForm()
 
+    def generate_new_doctor_id(self):
+        try:
+            doctor_data = db.child("doctors").get().val()
 
-    def clear_input_fields(self):
+            if doctor_data is None:
+                raise ValueError("Doctor data is not available in the database.")
+            
+            # Get the maximum clinic ID currently in the database
+            max_id = 0
+            for cid in doctor_data.keys():
+                if cid.startswith("doctors") and cid[6:].isdigit():
+                    current_id = int(cid[6:])
+                    max_id = max(max_id, current_id)
+
+            # Increment the maximum ID to generate a new ID
+            new_doctor_id = f"doctors{max_id + 1}"
+            #print(f"new id is {new_doctor_id}")
+            
+            return new_doctor_id
+        except Exception as e:
+            print(f"Error generating new doctor ID: {e}")
+
+    def clearForm(self):
         self.name_input.clear()
         self.specialization_input.clear()
         self.qualification_input.clear()
         self.phone_input.clear()
         self.email_input.clear()
+
+
 
     def fetch_doc_data(self):
         db = self.initialize_db()  # Assuming this method initializes your Firebase connection
