@@ -521,8 +521,8 @@ class CA_homepageWidget(QWidget):
                         widget.deleteLater()
 
         # Add visible appointments to the layout in reverse order
-        for appt_frame in reversed(visible_patients):
-                self.patientlist_layout.addWidget(appt_frame)
+        for doc_frame in reversed(visible_patients):
+                self.patientlist_layout.addWidget(doc_frame)
 
         #print(f"Number of frames added to the layout: {len(list(reversed(visible_patients))[:5])}")
 

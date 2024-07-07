@@ -151,7 +151,7 @@ border: 1px solid gray;
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QFrame" name="request_detail_outer">
+   <widget class="QFrame" name="doctor_details_outer">
     <property name="geometry">
      <rect>
       <x>979</x>
@@ -169,7 +169,7 @@ border: 1px solid gray;
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QFrame" name="clinic_details_inner">
+    <widget class="QFrame" name="doctor_details_inner">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -562,147 +562,7 @@ border: 1px solid gray;</string>
      <string>Doctors List</string>
     </property>
    </widget>
-   <widget class="QFrame" name="doc_frame_2">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>390</y>
-      <width>801</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="doc_name_label_2">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>30</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Cascadia Code</family>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border : none;
-</string>
-     </property>
-     <property name="text">
-      <string>Doctor Name</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="doc_logo_label_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>54</width>
-       <height>54</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Cascadia Code</family>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: #B6D0E2; /* Fill color */
-border-radius: 25px; /* Radius to make it round */
-border: 2px solid #B6D0F7; /*  Border color and thickness */
-min-width: 50px; /* Ensure the QLabel is a circle */
-min-height: 50px; /* Ensure the QLabel is a circle */
-max-width: 50px; /* Ensure the QLabel is a circle */
-max-height: 50px; /* Ensure the QLabel is a circle */</string>
-     </property>
-     <property name="text">
-      <string>D</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QFrame" name="doc_frame">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>290</y>
-      <width>801</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="doc_name_label">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>30</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Cascadia Code</family>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border : none;
-</string>
-     </property>
-     <property name="text">
-      <string>Doctor Name</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="doc_logo_label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>54</width>
-       <height>54</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Cascadia Code</family>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: #B6D0E2; 
-border-radius: 25px; 
-border: 2px solid #B6D0F7; 
-min-width: 50px; 
-min-height: 50px; 
-max-width: 50px;
-max-height: 50px; </string>
-     </property>
-     <property name="text">
-      <string>D</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QLabel" name="doc_detail_label">
+   <widget class="QLabel" name="doc_details_label">
     <property name="geometry">
      <rect>
       <x>990</x>
@@ -748,6 +608,158 @@ max-height: 50px; </string>
     <property name="text">
      <string>Add New Doctor</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>62</x>
+      <y>290</y>
+      <width>801</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="doctorlist_layout">
+     <item>
+      <widget class="QFrame" name="doc_frame_1">
+       <property name="maximumSize">
+        <size>
+         <width>799</width>
+         <height>87</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="doc_name_label_1">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>30</y>
+          <width>121</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border : none;
+</string>
+        </property>
+        <property name="text">
+         <string>Doctor Name</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="doc_logo_label_1">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>54</width>
+          <height>54</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #B6D0E2; 
+border-radius: 25px; 
+border: 2px solid #B6D0F7; 
+min-width: 50px; 
+min-height: 50px; 
+max-width: 50px;
+max-height: 50px; </string>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="doc_frame_2">
+       <property name="maximumSize">
+        <size>
+         <width>799</width>
+         <height>86</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="doc_name_label_2">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>30</y>
+          <width>121</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border : none;
+</string>
+        </property>
+        <property name="text">
+         <string>Doctor Name</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="doc_logo_label_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>54</width>
+          <height>54</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #B6D0E2; /* Fill color */
+border-radius: 25px; /* Radius to make it round */
+border: 2px solid #B6D0F7; /*  Border color and thickness */
+min-width: 50px; /* Ensure the QLabel is a circle */
+min-height: 50px; /* Ensure the QLabel is a circle */
+max-width: 50px; /* Ensure the QLabel is a circle */
+max-height: 50px; /* Ensure the QLabel is a circle */</string>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QFrame" name="frame">
