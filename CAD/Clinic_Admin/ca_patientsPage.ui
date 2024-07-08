@@ -169,7 +169,7 @@ border: 1px solid gray;
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QFrame" name="clinic_details_inner">
+    <widget class="QFrame" name="patient_details_inner">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -305,7 +305,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="diagnosis_label_2">
+     <widget class="QLabel" name="diagnosis_label">
       <property name="geometry">
        <rect>
         <x>13</x>
@@ -458,7 +458,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="time_display_3">
+     <widget class="QLabel" name="time_display">
       <property name="geometry">
        <rect>
         <x>320</x>
@@ -494,7 +494,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="time_label_3">
+     <widget class="QLabel" name="time_label">
       <property name="geometry">
        <rect>
         <x>13</x>
@@ -648,366 +648,344 @@ border: 1px solid gray;</string>
      <string>Patient Details</string>
     </property>
    </widget>
-   <widget class="QFrame" name="patient_list_frame">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>230</y>
-      <width>801</width>
-      <height>801</height>
+      <y>240</y>
+      <width>831</width>
+      <height>281</height>
      </rect>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QFrame" name="patient_frame1">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>20</y>
-       <width>801</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <widget class="QLabel" name="patient_name_label1">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>30</y>
-        <width>121</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Cascadia Code</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border : none;
+    <layout class="QVBoxLayout" name="patientlist_layout">
+     <item>
+      <widget class="QFrame" name="patient_frame1">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="patient_name_label1">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>30</y>
+          <width>121</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border : none;
 </string>
-      </property>
-      <property name="text">
-       <string>Patient Name</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="patient_profile_logo1">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>54</width>
-        <height>54</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Cascadia Code</family>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #B6D0E2; 
+        </property>
+        <property name="text">
+         <string>Patient Name</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="patient_profile_logo1">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>54</width>
+          <height>54</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #B6D0E2; 
 border-radius: 25px; 
 border: 2px solid #B6D0F7; 
 min-width: 50px; 
 min-height: 50px; 
 max-width: 50px;
 max-height: 50px; </string>
-      </property>
-      <property name="text">
-       <string>PN</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="appt_time_label">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>20</y>
-        <width>91</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(18, 137, 131, 0.15);
+        </property>
+        <property name="text">
+         <string>PN</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="appt_time_label">
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>20</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(18, 137, 131, 0.15);
 color: #128983; text-align: center;
 </string>
-      </property>
-      <property name="text">
-       <string>Time</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="status">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>20</y>
-        <width>91</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(18, 137, 131, 0.15);
+        </property>
+        <property name="text">
+         <string>Time</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="status">
+        <property name="geometry">
+         <rect>
+          <x>570</x>
+          <y>20</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(18, 137, 131, 0.15);
 color: #128983; text-align: center;
 </string>
-      </property>
-      <property name="text">
-       <string>Approved</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QFrame" name="patient_frame2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>130</y>
-       <width>801</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <widget class="QLabel" name="patient_name_label2">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>30</y>
-        <width>121</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Cascadia Code</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border : none;
+        </property>
+        <property name="text">
+         <string>Approved</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="patient_frame2">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="patient_name_label2">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>30</y>
+          <width>121</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border : none;
 </string>
-      </property>
-      <property name="text">
-       <string>Patient Name</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="patient_profile_logo_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>54</width>
-        <height>54</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Cascadia Code</family>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #B6D0E2; /* Fill color */
+        </property>
+        <property name="text">
+         <string>Patient Name</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="patient_profile_logo_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>54</width>
+          <height>54</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #B6D0E2; /* Fill color */
 border-radius: 25px; /* Radius to make it round */
 border: 2px solid #B6D0F7; /*  Border color and thickness */
 min-width: 50px; /* Ensure the QLabel is a circle */
 min-height: 50px; /* Ensure the QLabel is a circle */
 max-width: 50px; /* Ensure the QLabel is a circle */
 max-height: 50px; /* Ensure the QLabel is a circle */</string>
-      </property>
-      <property name="text">
-       <string>PN</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="appt_time_label2">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>20</y>
-        <width>91</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(18, 137, 131, 0.15);
+        </property>
+        <property name="text">
+         <string>PN</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="appt_time_label2">
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>20</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(18, 137, 131, 0.15);
 color: #128983; text-align: center;
 </string>
-      </property>
-      <property name="text">
-       <string>Time</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="status_2">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>20</y>
-        <width>91</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(246, 32, 136, 0.15);
+        </property>
+        <property name="text">
+         <string>Time</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="status_2">
+        <property name="geometry">
+         <rect>
+          <x>570</x>
+          <y>20</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(246, 32, 136, 0.15);
 color: #F62088; text-align: center;
 </string>
-      </property>
-      <property name="text">
-       <string>Pending</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QFrame" name="patient_frame2_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>240</y>
-       <width>801</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <widget class="QLabel" name="patient_name_label2_2">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>30</y>
-        <width>121</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Cascadia Code</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border : none;
+        </property>
+        <property name="text">
+         <string>Pending</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="patient_frame2_2">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="patient_name_label2_2">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>30</y>
+          <width>121</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border : none;
 </string>
-      </property>
-      <property name="text">
-       <string>Patient Name</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="patient_profile_logo_3">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>54</width>
-        <height>54</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Cascadia Code</family>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #B6D0E2; /* Fill color */
+        </property>
+        <property name="text">
+         <string>Patient Name</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="patient_profile_logo_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>54</width>
+          <height>54</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cascadia Code</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #B6D0E2; /* Fill color */
 border-radius: 25px; /* Radius to make it round */
 border: 2px solid #B6D0F7; /*  Border color and thickness */
 min-width: 50px; /* Ensure the QLabel is a circle */
 min-height: 50px; /* Ensure the QLabel is a circle */
 max-width: 50px; /* Ensure the QLabel is a circle */
 max-height: 50px; /* Ensure the QLabel is a circle */</string>
-      </property>
-      <property name="text">
-       <string>PN</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="appt_time_label2_2">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>20</y>
-        <width>91</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(18, 137, 131, 0.15);
+        </property>
+        <property name="text">
+         <string>PN</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="appt_time_label2_2">
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>20</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(18, 137, 131, 0.15);
 color: #128983; text-align: center;
 </string>
-      </property>
-      <property name="text">
-       <string>Time</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </widget>
+        </property>
+        <property name="text">
+         <string>Time</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QFrame" name="frame">
