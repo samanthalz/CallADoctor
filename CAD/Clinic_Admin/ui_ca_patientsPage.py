@@ -27,7 +27,8 @@ class CA_patientsPageWidget(QWidget):
         self.setupUi(self)
         self.patient_details_frame = None
         self.temp_patient_name = ""
-        
+        self.fetch_patient_data()
+        self.temp_clinic_name = ""
 
 
     def setupUi(self, Form):
@@ -67,6 +68,8 @@ class CA_patientsPageWidget(QWidget):
         font.setPointSize(10)
         self.profile_btn.setFont(font)
         self.profile_btn.setStyleSheet(u"border: none")
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
+        
         self.search_patient = QLineEdit(self.background)
         self.search_patient.setObjectName(u"search_patient")
         self.search_patient.setGeometry(QRect(40, 40, 681, 71))
@@ -187,7 +190,7 @@ class CA_patientsPageWidget(QWidget):
         self.home_navigation_2.setIcon(icon1)
         self.home_navigation_2.setIconSize(QSize(70, 70))
         self.home_navigation_2.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation_2.clicked.connect(self.emitHomeBtn)
         self.verticalLayout_3.addWidget(self.home_navigation_2)
 
         self.doctors_navigation = QToolButton(self.layoutWidget_3)
@@ -205,7 +208,7 @@ class CA_patientsPageWidget(QWidget):
         self.doctors_navigation.setIcon(icon2)
         self.doctors_navigation.setIconSize(QSize(70, 70))
         self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.doctors_navigation.clicked.connect(self.emitDoctorsBtn)
         self.verticalLayout_3.addWidget(self.doctors_navigation)
 
         self.patients_navigation = QToolButton(self.layoutWidget_3)
@@ -223,7 +226,7 @@ class CA_patientsPageWidget(QWidget):
         self.patients_navigation.setIcon(icon3)
         self.patients_navigation.setIconSize(QSize(70, 70))
         self.patients_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        
         self.verticalLayout_3.addWidget(self.patients_navigation)
 
         self.settings_navigation_2 = QToolButton(self.layoutWidget_3)
@@ -240,7 +243,7 @@ class CA_patientsPageWidget(QWidget):
         self.settings_navigation_2.setIcon(icon4)
         self.settings_navigation_2.setIconSize(QSize(70, 70))
         self.settings_navigation_2.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation_2.clicked.connect(self.emitSettingsBtn)
         self.verticalLayout_3.addWidget(self.settings_navigation_2)
 
         self.logout_navigation_2 = QToolButton(self.layoutWidget_3)
@@ -257,7 +260,7 @@ class CA_patientsPageWidget(QWidget):
         self.logout_navigation_2.setIcon(icon5)
         self.logout_navigation_2.setIconSize(QSize(70, 70))
         self.logout_navigation_2.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation_2.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout_3.addWidget(self.logout_navigation_2)
 
 
@@ -268,7 +271,7 @@ class CA_patientsPageWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic name", None))
+        self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic", None))
         self.search_patient.setPlaceholderText(QCoreApplication.translate("Form", u"Search Patient Name", None))
         self.clear_btn.setText(QCoreApplication.translate("Form", u"Clear", None))
         self.search_btn.setText(QCoreApplication.translate("Form", u"Search", None))
@@ -317,7 +320,8 @@ class CA_patientsPageWidget(QWidget):
         
     def initialize_db(self):
         return db
-        
+
+       
     def fetch_patient_data(self):
         # Clear list
         self.patient_data_list = []
@@ -654,6 +658,8 @@ class CA_patientsPageWidget(QWidget):
         reject_btn.setFont(font6)
         reject_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white; border: 1px solid gray;")
         reject_btn.setText("Reject")
+        reject_btn.clicked.connect(self.reject_patient)
+        
         approved_btn = QPushButton(patient_details_inner)
         approved_btn.setObjectName(u"approved_btn")
         approved_btn.setGeometry(QRect(320, 700, 181, 41))
@@ -662,7 +668,19 @@ class CA_patientsPageWidget(QWidget):
         approved_btn.setFont(font6)
         approved_btn.setText("Approve")
         approved_btn.setStyleSheet(u"background-color: rgb(18, 137, 131);border-radius: 16px; color: white; border: 1px solid gray;")
-        
+        approved_btn.clicked.connect(self.approve_patient)
+        status = patient_data.get("status")
+
+        if status == "pending":
+                # Display the reject and approve buttons
+                reject_btn.show()
+                approved_btn.show()
+
+        else:
+                # Hide the reject and approve buttons
+                reject_btn.hide()
+                approved_btn.hide()
+
         return patient_details_outer_frame
         
         
@@ -699,3 +717,111 @@ class CA_patientsPageWidget(QWidget):
         self.hide_patient_details_frame()
         self.populate_patient_info()
         self.hide_patient_details_frame()
+
+    def load_status(self):
+        states = [
+            "All",
+            "Pending",
+            "Approved"
+        ]
+        self.filter.addItems(states)
+
+    def updateSelectedStatus(self, index):
+        selected_text = self.filter.itemText(index)
+
+        if index == 0:
+                self.selected_status = ""
+        else:
+                self.selected_status = selected_text
+        self.hide_patient_details_frame()
+        self.populate_patient_info()
+        self.hide_patient_details_frame()
+
+    def reject_patient(self):
+        clinic_name = self.temp_clinic_name
+        clinic_id = None
+
+        if not self.clinic_data_list:
+            return None
+
+        # Fetch the clinic data directly from the database
+        try:
+            clinic_data_list = self.db.child("clinic").get().val()
+        except Exception as e:
+            print(f"Failed to fetch clinic data: {e}")
+            return
+
+        # Find the clinic ID by clinic name
+        for cid, clinic_data in clinic_data_list.items():
+            if clinic_data.get("clinic_name") == clinic_name:
+                clinic_id = cid
+                break
+
+        if clinic_id:
+            try:
+                # Remove the clinic data
+                self.db.child("clinic").child(clinic_id).remove()
+
+                # Find and remove the associated appointments
+                appointments = self.db.child("appointment").get()
+                for appointment in appointments.each():
+                    appointment_data = appointment.val()
+                    if appointment_data.get("clinic_id").lower() == clinic_id.lower():
+                        appointment_id = appointment.key()
+                        self.db.child("appointment").child(appointment_id).remove()
+
+                QMessageBox.information(self, "Success", "Appointment rejected and removed from the database.")
+
+                self.hide_patient_details_frame()
+
+                # Remove the rejected appoinment from patient_data_list
+                #self.patient_data_list = [patient for patient in self.patient_data_list if patient.get("patient_name") != clinic_name]
+
+                # Refresh the clinic list after removal
+                self.populate_patient_info()
+
+                # Hide the clinic details
+                self.hide_patient_details_frame()
+
+            except Exception as e:
+                print(f"Failed to remove patient: {e}")
+                QMessageBox.critical(self, "Error", f"Failed to reject appointment: {str(e)}")
+        else:
+            QMessageBox.warning(self, "No Patient Selected", "Please select a patient to reject.")
+
+    def approve_patient(self):
+        db = self.initialize_db()
+        clinic_name = self.temp_clinic_name
+        clinic_id = None
+
+
+        if not self.patient_data_list:
+                return None
+
+        # Fetch the clinic data directly from the database
+        try:
+                clinic_data_list = db.child("clinic").get().val()
+        except Exception as e:
+                print(f"Failed to fetch clinic data: {e}")
+                return
+
+        # Find the clinic ID by clinic name
+        for cid, clinic_data in clinic_data_list.items():
+                if clinic_data.get("clinic_name") == clinic_name:
+                        clinic_id = cid
+                        break
+
+        if clinic_id:
+                try:
+                        # Update clinic_status to "approved"
+                        db.child("appointment").child(clinic_id).update({"status": "approved"})
+
+                
+                        QMessageBox.information(self, "Success", "Patient approved successfully.")
+                        self.hide_patient_details_frame()
+                        self.fetch_patient_data()
+                        self.hide()  # Hide the clinic details
+
+                except Exception as e:
+                        print(f"Failed to approve patient: {e}")
+                        QMessageBox.critical(self, "Error", f"Failed to approve patient: {str(e)}")

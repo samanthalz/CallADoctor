@@ -22,6 +22,7 @@ class CA_view_docWidget(QWidget):
         super().__init__(parent)
         self.clinic_id = ""
         self.doctor_data_list = []
+        self.clinic_data_list = []
         self.selected_status = ""
         self.setupUi(self)
         self.doctors_navigation = QToolButton(self)
@@ -65,7 +66,9 @@ class CA_view_docWidget(QWidget):
         font.setPointSize(10)
         self.profile_btn.setFont(font)
         self.profile_btn.setStyleSheet(u"border: none")
-        
+        self.profile_btn.clicked.connect(self.emitProfileBtn)
+
+
         self.search_doctor = QLineEdit(self.background)
         self.search_doctor.setObjectName(u"search_doctor")
         self.search_doctor.setGeometry(QRect(40, 40, 681, 71))
@@ -109,6 +112,7 @@ class CA_view_docWidget(QWidget):
         font9.setPointSize(16)
         self.doc_details_label.setFont(font9)
         self.doc_details_label.setStyleSheet(u"border : none;\n")
+        
         self.add_doc_btn = QPushButton(self.background)
         self.add_doc_btn.setObjectName(u"add_doc_btn")
         self.add_doc_btn.setGeometry(QRect(60, 220, 801, 51))
@@ -142,7 +146,7 @@ class CA_view_docWidget(QWidget):
         
         self.scrollArea = QScrollArea(self.background)
         self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setGeometry(QRect(50, 220, 811, 821))
+        self.scrollArea.setGeometry(QRect(50, 300, 811, 821))
         self.scrollArea.setMinimumSize(QSize(811, 821))
         self.scrollArea.setMaximumSize(QSize(811, 821))
         self.scrollArea.setWidgetResizable(True)
@@ -191,7 +195,7 @@ class CA_view_docWidget(QWidget):
         self.home_navigation.setIcon(icon)
         self.home_navigation.setIconSize(QSize(70, 70))
         self.home_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.home_navigation.clicked.connect(self.emitHomeBtn)
         self.verticalLayout.addWidget(self.home_navigation)
 
         self.doctors_navigation = QToolButton(self.layoutWidget_2)
@@ -209,7 +213,7 @@ class CA_view_docWidget(QWidget):
         self.doctors_navigation.setIcon(icon1)
         self.doctors_navigation.setIconSize(QSize(70, 70))
         self.doctors_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.doctors_navigation.clicked.connect(self.emitDoctorsBtn)
         self.verticalLayout.addWidget(self.doctors_navigation)
 
         self.patients_navigation = QToolButton(self.layoutWidget_2)
@@ -227,7 +231,7 @@ class CA_view_docWidget(QWidget):
         self.patients_navigation.setIcon(icon2)
         self.patients_navigation.setIconSize(QSize(70, 70))
         self.patients_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.patients_navigation.clicked.connect(self.emitPatientsBtn)
         self.verticalLayout.addWidget(self.patients_navigation)
 
         self.settings_navigation = QToolButton(self.layoutWidget_2)
@@ -245,7 +249,7 @@ class CA_view_docWidget(QWidget):
         self.settings_navigation.setIcon(icon3)
         self.settings_navigation.setIconSize(QSize(70, 70))
         self.settings_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.settings_navigation.clicked.connect(self.emitSettingsBtn)
         self.verticalLayout.addWidget(self.settings_navigation)
 
         self.logout_navigation = QToolButton(self.layoutWidget_2)
@@ -263,7 +267,7 @@ class CA_view_docWidget(QWidget):
         self.logout_navigation.setIcon(icon4)
         self.logout_navigation.setIconSize(QSize(70, 70))
         self.logout_navigation.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
+        self.logout_navigation.clicked.connect(self.emitLogoutBtn)
         self.verticalLayout.addWidget(self.logout_navigation)
 
 
@@ -274,7 +278,7 @@ class CA_view_docWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic name", None))
+        self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic", None))
         self.search_doctor.setPlaceholderText(QCoreApplication.translate("Form", u"Search Doctor Name", None))
         self.clear_btn.setText(QCoreApplication.translate("Form", u"Clear", None))
         self.search_btn.setText(QCoreApplication.translate("Form", u"Search", None))
@@ -601,12 +605,11 @@ class CA_view_docWidget(QWidget):
         speciality_display.setText(doctor_data.get("specialization", "Unknown"))
         speciality_layout.addWidget(speciality_display)
 
-
         verticalLayout_2.addLayout(speciality_layout)
 
         remove_doc_btn = QPushButton(doctor_details_outer)
         remove_doc_btn.setObjectName(u"remove_doc_btn")
-        remove_doc_btn.setGeometry(QRect(550, 790, 181, 41))
+        remove_doc_btn.setGeometry(QRect(550, 750, 181, 41))
         font6 = QFont()
         font6.setFamily(u"Consolas")
         font6.setPointSize(10)
@@ -615,6 +618,8 @@ class CA_view_docWidget(QWidget):
         remove_doc_btn.setFont(font6)
         remove_doc_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white; border: 1px solid gray;")
         remove_doc_btn.setText("Remove Doctor")
+        remove_doc_btn.clicked.connect(self.remove_doc)
+
         return doctor_details_outer
         
                         
@@ -684,7 +689,6 @@ class CA_view_docWidget(QWidget):
         except Exception as e:
                 print(f"An error occurred while fetching data: {e}")
 
-
     def updateSelectedStatus(self, index):
         selected_text = self.filter.itemText(index)
 
@@ -696,5 +700,119 @@ class CA_view_docWidget(QWidget):
         self.populate_doctor_info()
         self.hide_doctor_details_frame()
                         
-    
+        def remove_doc(self):
+            clinic_name = self.temp_clinic_name
+            clinic_id = None
+            doctors_id = None
 
+            if not self.clinic_data_list:
+                    return None
+
+            # Fetch the clinic data directly from the database
+            try:
+                    clinic_data_list = db.child("clinic").get().val()
+            except Exception as e:
+                    print(f"Failed to fetch clinic data: {e}")
+                    return
+
+            # Find the clinic ID by clinic name
+            for cid, clinic_data in clinic_data_list.items():
+                    if clinic_data.get("clinic_name") == clinic_name:
+                            clinic_id = cid
+                            break
+
+            if clinic_id:
+                    try:
+                            db.child("clinic").child(clinic_id).remove()
+                            
+                            # Find and remove the associated doctor
+                            doctors = db.child("doctors").get()
+                            for doctors in doctors.each():
+                                    doctors = doctors.val()
+                                    if clinic_data.get("clinic_id").lower() == clinic_id.lower():
+                                            doctors_id = doctors.key()
+                                            db.child("doctors").child(doctors_id).remove()
+                                            break
+                                    
+                            QMessageBox.information(self, "Success", "Doctor removed from the database.")
+
+                            self.hide_doctors_details_frame()
+                            
+                            # Remove the doctor from doc_data_list
+                            #self.doc_data_list = [doctors for doctors in self.doc_data_list if doctors.get("doctor_name") != doctor_name]
+
+                            # Refresh the clinic list after removal
+                            self.populate_doctor_info()
+
+                            # Hide the clinic details
+                            self.hide_doctors_details_frame()
+
+                    except Exception as e:
+                            print(f"Failed to remove doctor: {e}")
+                            QMessageBox.critical(self, "Error", f"Failed to remove doctor: {str(e)}")
+            else:
+                    QMessageBox.warning(self, "No Doctor Selected", "Please select a doctor to remove.")
+
+    def fetch_clinic_data(self):
+        db = self.initialize_db()
+        try:
+            clinics = db.child("clinic").get()
+            
+            if clinics.each():
+                self.clinic_data_list = [clinic.val() for clinic in clinics.each()]
+                #print("Fetched Clinics Data:", self.clinic_data_list)  # Debug: Print the fetched data
+                #self.populate_clinic_info()
+            else:
+                print("No clinics data found.")
+        except Exception as e:
+            print(f"An error occurred while fetching data: {e}")
+
+    def remove_doc(self):
+            clinic_name = self.temp_clinic_name
+            clinic_id = None
+            doctors_id = None
+
+            if not self.clinic_data_list:
+                    return None
+
+            # Fetch the clinic data directly from the database
+            try:
+                    clinic_data_list = db.child("clinic").get().val()
+            except Exception as e:
+                    print(f"Failed to fetch clinic data: {e}")
+                    return
+
+            # Find the clinic ID by clinic name
+            for cid, clinic_data in clinic_data_list.items():
+                    if clinic_data.get("clinic_name") == clinic_name:
+                            clinic_id = cid
+                            break
+
+            if clinic_id:
+                    try:
+                            db.child("clinic").child(clinic_id).remove()
+                            
+                            # Find and remove the associated doctor
+                            doctors = db.child("doctors").get()
+                            for doctors in doctors.each():
+                                    doctors = doctors.val()
+                                    if clinic_data.get("clinic_id").lower() == clinic_id.lower():
+                                            doctors_id = doctors.key()
+                                            db.child("doctors").child(doctors_id).remove()
+                                            break
+                                    
+                            QMessageBox.information(self, "Success", "Doctor removed from the database.")
+
+                            self.hide_doctor_details_frame()
+                            
+                            # Remove the doctor from doc_data_list
+                            #self.doc_data_list = [doctors for doctors in self.doc_data_list if doctors.get("doctor_name") != doctor_name]
+
+                            # Refresh the clinic list after removal
+                            self.populate_doctor_info()
+
+                    except Exception as e:
+                            print(f"Failed to remove doctor: {e}")
+                            QMessageBox.critical(self, "Error", f"Failed to remove doctor: {str(e)}")
+            else:
+                    QMessageBox.warning(self, "No Doctor Selected", "Please select a doctor to remove.")
