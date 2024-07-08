@@ -596,6 +596,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showCAPatientsPageWidget(self):
         self.stackedWidget.setCurrentWidget(self.caPatientsPageWidget)
+        self.caPatientsPageWidget.fetch_patient_data()
         
     @pyqtSlot()
     def showCAAddDocWidget(self):
@@ -632,6 +633,7 @@ class Ui_MainWindow(QMainWindow):
                 self.caHomeWidget.set_user_id(user_id)
                 self.caProfileSettingsWidget.set_user_id(user_id)
                 self.caAddDocWidget.set_user_id(user_id)
+                self.caPatientsPageWidget.set_user_id(user_id)
 
         except Exception as e:
             print(f"Error setting user id in widgets: {e}")

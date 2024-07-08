@@ -385,8 +385,8 @@ class ViewClinicWidget(QWidget):
                 # Check search query if provided
                 if not search_query or search_query.lower() in clinic_name:
                         clinic_frame = self.create_clinic_list_frame(clinic_data)
-                if clinic_frame:
-                        visible_clinics.append(clinic_frame)
+                        if clinic_frame:
+                                visible_clinics.append(clinic_frame)
 
         # Add visible clinics to the layout in reverse order
         for clinic_frame in reversed(visible_clinics):

@@ -432,7 +432,7 @@ class CA_patientsPageWidget(QWidget):
     def populate_patient_info(self, search_query=None):
         visible_patients = []
         
-
+ 
         for i, patient_data in enumerate(self.patient_data_list):
                 if isinstance(patient_data, dict):
                         clinic_name = patient_data.get("clinic_name", "").lower()
@@ -498,6 +498,7 @@ class CA_patientsPageWidget(QWidget):
 "max-width: 50px; /* Ensure the QLabel is a circle */\n"
 "max-height: 50px; /* Ensure the QLabel is a circle */")
         patient_logo_2.setAlignment(Qt.AlignCenter)
+        
         patient_img_path = patient_data.get("patient_img","")
         if patient_img_path:
                 pixmap = QPixmap(patient_img_path)

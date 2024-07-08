@@ -31,29 +31,6 @@ border-bottom-left-radius: 30px;
 border-top-left-radius: 30px;
 text-align: center;</string>
    </property>
-   <widget class="QPushButton" name="noti_icon">
-    <property name="geometry">
-     <rect>
-      <x>1380</x>
-      <y>30</y>
-      <width>70</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/icon/notification.png</normaloff>../Images/icon/notification.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>40</width>
-      <height>40</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QFrame" name="user_frame">
     <property name="geometry">
      <rect>
@@ -125,6 +102,18 @@ text-align: center;</string>
       <width>831</width>
       <height>71</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>831</width>
+      <height>71</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>831</width>
+      <height>71</height>
+     </size>
     </property>
     <property name="font">
      <font>
@@ -281,7 +270,13 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
       <property name="minimumSize">
        <size>
         <width>390</width>
-        <height>0</height>
+        <height>148</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>390</width>
+        <height>148</height>
        </size>
       </property>
       <property name="font">
@@ -314,6 +309,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         <height>148</height>
        </rect>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>301</width>
+        <height>148</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>301</width>
+        <height>148</height>
+       </size>
+      </property>
       <property name="font">
        <font>
         <family>Consolas</family>
@@ -340,6 +347,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         <width>301</width>
         <height>148</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>301</width>
+        <height>148</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>301</width>
+        <height>148</height>
+       </size>
       </property>
       <property name="font">
        <font>
@@ -371,7 +390,13 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
       <property name="minimumSize">
        <size>
         <width>390</width>
-        <height>0</height>
+        <height>148</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>390</width>
+        <height>148</height>
        </size>
       </property>
       <property name="font">
@@ -404,6 +429,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         <height>148</height>
        </rect>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>301</width>
+        <height>148</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>301</width>
+        <height>148</height>
+       </size>
+      </property>
       <property name="font">
        <font>
         <family>Consolas</family>
@@ -434,7 +471,13 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
       <property name="minimumSize">
        <size>
         <width>390</width>
-        <height>0</height>
+        <height>148</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>390</width>
+        <height>148</height>
        </size>
       </property>
       <property name="font">
@@ -470,7 +513,13 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
       <property name="minimumSize">
        <size>
         <width>390</width>
-        <height>0</height>
+        <height>148</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>390</width>
+        <height>148</height>
        </size>
       </property>
       <property name="font">
@@ -503,6 +552,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         <height>148</height>
        </rect>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>301</width>
+        <height>148</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>301</width>
+        <height>148</height>
+       </size>
+      </property>
       <property name="font">
        <font>
         <family>Consolas</family>
@@ -530,6 +591,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         <height>41</height>
        </rect>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>181</width>
+        <height>41</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>181</width>
+        <height>41</height>
+       </size>
+      </property>
       <property name="font">
        <font>
         <family>Consolas</family>
@@ -553,6 +626,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         <width>181</width>
         <height>41</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>181</width>
+        <height>41</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>181</width>
+        <height>41</height>
+       </size>
       </property>
       <property name="font">
        <font>
@@ -580,6 +665,18 @@ border-radius: 16px; color: white;\n border: 1px solid gray;</string>
       <width>151</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>151</width>
+      <height>31</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>151</width>
+      <height>31</height>
+     </size>
     </property>
     <property name="font">
      <font>
@@ -648,344 +745,212 @@ border: 1px solid gray;</string>
      <string>Patient Details</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>240</y>
-      <width>831</width>
-      <height>281</height>
+      <y>220</y>
+      <width>811</width>
+      <height>821</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="patientlist_layout">
-     <item>
-      <widget class="QFrame" name="patient_frame1">
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+    <property name="minimumSize">
+     <size>
+      <width>811</width>
+      <height>821</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>811</width>
+      <height>821</height>
+     </size>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>811</width>
+       <height>821</height>
+      </rect>
+     </property>
+     <widget class="QFrame" name="patient_frame">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>801</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>801</width>
+        <height>81</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>801</width>
+        <height>81</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="patient_name_label1">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>30</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+       <property name="minimumSize">
+        <size>
+         <width>121</width>
+         <height>21</height>
+        </size>
        </property>
-       <widget class="QLabel" name="patient_name_label1">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>30</y>
-          <width>121</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border : none;
+       <property name="maximumSize">
+        <size>
+         <width>121</width>
+         <height>21</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Cascadia Code</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border : none;
 </string>
-        </property>
-        <property name="text">
-         <string>Patient Name</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="patient_profile_logo1">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>54</width>
-          <height>54</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: #B6D0E2; 
+       </property>
+       <property name="text">
+        <string>Patient Name</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="patient_profile_logo1">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>54</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Cascadia Code</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #B6D0E2; 
 border-radius: 25px; 
 border: 2px solid #B6D0F7; 
 min-width: 50px; 
 min-height: 50px; 
 max-width: 50px;
 max-height: 50px; </string>
-        </property>
-        <property name="text">
-         <string>PN</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="appt_time_label">
-        <property name="geometry">
-         <rect>
-          <x>690</x>
-          <y>20</y>
-          <width>91</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(18, 137, 131, 0.15);
-color: #128983; text-align: center;
-</string>
-        </property>
-        <property name="text">
-         <string>Time</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="status">
-        <property name="geometry">
-         <rect>
-          <x>570</x>
-          <y>20</y>
-          <width>91</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(18, 137, 131, 0.15);
-color: #128983; text-align: center;
-</string>
-        </property>
-        <property name="text">
-         <string>Approved</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
+       </property>
+       <property name="text">
+        <string>PN</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
-     </item>
-     <item>
-      <widget class="QFrame" name="patient_frame2">
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+      <widget class="QLabel" name="appt_time_label">
+       <property name="geometry">
+        <rect>
+         <x>690</x>
+         <y>20</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+       <property name="minimumSize">
+        <size>
+         <width>91</width>
+         <height>41</height>
+        </size>
        </property>
-       <widget class="QLabel" name="patient_name_label2">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>30</y>
-          <width>121</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border : none;
-</string>
-        </property>
-        <property name="text">
-         <string>Patient Name</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="patient_profile_logo_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>54</width>
-          <height>54</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: #B6D0E2; /* Fill color */
-border-radius: 25px; /* Radius to make it round */
-border: 2px solid #B6D0F7; /*  Border color and thickness */
-min-width: 50px; /* Ensure the QLabel is a circle */
-min-height: 50px; /* Ensure the QLabel is a circle */
-max-width: 50px; /* Ensure the QLabel is a circle */
-max-height: 50px; /* Ensure the QLabel is a circle */</string>
-        </property>
-        <property name="text">
-         <string>PN</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="appt_time_label2">
-        <property name="geometry">
-         <rect>
-          <x>690</x>
-          <y>20</y>
-          <width>91</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(18, 137, 131, 0.15);
+       <property name="maximumSize">
+        <size>
+         <width>91</width>
+         <height>41</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(18, 137, 131, 0.15);
 color: #128983; text-align: center;
 </string>
-        </property>
-        <property name="text">
-         <string>Time</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="status_2">
-        <property name="geometry">
-         <rect>
-          <x>570</x>
-          <y>20</y>
-          <width>91</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(246, 32, 136, 0.15);
-color: #F62088; text-align: center;
-</string>
-        </property>
-        <property name="text">
-         <string>Pending</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
+       </property>
+       <property name="text">
+        <string>Time</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
-     </item>
-     <item>
-      <widget class="QFrame" name="patient_frame2_2">
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+      <widget class="QLabel" name="status">
+       <property name="geometry">
+        <rect>
+         <x>570</x>
+         <y>20</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+       <property name="minimumSize">
+        <size>
+         <width>91</width>
+         <height>41</height>
+        </size>
        </property>
-       <widget class="QLabel" name="patient_name_label2_2">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>30</y>
-          <width>121</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border : none;
-</string>
-        </property>
-        <property name="text">
-         <string>Patient Name</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="patient_profile_logo_3">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>54</width>
-          <height>54</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: #B6D0E2; /* Fill color */
-border-radius: 25px; /* Radius to make it round */
-border: 2px solid #B6D0F7; /*  Border color and thickness */
-min-width: 50px; /* Ensure the QLabel is a circle */
-min-height: 50px; /* Ensure the QLabel is a circle */
-max-width: 50px; /* Ensure the QLabel is a circle */
-max-height: 50px; /* Ensure the QLabel is a circle */</string>
-        </property>
-        <property name="text">
-         <string>PN</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="appt_time_label2_2">
-        <property name="geometry">
-         <rect>
-          <x>690</x>
-          <y>20</y>
-          <width>91</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(18, 137, 131, 0.15);
+       <property name="maximumSize">
+        <size>
+         <width>91</width>
+         <height>41</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(18, 137, 131, 0.15);
 color: #128983; text-align: center;
 </string>
-        </property>
-        <property name="text">
-         <string>Time</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
+       </property>
+       <property name="text">
+        <string>Approved</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
-     </item>
-    </layout>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QFrame" name="frame">
