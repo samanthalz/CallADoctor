@@ -31,29 +31,6 @@ border-bottom-left-radius: 30px;
 border-top-left-radius: 30px;
 text-align: center;</string>
    </property>
-   <widget class="QPushButton" name="noti_icon">
-    <property name="geometry">
-     <rect>
-      <x>1380</x>
-      <y>30</y>
-      <width>70</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/icon/notification.png</normaloff>../Images/icon/notification.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>40</width>
-      <height>40</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QFrame" name="user_frame">
     <property name="geometry">
      <rect>
@@ -117,7 +94,7 @@ text-align: center;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="search_clinic">
+   <widget class="QLineEdit" name="search_doctor">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -189,7 +166,7 @@ border: 1px solid gray;
        <rect>
         <x>100</x>
         <y>30</y>
-        <width>121</width>
+        <width>581</width>
         <height>21</height>
        </rect>
       </property>
@@ -274,7 +251,7 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
        <rect>
         <x>3</x>
         <y>123</y>
-        <width>701</width>
+        <width>710</width>
         <height>641</height>
        </rect>
       </property>
@@ -283,6 +260,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         <layout class="QHBoxLayout" name="phone_layout">
          <item>
           <widget class="QLabel" name="phone_label">
+           <property name="minimumSize">
+            <size>
+             <width>301</width>
+             <height>153</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>301</width>
+             <height>153</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Consolas</family>
@@ -307,7 +296,13 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
            <property name="minimumSize">
             <size>
              <width>390</width>
-             <height>102</height>
+             <height>153</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>390</width>
+             <height>153</height>
             </size>
            </property>
            <property name="font">
@@ -332,6 +327,18 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         <layout class="QHBoxLayout" name="email_layout">
          <item>
           <widget class="QLabel" name="email_label">
+           <property name="minimumSize">
+            <size>
+             <width>301</width>
+             <height>153</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>301</width>
+             <height>153</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Consolas</family>
@@ -353,7 +360,13 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
            <property name="minimumSize">
             <size>
              <width>390</width>
-             <height>102</height>
+             <height>153</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>390</width>
+             <height>153</height>
             </size>
            </property>
            <property name="font">
@@ -375,12 +388,24 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="add_layout">
+        <layout class="QHBoxLayout" name="hour_layout">
          <property name="spacing">
-          <number>135</number>
+          <number>6</number>
          </property>
          <item>
-          <widget class="QLabel" name="add_label">
+          <widget class="QLabel" name="hour_label">
+           <property name="minimumSize">
+            <size>
+             <width>301</width>
+             <height>153</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>301</width>
+             <height>153</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Consolas</family>
@@ -398,7 +423,19 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="add_display">
+          <widget class="QLabel" name="hour_display">
+           <property name="minimumSize">
+            <size>
+             <width>390</width>
+             <height>153</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>390</width>
+             <height>153</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Consolas</family>
@@ -424,12 +461,24 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="opening_hr_layout">
+        <layout class="QHBoxLayout" name="speciality_layout">
          <property name="sizeConstraint">
           <enum>QLayout::SetFixedSize</enum>
          </property>
          <item>
           <widget class="QLabel" name="specialization_label">
+           <property name="minimumSize">
+            <size>
+             <width>301</width>
+             <height>153</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>301</width>
+             <height>153</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Consolas</family>
@@ -450,11 +499,17 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="hour_display">
+          <widget class="QLabel" name="speciality_display">
            <property name="minimumSize">
             <size>
              <width>390</width>
-             <height>0</height>
+             <height>153</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>390</width>
+             <height>153</height>
             </size>
            </property>
            <property name="font">
@@ -512,9 +567,9 @@ max-height: 50px; /* Ensure the QLabel is a circle */</string>
    <widget class="QComboBox" name="filter">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>520</x>
       <y>170</y>
-      <width>151</width>
+      <width>341</width>
       <height>31</height>
      </rect>
     </property>
@@ -530,16 +585,11 @@ border: 1px solid gray;</string>
     </property>
     <item>
      <property name="text">
-      <string>Recent</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Oldest</string>
+      <string>All</string>
      </property>
     </item>
    </widget>
-   <widget class="QLabel" name="upcoming_label">
+   <widget class="QLabel" name="doc_label">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -609,157 +659,116 @@ border: 1px solid gray;</string>
      <string>Add New Doctor</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
-      <x>62</x>
-      <y>290</y>
-      <width>801</width>
-      <height>181</height>
+      <x>60</x>
+      <y>310</y>
+      <width>841</width>
+      <height>731</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="doctorlist_layout">
-     <item>
-      <widget class="QFrame" name="doc_frame_1">
-       <property name="maximumSize">
-        <size>
-         <width>799</width>
-         <height>87</height>
-        </size>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <widget class="QLabel" name="doc_name_label_1">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>30</y>
-          <width>121</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border : none;
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>841</width>
+       <height>731</height>
+      </rect>
+     </property>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>803</width>
+        <height>701</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="vLayout">
+       <item>
+        <widget class="QFrame" name="doc_frame_1">
+         <property name="minimumSize">
+          <size>
+           <width>801</width>
+           <height>81</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>801</width>
+           <height>81</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QLabel" name="doc_name_label_1">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>30</y>
+            <width>661</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Cascadia Code</family>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border : none;
 </string>
-        </property>
-        <property name="text">
-         <string>Doctor Name</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="doc_logo_label_1">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>54</width>
-          <height>54</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: #B6D0E2; 
+          </property>
+          <property name="text">
+           <string>Doctor Name</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="doc_logo_label_1">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>54</width>
+            <height>54</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Cascadia Code</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #B6D0E2; 
 border-radius: 25px; 
 border: 2px solid #B6D0F7; 
 min-width: 50px; 
 min-height: 50px; 
 max-width: 50px;
 max-height: 50px; </string>
-        </property>
-        <property name="text">
-         <string>D</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QFrame" name="doc_frame_2">
-       <property name="maximumSize">
-        <size>
-         <width>799</width>
-         <height>86</height>
-        </size>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <widget class="QLabel" name="doc_name_label_2">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>30</y>
-          <width>121</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border : none;
-</string>
-        </property>
-        <property name="text">
-         <string>Doctor Name</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="doc_logo_label_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>54</width>
-          <height>54</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cascadia Code</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: #B6D0E2; /* Fill color */
-border-radius: 25px; /* Radius to make it round */
-border: 2px solid #B6D0F7; /*  Border color and thickness */
-min-width: 50px; /* Ensure the QLabel is a circle */
-min-height: 50px; /* Ensure the QLabel is a circle */
-max-width: 50px; /* Ensure the QLabel is a circle */
-max-height: 50px; /* Ensure the QLabel is a circle */</string>
-        </property>
-        <property name="text">
-         <string>D</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </widget>
-     </item>
-    </layout>
+          </property>
+          <property name="text">
+           <string>D</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QFrame" name="frame">

@@ -234,8 +234,7 @@ class CA_patientsPageWidget(QWidget):
         self.settings_navigation_2.setMinimumSize(QSize(85, 96))
         self.settings_navigation_2.setMaximumSize(QSize(85, 96))
         self.settings_navigation_2.setFont(font10)
-        self.settings_navigation_2.setStyleSheet(u"border: none; \n"
-"color: white;")
+        self.settings_navigation_2.setStyleSheet(u"border: none; color: white;")
         icon4 = QIcon()
         icon4.addFile(u"CAD/Images/nav_images/settings_page_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settings_navigation_2.setIcon(icon4)
@@ -252,8 +251,7 @@ class CA_patientsPageWidget(QWidget):
         self.logout_navigation_2.setMinimumSize(QSize(85, 96))
         self.logout_navigation_2.setMaximumSize(QSize(85, 96))
         self.logout_navigation_2.setFont(font10)
-        self.logout_navigation_2.setStyleSheet(u"border: none; \n"
-"color: white;")
+        self.logout_navigation_2.setStyleSheet(u"border: none;color: white;")
         icon5 = QIcon()
         icon5.addFile(u"CAD/Images/nav_images/logout_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logout_navigation_2.setIcon(icon5)
