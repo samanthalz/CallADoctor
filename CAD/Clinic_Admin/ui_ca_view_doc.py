@@ -722,16 +722,16 @@ class CA_view_docWidget(QWidget):
 
     def remove_doc(self, doctor_id):
             clinic_id = self.clinic_id
-            print(f"clinic id is{clinic_id}")
-            print(f"doctor id is{doctor_id}")
+            #print(f"clinic id is{clinic_id}")
+            #print(f"doctor id is{doctor_id}")
 
             if clinic_id:
                     try:
                         clinic_data = db.child("clinic").child(clinic_id).get().val()
-                        print(clinic_data)
+                        #print(clinic_data)
                         if clinic_data:
                                 doctors = clinic_data.get("doctors", {})
-                                print("doctors!")
+                                #print("doctors!")
                                 if doctor_id in doctors:
                                         db.child("clinic").child(clinic_id).child("doctors").child(doctor_id).remove()
                                 
