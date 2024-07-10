@@ -342,12 +342,14 @@ class CA_patientsPageWidget(QWidget):
                         doctorId = appointment_data.get("doctor_id", "N/A")
                         status = appointment_data.get("status", "N/A")
                         
+                        
                         # Initialize patient_data dictionary with appointment details
                         patient_data = {
                             "med_concern": med_concern,
                             "time": time,
                             "date": date,
-                            "status": status
+                            "status": status,
+                            "appointment_id": appointment_id
                         }
 
                         # Fetch doctor name using doctorId from the appointment
@@ -383,6 +385,8 @@ class CA_patientsPageWidget(QWidget):
                         widget.deleteLater()
                         
     def populate_patient_info(self, search_query=None):
+        db = self.initialize_db()
+
         self.clear_layout()
 
         visible_patients = []
@@ -658,7 +662,9 @@ class CA_patientsPageWidget(QWidget):
         reject_btn.setFont(font6)
         reject_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white; border: 1px solid gray;")
         reject_btn.setText("Reject")
-        reject_btn.clicked.connect(self.reject_patient)
+        appointment_id = patient_data.get("appointment_id", "Unknown")
+        
+        reject_btn.clicked.connect(lambda: self.reject_patient(appointment_id))
         
         approved_btn = QPushButton(patient_details_inner)
         approved_btn.setObjectName(u"approved_btn")
@@ -670,6 +676,8 @@ class CA_patientsPageWidget(QWidget):
         approved_btn.setStyleSheet(u"background-color: rgb(18, 137, 131);border-radius: 16px; color: white; border: 1px solid gray;")
         approved_btn.clicked.connect(self.approve_patient)
         status = patient_data.get("status")
+        
+        approved_btn.clicked.connect(lambda: self.approve_patient(appointment_id))
 
         if status == "pending":
                 # Display the reject and approve buttons
@@ -737,40 +745,24 @@ class CA_patientsPageWidget(QWidget):
         self.populate_patient_info()
         self.hide_patient_details_frame()
 
-    def reject_patient(self):
-        clinic_name = self.temp_clinic_name
-        clinic_id = None
 
-        if not self.clinic_data_list:
-            return None
-
-        # Fetch the clinic data directly from the database
-        try:
-            clinic_data_list = self.db.child("clinic").get().val()
-        except Exception as e:
-            print(f"Failed to fetch clinic data: {e}")
-            return
-
-        # Find the clinic ID by clinic name
-        for cid, clinic_data in clinic_data_list.items():
-            if clinic_data.get("clinic_name") == clinic_name:
-                clinic_id = cid
-                break
-
-        if clinic_id:
+    def reject_patient(self, appointment_id):
+        #print(appointment_id)
+        if appointment_id:
             try:
-                # Remove the clinic data
-                self.db.child("clinic").child(clinic_id).remove()
+                # Fetch the appointments from the database
+                appointments = db.child("appointment").get()
 
-                # Find and remove the associated appointments
-                appointments = self.db.child("appointment").get()
                 for appointment in appointments.each():
                     appointment_data = appointment.val()
-                    if appointment_data.get("clinic_id").lower() == clinic_id.lower():
-                        appointment_id = appointment.key()
-                        self.db.child("appointment").child(appointment_id).remove()
+                    current_appointment_id = appointment.key()  # Current appointment ID
+                    #print(f"Current id{current_appointment_id}")
 
-                QMessageBox.information(self, "Success", "Appointment rejected and removed from the database.")
+                    # Check if the current appointment ID matches the given appointment ID
+                    if current_appointment_id and current_appointment_id.lower() == appointment_id.lower():
+                        db.child("appointment").child(appointment_id).update({"status": "rejected"})
+
+                QMessageBox.information(self, "Success", "Appointment rejected successfully.")
 
                 self.hide_patient_details_frame()
 
@@ -778,7 +770,7 @@ class CA_patientsPageWidget(QWidget):
                 #self.patient_data_list = [patient for patient in self.patient_data_list if patient.get("patient_name") != clinic_name]
 
                 # Refresh the clinic list after removal
-                self.populate_patient_info()
+                self.fetch_patient_data()
 
                 # Hide the clinic details
                 self.hide_patient_details_frame()
@@ -789,39 +781,34 @@ class CA_patientsPageWidget(QWidget):
         else:
             QMessageBox.warning(self, "No Patient Selected", "Please select a patient to reject.")
 
-    def approve_patient(self):
-        db = self.initialize_db()
-        clinic_name = self.temp_clinic_name
-        clinic_id = None
+    def approve_patient(self, appointment_id):
+        if appointment_id:
+            try:
+                # Fetch the appointments from the database
+                appointments = db.child("appointment").get()
 
+                for appointment in appointments.each():
+                    current_appointment_id = appointment.key()  # Current appointment ID
+                    #print(f"Current id{current_appointment_id}")
 
-        if not self.patient_data_list:
-                return None
+                    # Check if the current appointment ID matches the given appointment ID
+                    if current_appointment_id and current_appointment_id.lower() == appointment_id.lower():
+                        db.child("appointment").child(appointment_id).update({"status": "approved"})
 
-        # Fetch the clinic data directly from the database
-        try:
-                clinic_data_list = db.child("clinic").get().val()
-        except Exception as e:
-                print(f"Failed to fetch clinic data: {e}")
-                return
+                QMessageBox.information(self, "Success", "Appointment approved.")
 
-        # Find the clinic ID by clinic name
-        for cid, clinic_data in clinic_data_list.items():
-                if clinic_data.get("clinic_name") == clinic_name:
-                        clinic_id = cid
-                        break
+                self.hide_patient_details_frame()
 
-        if clinic_id:
-                try:
-                        # Update clinic_status to "approved"
-                        db.child("appointment").child(clinic_id).update({"status": "approved"})
+                # Remove the rejected appoinment from patient_data_list
+                #self.patient_data_list = [patient for patient in self.patient_data_list if patient.get("patient_name") != clinic_name]
 
-                
-                        QMessageBox.information(self, "Success", "Patient approved successfully.")
-                        self.hide_patient_details_frame()
-                        self.fetch_patient_data()
-                        self.hide()  # Hide the clinic details
+                # Refresh the clinic list after removal
+                self.fetch_patient_data()
 
-                except Exception as e:
-                        print(f"Failed to approve patient: {e}")
-                        QMessageBox.critical(self, "Error", f"Failed to approve patient: {str(e)}")
+                # Hide the clinic details
+                self.hide_patient_details_frame()
+
+            except Exception as e:
+                print(f"Failed to remove patient: {e}")
+                QMessageBox.critical(self, "Error", f"Failed to approve appointment: {str(e)}")
+    

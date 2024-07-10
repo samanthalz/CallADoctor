@@ -358,6 +358,7 @@ class CA_view_docWidget(QWidget):
                         
                         for doctor_id, doctor_info in doctors.items():
                                 # Add fetched doctor data to the list
+                                doctor_info['doctor_id'] = doctor_id
                                 #print(f"doc info is {doctor_info}")
                                 self.doctor_data_list.append(doctor_info)
 
@@ -618,13 +619,17 @@ class CA_view_docWidget(QWidget):
         remove_doc_btn.setFont(font6)
         remove_doc_btn.setStyleSheet(u"background-color: #E73030; border-radius: 16px; color: white; border: 1px solid gray;")
         remove_doc_btn.setText("Remove Doctor")
-        remove_doc_btn.clicked.connect(self.remove_doc)
+       #print(f"doctor id is {doctor_data.get("doctor_id", "Unknown")}")
+        doctor_id = doctor_data.get("doctor_id", "Unknown")
+        
+        remove_doc_btn.clicked.connect(lambda: self.remove_doc(doctor_id))
 
         return doctor_details_outer
         
                         
     def create_popup_widget(self, doctor_data):
         self.hide_doctor_details_frame()
+        
         self.doctors_details_frame = self.create_doctor_details_frame(doctor_data)
         self.doctors_details_frame.setVisible(True)
         
@@ -700,58 +705,6 @@ class CA_view_docWidget(QWidget):
         self.populate_doctor_info()
         self.hide_doctor_details_frame()
                         
-        def remove_doc(self):
-            clinic_name = self.temp_clinic_name
-            clinic_id = None
-            doctors_id = None
-
-            if not self.clinic_data_list:
-                    return None
-
-            # Fetch the clinic data directly from the database
-            try:
-                    clinic_data_list = db.child("clinic").get().val()
-            except Exception as e:
-                    print(f"Failed to fetch clinic data: {e}")
-                    return
-
-            # Find the clinic ID by clinic name
-            for cid, clinic_data in clinic_data_list.items():
-                    if clinic_data.get("clinic_name") == clinic_name:
-                            clinic_id = cid
-                            break
-
-            if clinic_id:
-                    try:
-                            db.child("clinic").child(clinic_id).remove()
-                            
-                            # Find and remove the associated doctor
-                            doctors = db.child("doctors").get()
-                            for doctors in doctors.each():
-                                    doctors = doctors.val()
-                                    if clinic_data.get("clinic_id").lower() == clinic_id.lower():
-                                            doctors_id = doctors.key()
-                                            db.child("doctors").child(doctors_id).remove()
-                                            break
-                                    
-                            QMessageBox.information(self, "Success", "Doctor removed from the database.")
-
-                            self.hide_doctors_details_frame()
-                            
-                            # Remove the doctor from doc_data_list
-                            #self.doc_data_list = [doctors for doctors in self.doc_data_list if doctors.get("doctor_name") != doctor_name]
-
-                            # Refresh the clinic list after removal
-                            self.populate_doctor_info()
-
-                            # Hide the clinic details
-                            self.hide_doctors_details_frame()
-
-                    except Exception as e:
-                            print(f"Failed to remove doctor: {e}")
-                            QMessageBox.critical(self, "Error", f"Failed to remove doctor: {str(e)}")
-            else:
-                    QMessageBox.warning(self, "No Doctor Selected", "Please select a doctor to remove.")
 
     def fetch_clinic_data(self):
         db = self.initialize_db()
@@ -767,52 +720,35 @@ class CA_view_docWidget(QWidget):
         except Exception as e:
             print(f"An error occurred while fetching data: {e}")
 
-    def remove_doc(self):
-            clinic_name = self.temp_clinic_name
-            clinic_id = None
-            doctors_id = None
-
-            if not self.clinic_data_list:
-                    return None
-
-            # Fetch the clinic data directly from the database
-            try:
-                    clinic_data_list = db.child("clinic").get().val()
-            except Exception as e:
-                    print(f"Failed to fetch clinic data: {e}")
-                    return
-
-            # Find the clinic ID by clinic name
-            for cid, clinic_data in clinic_data_list.items():
-                    if clinic_data.get("clinic_name") == clinic_name:
-                            clinic_id = cid
-                            break
+    def remove_doc(self, doctor_id):
+            clinic_id = self.clinic_id
+            print(f"clinic id is{clinic_id}")
+            print(f"doctor id is{doctor_id}")
 
             if clinic_id:
                     try:
-                            db.child("clinic").child(clinic_id).remove()
-                            
-                            # Find and remove the associated doctor
-                            doctors = db.child("doctors").get()
-                            for doctors in doctors.each():
-                                    doctors = doctors.val()
-                                    if clinic_data.get("clinic_id").lower() == clinic_id.lower():
-                                            doctors_id = doctors.key()
-                                            db.child("doctors").child(doctors_id).remove()
-                                            break
-                                    
-                            QMessageBox.information(self, "Success", "Doctor removed from the database.")
+                        clinic_data = db.child("clinic").child(clinic_id).get().val()
+                        print(clinic_data)
+                        if clinic_data:
+                                doctors = clinic_data.get("doctors", {})
+                                print("doctors!")
+                                if doctor_id in doctors:
+                                        db.child("clinic").child(clinic_id).child("doctors").child(doctor_id).remove()
+                                
 
-                            self.hide_doctor_details_frame()
-                            
-                            # Remove the doctor from doc_data_list
-                            #self.doc_data_list = [doctors for doctors in self.doc_data_list if doctors.get("doctor_name") != doctor_name]
+                                        
+                                        QMessageBox.information(self, "Success", "Doctor removed from the database.")
 
-                            # Refresh the clinic list after removal
-                            self.populate_doctor_info()
+                                        self.hide_doctor_details_frame()
+                                        
+                                        # Remove the doctor from doc_data_list
+                                        #self.doc_data_list = [doctors for doctors in self.doc_data_list if doctors.get("doctor_name") != doctor_name]
+
+                                        # Refresh the clinic list after removal
+                                        self.populate_doctor_info()
 
                     except Exception as e:
-                            print(f"Failed to remove doctor: {e}")
-                            QMessageBox.critical(self, "Error", f"Failed to remove doctor: {str(e)}")
+                        print(f"Failed to remove doctor: {e}")
+                        QMessageBox.critical(self, "Error", f"Failed to remove doctor: {str(e)}")
             else:
-                    QMessageBox.warning(self, "No Doctor Selected", "Please select a doctor to remove.")
+                QMessageBox.warning(self, "No Doctor Selected", "Please select a doctor to remove.")
