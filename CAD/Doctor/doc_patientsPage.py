@@ -130,6 +130,7 @@ class PatientsPageWidget(QWidget):
                 if not active_medication_list:
                         active_medication_list.append("No medication")
 
+
                 # update text of selected patient:   
                 self.selected_patient_name_label.setText(patient_name)
                 self.prescription_display.setText(", ".join(active_medication_list))
@@ -657,6 +658,14 @@ class PatientsPageWidget(QWidget):
         self.settings_navigation.setText(_translate("Form", "Settings"))
         self.logout_navigation.setText(_translate("Form", "Logout"))
 
+
+    def showMessageBox(self, title, message, success=False):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setWindowTitle(title)
+        msgBox.setText(message)
+        msgBox.setStandardButtons(QMessageBox.Ok)
+        msgBox.exec()
 
     @pyqtSlot()
     def emitHomeBtn(self):
