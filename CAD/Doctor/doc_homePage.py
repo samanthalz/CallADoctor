@@ -152,7 +152,9 @@ class Doc_HomeWidget(QWidget):
              self.verticalLayout_pastAppt.addWidget(appt_frame)
 
         # Refresh the layout after adding all frames
+        self.verticalLayout_upcomingAppt.setAlignment(Qt.AlignTop)
         self.verticalLayout_upcomingAppt.update()
+        self.verticalLayout_pastAppt.setAlignment(Qt.AlignTop)
         self.verticalLayout_pastAppt.update()
 
 
@@ -216,6 +218,7 @@ class Doc_HomeWidget(QWidget):
                 self.verticalLayout_schedule.addWidget(appt_frame)
 
         # Refresh the layout after adding all frames
+        self.verticalLayout_schedule.setAlignment(Qt.AlignTop)
         self.verticalLayout_schedule.update()
     
     
@@ -338,7 +341,7 @@ class Doc_HomeWidget(QWidget):
 
 
         self.upcoming_label = QtWidgets.QLabel(self.appointment_frame)
-        self.upcoming_label.setGeometry(QtCore.QRect(40, 20, 101, 41))
+        self.upcoming_label.setGeometry(QtCore.QRect(40, 0, 101, 41))
         font = QtGui.QFont()
         font.setFamily("Cascadia Code")
         font.setPointSize(11)
@@ -347,7 +350,7 @@ class Doc_HomeWidget(QWidget):
         self.upcoming_label.setObjectName("upcoming_label")
        
         self.past_label = QtWidgets.QLabel(self.appointment_frame)
-        self.past_label.setGeometry(QtCore.QRect(500, 20, 101, 41))
+        self.past_label.setGeometry(QtCore.QRect(500, 0, 101, 41))
         font = QtGui.QFont()
         font.setFamily("Cascadia Code")
         font.setPointSize(11)
@@ -357,7 +360,7 @@ class Doc_HomeWidget(QWidget):
         
         
         self.schedule_frame = QtWidgets.QFrame(self.background)
-        self.schedule_frame.setGeometry(QtCore.QRect(1170, 140, 481, 831))
+        self.schedule_frame.setGeometry(QtCore.QRect(1170, 180, 481, 831))
         self.schedule_frame.setStyleSheet("border: 2px solid #FFFFFF;\n"
 "border-radius: 10px;")
         self.schedule_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -366,8 +369,8 @@ class Doc_HomeWidget(QWidget):
         self.verticalLayout_schedule = QVBoxLayout(self.schedule_frame)
         self.schedule_frame.setLayout(self.verticalLayout_schedule)
         self.schedule_frame.setObjectName("schedule_frame")
-        self.todays_schedule_label = QtWidgets.QLabel(self.schedule_frame)
-        self.todays_schedule_label.setGeometry(QtCore.QRect(20, 10, 451, 41))
+        self.todays_schedule_label = QtWidgets.QLabel(self.background)
+        self.todays_schedule_label.setGeometry(QtCore.QRect(1180, 140, 451, 41))
         font = QtGui.QFont()
         font.setFamily("Cascadia Code")
         font.setPointSize(11)

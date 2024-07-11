@@ -250,7 +250,7 @@ class UpdateRecordWidget(QWidget):
 "border-top-left-radius: 30px;")
         self.whitebg.setObjectName("whitebg")
         self.update_title = QtWidgets.QLabel(self.whitebg)
-        self.update_title.setGeometry(QtCore.QRect(60, 40, 451, 81))
+        self.update_title.setGeometry(QtCore.QRect(60, 40, 600, 81))
         font = QtGui.QFont()
         font.setFamily("Consolas")
         font.setPointSize(28)
