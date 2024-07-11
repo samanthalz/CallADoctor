@@ -16,6 +16,7 @@ class CA_add_docWidget(QWidget):
     profile_btn_clicked = pyqtSignal()
     settings_navigation_btn_clicked = pyqtSignal()
     back_btn_clicked = pyqtSignal()
+    redirect_doc = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -389,15 +390,16 @@ class CA_add_docWidget(QWidget):
         qualification = self.qualification_input.text().strip()
         contact_number = self.phone_input.text().strip()
         doctor_email = self.email_input.text().strip()
+        doctor_img = self.doc_img_path
 
         # Validating input fields (example validation)
         if not doctor_name or not specialization or not qualification or not contact_number or not doctor_email:
             QMessageBox.warning(self, "Warning", "Please fill in all fields.")
             return
 
-        self.submitForm(doctor_name, specialization, qualification, contact_number, doctor_email)
+        self.submitForm(doctor_name, specialization, qualification, contact_number, doctor_email, doctor_img)
 
-    def submitForm(self, doctor_name, specialization, qualification, contact_number, doctor_email):
+    def submitForm(self, doctor_name, specialization, qualification, contact_number, doctor_email, doctor_img):
         try:
         # Generate the new clinic ID
             new_doctor_id = self.generate_new_doctor_id()
@@ -409,8 +411,17 @@ class CA_add_docWidget(QWidget):
                     "qualification": qualification,
                     "contact_number": contact_number,
                     "doctor_email": doctor_email,
+                    "doctor_img" : doctor_img
                 })
-                QMessageBox.information(self, "Success", "Form submitted successfully.")
+                msgBox = QMessageBox()
+                msgBox.setIcon(QMessageBox.Information)
+                msgBox.setText("Form submitted successfully.")
+                msgBox.setInformativeText("New doctor added.")
+                msgBox.setStandardButtons(QMessageBox.Ok)
+                msgBox.setDefaultButton(QMessageBox.Ok)
+                msgBox.buttonClicked.connect(self.redirect_doc)
+                msgBox.exec_()
+                self.clearForm()
                 #self.emitRedLogin()
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to submit form: {str(e)}")
@@ -439,13 +450,17 @@ class CA_add_docWidget(QWidget):
         except Exception as e:
             print(f"Error generating new doctor ID: {e}")
 
+    def redirectToDocWidget(self, button):
+        if button.text() == "OK":
+            self.redirect_doc.emit()
+
     def clearForm(self):
         self.name_input.clear()
         self.specialization_input.clear()
         self.qualification_input.clear()
         self.phone_input.clear()
         self.email_input.clear()
-
+        self.doc_img.clear()
 
 
     def fetch_doc_data(self):
