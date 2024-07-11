@@ -79,6 +79,7 @@ class HomeWidget(QWidget):
                 self.verticalLayout_activePres.addWidget(medicine_frame)
 
         # Refresh the layout after adding all frames
+        self.verticalLayout_activePres.setAlignment(Qt.AlignTop)
         self.verticalLayout_activePres.update()
                      
 
@@ -197,7 +198,10 @@ class HomeWidget(QWidget):
              self.verticalLayout_pastAppt.addWidget(appt_frame)
 
         # Refresh the layout after adding all frames
+        self.verticalLayout_upcomingAppt.setAlignment(Qt.AlignTop)
         self.verticalLayout_upcomingAppt.update()
+        
+        self.verticalLayout_pastAppt.setAlignment(Qt.AlignTop)
 
 
         return num_upcoming_appt, upcoming_appt_info # appt info is a list of dictionaries
