@@ -4,6 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
     QRadialGradient, QIntValidator, QRegExpValidator)
 from PyQt5.QtWidgets import *
+import os
 from connection import db
 
 
@@ -46,12 +47,27 @@ class CA_add_docWidget(QWidget):
         self.doc_label.setFont(font)
         self.doc_label.setWordWrap(True)
        
+        self.doc_img = QLabel(self.background)
+        self.doc_img.setObjectName(u"doc_img")
+        self.doc_img.setGeometry(QRect(120, 180, 200, 200))
+        self.doc_img.setStyleSheet(u"border-radius: 100px; \n"
+"background-color: #B6D0E2;  \n"
+"color: white; \n"
+"font-size: 16px;\n"
+"text-align: center;")
+        self.upload_img_btn = QPushButton(self.background)
+        self.upload_img_btn.setObjectName(u"upload_img_btn")
+        self.upload_img_btn.setGeometry(QRect(70, 420, 301, 51))
         font1 = QFont()
         font1.setFamily(u"Consolas")
         font1.setPointSize(12)
         font1.setBold(True)
         font1.setWeight(75)
-       
+        self.upload_img_btn.setFont(font1)
+        self.upload_img_btn.setStyleSheet(u"background-color: #B6D0E2; border-radius: 16px; padding: 60px; color: white;\\n border: 1px solid gray;")
+        self.upload_img_btn.clicked.connect(self.uploadImage)
+
+
         self.add_btn = QPushButton(self.background)
         self.add_btn.setObjectName(u"add_btn")
         self.add_btn.setGeometry(QRect(850, 950, 321, 50))
@@ -484,10 +500,25 @@ class CA_add_docWidget(QWidget):
                       break
         self.fetch_doc_data()
 
+    def uploadImage(self):
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.jpeg)")
+        if file_path:
+            # Display the image
+            pixmap = QPixmap(file_path)
+            self.doc_img.setPixmap(pixmap)
+            self.doc_img.setScaledContents(True)
+
+            # Save the image
+            image_name = os.path.basename(file_path)
+            self.doc_img_path = os.path.join("CAD/Images/doc_img", image_name)
+            pixmap.save(self.doc_img_path)
     # setupUi
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        self.doc_img.setText("")
+        self.upload_img_btn.setText(QCoreApplication.translate("Form", u"Upload Image", None))
         self.doc_label.setText(QCoreApplication.translate("Form", u"Add Doctor", None))
         self.add_btn.setText(QCoreApplication.translate("Form", u"Add", None))
         self.name.setText(QCoreApplication.translate("Form", u"Doctor Name", None))
