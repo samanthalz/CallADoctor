@@ -544,7 +544,7 @@ class Ui_MainWindow(QMainWindow):
         #print(f"clinic name is {clinic_name} temp is {temp}")
         self.stackedWidget.setCurrentWidget(self.viewClinicProfile)
         self.viewClinicProfile.display_clinic_profile(clinic_name, temp)
-        self.viewClinicProfile.fetch_clinic_info_from_db()
+        self.viewClinicProfile.fetch_clinic_info_from_db(clinic_name)
         
     def showPrefillPAFbWidget(self, fb_data):
         self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
