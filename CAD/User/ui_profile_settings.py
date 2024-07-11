@@ -14,6 +14,8 @@ class ProfileSettingsWidget(QWidget):
     home_btn_clicked = pyqtSignal()
     feedback_btn_clicked = pyqtSignal()
     change_pass_btn_clicked = pyqtSignal()
+    tnc_btn_clicked = pyqtSignal()
+    privacy_btn_clicked = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -234,7 +236,7 @@ class ProfileSettingsWidget(QWidget):
         self.policy_btn.setMaximumSize(QSize(546, 16777215))
         self.policy_btn.setFont(font3)
         self.policy_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
-
+        self.policy_btn.clicked.connect(self.emitPrivacyBtn)
         self.btn_layout.addWidget(self.policy_btn)
 
         self.tnc_btn = QPushButton(self.layoutWidget_2)
@@ -243,6 +245,7 @@ class ProfileSettingsWidget(QWidget):
         self.tnc_btn.setMaximumSize(QSize(546, 16777215))
         self.tnc_btn.setFont(font3)
         self.tnc_btn.setStyleSheet(u"border-radius: 10; background-color: transparent; color: black")
+        self.tnc_btn.clicked.connect(self.emitTncBtn)
 
         self.btn_layout.addWidget(self.tnc_btn)
 
@@ -416,6 +419,16 @@ class ProfileSettingsWidget(QWidget):
     def emitChangePassBtn(self):
         # Emit the custom signal
         self.change_pass_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitTncBtn(self):
+        # Emit the custom signal
+        self.tnc_btn_clicked.emit()
+        
+    @pyqtSlot()
+    def emitPrivacyBtn(self):
+        # Emit the custom signal
+        self.privacy_btn_clicked.emit()
         
     def set_user_id(self, user_id): 
         self.patient_id = user_id

@@ -147,6 +147,8 @@ class Ui_MainWindow(QMainWindow):
         self.profileSettingsWidget.home_btn_clicked.connect(self.showHomeWidget)
         self.profileSettingsWidget.change_pass_btn_clicked.connect(self.showChangePassEmailWidget)
         self.profileSettingsWidget.schedule_btn_clicked.connect(self.showViewApptWidget)
+        self.profileSettingsWidget.tnc_btn_clicked.connect(self.showTncWidget)
+        self.profileSettingsWidget.privacy_btn_clicked.connect(self.showPrivacyPolicyWidget)
         
         self.changePassEmailWidget.back_successful.connect(self.showProfileSettingsWidget)
         self.changePassEmailWidget.continue_successful.connect(self.showChangePassVerifyWidget)
@@ -434,10 +436,12 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showPrivacyPolicyRegisterWidget(self):
         self.stackedWidget.setCurrentWidget(self.privacyPolicyRegisterWidget)
+        self.privacyPolicyRegisterWidget.load_policy_from_db()
         
     @pyqtSlot()
     def showTncRegisterWidget(self):
         self.stackedWidget.setCurrentWidget(self.tncRegisterWidget)
+        self.tncRegisterWidget.load_terms_from_db()
 
     @pyqtSlot()
     def showHomeWidget(self):
@@ -558,7 +562,7 @@ class Ui_MainWindow(QMainWindow):
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
         self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
         self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
-        self.viewDoctorProfile.fetch_doctor_info_from_db()
+        self.viewDoctorProfile.fetch_doctor_info_from_db(doc_id, clinic_name)
 
 
     # Doctor widgets

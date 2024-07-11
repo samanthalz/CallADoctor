@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSignal, pyqtSlot, QRect
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QRect, Qt
 from PyQt5.QtGui import QColor
 
 from connection import db
@@ -85,6 +85,7 @@ class PatientsPageWidget(QWidget):
                 self.verticalLayout_patient_list.addWidget(patient_frame)
 
         # Refresh the layout after adding all frames
+        self.verticalLayout_patient_list.setAlignment(Qt.AlignTop)
         self.verticalLayout_patient_list.update()
         self.patient_list_frame.repaint()
 
