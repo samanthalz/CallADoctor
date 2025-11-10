@@ -5,7 +5,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 from datetime import datetime
-from connection import db
+from connection import db, auth
 
 class RegisterWidget(QWidget, QObject):
     registration_successful = pyqtSignal()  # Custom signal
@@ -383,14 +383,22 @@ class RegisterWidget(QWidget, QObject):
             'rights': 0
         }
         
-        # Get a reference to the 'patients' node
-        patients_ref = db.child('patients')
+        try:
+            # Create user in Firebase Auth
+            user = auth.create_user_with_email_and_password(email, password)
+            uid = user['localId']  # Firebase UID
+            
+            # Save to Realtime Database with auto-generated ID
+            patients_ref = db.child('patients')
+            new_patient_ref = patients_ref.push(patient_data) 
+            generated_key = new_patient_ref['name']  # This is the auto-generated key
+            
+            QMessageBox.information(self, "Success", f"Registration Successful!")
+            self.registration_successful.emit()  # Switch view
+            
+        except Exception as e:
+            QMessageBox.critical(self, "Registration Error", f"Failed to register: {str(e)}")
 
-        # Add the data to the 'patients' node in Realtime Database using the patient IC number as the key
-        patients_ref.child(ic).set(patient_data)
-        #print(f"Data added to the database with key: {ic}")
-
-        QMessageBox.information(self, "Success", "Registration Successful!")
         self.registration_successful.emit()  # Emit the signal to switch views
 
     def eventFilter(self, source, event):

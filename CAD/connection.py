@@ -12,5 +12,5 @@ firebaseConfig = {
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
-db = firebase.database()
-
+auth = firebase.auth()    # For authentication (signup/login)
+db = firebase.database()  # For Realtime Database
