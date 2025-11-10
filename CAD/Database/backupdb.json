@@ -13,7 +13,25 @@
       "clinic_status": "approved",
       "document_path": "none",
       "starting_year": "2000",
-      "uploadDoc_status": "No"
+      "uploadDoc_status": "No",
+      "doctors": {
+        "doctor1": {
+          "doctor_name": "Dr. John Doe",
+          "contact_number": "1987654321",
+          "doctor_hours": "10am to 5pm",
+          "doctor_img": "CAD\\Images\\doc_img\\doctor_1.jpg",
+          "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
+          "specialization": "Internal Medicine"
+        },
+        "doctor2": {
+          "doctor_name": "Dr. Jane Smith",
+          "contact_number": "1122334455",
+          "doctor_hours": "10am to 5pm",
+          "doctor_img": "CAD\\Images\\doc_img\\doctor_2.jpg",
+          "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
+          "specialization": "Pediatrics"
+        }
+      }
     },
     "clinic2": {
       "clinic_id": "clinic2",
@@ -28,7 +46,25 @@
       "clinic_status": "approved",
       "document_path": "none",
       "starting_year": "1990",
-      "uploadDoc_status": "No"
+      "uploadDoc_status": "No",
+      "doctors": {
+        "doctor1": {
+          "doctor_name": "Dr. Michael Johnson",
+          "contact_number": "1357924680",
+          "doctor_hours": "10am to 5pm",
+          "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
+          "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
+          "specialization": "Dermatology"
+        },
+        "doctor2": {
+          "doctor_name": "Dr. Sarah Lee",
+          "contact_number": "2468135790",
+          "doctor_hours": "10am to 5pm",
+          "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
+          "qualification": "MBBS (NSW), MRCP (UK), AM",
+          "specialization": "Obstetrics and Gynecology"
+        }
+      }
     },
     "clinic3": {
       "clinic_id": "clinic3",
@@ -43,7 +79,25 @@
       "clinic_status": "approved",
       "document_path": "none",
       "starting_year": "1956",
-      "uploadDoc_status": "No"
+      "uploadDoc_status": "No",
+      "doctors": {
+        "doctor1": {
+          "doctor_name": "Dr. Jack",
+          "contact_number": "1357924680",
+          "doctor_hours": "10am to 5pm",
+          "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
+          "qualification": "BDS (UM), MFDS RCSEd",
+          "specialization": "Dermatology"
+        },
+        "doctor2": {
+          "doctor_name": "Dr. Rose",
+          "contact_number": "2468135790",
+          "doctor_hours": "10am to 5pm",
+          "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
+          "qualification": "MBBS (NSW), MRCP (UK), AM",
+          "specialization": "Obstetrics and Gynecology"
+        }
+      }
     },
     "clinic4": {
       "clinic_id": "clinic4",
@@ -58,7 +112,25 @@
       "clinic_status": "approved",
       "document_path": "none",
       "starting_year": "2010",
-      "uploadDoc_status": "No"
+      "uploadDoc_status": "No",
+      "doctors": {
+        "doctor1": {
+          "doctor_name": "Dr. Steven",
+          "contact_number": "1357924680",
+          "doctor_hours": "10am to 5pm",
+          "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
+          "qualification": "BDS (UM), MFDS RCSEd",
+          "specialization": "Dermatology"
+        },
+        "doctor2": {
+          "doctor_name": "Dr. Stella Lee",
+          "contact_number": "2468135790",
+          "doctor_hours": "10am to 5pm",
+          "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
+          "qualification": "MBBS (NSW), MRCP (UK), AM",
+          "specialization": "Obstetrics and Gynecology"
+        }
+      }
     },
     "clinic5": {
       "clinic_id": "clinic5",
@@ -73,90 +145,16 @@
       "clinic_status": "pending",
       "document_path": "test_doc.txt",
       "starting_year": "2011",
-      "uploadDoc_status": "Yes"
-    }
-  },
-  "doctors": {
-    "clinic1": {
-      "doctor1": {
-        "doctor_name": "Dr. John Doe",
-        "contact_number": "1987654321",
-        "doctor_hours": "10am to 5pm",
-        "doctor_img": "CAD\\Images\\doc_img\\doctor_1.jpg",
-        "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
-        "specialization": "Internal Medicine"
-      },
-      "doctor2": {
-        "doctor_name": "Dr. Jane Smith",
-        "contact_number": "1122334455",
-        "doctor_hours": "10am to 5pm",
-        "doctor_img": "CAD\\Images\\doc_img\\doctor_2.jpg",
-        "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
-        "specialization": "Pediatrics"
-      }
-    },
-    "clinic2": {
-      "doctor1": {
-        "doctor_name": "Dr. Michael Johnson",
-        "contact_number": "1357924680",
-        "doctor_hours": "10am to 5pm",
-        "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
-        "qualification": "MD (USM), MMED (UKM), Adv Interv. Cardiology (AU), CMR (DE)",
-        "specialization": "Dermatology"
-      },
-      "doctor2": {
-        "doctor_name": "Dr. Sarah Lee",
-        "contact_number": "2468135790",
-        "doctor_hours": "10am to 5pm",
-        "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
-        "qualification": "MBBS (NSW), MRCP (UK), AM",
-        "specialization": "Obstetrics and Gynecology"
-      }
-    },
-    "clinic3": {
-      "doctor1": {
-        "doctor_name": "Dr. Jack",
-        "contact_number": "1357924680",
-        "doctor_hours": "10am to 5pm",
-        "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
-        "qualification": "BDS (UM), MFDS RCSEd",
-        "specialization": "Dermatology"
-      },
-      "doctor2": {
-        "doctor_name": "Dr. Rose",
-        "contact_number": "2468135790",
-        "doctor_hours": "10am to 5pm",
-        "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
-        "qualification": "MBBS (NSW), MRCP (UK), AM",
-        "specialization": "Obstetrics and Gynecology"
-      }
-    },
-    "clinic4": {
-      "doctor1": {
-        "doctor_name": "Dr. Steven",
-        "contact_number": "1357924680",
-        "doctor_hours": "10am to 5pm",
-        "doctor_img": "CAD\\Images\\doc_img\\doctor_3.png",
-        "qualification": "BDS (UM), MFDS RCSEd",
-        "specialization": "Dermatology"
-      },
-      "doctor2": {
-        "doctor_name": "Dr. Stella Lee",
-        "contact_number": "2468135790",
-        "doctor_hours": "10am to 5pm",
-        "doctor_img": "CAD\\Images\\doc_img\\doctor_4.jpeg",
-        "qualification": "MBBS (NSW), MRCP (UK), AM",
-        "specialization": "Obstetrics and Gynecology"
-      }
-    },
-    "clinic5": {
-      "doctor1": {
-        "doctor_name": "",
-        "contact_number": "",
-        "doctor_hours": "",
-        "doctor_img": "",
-        "qualification": "",
-        "specialization": ""
+      "uploadDoc_status": "Yes",
+      "doctors": {
+        "doctor1": {
+          "doctor_name": "",
+          "contact_number": "",
+          "doctor_hours": "",
+          "doctor_img": "",
+          "qualification": "",
+          "specialization": ""
+        }
       }
     }
   },
