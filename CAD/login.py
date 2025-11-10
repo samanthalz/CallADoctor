@@ -188,43 +188,45 @@ class LoginWidget(QWidget):
     # retranslateUi
     
     
-    def record_failed_attempt(self, id):
-        attempts_ref = db.child('login_attempts').child(id)
+    def record_failed_attempt(self, user_ic):
+        attempts_ref = db.child('login_attempts').child(user_ic)
         attempts = attempts_ref.get().val() or {}
-        
-        # Track count and timestamp of last attempt
-        count = attempts.get('count', 0) + 1
+
+        count = attempts.get('count', 0) + 1  # Always increment on failure
         last_attempt = datetime.now().timestamp()
-        
-        attempts_ref.set({
+
+        # Update this user's record and include their IC
+        db.child('login_attempts').child(user_ic).update({
             'count': count,
             'last_attempt': last_attempt
         })
-        
         return count, last_attempt
 
 
-    def can_attempt_login(self, id):
-        attempts_ref = db.child('login_attempts').child(id)
-        attempts = attempts_ref.get().val()
-        if not attempts:
+    def can_attempt_login(self, user_ic):
+        if not user_ic:
             return True, 0
-        
+
+        attempts_ref = db.child('login_attempts').child(user_ic)
+        attempts = attempts_ref.get().val() or {}
+
         count = attempts.get('count', 0)
         last_attempt = attempts.get('last_attempt', 0)
         now = datetime.now().timestamp()
-        
-        # Exponential backoff: wait time in seconds = 2^(count-3) * 10
-        if count <= 3:
-            return True, 0
-        else:
-            wait_time = 10 * 2**(count-3)
-            if now - last_attempt < wait_time:
-                return False, wait_time - (now - last_attempt)
-            else:
-                return True, 0
 
-    
+        if count < 3:
+            return True, 0  # First 3 attempts are always allowed
+
+        # Exponential backoff after 3 failed attempts
+        wait_time = 10 * 2 ** (count - 3)
+
+        if now - last_attempt < wait_time:
+            remaining = wait_time - (now - last_attempt)
+            return False, remaining
+        else:
+            return True, 0
+
+
     def validateLogin(self):
 
         ic = self.ic_input.text().strip()
@@ -239,7 +241,6 @@ class LoginWidget(QWidget):
         if not ic or not password:
             self.showMessageBox('Error', 'IC/ID number and password cannot be empty.')
             return
-        
 
         # ===== PATIENT LOGIN =====
         try:
@@ -274,7 +275,7 @@ class LoginWidget(QWidget):
                         return
 
                     # Login success → reset failed attempts
-                    
+                    db.child("login_attempts").child(ic).remove()
                     rights = patient_data.get('rights', 0)
                     self.showMessageBox('Info', 'Patient login successful')
                     self.login_successful.emit(rights)
@@ -282,14 +283,12 @@ class LoginWidget(QWidget):
                     return
 
                 except Exception as e:
-                    # --- Track failed attempt ---
                     count, last = self.record_failed_attempt(ic)
                     self.showMessageBox(
                         'Invalid Login',
                         f'Invalid IC/ID or password. Attempt {count}.'
                     )
                     return
-
 
         except Exception as e:
             self.showMessageBox('Error', f"Error fetching patient data: {e}")
