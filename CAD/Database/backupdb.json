@@ -158,6 +158,90 @@
       "uploadDoc_status": "Yes"
     }
   },
+  "clinic_admin": {
+    "admin1": {
+      "ca_email": "alice.admin@abcclinic.com",
+      "ca_id": "clinicadmin_abc",
+      "ca_name": "Alice Admin",
+      "ca_pass": "pass1234",
+      "clinic_id": "clinic1",
+      "rights": 2
+    },
+    "admin2": {
+      "ca_email": "bob.admin@xyzclinic.com",
+      "ca_id": "clinicadmin_xyz",
+      "ca_name": "Bob Admin",
+      "ca_pass": "pass5678",
+      "clinic_id": "clinic2",
+      "rights": 2
+    },
+    "admin3": {
+      "ca_email": "charlie.admin@o2clinic.com",
+      "ca_id": "clinicadmin_o2",
+      "ca_name": "Charlie Admin",
+      "ca_pass": "pass91011",
+      "clinic_id": "clinic3",
+      "rights": 2
+    },
+    "admin4": {
+      "ca_email": "diana.admin@lamwahee.com",
+      "ca_id": "clinicadmin_lwe",
+      "ca_name": "Diana Admin",
+      "ca_pass": "pass1213",
+      "clinic_id": "clinic4",
+      "rights": 2
+    }
+  },
+  "doctors": {
+    "docjack": {
+      "clinic_id": "clinic3",
+      "password": "pass111",
+      "rights": 1,
+      "user_id": "docjack"
+    },
+    "docjane": {
+      "clinic_id": "clinic1",
+      "password": "pass456",
+      "rights": 1,
+      "user_id": "docjane"
+    },
+    "docjohn": {
+      "clinic_id": "clinic1",
+      "password": "pass123",
+      "rights": 1,
+      "user_id": "docjohn"
+    },
+    "docmichael": {
+      "clinic_id": "clinic2",
+      "password": "pass789",
+      "rights": 1,
+      "user_id": "docmichael"
+    },
+    "docrose": {
+      "clinic_id": "clinic3",
+      "password": "pass222",
+      "rights": 1,
+      "user_id": "docrose"
+    },
+    "docsarah": {
+      "clinic_id": "clinic2",
+      "password": "pass321",
+      "rights": 1,
+      "user_id": "docsarah"
+    },
+    "docstellalee": {
+      "clinic_id": "clinic4",
+      "password": "pass444",
+      "rights": 1,
+      "user_id": "docstellalee"
+    },
+    "docsteven": {
+      "clinic_id": "clinic4",
+      "password": "pass333",
+      "rights": 1,
+      "user_id": "docsteven"
+    }
+  },
   "feedback": [
     {
       "date": "2025-11-10",
@@ -190,6 +274,22 @@
       "pa_id": "admin",
       "pa_pass": "admin",
       "rights": 4
+    }
+  },
+  "appointment": {
+    "appt1": {
+      "patient_id": "Xz2L8khTWJdLlxu8IAAzgCaIh252",
+      "clinic_id": "clinic1",
+      "date": "251111",
+      "time": "10:30",
+      "speciality": "Dermatology"
+    },
+    "appt2": {
+      "patient_id": "Xz2L8khTWJdLlxu8IAAzgCaIh252",
+      "clinic_id": "clinic2",
+      "date": "251112",
+      "time": "14:00",
+      "speciality": "Cardiology"
     }
   }
 }

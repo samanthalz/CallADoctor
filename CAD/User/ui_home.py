@@ -63,7 +63,7 @@ class HomeWidget(QWidget):
         medicine_frames = []
         if medical_records: 
             for record_id, record_info in enumerate(medical_records):
-                if int(record_info.get('patient_id')) == int(self.user_id):
+                if (record_info.get('patient_id')) == (self.user_id):
                      if  int(record_info.get('end_date')) >= int(current_date): 
                           for medicine in record_info.get('medicine'):
                                 active_medication_list.append(medicine)
@@ -159,7 +159,7 @@ class HomeWidget(QWidget):
         current_date = today.strftime("%y%m%d")
         if appointment_data: 
             for appt_id, appt_info in appointment_data.items():
-                if int(appt_info.get('patient_id')) == int(self.user_id):
+                if appt_info.get('patient_id') == self.user_id:
                     clinic_id = appt_info['clinic_id']
                     print(f'Clinic_id {clinic_id}')
                     for i, clinic in clinics.items():

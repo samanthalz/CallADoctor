@@ -1,7 +1,6 @@
-from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, pyqtSlot
+from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, pyqtSlot, QDateTime, QTimer, pyqtSignal, QObject
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QMessageBox
 
-# Import custom widgets
 from User.forgotpw import ForgotPwWidget
 from User.forgotpw_newpw import ForgotPw_newpwWidget
 from User.forgotpw_verification import ForgotPw_verificationWidget
@@ -48,16 +47,63 @@ from Clinic_Admin.ui_ca_approve_reject import CA_approved_rejectWidget
 from Clinic_Admin.ui_ca_add_doc import CA_add_docWidget
 
 
+class SessionManager(QObject):
+    """Manages user session state and authentication"""
+    
+    session_expired = pyqtSignal()
+    
+    def __init__(self):
+        super().__init__()
+        self.current_user_id = None
+        self.current_user_rights = None
+        self.is_authenticated = False
+        self.login_time = None
+        self.session_timeout = 30 * 60 * 1000  # 30 minutes in milliseconds
+        # self.session_timeout = 30 * 1000 # test 30 sec
+        self.session_timer = QTimer()
+        self.session_timer.timeout.connect(self._on_session_timeout)
+        
+    def start_session(self, user_id, rights):
+        """Start a new user session"""
+        self.current_user_id = user_id
+        self.current_user_rights = rights
+        self.is_authenticated = True
+        self.login_time = QDateTime.currentDateTime() 
+        self.session_timer.start(self.session_timeout)
+        
+    def end_session(self):
+        """End the current user session"""
+        self.current_user_id = None
+        self.current_user_rights = None
+        self.is_authenticated = False
+        self.login_time = None
+        self.session_timer.stop()
+        
+    def extend_session(self):
+        """Extend the session timeout"""
+        if self.is_authenticated:
+            self.session_timer.start(self.session_timeout)
+            
+    def _on_session_timeout(self):
+        """Handle session timeout"""
+        self.end_session()
+        self.session_expired.emit()  # Emit signal when session expires
+        print("Session timeout - user automatically logged out")
+
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.session_manager = SessionManager()
+        self.session_manager.session_expired.connect(self.handle_session_expired) 
         self.setupUi(self)
+        self.setupConnections()
         
-        #patient widgets
+    def setupConnections(self):
+        # Patient widgets connections
         self.loginWidget.forgetpassbutton.clicked.connect(self.showForgotPwWidget)
         self.loginWidget.registerbutton.clicked.connect(self.showRegisterWidget)
         self.loginWidget.login_successful.connect(self.handle_login_success)
-        self.loginWidget.user_id.connect(self.set_user_id)
+        #self.loginWidget.user_id.connect(self.set_user_id)
         self.loginWidget.apply_btn_clicked.connect(self.showRegisterClinicWidget)
         
         self.registerWidget.loginbutton.clicked.connect(self.showLoginWidget)
@@ -161,7 +207,7 @@ class Ui_MainWindow(QMainWindow):
         self.sendFeedbackWidget.cancel_btn_clicked.connect(self.showProfileSettingsWidget)
         self.sendFeedbackWidget.home_btn_clicked.connect(self.showHomeWidget)
         
-        #project admin widgets
+        # Project admin widgets
         self.paHomeWidget.clinic_btn_clicked.connect(self.showPAViewClinicWidget)
         self.paHomeWidget.feedback_btn_clicked.connect(self.showPAViewFeedBackInboxWidget)
         self.paHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -197,7 +243,7 @@ class Ui_MainWindow(QMainWindow):
         self.paEditTncWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.paEditTncWidget.profile_btn_clicked.connect(self.showPAProfileSettingsWidget)
 
-        # doctor signals connections
+        # Doctor signals connections
         self.docHomeWidget.home_btn_clicked.connect(self.showDocHomeWidget)
         self.docHomeWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docHomeWidget.logout_btn_clicked.connect(self.showLogoutPopup)
@@ -221,7 +267,7 @@ class Ui_MainWindow(QMainWindow):
         self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
         
-         #clinic admin widgets
+        # Clinic admin widgets
         self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caHomeWidget.doctors_navigation_btn_clicked.connect(self.showCAViewDocWidget)
         self.caHomeWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
@@ -278,6 +324,7 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.setMinimumSize(QSize(1920, 1080))
         MainWindow.setCentralWidget(self.centralwidget)
 
+        # Initialize all widgets 
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget(self.centralwidget)
         self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
@@ -324,7 +371,7 @@ class Ui_MainWindow(QMainWindow):
         self.docUpdateRecordWidget = UpdateRecordWidget()
         self.docHomeWidget = Doc_HomeWidget()
         
-        
+        # Add all widgets to stacked widget 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
         self.stackedWidget.addWidget(self.forgotPw_newpwWidget)
@@ -369,45 +416,44 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.docProfileSettingsWidget)
         self.stackedWidget.addWidget(self.docHomeWidget)
 
-
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
-
         self.retranslateUi(MainWindow)
         QMetaObject.connectSlotsByName(MainWindow)
         
-
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow"))
         
-        
-    def handle_login_success(self, rights):
-
-        if rights == 0:
-            self.showHomeWidget()
-        elif rights == 1: 
-            self.showDocHomeWidget()
-        elif rights == 2:
-            self.showCAHomeWidget() # uncomment when update to show home widget for ca
-            pass
-        elif rights == 4:
-            self.showPAHomeWidget()
+    def handle_login_success(self, rights, user_id):
+        """Handle successful login with rights and user_id as separate parameters"""
+        if rights is not None and user_id is not None:
+            self.session_manager.start_session(user_id, rights)
+            self.set_user_id(user_id)
+            
+            if rights == 0:
+                self.showHomeWidget()
+            elif rights == 1: 
+                self.showDocHomeWidget()
+            elif rights == 2:
+                self.showCAHomeWidget()
+            elif rights == 4:
+                self.showPAHomeWidget()
             
     @pyqtSlot()
     def showViewApptWidget(self):
-        self.stackedWidget.setCurrentWidget(self.viewApptWidget)
-        self.viewApptWidget.fetch_appt_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.viewApptWidget)
+            self.viewApptWidget.fetch_appt_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showForgotPwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
     
-    
     @pyqtSlot()
     def showForgotPw_verificationWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)
         
-
     @pyqtSlot()
     def showForgotPw_newpwWidget(self):
         self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
@@ -422,17 +468,23 @@ class Ui_MainWindow(QMainWindow):
         
     @pyqtSlot()
     def showLoginWidget(self):
+        """Show login widget and clear any existing session"""
+        self.session_manager.end_session()
         self.loginWidget.ic_input.clear()
         self.loginWidget.password_input.clear()
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
     @pyqtSlot()
     def showPrivacyPolicyWidget(self):
-        self.stackedWidget.setCurrentWidget(self.privacyPolicyWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.privacyPolicyWidget)
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showTncWidget(self):
-        self.stackedWidget.setCurrentWidget(self.tncWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.tncWidget)
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showPrivacyPolicyRegisterWidget(self):
@@ -446,12 +498,16 @@ class Ui_MainWindow(QMainWindow):
 
     @pyqtSlot()
     def showHomeWidget(self):
-        self.stackedWidget.setCurrentWidget(self.homeWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.homeWidget)
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showFindDocWidget(self):
-        self.stackedWidget.setCurrentWidget(self.findDocWidget)
-        self.findDocWidget.fetch_clinic_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.findDocWidget)
+            self.findDocWidget.fetch_clinic_data()
+            self.session_manager.extend_session()
     
     @pyqtSlot()
     def showNewPassword(self):
@@ -459,7 +515,9 @@ class Ui_MainWindow(QMainWindow):
         
     @pyqtSlot()
     def showChangePassEmailWidget(self):
-        self.stackedWidget.setCurrentWidget(self.changePassEmailWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.changePassEmailWidget)
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showChangePassVerifyWidget(self):
@@ -475,50 +533,66 @@ class Ui_MainWindow(QMainWindow):
                 
     @pyqtSlot()
     def showFindClinicWidget(self):
-        self.stackedWidget.setCurrentWidget(self.findClinicWidget)
-        self.findClinicWidget.fetch_clinic_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.findClinicWidget)
+            self.findClinicWidget.fetch_clinic_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showMakeApptWidget(self):
-        self.stackedWidget.setCurrentWidget(self.makeApptWidget)
-        self.makeApptWidget.fetch_clinic_data()
-        
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.makeApptWidget)
+            self.makeApptWidget.fetch_clinic_data()
+            self.session_manager.extend_session()
         
     def showPrefillMakeApptWidget(self, clinic_name, doctor_name):
-        self.stackedWidget.setCurrentWidget(self.makeApptWidget)
-        self.makeApptWidget.prefill_appointment_form(clinic_name, doctor_name)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.makeApptWidget)
+            self.makeApptWidget.prefill_appointment_form(clinic_name, doctor_name)
+            self.session_manager.extend_session()
         
     def showPrefillFindDocWidget(self, clinic_name):
-        self.stackedWidget.setCurrentWidget(self.findDocWidget)
-        self.findDocWidget.prefill_clinic(clinic_name)
-        
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.findDocWidget)
+            self.findDocWidget.prefill_clinic(clinic_name)
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showServicesWidget(self):
-        self.stackedWidget.setCurrentWidget(self.servicesWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.servicesWidget)
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showPAViewClinicWidget(self):
-        self.stackedWidget.setCurrentWidget(self.paViewClinicWidget)
-        self.paViewClinicWidget.fetch_clinic_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.paViewClinicWidget)
+            self.paViewClinicWidget.fetch_clinic_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showPAViewFeedBackInboxWidget(self):
-        self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
-        self.paFeedbackInboxWidget.fetch_fb_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
+            self.paFeedbackInboxWidget.fetch_fb_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showPAHomeWidget(self):
-        self.stackedWidget.setCurrentWidget(self.paHomeWidget)
-        self.paHomeWidget.fetch_clinic_data()
-        self.paHomeWidget.fetch_fb_data()
-        self.paHomeWidget.calc_new_addition()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.paHomeWidget)
+            self.paHomeWidget.fetch_clinic_data()
+            self.paHomeWidget.fetch_fb_data()
+            self.paHomeWidget.calc_new_addition()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showPAProfileSettingsWidget(self):
-        self.stackedWidget.setCurrentWidget(self.paProfileSettingsWidget)
-        self.paProfileSettingsWidget.set_default_texts()
-        self.paProfileSettingsWidget.fetch_admin_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.paProfileSettingsWidget)
+            self.paProfileSettingsWidget.set_default_texts()
+            self.paProfileSettingsWidget.fetch_admin_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showRegisterClinicWidget(self):
@@ -526,125 +600,169 @@ class Ui_MainWindow(QMainWindow):
         
     @pyqtSlot()
     def showProfileSettingsWidget(self):
-        self.stackedWidget.setCurrentWidget(self.profileSettingsWidget)
-        self.profileSettingsWidget.set_default_texts()
-        self.profileSettingsWidget.fetch_patient_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.profileSettingsWidget)
+            self.profileSettingsWidget.set_default_texts()
+            self.profileSettingsWidget.fetch_patient_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showSendFeedbackWidget(self):
-        self.stackedWidget.setCurrentWidget(self.sendFeedbackWidget)
-        self.sendFeedbackWidget.fetch_patient_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.sendFeedbackWidget)
+            self.sendFeedbackWidget.fetch_patient_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showPAEditPrivacyPolicyWidget(self):
-        self.stackedWidget.setCurrentWidget(self.paEditPrivacyPolicyWidget)
-        self.paEditPrivacyPolicyWidget.set_default_text()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.paEditPrivacyPolicyWidget)
+            self.paEditPrivacyPolicyWidget.set_default_text()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showPAEditTncWidget(self):
-        self.stackedWidget.setCurrentWidget(self.paEditTncWidget)
-        self.paEditTncWidget.set_default_text()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.paEditTncWidget)
+            self.paEditTncWidget.set_default_text()
+            self.session_manager.extend_session()
         
     def showViewClinicProfileWidget(self, clinic_name, temp):
-        #print(f"clinic name is {clinic_name} temp is {temp}")
-        self.stackedWidget.setCurrentWidget(self.viewClinicProfile)
-        self.viewClinicProfile.display_clinic_profile(clinic_name, temp)
-        self.viewClinicProfile.fetch_clinic_info_from_db(clinic_name)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.viewClinicProfile)
+            self.viewClinicProfile.display_clinic_profile(clinic_name, temp)
+            self.viewClinicProfile.fetch_clinic_info_from_db(clinic_name)
+            self.session_manager.extend_session()
         
     def showPrefillPAFbWidget(self, fb_data):
-        self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
-        self.paFeedbackInboxWidget.create_popup_widget(fb_data)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.paFeedbackInboxWidget)
+            self.paFeedbackInboxWidget.create_popup_widget(fb_data)
+            self.session_manager.extend_session()
     
-    #test   
     def showPrefillCADocWidget(self, doc_data):
-        self.stackedWidget.setCurrentWidget(self.caViewDocWidget)
-        self.caViewDocWidget.create_popup_widget(doc_data)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.caViewDocWidget)
+            self.caViewDocWidget.create_popup_widget(doc_data)
+            self.session_manager.extend_session()
 
     def showViewDoctorProfileWidget(self, doc_id, clinic_name):
-        self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
-        self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
-        self.viewDoctorProfile.fetch_doctor_info_from_db(doc_id, clinic_name)
-
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.viewDoctorProfile)
+            self.viewDoctorProfile.display_doctor_profile(doc_id, clinic_name)
+            self.viewDoctorProfile.fetch_doctor_info_from_db(doc_id, clinic_name)
+            self.session_manager.extend_session()
 
     # Doctor widgets
     @pyqtSlot()
     def showDocPatientsWidget(self):
-        self.docPatientsWidget.get_patient_data()
-        self.docPatientsWidget.clear_patient_details()
-        self.stackedWidget.setCurrentWidget(self.docPatientsWidget)
+        if self._check_authentication():
+            self.docPatientsWidget.get_patient_data()
+            self.docPatientsWidget.clear_patient_details()
+            self.stackedWidget.setCurrentWidget(self.docPatientsWidget)
+            self.session_manager.extend_session()
 
     @pyqtSlot()
     def showDocHomeWidget(self):
-        self.stackedWidget.setCurrentWidget(self.docHomeWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.docHomeWidget)
+            self.session_manager.extend_session()
     
     @pyqtSlot()
     def showDocUpdateRecordWidget(self):
-        self.stackedWidget.setCurrentWidget(self.docUpdateRecordWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.docUpdateRecordWidget)
+            self.session_manager.extend_session()
 
     @pyqtSlot()
     def showDocProfileSettingsWidget(self):
-        self.stackedWidget.setCurrentWidget(self.docProfileSettingsWidget)
-
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.docProfileSettingsWidget)
+            self.session_manager.extend_session()
 
     def pass_pID_updateRecordWidget(self, patient_id):
-        self.docUpdateRecordWidget.set_patient_id(patient_id)
+        if self._check_authentication():
+            self.docUpdateRecordWidget.set_patient_id(patient_id)
+            self.session_manager.extend_session()
 
-
-
-    # clinic admin widgets
+    # Clinic admin widgets
     @pyqtSlot()
     def showCAHomeWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caHomeWidget)
-        self.caHomeWidget.fetch_patient_data()
-        #self.caHomeWidget.admins_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.caHomeWidget)
+            self.caHomeWidget.fetch_patient_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showCAPatientsPageWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caPatientsPageWidget)
-        self.caPatientsPageWidget.fetch_patient_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.caPatientsPageWidget)
+            self.caPatientsPageWidget.fetch_patient_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showCAAddDocWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caAddDocWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.caAddDocWidget)
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showCAApproveRejectWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caApproveRejectWidget)
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.caApproveRejectWidget)
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showCAViewDocWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caViewDocWidget)
-        self.caViewDocWidget.fetch_doc_data()
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.caViewDocWidget)
+            self.caViewDocWidget.fetch_doc_data()
+            self.session_manager.extend_session()
         
     @pyqtSlot()
     def showCAProfileSettingsWidget(self):
-        self.stackedWidget.setCurrentWidget(self.caProfileSettingsWidget)
-
+        if self._check_authentication():
+            self.stackedWidget.setCurrentWidget(self.caProfileSettingsWidget)
+            self.session_manager.extend_session()
 
     def set_user_id(self, user_id):  
-        
         try:
-            if user_id.isdigit(): 
+            if isinstance(user_id, str) and user_id.isdigit(): 
                 self.homeWidget.set_user_id(user_id)
                 self.makeApptWidget.set_user_id(user_id)
                 self.profileSettingsWidget.set_user_id(user_id)
                 self.sendFeedbackWidget.set_user_id(user_id)
                 self.paProfileSettingsWidget.set_user_id(user_id)
                 self.viewApptWidget.set_user_id(user_id)
-                
-            else :  # doctor user id is a string
-                self.docPatientsWidget.set_user_id(user_id)
-                self.docHomeWidget.set_user_id(user_id)
-                self.docProfileSettingsWidget.set_user_id(user_id)
-                self.caHomeWidget.set_user_id(user_id)
-                self.caProfileSettingsWidget.set_user_id(user_id)
-                self.caAddDocWidget.set_user_id(user_id)
-                self.caPatientsPageWidget.set_user_id(user_id)
-                self.caViewDocWidget.set_user_id(user_id)
-
+            else:  # doctor user id is a string 
+                self.docPatientsWidget.set_user_id(str(user_id))
+                self.docHomeWidget.set_user_id(str(user_id))
+                self.docProfileSettingsWidget.set_user_id(str(user_id))
+                self.caHomeWidget.set_user_id(str(user_id))
+                self.caProfileSettingsWidget.set_user_id(str(user_id))
+                self.caAddDocWidget.set_user_id(str(user_id))
+                self.caPatientsPageWidget.set_user_id(str(user_id))
+                self.caViewDocWidget.set_user_id(str(user_id))
         except Exception as e:
             print(f"Error setting user id in widgets: {e}")
         
+    def _check_authentication(self):
+        """Check if user is authenticated, if not redirect to login"""
+        if not self.session_manager.is_authenticated:
+            self.showSessionExpiredPopup()
+            return False
+        return True
+        
+    def handle_session_expired(self):
+        """Handle when session automatically expires"""
+        # Show message and redirect to login
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Session Expired")
+        msg_box.setText("Your session has expired due to inactivity. Please login again.")
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.buttonClicked.connect(self.showLoginWidget)  # Redirect after OK
+        msg_box.exec_()
         
     def showLogoutPopup(self):
         msg_box = QMessageBox()
@@ -653,15 +771,12 @@ class Ui_MainWindow(QMainWindow):
         msg_box.setIcon(QMessageBox.Question)
         msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
 
-        reply = msg_box.exec_()  # Show the message box and get the button clicked
+        reply = msg_box.exec_()
 
-        # Handle the response immediately
         if reply == QMessageBox.Ok:
-            self.showLoginWidget()  # Call the showLoginWidget method
+            self.showLoginWidget()
         elif reply == QMessageBox.Cancel:
             msg_box.close()
-
-        
         
 if __name__ == "__main__":
     import sys
