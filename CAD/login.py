@@ -5,6 +5,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 from connection import db, auth
+from datetime import datetime
 
 
 class LoginWidget(QWidget):
@@ -186,13 +187,59 @@ class LoginWidget(QWidget):
         self.image.setText("")
     # retranslateUi
     
+    
+    def record_failed_attempt(self, id):
+        attempts_ref = db.child('login_attempts').child(id)
+        attempts = attempts_ref.get().val() or {}
+        
+        # Track count and timestamp of last attempt
+        count = attempts.get('count', 0) + 1
+        last_attempt = datetime.now().timestamp()
+        
+        attempts_ref.set({
+            'count': count,
+            'last_attempt': last_attempt
+        })
+        
+        return count, last_attempt
+
+
+    def can_attempt_login(self, id):
+        attempts_ref = db.child('login_attempts').child(id)
+        attempts = attempts_ref.get().val()
+        if not attempts:
+            return True, 0
+        
+        count = attempts.get('count', 0)
+        last_attempt = attempts.get('last_attempt', 0)
+        now = datetime.now().timestamp()
+        
+        # Exponential backoff: wait time in seconds = 2^(count-3) * 10
+        if count <= 3:
+            return True, 0
+        else:
+            wait_time = 10 * 2**(count-3)
+            if now - last_attempt < wait_time:
+                return False, wait_time - (now - last_attempt)
+            else:
+                return True, 0
+
+    
     def validateLogin(self):
+
         ic = self.ic_input.text().strip()
         password = self.password_input.text().strip()
+
+        # Check if user can attempt login
+        can_login, wait = self.can_attempt_login(ic)  # use IC as the key
+        if not can_login:
+            self.showMessageBox('Wait', f'Too many failed attempts. Please wait {int(wait)} seconds before retrying.')
+            return
 
         if not ic or not password:
             self.showMessageBox('Error', 'IC/ID number and password cannot be empty.')
             return
+        
 
         # ===== PATIENT LOGIN =====
         try:
@@ -211,44 +258,23 @@ class LoginWidget(QWidget):
 
             if user_email:
                 try:
-                    # Authenticate using Firebase Auth
                     user = auth.sign_in_with_email_and_password(user_email, password)
-
-                    # --- Refresh token to get latest emailVerified status ---
+                    
+                    # Refresh token and check verification
                     refreshed = auth.refresh(user['refreshToken'])
                     id_token = refreshed['idToken']
-
-                    # --- Check if email is verified ---
                     user_info = auth.get_account_info(id_token)
                     verified = user_info['users'][0].get('emailVerified', False)
 
                     if not verified:
-                        # Show popup
                         self.showMessageBox(
                             'Email Not Verified',
                             'Please verify your email before logging in.\nCheck your inbox for the verification link.'
                         )
+                        return
 
-                        # Optionally resend verification email
-                        resend = QMessageBox.question(
-                            self,
-                            'Resend Verification',
-                            'Would you like to resend the verification email?',
-                            QMessageBox.Yes | QMessageBox.No
-                        )
-                        if resend == QMessageBox.Yes:
-                            try:
-                                auth.send_email_verification(id_token)
-                                self.showMessageBox(
-                                    'Verification Sent',
-                                    'A new verification email has been sent to your inbox.'
-                                )
-                            except Exception as e:
-                                self.showMessageBox('Error', f'Failed to resend verification email: {e}')
-                        
-                        return  # Stop login flow here
-
-                    # --- If verified, continue login ---
+                    # Login success → reset failed attempts
+                    
                     rights = patient_data.get('rights', 0)
                     self.showMessageBox('Info', 'Patient login successful')
                     self.login_successful.emit(rights)
@@ -256,8 +282,14 @@ class LoginWidget(QWidget):
                     return
 
                 except Exception as e:
-                    self.showMessageBox('Error', f"Authentication failed for patient: {e}")
+                    # --- Track failed attempt ---
+                    count, last = self.record_failed_attempt(ic)
+                    self.showMessageBox(
+                        'Invalid Login',
+                        f'Invalid IC/ID or password. Attempt {count}.'
+                    )
                     return
+
 
         except Exception as e:
             self.showMessageBox('Error', f"Error fetching patient data: {e}")
