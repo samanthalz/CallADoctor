@@ -187,77 +187,90 @@ class LoginWidget(QWidget):
     # retranslateUi
     
     def validateLogin(self):
-        ic = self.ic_input.text()
-        password = self.password_input.text()
+        ic = self.ic_input.text().strip()
+        password = self.password_input.text().strip()
 
         if not ic or not password:
             self.showMessageBox('Error', 'IC/ID number and password cannot be empty.')
             return
 
+        # ===== PATIENT LOGIN =====
         try:
-            # Fetch data from Firebase for patients
+            # Look up the IC in Realtime DB to get the email
             patients = db.child('patients').get()
-            for patient in patients.each():
-                patient_data = patient.val()
-                if patient_data['patient_ic'] == ic and patient_data['patient_pass'] == password:
+            user_email = None
+            patient_data = None
+
+            if patients.each():
+                for patient in patients.each():
+                    data = patient.val()
+                    if data.get('patient_ic') == ic:
+                        user_email = data.get('patient_email')
+                        patient_data = data
+                        break
+
+            if user_email:
+                try:
+                    # Authenticate using Firebase Auth
+                    user = auth.sign_in_with_email_and_password(user_email, password)
                     rights = patient_data.get('rights', 0)
                     self.showMessageBox('Info', 'Patient login successful')
                     self.login_successful.emit(rights)
                     self.user_id.emit(ic)
                     return
-        except Exception as e:
-            self.showMessageBox('Error', f"Error fetching patient data: {e}")
-
-        try:
-            # Fetch data from Firebase for doctor
-            doctors = db.child('doctors').get()
-            for doctor in doctors.each():
-                doctor_data = doctor.val()
-                if doctor_data['user_id'] == ic and doctor_data['password'] == password:
-                    rights = doctor_data.get('rights', 1) # rights = 1
-                    self.showMessageBox('Info', 'Doctor login successful')
-                    self.login_successful.emit(rights)
-                    self.user_id.emit(ic)
+                except Exception as e:
+                    self.showMessageBox('Error', f"Authentication failed for patient: {e}")
                     return
+
         except Exception as e:
             self.showMessageBox('Error', f"Error fetching patient data: {e}")
 
+        # ===== DOCTOR LOGIN =====
         try:
-            # Fetch data from Firebase for pa
+            doctors = db.child('doctors').get()
+            if doctors.each():
+                for doctor in doctors.each():
+                    data = doctor.val()
+                    if data.get('user_id') == ic and data.get('password') == password:
+                        rights = data.get('rights', 1)
+                        self.showMessageBox('Info', 'Doctor login successful')
+                        self.login_successful.emit(rights)
+                        self.user_id.emit(ic)
+                        return
+        except Exception as e:
+            self.showMessageBox('Error', f"Error fetching doctor data: {e}")
+
+        # ===== PROJECT ADMIN LOGIN =====
+        try:
             pa_admins = db.child('project_admin').get()
-            if pa_admins.each() is not None:
+            if pa_admins.each():
                 for admin in pa_admins.each():
-                    admin_data = admin.val()
-                    if admin_data['pa_id'] == ic and admin_data['pa_pass'] == password:
-                        rights = admin_data.get('rights', 4)
+                    data = admin.val()
+                    if data.get('pa_id') == ic and data.get('pa_pass') == password:
+                        rights = data.get('rights', 4)
                         self.showMessageBox('Info', 'Admin login successful')
                         self.login_successful.emit(rights)
                         self.user_id.emit(ic)
-                    
                         return
-            else:
-                self.showMessageBox('Error', 'No admin data found')
         except Exception as e:
-            self.showMessageBox('Error', f"Error fetching admin data: {e}")
+            self.showMessageBox('Error', f"Error fetching project admin data: {e}")
 
+        # ===== CLINIC ADMIN LOGIN =====
         try:
-            # Fetch data from Firebase for ca
             ca_admins = db.child('clinic_admin').get()
-            if ca_admins.each() is not None:
+            if ca_admins.each():
                 for admin in ca_admins.each():
-                    admin_data = admin.val()
-                    if admin_data['ca_id'] == ic and admin_data['ca_pass'] == password:
-                        rights = admin_data.get('rights', 2)
+                    data = admin.val()
+                    if data.get('ca_id') == ic and data.get('ca_pass') == password:
+                        rights = data.get('rights', 2)
                         self.showMessageBox('Info', 'Clinic Admin login successful')
                         self.login_successful.emit(rights)
                         self.user_id.emit(ic)
-                    
                         return
-            else:
-                self.showMessageBox('Error', 'No admin data found')
         except Exception as e:
-            self.showMessageBox('Error', f"Error fetching admin data: {e}")
+            self.showMessageBox('Error', f"Error fetching clinic admin data: {e}")
 
+        # ===== DEFAULT =====
         self.showMessageBox('Error', 'Invalid IC/ID number or password.')
 
 
