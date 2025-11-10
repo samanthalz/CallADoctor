@@ -81,7 +81,7 @@ class CA_view_docWidget(QWidget):
         font1.setPointSize(11)
         self.search_clinic.setFont(font1)
         self.search_clinic.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 60px; color: Black;\n"
-" background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
+" background-image: url(\"../Images/icon/search_icon.png\"); \n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 "background-size: 20px 20px; \n"

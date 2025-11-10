@@ -133,7 +133,7 @@ text-align: center;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: #f0f0f0; border-radius: 16px; padding: 60px; color: Black;
- background-image: url(&quot;C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png&quot;); 
+ background-image: url(&quot;../Images/icon/search_icon.png&quot;); 
 background-repeat: no-repeat; 
 background-position: left center; 
 background-size: 20px 20px; 

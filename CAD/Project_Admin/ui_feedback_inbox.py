@@ -76,7 +76,7 @@ class FeedbackInboxWidget(QWidget):
         font2.setPointSize(11)
         self.search.setFont(font2)
         self.search.setStyleSheet(u"background-color: #f0f0f0; border-radius: 16px; padding: 60px; color: Black;\n"
-" background-image: url(\"C:/Users/Samantha Law/Documents/INTI/CAD/CallADoctor/CAD/Images/icon/search_icon.png\"); \n"
+" background-image: url(\"CAD/Images/icon/search_icon.png\"); \n"
 "background-repeat: no-repeat; \n"
 "background-position: left center; \n"
 "border: 1px solid gray;\n"
