@@ -321,7 +321,7 @@ class RegisterWidget(QWidget, QObject):
         password = self.password_input.text().strip()
         confirm_password = self.confirmpass_input.text().strip()
         
-        
+        # --- Validation ---
         if not all([name, ic, phone, email, address, password, confirm_password]):
             QMessageBox.warning(self, "Validation Error", "All fields are required.")
             return
@@ -354,52 +354,56 @@ class RegisterWidget(QWidget, QObject):
             QMessageBox.warning(self, "Validation Error", "Passwords do not match.")
             return
         
-        # Check if privacy checkbox is checked
         if not self.privacy_checkbox.isChecked():
             QMessageBox.warning(self, "Validation Error", "You must agree to the privacy policy.")
             return
         
-        # Check if terms and conditions checkbox is checked
         if not self.tnc_checkbox.isChecked():
             QMessageBox.warning(self, "Validation Error", "You must agree to the terms and conditions.")
             return
         
-        #need change
+        # --- Compute age from IC ---
         birth_year_str = ic[:2] if len(ic) >= 2 else '00'
-        birth_year = int(birth_year_str) + 1900  # Assuming the IC represents the birth year in YY format
+        birth_year = int(birth_year_str) + (1900 if int(birth_year_str) > 25 else 2000)  # simple cutoff for YY
         current_year = datetime.now().year
-
         age = current_year - birth_year
         
-        # After successful validation
-        patient_data = {
-            'patient_name': name,
-            'patient_ic': ic,
-            'patient_age': age,
-            'patient_phone': phone,
-            'patient_email': email,
-            'patient_pass': password,
-            'patient_address': address,
-            'rights': 0
-        }
-        
+        # --- Create Firebase Auth user ---
         try:
-            # Create user in Firebase Auth
             user = auth.create_user_with_email_and_password(email, password)
-            uid = user['localId']  # Firebase UID
+            refreshed = auth.refresh(user['refreshToken'])
+            id_token = refreshed['idToken']
+            auth.send_email_verification(id_token)
             
-            # Save to Realtime Database with auto-generated ID
-            patients_ref = db.child('patients')
-            new_patient_ref = patients_ref.push(patient_data) 
-            generated_key = new_patient_ref['name']  # This is the auto-generated key
+            uid = user['localId']
+
+            # Save patient info to Realtime Database
+            patient_data = {
+                'patient_name': name,
+                'patient_ic': ic,
+                'patient_age': age,
+                'patient_phone': phone,
+                'patient_email': email,
+                'patient_pass': password,
+                'patient_address': address,
+                'rights': 0,
+                'firebase_uid': uid
+            }
             
-            QMessageBox.information(self, "Success", f"Registration Successful!")
-            self.registration_successful.emit()  # Switch view
+            db.child('patients').push(patient_data)
             
+            # Show verification message
+            QMessageBox.information(
+                self,
+                "Registration Successful",
+                "Your account has been created!\n\nA verification email has been sent to your inbox.\nPlease verify your email before logging in."
+            )
+
+            self.registration_successful.emit()  # move back to login screen
+
         except Exception as e:
             QMessageBox.critical(self, "Registration Error", f"Failed to register: {str(e)}")
 
-        self.registration_successful.emit()  # Emit the signal to switch views
 
     def eventFilter(self, source, event):
         if event.type() == QEvent.MouseButtonPress:

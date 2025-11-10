@@ -213,11 +213,48 @@ class LoginWidget(QWidget):
                 try:
                     # Authenticate using Firebase Auth
                     user = auth.sign_in_with_email_and_password(user_email, password)
+
+                    # --- Refresh token to get latest emailVerified status ---
+                    refreshed = auth.refresh(user['refreshToken'])
+                    id_token = refreshed['idToken']
+
+                    # --- Check if email is verified ---
+                    user_info = auth.get_account_info(id_token)
+                    verified = user_info['users'][0].get('emailVerified', False)
+
+                    if not verified:
+                        # Show popup
+                        self.showMessageBox(
+                            'Email Not Verified',
+                            'Please verify your email before logging in.\nCheck your inbox for the verification link.'
+                        )
+
+                        # Optionally resend verification email
+                        resend = QMessageBox.question(
+                            self,
+                            'Resend Verification',
+                            'Would you like to resend the verification email?',
+                            QMessageBox.Yes | QMessageBox.No
+                        )
+                        if resend == QMessageBox.Yes:
+                            try:
+                                auth.send_email_verification(id_token)
+                                self.showMessageBox(
+                                    'Verification Sent',
+                                    'A new verification email has been sent to your inbox.'
+                                )
+                            except Exception as e:
+                                self.showMessageBox('Error', f'Failed to resend verification email: {e}')
+                        
+                        return  # Stop login flow here
+
+                    # --- If verified, continue login ---
                     rights = patient_data.get('rights', 0)
                     self.showMessageBox('Info', 'Patient login successful')
                     self.login_successful.emit(rights)
                     self.user_id.emit(ic)
                     return
+
                 except Exception as e:
                     self.showMessageBox('Error', f"Authentication failed for patient: {e}")
                     return
