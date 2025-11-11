@@ -5,6 +5,8 @@ from PyQt5.QtGui import QColor
 
 from connection import db
 from datetime import date
+from CAD.security.guards import require_role, require_self_or_assigned
+from CAD.security.session import Session
 
 
 class UpdateRecordWidget(QWidget):
@@ -23,7 +25,16 @@ class UpdateRecordWidget(QWidget):
         self.patient_id = patient_id
         self.get_patient_records(patient_id)
 
+
+    @require_role("doctor", "clinic_admin", "super_admin")
+    @require_self_or_assigned(get_patient_uid=lambda self, patient_id, *a, **k: patient_id)
     def get_patient_records(self, patient_id): 
+        if Session.current.role == "doctor":
+            assigned = db.child("assignments").child(Session.current.uid)\
+                     .child("patients").child(str(patient_id)).get().val()
+        if not assigned:
+            QMessageBox.warning(self, "Access denied", "You are not assigned to this patient.")
+            return
         today = date.today()
         current_date = today.strftime("%y%m%d")
         active_medication_list = []
@@ -69,10 +80,19 @@ class UpdateRecordWidget(QWidget):
             print(f"Error generating new record ID: {e}")
             return None
 
+    @require_role("doctor", "clinic_admin", "super_admin")
     def set_medical_records(self):  # method to call when the submit button is clicked
+        if Session.current and Session.current.role == "doctor":
+            assigned = db.child("assignments").child(Session.current.uid)\
+                        .child("patients").child(str(self.patient_id)).get().val()
+        if not assigned:
+            QMessageBox.warning(self, "Access denied", "You are not assigned to this patient.")
+            return
+
+
         diagnosis = self.diagnosis_input.text().strip()
         medication_string = self.medication_input.toPlainText().strip()
-        medication_list = medication_string.split(",")
+        medication_list = medication_string.split(",") 
 
         if not diagnosis or not medication_string:
             QMessageBox.warning(self, "Missing Data", "Please fill in all fields.")

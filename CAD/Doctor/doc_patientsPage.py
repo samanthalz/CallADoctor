@@ -5,6 +5,10 @@ from PyQt5.QtGui import QColor
 
 from connection import db
 from datetime import date
+from CAD.security.guards import require_role, require_self_or_assigned
+from CAD.security.session import Session
+
+
 
 class PatientsPageWidget(QWidget):
     patients_btn_clicked = pyqtSignal()
@@ -89,7 +93,15 @@ class PatientsPageWidget(QWidget):
         self.verticalLayout_patient_list.update()
         self.patient_list_frame.repaint()
 
+
+    @require_role("doctor", "clinic_admin", "super_admin")
+    @require_self_or_assigned(get_patient_uid=lambda patient_id, *a, **k: patient_id)
     def set_patient_details(self, patient_id): # pass patient id of selected patient into the method
+        if Session.current and Session.current.role == "doctor":
+            assigned = db.child("assignments").child(Session.current.uid).child("patients").child(str(patient_id)).get().val()
+            if not assigned:
+                self.showMessageBox("Access denied", "You are not assigned to this patient.")
+                return
         try : 
                 patient_data = db.child("patients").get().val()
                 if patient_data: 

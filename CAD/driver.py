@@ -45,6 +45,14 @@ from Clinic_Admin.ui_ca_patientsPage import CA_patientsPageWidget
 from Clinic_Admin.ui_ca_view_doc import CA_view_docWidget
 from Clinic_Admin.ui_ca_approve_reject import CA_approved_rejectWidget
 from Clinic_Admin.ui_ca_add_doc import CA_add_docWidget
+from CAD.security.session import Session
+
+RIGHTS_TO_ROLE = {
+    0: "patient",
+    1: "doctor",
+    2: "clinic_admin",
+    4: "super_admin"
+}
 
 
 class SessionManager(QObject):
@@ -429,6 +437,13 @@ class Ui_MainWindow(QMainWindow):
         if rights is not None and user_id is not None:
             self.session_manager.start_session(user_id, rights)
             self.set_user_id(user_id)
+
+            # new: map rights -> role and set global session
+            role = RIGHTS_TO_ROLE.get(rights, "patient")
+
+            clinic_id = None
+
+            Session.set(uid=user_id, role=role, clinic_id=clinic_id)
             
             if rights == 0:
                 self.showHomeWidget()
