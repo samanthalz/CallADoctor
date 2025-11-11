@@ -777,6 +777,9 @@ class Ui_MainWindow(QMainWindow):
             self.showLoginWidget()
         elif reply == QMessageBox.Cancel:
             msg_box.close()
+
+    # Clear any stored session data or tokens
+    # Redirect to login page and reset session timer
         
 if __name__ == "__main__":
     import sys
