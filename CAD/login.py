@@ -231,10 +231,16 @@ class LoginWidget(QWidget):
     def validateLogin(self):
 
         ic = self.ic_input.text().strip()
+        ic = ic.replace('.', '_').replace('@', '_')
         password = self.password_input.text().strip()
+        
+        #  Basic IC format validation
+        if not ic or not password:
+            self.showMessageBox('Error', 'IC/ID number and password cannot be empty.')
+            return
 
         # Check if user can attempt login
-        can_login, wait = self.can_attempt_login(ic)  # use IC as the key
+        can_login, wait = self.can_attempt_login(ic) 
         if not can_login:
             self.showMessageBox('Wait', f'Too many failed attempts. Please wait {int(wait)} seconds before retrying.')
             return
@@ -258,6 +264,11 @@ class LoginWidget(QWidget):
                         user_email = data.get('patient_email')
                         patient_data = data
                         break
+                    
+            # If IC not found in patients DB
+            if not user_email:
+                self.showMessageBox('Error', 'No account found with this IC number.')
+                return
         
             if user_email:
                 try:
@@ -270,10 +281,34 @@ class LoginWidget(QWidget):
                     verified = user_info['users'][0].get('emailVerified', False)
 
                     if not verified:
-                        self.showMessageBox(
-                            'Email Not Verified',
-                            'Please verify your email before logging in.\nCheck your inbox for the verification link.'
+                        reply = QMessageBox.question(
+                            self,
+                            "Email Not Verified",
+                            f"Your email ({user_email}) is not verified.\nWould you like to resend the verification link?",
+                            QMessageBox.Yes | QMessageBox.No,
+                            QMessageBox.No
                         )
+
+                        if reply == QMessageBox.Yes:
+                            try:
+                                auth.send_email_verification(user['idToken'])
+                                QMessageBox.information(
+                                    self,
+                                    "Verification Email Sent",
+                                    "A new verification link has been sent to your email.\nPlease verify your account before logging in."
+                                )
+                            except Exception as e:
+                                QMessageBox.warning(
+                                    self,
+                                    "Error",
+                                    f"Failed to resend verification email.\nDetails: {str(e)}"
+                                )
+                        else:
+                            QMessageBox.information(
+                                self,
+                                "Verification Required",
+                                "Please verify your email before logging in."
+                            )
                         return
 
                     # Login success → reset failed attempts
