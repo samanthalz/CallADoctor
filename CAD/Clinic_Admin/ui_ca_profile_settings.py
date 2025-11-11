@@ -24,7 +24,7 @@ class CAProfileSettingsWidget(QWidget):
 
     def set_user_id(self, ca_id):
         self.ca_id = ca_id
-        print(f"ca id is {self.ca_id}")
+        # print(f"ca id is {self.ca_id}")
         self.get_user_credentials(self.ca_id)
 
     def get_user_credentials(self, ca_id):
@@ -32,7 +32,7 @@ class CAProfileSettingsWidget(QWidget):
         clinic_admin = db.child("clinic_admin").get().val()
         
         # Debug: Print the fetched clinic_admin data
-        print("Clinic Admin Data:", clinic_admin)
+        #print("Clinic Admin Data:", clinic_admin)
         
         if clinic_admin is not None:
             for i, ca_info in clinic_admin.items():

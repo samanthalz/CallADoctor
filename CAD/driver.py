@@ -71,6 +71,8 @@ class SessionManager(QObject):
         # Check DB if user is already logged in
         active_session = db.child("active_sessions").child(user_id).get().val()
         if active_session:
+            print(f"[INFO] Login attempt blocked: user {user_id} already has an active session.")
+            
             QMessageBox.warning(
                 None,
                 "Already Logged In",
@@ -93,7 +95,7 @@ class SessionManager(QObject):
             "session_id": self.session_id,
             "last_active": datetime.now().timestamp()
         })
-        print(f"[INFO] Session started for user {user_id} with session_id {self.session_id}")
+        print(f"[INFO] Session started for user {user_id}")
         return True
 
 
@@ -466,7 +468,7 @@ class Ui_MainWindow(QMainWindow):
         if rights is not None and user_id is not None:
             session_started = self.session_manager.start_session(user_id, rights)
             if not session_started:
-                # User is already logged in → stop further login processing
+                # User is already logged in 
                 return
 
             self.set_user_id(user_id)
