@@ -239,6 +239,7 @@ class LoginWidget(QWidget):
             self.showMessageBox('Wait', f'Too many failed attempts. Please wait {int(wait)} seconds before retrying.')
             return
 
+        # Before validating credentials, check Firebase 'login_attempts/{ic}'
         if not ic or not password:
             self.showMessageBox('Error', 'IC/ID number and password cannot be empty.')
             return
@@ -257,7 +258,7 @@ class LoginWidget(QWidget):
                         user_email = data.get('patient_email')
                         patient_data = data
                         break
-
+        
             if user_email:
                 try:
                     user = auth.sign_in_with_email_and_password(user_email, password)
@@ -288,7 +289,7 @@ class LoginWidget(QWidget):
                     count, last = self.record_failed_attempt(ic)
                     self.showMessageBox(
                         'Invalid Login',
-                        f'Invalid IC/ID or password. Attempt {count}.'
+                        f'Invalid IC/ID or password. Attempt {count}.' # Reset failed login attempts in Firebase after successful login
                     )
                     return
 
