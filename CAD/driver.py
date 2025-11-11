@@ -1,5 +1,8 @@
-from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, pyqtSlot, QDateTime, QTimer, pyqtSignal, QObject
+from PyQt5.QtCore import QCoreApplication, QMetaObject, QRect, QSize, pyqtSlot, QDateTime, QTimer, pyqtSignal, QObject, Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QMessageBox
+from connection import db
+from datetime import datetime
+import uuid
 
 from User.forgotpw import ForgotPwWidget
 from User.forgotpw_newpw import ForgotPw_newpwWidget
@@ -49,9 +52,10 @@ from Clinic_Admin.ui_ca_add_doc import CA_add_docWidget
 
 class SessionManager(QObject):
     """Manages user session state and authentication"""
-    
+
     session_expired = pyqtSignal()
-    
+    active_sessions = {}  
+
     def __init__(self):
         super().__init__()
         self.current_user_id = None
@@ -59,36 +63,69 @@ class SessionManager(QObject):
         self.is_authenticated = False
         self.login_time = None
         self.session_timeout = 30 * 60 * 1000  # 30 minutes in milliseconds
-        # self.session_timeout = 30 * 1000 # test 30 sec
         self.session_timer = QTimer()
         self.session_timer.timeout.connect(self._on_session_timeout)
-        
+
     def start_session(self, user_id, rights):
-        """Start a new user session"""
+        """Start a new user session, preventing multiple sessions"""
+        # Check DB if user is already logged in
+        active_session = db.child("active_sessions").child(user_id).get().val()
+        if active_session:
+            QMessageBox.warning(
+                None,
+                "Already Logged In",
+                "This account is already logged in on another device.\nPlease log out first."
+            )
+            # Do NOT start session or timer
+            self.is_authenticated = False
+            return False
+
+        # No active session → start new session
         self.current_user_id = user_id
         self.current_user_rights = rights
         self.is_authenticated = True
-        self.login_time = QDateTime.currentDateTime() 
+        self.login_time = QDateTime.currentDateTime()
+        self.session_id = str(uuid.uuid4())
         self.session_timer.start(self.session_timeout)
-        
+
+        # Update DB
+        db.child("active_sessions").child(user_id).update({
+            "session_id": self.session_id,
+            "last_active": datetime.now().timestamp()
+        })
+        print(f"[INFO] Session started for user {user_id} with session_id {self.session_id}")
+        return True
+
+
     def end_session(self):
-        """End the current user session"""
+        """End current user session"""
+        if self.current_user_id:
+            try:
+                db.child("active_sessions").child(self.current_user_id).remove()
+            except Exception as e:
+                print(f"[ERROR] Failed to remove session from DB: {e}")
+
         self.current_user_id = None
         self.current_user_rights = None
         self.is_authenticated = False
         self.login_time = None
         self.session_timer.stop()
-        
+
+
     def extend_session(self):
         """Extend the session timeout"""
         if self.is_authenticated:
             self.session_timer.start(self.session_timeout)
-            
+
     def _on_session_timeout(self):
-        """Handle session timeout"""
+        # Only end session if it's actually authenticated
+        if not self.is_authenticated or not self.current_user_id:
+            return
+
+        print(f"[INFO] Session timeout for user {self.current_user_id}")
         self.end_session()
-        self.session_expired.emit()  # Emit signal when session expires
-        print("Session timeout - user automatically logged out")
+        self.session_expired.emit()
+
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -425,11 +462,15 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow"))
         
     def handle_login_success(self, rights, user_id):
-        """Handle successful login with rights and user_id as separate parameters"""
+        """Handle successful login with rights and user_id"""
         if rights is not None and user_id is not None:
-            self.session_manager.start_session(user_id, rights)
+            session_started = self.session_manager.start_session(user_id, rights)
+            if not session_started:
+                # User is already logged in → stop further login processing
+                return
+
             self.set_user_id(user_id)
-            
+
             if rights == 0:
                 self.showHomeWidget()
             elif rights == 1: 
@@ -438,7 +479,7 @@ class Ui_MainWindow(QMainWindow):
                 self.showCAHomeWidget()
             elif rights == 4:
                 self.showPAHomeWidget()
-            
+
     @pyqtSlot()
     def showViewApptWidget(self):
         if self._check_authentication():
@@ -749,7 +790,7 @@ class Ui_MainWindow(QMainWindow):
     def _check_authentication(self):
         """Check if user is authenticated, if not redirect to login"""
         if not self.session_manager.is_authenticated:
-            self.showSessionExpiredPopup()
+            self.handle_session_expired()
             return False
         return True
         
@@ -774,12 +815,31 @@ class Ui_MainWindow(QMainWindow):
         reply = msg_box.exec_()
 
         if reply == QMessageBox.Ok:
+            # End session 
+            try:
+                self.session_manager.end_session()
+                print("[INFO] Session ended successfully.")
+            except Exception as e:
+                print(f"[ERROR] Failed to end session: {e}")
+
+            # Clear any other user data or cached info
+            try:
+                if hasattr(self, "current_user"):
+                    self.current_user = None
+                if hasattr(self, "user_data"):
+                    self.user_data = {}
+                if hasattr(self, "user_role"):
+                    self.user_role = None
+            except Exception as e:
+                print(f"[WARNING] Failed to clear user data: {e}")
+
+            # Redirect to login page
             self.showLoginWidget()
         elif reply == QMessageBox.Cancel:
             msg_box.close()
 
-    # Clear any stored session data or tokens
-    # Redirect to login page and reset session timer
+        # Clear any stored session data or tokens
+        # Redirect to login page and reset session timer
         
 if __name__ == "__main__":
     import sys
