@@ -83,19 +83,34 @@ class LoginWidget(QWidget):
 
         self.verticalLayout_14.addLayout(self.ic_layout)
 
+        # --- Password layout (main vertical container) ---
         self.password_layout = QVBoxLayout()
         self.password_layout.setObjectName(u"password_layout")
+
+        # --- Password label ---
         self.password = QLabel(self.layoutWidget)
         self.password.setObjectName(u"password")
         self.password.setFont(font1)
-
         self.password_layout.addWidget(self.password)
 
+        # --- Password input field ---
         self.password_input = QLineEdit(self.layoutWidget)
+        self.password_input.setEchoMode(QLineEdit.Password)
         self.password_input.setObjectName(u"password_input")
         self.password_input.setMinimumSize(QSize(0, 40))
 
+        # --- Add eye icon as action inside QLineEdit ---
+        self.toggle_action = QAction(QIcon("CAD/Images/icon/eye.png"), "Show/Hide Password", self.password_input)
+        self.toggle_action.setCheckable(True)
+        self.password_input.addAction(self.toggle_action, QLineEdit.TrailingPosition)
+
+        # --- Connect action to toggle function ---
+        self.toggle_action.toggled.connect(self.toggle_password_visibility)
+
+        # --- Add input to layout ---
         self.password_layout.addWidget(self.password_input)
+
+        # --- Add to parent layout ---
         self.verticalLayout_14.addLayout(self.password_layout)
         self.verticalLayout.addLayout(self.verticalLayout_14)
 
@@ -187,6 +202,14 @@ class LoginWidget(QWidget):
         self.apply_clinic_btn.setText(QCoreApplication.translate("Form", u"Want to include your clinic in our system? Click here.", None))
         self.image.setText("")
     # retranslateUi
+
+    def toggle_password_visibility(self, checked):
+        if checked:
+            self.password_input.setEchoMode(QLineEdit.Normal)  # show password
+            self.toggle_action.setIcon(QIcon("CAD/Images/icon/hidden.png"))  # change icon
+        else:
+            self.password_input.setEchoMode(QLineEdit.Password)  # hide password
+            self.toggle_action.setIcon(QIcon("CAD/Images/icon/eye.png"))
     
     
     def record_failed_attempt(self, user_ic):
