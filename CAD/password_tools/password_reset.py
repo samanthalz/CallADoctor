@@ -1,16 +1,29 @@
-## Using email OTP (bsed on current UI)
-
-from connection import db
-
+from connection import db, auth
 import random
 import time
 from datetime import datetime, timedelta
+import requests
 import yagmail
 
-# ---------------- EMAIL CONFIG ----------------
-# create a new gmail acc for this application and replace the below 
-yag = yagmail.SMTP("youremail@gmail.com", "your_app_password")
+import os
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Access variables
+app_email = os.getenv("APP_EMAIL")
+app_password = os.getenv("APP_PW")
+
+# ---------------- EMAIL CONFIG ----------------
+yag = yagmail.SMTP(
+    user=app_email,
+    password=app_password,
+    host='smtp.gmail.com',
+    port=465,
+    smtp_starttls=False,
+    smtp_ssl=True
+)
 
 # ---------------- OTP FUNCTIONS ----------------
 def send_email_otp(email):
@@ -19,13 +32,14 @@ def send_email_otp(email):
     expiry_time = datetime.now() + timedelta(minutes=5)
     expiry_timestamp = int(expiry_time.timestamp())
 
-    # # Send email
-    # subject = "Your Verification OTP"
-    # contents = f"Your OTP code is {otp}. It expires in 5 minutes."
-    # yag.send(to=email, subject=subject, contents=contents)
-    # print(f"[INFO] Sent OTP to {email}: {otp}")
+    # Send OTP email
+    subject = "Your Verification OTP"
+    contents = f"Your OTP code is {otp}. It expires in 5 minutes."
+    ## yag.send(to=email, subject=subject, contents=contents)
+    print(f"[INFO] Sent OTP to {email}: {otp}")
+    print(f"{subject}: {contents}")
 
-    # Store OTP in Firebase under "one-time-password" node
+    # Store OTP in Firebase
     data = {
         "email": email,
         "otp": str(otp),
@@ -49,11 +63,11 @@ def verify_email_otp(email, entered_otp):
             return False, "OTP expired. Please request a new one."
 
         if str(entered_otp) == stored_otp:
+            # Remove OTP after successful verification
             db.child("one-time-password").child(email.replace('.', '_')).remove()
             return True, "OTP verified successfully."
         else:
             return False, "Incorrect OTP."
-
     except Exception as e:
         return False, f"Error verifying OTP: {e}"
 
@@ -63,42 +77,86 @@ def get_patient_email(ic_number):
     try:
         patients = db.child("patients").get()
         for patient in patients.each():
-            patient_data = patient.val()
-            if patient_data.get("patient_ic") == ic_number:
-                return patient_data.get("patient_email")
+            data = patient.val()
+            if data.get("patient_ic") == ic_number:
+                return data.get("patient_email")
         return None
     except Exception as e:
         print(f"[ERROR] Error fetching patient data: {e}")
         return None
+    
+def get_clinic_email(ca_id):
+    """Fetch clinic email using their ca_id."""
+    try:
+        clinic_admins = db.child("clinic_admin").get()
+        for clinic in clinic_admins.each():
+            data = clinic.val()
+            if data.get("ca_id") == ca_id:
+                return data.get("ca_email")
+        return None
+    except Exception as e:
+        print(f"[ERROR] Error fetching clinic data: {e}")
+        return None
+
+def get_doctor_email(user_id):
+    """Fetch doctor email using their user_id."""
+    try:
+        doctors = db.child("doctors").get()
+        for doctor in doctors.each():
+            data = doctor.val()
+            if data.get("user_Id") == user_id:
+                return data.get("doc_email")
+        return None
+    except Exception as e:
+        print(f"[ERROR] Error fetching doctor data: {e}")
+        return None
 
 
-# ---------------- TEST DEMO ----------------
-if __name__ == "__main__":
-    # Step 1: Get IC number input
+def send_password_reset_link(email):
+    """Trigger Firebase Auth password reset email."""
+    try:
+        auth.send_password_reset_email(email)
+        print(f"[INFO] Firebase password reset email sent to {email}")
+        return True, f"Password reset email sent to {email}."
+    except requests.exceptions.HTTPError as http_err:
+        error_json = http_err.response.json()
+        print(f"[HTTP ERROR] Firebase response: {error_json}")
+        return False, f"Firebase Error: {error_json}"
+    except Exception as e:
+        print(f"[ERROR] Exception in send_password_reset_email(): {e}")
+        return False, f"Error sending reset email: {e}"
+
+
+# ---------------- COMBINED FLOW ----------------
+def password_reset_flow():
     ic_number = input("Enter your 12-digit IC number: ").strip()
 
     if not ic_number.isdigit() or len(ic_number) != 12:
         print("[ERROR] Invalid IC number. It must be exactly 12 digits.")
-        exit()
+        return
 
-    # Step 2: Fetch patient email from Firebase
     email = get_patient_email(ic_number)
-
     if not email:
         print("[ERROR] No patient found with that IC number.")
-        exit()
+        return
 
     print(f"[INFO] Found patient email: {email}")
 
-    # Step 3: Send OTP
+    # Step 1: Send OTP
     send_email_otp(email)
 
-    # Step 4: Ask user for OTP
+    # Step 2: Verify OTP
     entered = input("Enter the OTP sent to your email: ")
-
-    # Step 5: Verify OTP
     success, msg = verify_email_otp(email, entered)
+    print(msg)
+    if not success:
+        return
+
+    # Step 3: Send Firebase password reset email
+    success, msg = send_password_reset_link(email)
     print(msg)
 
 
-    # update pw (auth)
+# ---------------- TEST DEMO ----------------
+if __name__ == "__main__":
+    password_reset_flow()

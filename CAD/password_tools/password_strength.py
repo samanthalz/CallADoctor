@@ -1,5 +1,5 @@
 import re
-import bcrypt
+# import bcrypt
 from zxcvbn import zxcvbn
 
 
@@ -22,7 +22,11 @@ def check_password_strength(password: str) -> str:
         errors.append("Password must contain at least one number.")
     if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
         errors.append("Password must contain at least one special character.")
-    # add checking for zxcvbn password strength with threshold
+
+    pw_strength = check_password_strength2(password)
+
+    if pw_strength['score'] <= 2: 
+        errors.append("Password Not Strong Enough")
 
     if errors:
         return "Weak Password:\n" + "\n".join(f"- {err}" for err in errors)
@@ -46,26 +50,26 @@ def check_password_strength2(password: str):
     return result
 
 
-def hash_password(password: str) -> bytes:
-    """
-    Hashes a password using bcrypt.
-    Returns the hashed password as bytes.
-    """
-    salt = bcrypt.gensalt()
-    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-    return hashed
+# def hash_password(password: str) -> bytes:
+#     """
+#     Hashes a password using bcrypt.
+#     Returns the hashed password as bytes.
+#     """
+#     salt = bcrypt.gensalt()
+#     hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+#     return hashed
 
 
-def verify_password(password: str, hashed: bytes) -> bool:
-    """
-    Verifies a plaintext password against a hashed one.
-    Returns True if they match, False otherwise.
-    """
-    return bcrypt.checkpw(password.encode('utf-8'), hashed)
+# def verify_password(password: str, hashed: bytes) -> bool:
+#     """
+#     Verifies a plaintext password against a hashed one.
+#     Returns True if they match, False otherwise.
+#     """
+#     return bcrypt.checkpw(password.encode('utf-8'), hashed)
 
 
 def main():
-    print("=== Password Strength & Hashing Demo ===")
+    print("=== Password Strength Demo ===")
     password = input("Enter a password to test: ")
 
     # Check strength
@@ -73,24 +77,20 @@ def main():
     strength_result = check_password_strength(password)
     print(strength_result)
 
-    # Check strength 2
-    strength_result2 = check_password_strength2(password)
-    print(strength_result2)
+    # # If strong enough, hash it
+    # if "Strong Password" in strength_result:
+    #     print("\nHashing password...")
+    #     hashed_pw = hash_password(password)
+    #     print(f"Hashed password (stored securely): {hashed_pw.decode('utf-8')}")
 
-    # If strong enough, hash it
-    if "Strong Password" in strength_result:
-        print("\nHashing password...")
-        hashed_pw = hash_password(password)
-        print(f"Hashed password (stored securely): {hashed_pw.decode('utf-8')}")
-
-        # Verify password
-        verify_input = input("\nRe-enter password to verify: ")
-        if verify_password(verify_input, hashed_pw):
-            print("Password verified successfully!")
-        else:
-            print("Password verification failed.")
-    else:
-        print("\nPlease choose a stronger password before hashing.")
+    #     # Verify password
+    #     verify_input = input("\nRe-enter password to verify: ")
+    #     if verify_password(verify_input, hashed_pw):
+    #         print("Password verified successfully!")
+    #     else:
+    #         print("Password verification failed.")
+    # else:
+    #     print("\nPlease choose a stronger password before hashing.")
 
 
 if __name__ == "__main__":
