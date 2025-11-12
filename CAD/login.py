@@ -288,7 +288,7 @@ class LoginWidget(QWidget):
                         patient_data = data
                         break
                     
-            # If IC not found in patients DB
+            # If IC not found in patients DB (Verification)
             if not user_email:
                 self.showMessageBox('Error', 'No account found with this IC number.')
                 return
