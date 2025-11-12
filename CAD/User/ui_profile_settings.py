@@ -432,8 +432,8 @@ class ProfileSettingsWidget(QWidget):
         
     def set_user_id(self, user_id): 
         self.patient_id = user_id
-        #print("enter set user id for user profile")
-        #print(f"set user id is {self.patient_id}")
+        # print("enter set user id for user profile")
+        # print(f"set user id is {self.patient_id}")
         
     def fetch_patient_data(self):
         db = self.initialize_db()

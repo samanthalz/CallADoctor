@@ -390,7 +390,7 @@ class RegisterWidget(QWidget, QObject):
                 'firebase_uid': uid
             }
             
-            db.child('patients').push(patient_data)
+            db.child("patients").child(uid).update(patient_data)
             
             # Show verification message
             QMessageBox.information(

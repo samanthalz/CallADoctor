@@ -5,8 +5,8 @@ from PyQt5.QtGui import QColor
 
 from connection import db
 from datetime import date
-from CAD.security.guards import require_role, require_self_or_assigned
-from CAD.security.session import Session
+from security.guards import require_role, require_self_or_assigned
+from security.session import Session
 
 
 

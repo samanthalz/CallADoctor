@@ -48,7 +48,7 @@ from Clinic_Admin.ui_ca_patientsPage import CA_patientsPageWidget
 from Clinic_Admin.ui_ca_view_doc import CA_view_docWidget
 from Clinic_Admin.ui_ca_approve_reject import CA_approved_rejectWidget
 from Clinic_Admin.ui_ca_add_doc import CA_add_docWidget
-from CAD.security.session import Session
+from security.session import Session
 
 RIGHTS_TO_ROLE = {
     0: "patient",
@@ -788,22 +788,21 @@ class Ui_MainWindow(QMainWindow):
 
     def set_user_id(self, user_id):  
         try:
-            if isinstance(user_id, str) and user_id.isdigit(): 
-                self.homeWidget.set_user_id(user_id)
-                self.makeApptWidget.set_user_id(user_id)
-                self.profileSettingsWidget.set_user_id(user_id)
-                self.sendFeedbackWidget.set_user_id(user_id)
-                self.paProfileSettingsWidget.set_user_id(user_id)
-                self.viewApptWidget.set_user_id(user_id)
-            else:  # doctor user id is a string 
-                self.docPatientsWidget.set_user_id(str(user_id))
-                self.docHomeWidget.set_user_id(str(user_id))
-                self.docProfileSettingsWidget.set_user_id(str(user_id))
-                self.caHomeWidget.set_user_id(str(user_id))
-                self.caProfileSettingsWidget.set_user_id(str(user_id))
-                self.caAddDocWidget.set_user_id(str(user_id))
-                self.caPatientsPageWidget.set_user_id(str(user_id))
-                self.caViewDocWidget.set_user_id(str(user_id))
+            self.homeWidget.set_user_id(user_id)
+            self.makeApptWidget.set_user_id(user_id)
+            self.profileSettingsWidget.set_user_id(user_id)
+            self.sendFeedbackWidget.set_user_id(user_id)
+            self.paProfileSettingsWidget.set_user_id(user_id)
+            self.viewApptWidget.set_user_id(user_id)
+
+            self.docPatientsWidget.set_user_id(str(user_id))
+            self.docHomeWidget.set_user_id(str(user_id))
+            self.docProfileSettingsWidget.set_user_id(str(user_id))
+            self.caHomeWidget.set_user_id(str(user_id))
+            self.caProfileSettingsWidget.set_user_id(str(user_id))
+            self.caAddDocWidget.set_user_id(str(user_id))
+            self.caPatientsPageWidget.set_user_id(str(user_id))
+            self.caViewDocWidget.set_user_id(str(user_id))
         except Exception as e:
             print(f"Error setting user id in widgets: {e}")
         
