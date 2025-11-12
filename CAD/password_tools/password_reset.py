@@ -3,27 +3,27 @@ import random
 import time
 from datetime import datetime, timedelta
 import requests
-import yagmail
+# import yagmail
 
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# # Load environment variables from .env file
+# load_dotenv()
 
-# Access variables
-app_email = os.getenv("APP_EMAIL")
-app_password = os.getenv("APP_PW")
+# # Access variables
+# app_email = os.getenv("APP_EMAIL")
+# app_password = os.getenv("APP_PW")
 
-# ---------------- EMAIL CONFIG ----------------
-yag = yagmail.SMTP(
-    user=app_email,
-    password=app_password,
-    host='smtp.gmail.com',
-    port=465,
-    smtp_starttls=False,
-    smtp_ssl=True
-)
+# # ---------------- EMAIL CONFIG ----------------
+# yag = yagmail.SMTP(
+#     user=app_email,
+#     password=app_password,
+#     host='smtp.gmail.com',
+#     port=465,
+#     smtp_starttls=False,
+#     smtp_ssl=True
+# )
 
 # ---------------- OTP FUNCTIONS ----------------
 def send_email_otp(email):
