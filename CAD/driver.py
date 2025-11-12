@@ -4,14 +4,11 @@ from connection import db
 from datetime import datetime
 import uuid
 
-from User.forgotpw import ForgotPwWidget
-from User.forgotpw_newpw import ForgotPw_newpwWidget
-from User.forgotpw_verification import ForgotPw_verificationWidget
-from User.forgotpw_success import ForgotPw_successWidget
 from User.ui_home import HomeWidget
 from User.ui_profile_settings import ProfileSettingsWidget
 from login import LoginWidget
 from register import RegisterWidget
+from forgotpw import ForgotPwWidget
 from User.ui_find_clinic import FindClinicWidget
 from User.ui_view_doctor_profile import ViewDoctorProfileWidget
 from User.ui_view_clinic_profile import ViewClinicProfileWidget
@@ -23,10 +20,6 @@ from User.ui_privacy_policy import PrivacyPolicyWidget
 from User.ui_privacy_register import PrivacyPolicyRegisterWidget
 from User.ui_tnc import TncWidget
 from User.ui_tnc_register import TncRegisterWidget
-from User.change_pass_email import ChangePassEmailWidget
-from User.change_pass_new import ChangePassNewWidget
-from User.change_pass_verify import ChangePassVerifyWidget
-from User.change_pass_success import ChangePassSuccessWidget
 from User.ui_view_appt import ViewApptWidget
 
 from Project_Admin.ui_pa_homepage import PAHomeWidget
@@ -142,6 +135,8 @@ class Ui_MainWindow(QMainWindow):
         super().__init__()
         self.session_manager = SessionManager()
         self.session_manager.session_expired.connect(self.handle_session_expired) 
+        self.previous_widget = None
+        self.current_widget = None
         self.setupUi(self)
         self.setupConnections()
         
@@ -226,29 +221,19 @@ class Ui_MainWindow(QMainWindow):
         self.viewApptWidget.profile_btn_clicked.connect(self.showProfileSettingsWidget)
         self.viewApptWidget.home_btn_clicked.connect(self.showHomeWidget)
         
-        self.forgotPwWidget.continue_successful.connect(self.showForgotPw_verificationWidget)
-        self.forgotPwWidget.back_successful.connect(self.showLoginWidget)       
-        self.forgotPw_verificationWidget.continue_successful.connect(self.showForgotPw_newpwWidget)
-        self.forgotPw_newpwWidget.update_successful.connect(self.showForgotPw_successWidget)
-        self.forgotPw_successWidget.continue_btn_clicked.connect(self.showLoginWidget)
-        self.forgotPwWidget.email_changed.connect(self.forgotPw_newpwWidget.set_email)
+        self.forgotPwWidget.continue_successful.connect(self.showLoginWidget)
+        self.forgotPwWidget.back_successful.connect(self.handleBackFromForgotPw)       
         
         self.profileSettingsWidget.feedback_btn_clicked.connect(self.showSendFeedbackWidget)
         self.profileSettingsWidget.home_btn_clicked.connect(self.showHomeWidget)
         self.profileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.profileSettingsWidget.service_btn_clicked.connect(self.showServicesWidget)
         self.profileSettingsWidget.home_btn_clicked.connect(self.showHomeWidget)
-        self.profileSettingsWidget.change_pass_btn_clicked.connect(self.showChangePassEmailWidget)
+        self.profileSettingsWidget.change_pass_btn_clicked.connect(self.showForgotPwWidget)
         self.profileSettingsWidget.schedule_btn_clicked.connect(self.showViewApptWidget)
         self.profileSettingsWidget.tnc_btn_clicked.connect(self.showTncWidget)
         self.profileSettingsWidget.privacy_btn_clicked.connect(self.showPrivacyPolicyWidget)
         
-        self.changePassEmailWidget.back_successful.connect(self.showProfileSettingsWidget)
-        self.changePassEmailWidget.continue_successful.connect(self.showChangePassVerifyWidget)
-        self.changePassVerifyWidget.continue_successful.connect(self.showChangePassNew)
-        self.changePassNewWidget.update_successful.connect(self.showChangePassSuccess)
-        self.changePassSuccessWidget.continue_btn_clicked.connect(self.showProfileSettingsWidget)
-        self.changePassEmailWidget.email_changed.connect(self.changePassNewWidget.set_email)
         
         self.sendFeedbackWidget.redirect_profile.connect(self.showProfileSettingsWidget)
         self.sendFeedbackWidget.cancel_btn_clicked.connect(self.showProfileSettingsWidget)
@@ -374,9 +359,6 @@ class Ui_MainWindow(QMainWindow):
         # Initialize all widgets 
         self.loginWidget = LoginWidget()
         self.forgotPwWidget = ForgotPwWidget(self.centralwidget)
-        self.forgotPw_verificationWidget = ForgotPw_verificationWidget()
-        self.forgotPw_newpwWidget = ForgotPw_newpwWidget()
-        self.forgotPw_successWidget = ForgotPw_successWidget()
         self.registerWidget = RegisterWidget()
         self.homeWidget = HomeWidget()
         self.findClinicWidget = FindClinicWidget()
@@ -391,10 +373,6 @@ class Ui_MainWindow(QMainWindow):
         self.privacyPolicyRegisterWidget = PrivacyPolicyRegisterWidget()
         self.tncWidget = TncWidget()
         self.tncRegisterWidget = TncRegisterWidget()
-        self.changePassEmailWidget = ChangePassEmailWidget()
-        self.changePassVerifyWidget = ChangePassVerifyWidget()
-        self.changePassNewWidget = ChangePassNewWidget()
-        self.changePassSuccessWidget = ChangePassSuccessWidget()
         self.viewApptWidget = ViewApptWidget()
         
         self.paHomeWidget = PAHomeWidget()
@@ -421,9 +399,6 @@ class Ui_MainWindow(QMainWindow):
         # Add all widgets to stacked widget 
         self.stackedWidget.addWidget(self.loginWidget)
         self.stackedWidget.addWidget(self.forgotPwWidget)
-        self.stackedWidget.addWidget(self.forgotPw_newpwWidget)
-        self.stackedWidget.addWidget(self.forgotPw_verificationWidget)
-        self.stackedWidget.addWidget(self.forgotPw_successWidget)
         self.stackedWidget.addWidget(self.registerWidget)
         self.stackedWidget.addWidget(self.homeWidget)
         self.stackedWidget.addWidget(self.servicesWidget)
@@ -452,10 +427,6 @@ class Ui_MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.caApproveRejectWidget)
         self.stackedWidget.addWidget(self.caViewDocWidget)     
         self.stackedWidget.addWidget(self.caAddDocWidget)   
-        self.stackedWidget.addWidget(self.changePassEmailWidget)  
-        self.stackedWidget.addWidget(self.changePassNewWidget)  
-        self.stackedWidget.addWidget(self.changePassSuccessWidget)  
-        self.stackedWidget.addWidget(self.changePassVerifyWidget)  
         self.stackedWidget.addWidget(self.viewApptWidget)
         
         self.stackedWidget.addWidget(self.docPatientsWidget) 
@@ -509,19 +480,16 @@ class Ui_MainWindow(QMainWindow):
         
     @pyqtSlot()
     def showForgotPwWidget(self):
+        self.previous_widget = self.current_widget  # remember where user was
         self.stackedWidget.setCurrentWidget(self.forgotPwWidget)
-    
-    @pyqtSlot()
-    def showForgotPw_verificationWidget(self):
-        self.stackedWidget.setCurrentWidget(self.forgotPw_verificationWidget)
-        
-    @pyqtSlot()
-    def showForgotPw_newpwWidget(self):
-        self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
 
-    @pyqtSlot()
-    def showForgotPw_successWidget(self):
-        self.stackedWidget.setCurrentWidget(self.forgotPw_successWidget)
+    def handleBackFromForgotPw(self):
+        if self.previous_widget:
+            self.stackedWidget.setCurrentWidget(self.previous_widget)
+            self.current_widget = self.previous_widget
+        else:
+            # fallback if no previous widget known
+            self.showLoginWidget()
 
     @pyqtSlot()
     def showRegisterWidget(self):
@@ -533,6 +501,7 @@ class Ui_MainWindow(QMainWindow):
         self.session_manager.end_session()
         self.loginWidget.ic_input.clear()
         self.loginWidget.password_input.clear()
+        self.current_widget = self.loginWidget
         self.stackedWidget.setCurrentWidget(self.loginWidget)
         
     @pyqtSlot()
@@ -570,27 +539,7 @@ class Ui_MainWindow(QMainWindow):
             self.findDocWidget.fetch_clinic_data()
             self.session_manager.extend_session()
     
-    @pyqtSlot()
-    def showNewPassword(self):
-        self.stackedWidget.setCurrentWidget(self.forgotPw_newpwWidget)
         
-    @pyqtSlot()
-    def showChangePassEmailWidget(self):
-        if self._check_authentication():
-            self.stackedWidget.setCurrentWidget(self.changePassEmailWidget)
-            self.session_manager.extend_session()
-        
-    @pyqtSlot()
-    def showChangePassVerifyWidget(self):
-        self.stackedWidget.setCurrentWidget(self.changePassVerifyWidget)
-        
-    @pyqtSlot()
-    def showChangePassNew(self):
-        self.stackedWidget.setCurrentWidget(self.changePassNewWidget)
-        
-    @pyqtSlot()
-    def showChangePassSuccess(self):
-        self.stackedWidget.setCurrentWidget(self.changePassSuccessWidget)
                 
     @pyqtSlot()
     def showFindClinicWidget(self):
@@ -650,6 +599,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showPAProfileSettingsWidget(self):
         if self._check_authentication():
+            self.current_widget = self.paProfileSettingsWidget
             self.stackedWidget.setCurrentWidget(self.paProfileSettingsWidget)
             self.paProfileSettingsWidget.set_default_texts()
             self.paProfileSettingsWidget.fetch_admin_data()
@@ -662,6 +612,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showProfileSettingsWidget(self):
         if self._check_authentication():
+            self.current_widget = self.profileSettingsWidget
             self.stackedWidget.setCurrentWidget(self.profileSettingsWidget)
             self.profileSettingsWidget.set_default_texts()
             self.profileSettingsWidget.fetch_patient_data()
@@ -738,6 +689,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showDocProfileSettingsWidget(self):
         if self._check_authentication():
+            self.current_widget = self.docProfileSettingsWidget
             self.stackedWidget.setCurrentWidget(self.docProfileSettingsWidget)
             self.session_manager.extend_session()
 
@@ -783,6 +735,7 @@ class Ui_MainWindow(QMainWindow):
     @pyqtSlot()
     def showCAProfileSettingsWidget(self):
         if self._check_authentication():
+            self.current_widget = self.caProfileSettingsWidget
             self.stackedWidget.setCurrentWidget(self.caProfileSettingsWidget)
             self.session_manager.extend_session()
 
