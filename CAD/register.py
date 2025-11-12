@@ -156,38 +156,52 @@ class RegisterWidget(QWidget, QObject):
 
         self.verticalLayout.addLayout(self.address_layout)
 
+        # --- Password layout ---
         self.password_layout = QVBoxLayout()
         self.password_layout.setObjectName(u"password_layout")
+
         self.password = QLabel(self.layoutWidget)
         self.password.setObjectName(u"password")
         self.password.setFont(font2)
-
         self.password_layout.addWidget(self.password)
 
         self.password_input = QLineEdit(self.layoutWidget)
         self.password_input.setObjectName(u"password_input")
         self.password_input.setMinimumSize(QSize(0, 40))
-
+        self.password_input.setEchoMode(QLineEdit.Password)  # Hide text by default
         self.password_layout.addWidget(self.password_input)
 
+        # --- Add toggle visibility icon inside QLineEdit ---
+        self.toggle_password_action = QAction(QIcon("CAD/Images/icon/eye.png"), "Show/Hide Password", self.password_input)
+        self.toggle_password_action.setCheckable(True)
+        self.password_input.addAction(self.toggle_password_action, QLineEdit.TrailingPosition)
+        self.toggle_password_action.toggled.connect(self.toggle_password_visibility)
 
+        # --- Add password layout to main layout ---
         self.verticalLayout.addLayout(self.password_layout)
 
+        # --- Confirm password layout ---
         self.confirmpass = QVBoxLayout()
         self.confirmpass.setObjectName(u"confirmpass")
+
         self.confirmpass_2 = QLabel(self.layoutWidget)
         self.confirmpass_2.setObjectName(u"confirmpass_2")
         self.confirmpass_2.setFont(font2)
-
         self.confirmpass.addWidget(self.confirmpass_2)
 
         self.confirmpass_input = QLineEdit(self.layoutWidget)
         self.confirmpass_input.setObjectName(u"confirmpass_input")
         self.confirmpass_input.setMinimumSize(QSize(0, 40))
-
+        self.confirmpass_input.setEchoMode(QLineEdit.Password)
         self.confirmpass.addWidget(self.confirmpass_input)
 
+        # --- Add toggle visibility icon inside confirm password field ---
+        self.toggle_confirmpass_action = QAction(QIcon("CAD/Images/icon/eye.png"), "Show/Hide Password", self.confirmpass_input)
+        self.toggle_confirmpass_action.setCheckable(True)
+        self.confirmpass_input.addAction(self.toggle_confirmpass_action, QLineEdit.TrailingPosition)
+        self.toggle_confirmpass_action.toggled.connect(self.toggle_confirmpass_visibility)
 
+        # --- Add confirm password layout to main layout ---
         self.verticalLayout.addLayout(self.confirmpass)
         
         self.checkbox_layout = QHBoxLayout()
@@ -312,6 +326,21 @@ class RegisterWidget(QWidget, QObject):
         self.image.setText("")
     # retranslateUi
     
+    def toggle_password_visibility(self, checked):
+        if checked:
+            self.password_input.setEchoMode(QLineEdit.Normal)  # show password
+            self.toggle_password_action.setIcon(QIcon("CAD/Images/icon/hidden.png"))  # change icon
+        else:
+            self.password_input.setEchoMode(QLineEdit.Password)  # hide password
+            self.toggle_password_action.setIcon(QIcon("CAD/Images/icon/eye.png"))
+
+    def toggle_confirmpass_visibility(self, checked):
+        if checked:
+            self.confirmpass_input.setEchoMode(QLineEdit.Normal)
+            self.toggle_confirmpass_action.setIcon(QIcon("CAD/Images/icon/hidden.png"))
+        else:
+            self.confirmpass_input.setEchoMode(QLineEdit.Password)
+            self.toggle_confirmpass_action.setIcon(QIcon("CAD/Images/icon/eye.png"))
     
     def validate_form(self):
         name = self.name_input.text().strip()
