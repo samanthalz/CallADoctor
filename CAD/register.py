@@ -6,6 +6,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 from datetime import datetime
 from connection import db, auth
+from password_tools.password_strength import check_password_strength
 
 class RegisterWidget(QWidget, QObject):
     registration_successful = pyqtSignal()  # Custom signal
@@ -342,12 +343,9 @@ class RegisterWidget(QWidget, QObject):
             QMessageBox.warning(self, "Validation Error", "Invalid email format.")
             return
         
-        if len(password) < 8:
-            QMessageBox.warning(self, "Validation Error", "Password must be at least 8 characters long.")
-            return
-        
-        if not any(char.isdigit() for char in password) or not any(char.isalpha() for char in password):
-            QMessageBox.warning(self, "Validation Error", "Password must contain both letters and numbers.")
+        pw_strength = check_password_strength(password)
+        if pw_strength != "Strong Password":
+            QMessageBox.warning(self, "Validation Error", pw_strength)
             return
         
         if password != confirm_password:
