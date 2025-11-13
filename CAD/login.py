@@ -376,6 +376,12 @@ class LoginWidget(QWidget):
                     db.child("login_attempts").child(ic).remove()
                     firebase_uid = user['localId']
                     rights = patient_data.get('rights', 0)
+
+                    # Require privacy consent BEFORE showing success / emitting signals
+                    if not self._ensure_privacy_consent(firebase_uid):
+                        return
+
+
                     self.showMessageBox('Info', 'Patient login successful')
                     self.login_successful.emit(rights,firebase_uid)
                     self.user_id.emit(ic)
@@ -401,6 +407,10 @@ class LoginWidget(QWidget):
                     if data.get('user_id') == ic and data.get('password') == password:
                         rights = data.get('rights', 1)
                         firebase_uid = ic
+
+                        if not self._ensure_privacy_consent(firebase_uid):
+                            return
+
                         self.showMessageBox('Info', 'Doctor login successful')
                         self.login_successful.emit(rights,firebase_uid)
                         self.user_id.emit(ic)
@@ -417,6 +427,10 @@ class LoginWidget(QWidget):
                     if data.get('pa_id') == ic and data.get('pa_pass') == password:
                         rights = data.get('rights', 4)
                         firebase_uid = ic
+
+                        if not self._ensure_privacy_consent(firebase_uid):
+                            return
+                        
                         self.showMessageBox('Info', 'Admin login successful')
                         self.login_successful.emit(rights,firebase_uid)
                         self.user_id.emit(ic)
@@ -432,7 +446,12 @@ class LoginWidget(QWidget):
                     data = admin.val()
                     if data.get('ca_id') == ic and data.get('ca_pass') == password:
                         rights = data.get('rights', 2)
-                        firebase_uid = ic
+                        firebase_uid = ic           
+
+                        if not self._ensure_privacy_consent(firebase_uid):
+                            return
+
+
                         self.showMessageBox('Info', 'Clinic Admin login successful')
                         self.login_successful.emit(rights,firebase_uid)
                         self.user_id.emit(ic)
