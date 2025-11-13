@@ -417,6 +417,20 @@ class RegisterWidget(QWidget, QObject):
             }
             
             db.child("patients").child(uid).update(patient_data)
+
+            # Persist consents so first login won’t re-prompt
+            if self.privacy_checkbox.isChecked():
+                db.child("privacy_consent").child(uid).set({
+                    "accepted": True,
+                    "ts": {".sv": "timestamp"}
+                })
+
+            if self.tnc_checkbox.isChecked():
+                db.child("tnc_consent").child(uid).set({
+                    "accepted": True,
+                    "ts": {".sv": "timestamp"}
+                })
+
             
             # Show verification message
             QMessageBox.information(
