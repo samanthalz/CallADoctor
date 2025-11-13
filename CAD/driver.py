@@ -42,6 +42,8 @@ from Clinic_Admin.ui_ca_view_doc import CA_view_docWidget
 from Clinic_Admin.ui_ca_approve_reject import CA_approved_rejectWidget
 from Clinic_Admin.ui_ca_add_doc import CA_add_docWidget
 from security.session import Session
+from User.ui_privacy_consent_dialog import PrivacyConsentDialog  
+
 
 RIGHTS_TO_ROLE = {
     0: "patient",
