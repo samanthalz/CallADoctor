@@ -411,7 +411,6 @@ class RegisterWidget(QWidget, QObject):
                 'patient_age': age,
                 'patient_phone': phone,
                 'patient_email': email,
-                'patient_pass': password,
                 'patient_address': address,
                 'rights': 0,
                 'firebase_uid': uid

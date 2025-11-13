@@ -1,0 +1,3 @@
+PyQt5
+pyrebase4
+zxcvbn
