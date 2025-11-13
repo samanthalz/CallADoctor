@@ -6,6 +6,8 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PyQt5.QtWidgets import *
 from connection import db, auth
 from datetime import datetime
+from User.ui_privacy_consent_dialog import PrivacyConsentDialog
+
 
 
 class LoginWidget(QWidget):
@@ -249,6 +251,42 @@ class LoginWidget(QWidget):
             return False, remaining
         else:
             return True, 0
+        
+    def _load_policy_text(self) -> str:
+        """Get current policy text from Firebase; fallback if missing."""
+        try:
+            text = db.child("privacy_policy").get().val()
+            return text or "Privacy Policy not available."
+        except Exception:
+            return "Privacy Policy not available."
+
+    def _ensure_privacy_consent(self, uid: str) -> bool:
+        """
+         If user hasn't accepted privacy policy, show a blocking dialog.
+        Store consent at: /privacy_consent/{uid} = {accepted: True, ts: <server timestamp>}
+        Returns True if accepted; False if user cancels.
+        """
+        try:
+            consent = db.child("privacy_consent").child(uid).get().val()
+        except Exception:
+            consent = None
+
+        if consent and consent.get("accepted"):
+            return True
+
+        dlg = PrivacyConsentDialog(policy_text=self._load_policy_text(), parent=self)
+        if dlg.exec_():  # checkbox + Continue
+            try:
+                db.child("privacy_consent").child(uid).set(
+                    {"accepted": True, "ts": {".sv": "timestamp"}}
+                )
+            except Exception:
+                pass
+            return True
+
+        QMessageBox.warning(self, "Notice", "You must accept the Privacy Policy to continue.")
+        return False
+    
 
 
     def validateLogin(self):
