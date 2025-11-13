@@ -7,6 +7,7 @@ from connection import db
 from datetime import date
 from security.guards import require_role, require_self_or_assigned
 from security.session import Session
+from security.audit_logger import log_event
 
 
 class UpdateRecordWidget(QWidget):
@@ -117,6 +118,18 @@ class UpdateRecordWidget(QWidget):
                         "medicine": medication_list,
                         "patient_id": self.patient_id
                 })
+            # update record log
+            try:
+                log_event(
+                    uid=Session.uid,
+                    role=Session.role,
+                    action="UPDATE_RECORD",
+                    target=str(self.patient_id),
+                    meta={"changed": ["diagnosis", "medicine"]}  # do NOT include actual values
+            )
+            except Exception as e:
+                print("[AUDIT] update record log failed:", e)
+    
             # Display message box if recrod saved successfully
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
