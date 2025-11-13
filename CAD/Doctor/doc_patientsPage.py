@@ -7,6 +7,7 @@ from connection import db
 from datetime import date
 from security.guards import require_role, require_self_or_assigned
 from security.session import Session
+from security.audit_logger import log_event
 
 
 
@@ -153,8 +154,18 @@ class PatientsPageWidget(QWidget):
 
         except Exception as e:
             self.showMessageBox('Error', f"{e}") 
-             
-
+        # view patient log
+        try:
+            log_event(
+                uid=Session.uid,
+                role=Session.role,
+                action="VIEW_PATIENT",
+                target=str(patient_id),
+                meta={"page": "doc_patientsPage"}
+        )
+        except Exception as e:
+            print("[AUDIT] view patient log failed:", e)
+       
         return patient_name, active_medication_list, patient_diagnosis, patient_age, patient_gender 
 
 
