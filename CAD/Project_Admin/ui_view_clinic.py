@@ -4,7 +4,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,QMouseEvent,
     QRadialGradient)
 from PyQt5.QtWidgets import *
-from connection import db
+from connection import db, auth
 
 
 class ViewClinicWidget(QWidget):
@@ -793,7 +793,6 @@ class ViewClinicWidget(QWidget):
                 QMessageBox.warning(self, "No Clinic Selected", "Please select a clinic to reject.")
 
     def approve_clinic(self):
-        db = self.initialize_db()
         clinic_name = self.temp_clinic_name
         clinic_id = None
         starting_year = None
@@ -801,45 +800,67 @@ class ViewClinicWidget(QWidget):
         if not self.clinic_data_list:
                 return None
 
-        # Fetch the clinic data directly from the database
+        # Fetch clinic data directly from Firebase Realtime Database
         try:
                 clinic_data_list = db.child("clinic").get().val()
         except Exception as e:
                 print(f"Failed to fetch clinic data: {e}")
                 return
 
-        # Find the clinic ID by clinic name
+        # Find the clinic info
         for cid, clinic_data in clinic_data_list.items():
                 if clinic_data.get("clinic_name") == clinic_name:
                         clinic_id = cid
                         starting_year = clinic_data.get("starting_year")
+                        clinic_email = clinic_data.get("clinic_email")
                         break
 
         if clinic_id:
                 try:
-                        # Update clinic_status to "approved"
+                        # Update clinic_status to approved
                         db.child("clinic").child(clinic_id).update({"clinic_status": "approved"})
 
-                        # Add a new clinic admin
-                        ca_id = clinic_name.lower().replace(" ", "")  # Set ca_id as clinic name with no spaces
-                        ca_pass = clinic_name.lower().replace(" ", "")[:5] + str(starting_year)  # Set ca_pass as first 5 letters of clinic name + starting_year
+                        # Create clinic admin credentials
+                        ca_id = clinic_name.lower().replace(" ", "")
+                        ca_pass = clinic_name.lower().replace(" ", "")[:5] + str(starting_year)
 
-                        # Save the clinic admin details in the database
+                        # Save admin info in DB
                         db.child("clinic_admin").child(ca_id).set({
-                        "ca_id": ca_id,
-                        "ca_pass": ca_pass,
-                        "clinic_id": clinic_id
+                                "ca_id": ca_id,
+                                "ca_pass": ca_pass,
+                                "clinic_id": clinic_id,
+                                "email": clinic_email
                         })
 
-                        QMessageBox.information(self, "Success", "Clinic approved successfully.")
+                        # --- Create Firebase Auth user for clinic admin ---
+                        user = auth.create_user_with_email_and_password(clinic_email, ca_pass)
+                        firebase_uid = user['localId']
+                        db.child("clinic_admin").child(ca_id).update({
+                        "firebase_uid": firebase_uid
+                        })
+                        
+                        refreshed = auth.refresh(user['refreshToken'])
+                        id_token = refreshed['idToken']
+
+                        # Send email verification
+                        auth.send_email_verification(id_token)
+
+                        # Success message
+                        QMessageBox.information(
+                                self,
+                                "Clinic Approved",
+                                f"Clinic approved successfully!\n\n"
+                                f"A verification link has been sent to {clinic_email}.\n"
+                                f"Please remind the clinic admin to verify their email before logging in."
+                        )
+
+                        # Refresh UI
                         self.hide_clinic_details_frame()
                         self.fetch_clinic_data()
-                        self.hide_clinic_details_frame()  # Hide the clinic details
 
                 except Exception as e:
                         print(f"Failed to approve clinic: {e}")
                         QMessageBox.critical(self, "Error", f"Failed to approve clinic: {str(e)}")
-
 
     @pyqtSlot()
     def display_credentials(self):

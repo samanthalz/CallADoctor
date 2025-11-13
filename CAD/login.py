@@ -311,6 +311,37 @@ class LoginWidget(QWidget):
         if not ic or not password:
             self.showMessageBox('Error', 'IC/ID number and password cannot be empty.')
             return
+        
+        # ===== PROJECT ADMIN LOGIN =====
+        try:
+            pa_admins = db.child('project_admin').get()
+            if pa_admins.each():
+                for admin in pa_admins.each():
+                    data = admin.val()
+                    if data.get('pa_id') == ic and data.get('pa_pass') == password:
+                        rights = data.get('rights', 4)
+                        firebase_uid = ic
+
+                        if not self._ensure_privacy_consent(firebase_uid):
+                            return
+                        
+                        # audit log for successful login===
+                        role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
+                        role = role_map.get(rights, "patient")
+
+                        log_event(
+                            uid=firebase_uid,
+                            role=role,
+                            action="LOGIN_SUCCESS",
+                            meta={"via": "password"}
+                        )
+                        
+                        self.showMessageBox('Info', 'Admin login successful')
+                        self.login_successful.emit(rights,firebase_uid)
+                        self.user_id.emit(ic)
+                        return
+        except Exception as e:
+            self.showMessageBox('Error', f"Error fetching project admin data: {e}")
 
         # ===== PATIENT LOGIN =====
         try:
@@ -327,10 +358,6 @@ class LoginWidget(QWidget):
                         patient_data = data
                         break
                     
-            # If IC not found in patients DB (Verification)
-            if not user_email:
-                self.showMessageBox('Error', 'No account found with this IC number.')
-                return
         
             if user_email:
                 try:
@@ -412,65 +439,75 @@ class LoginWidget(QWidget):
 
         # ===== DOCTOR LOGIN =====
         try:
-            doctors = db.child('doctors').get()
+            doctors = db.child("doctors").get()
             if doctors.each():
                 for doctor in doctors.each():
                     data = doctor.val()
-                    if data.get('user_id') == ic and data.get('password') == password:
-                        rights = data.get('rights', 1)
-                        firebase_uid = ic
+                    user_email = data.get("doctor_email")
+                    if not user_email:
+                        continue  # skip doctors with no email
 
-                        if not self._ensure_privacy_consent(firebase_uid):
+                    if data.get("doctor_id") == ic: 
+                        try:
+                            # Authenticate with Firebase
+                            user = auth.sign_in_with_email_and_password(user_email, password)
+                            refreshed = auth.refresh(user["refreshToken"])
+                            id_token = refreshed["idToken"]
+                            user_info = auth.get_account_info(id_token)
+                            verified = user_info["users"][0].get("emailVerified", False)
+
+                            if not verified:
+                                reply = QMessageBox.question(
+                                    self,
+                                    "Email Not Verified",
+                                    f"Your email ({user_email}) is not verified.\nResend verification?",
+                                    QMessageBox.Yes | QMessageBox.No,
+                                    QMessageBox.No
+                                )
+                                if reply == QMessageBox.Yes:
+                                    auth.send_email_verification(user["idToken"])
+                                    QMessageBox.information(
+                                        self,
+                                        "Verification Email Sent",
+                                        "A new verification link has been sent. Please verify before login."
+                                    )
+                                return  # stop login until verified
+
+                            # Login success → reset failed attempts
+                            db.child("login_attempts").child(ic).remove()
+                            firebase_uid = user["localId"]
+                            rights = data.get("rights", 1)  # doctor role
+
+                            # Ensure privacy consent
+                            if not self._ensure_privacy_consent(firebase_uid):
+                                return
+
+                            # Audit log
+                            role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
+                            role = role_map.get(rights, "doctor")
+                            log_event(
+                                uid=firebase_uid,
+                                role=role,
+                                action="LOGIN_SUCCESS",
+                                meta={"via": "password"}
+                            )
+
+                            self.showMessageBox('Info', 'Doctor login successful')
+                            self.login_successful.emit(rights, firebase_uid)
+                            self.user_id.emit(ic)
                             return
-                        
-                        # audit log for successful login  ===
-                        role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
-                        role = role_map.get(rights, "patient")
 
-                        log_event(
-                            uid=firebase_uid,
-                            role=role,
-                            action="LOGIN_SUCCESS",
-                            meta={"via": "password"}
-                        )
-
-                        self.showMessageBox('Info', 'Doctor login successful')
-                        self.login_successful.emit(rights,firebase_uid)
-                        self.user_id.emit(ic)
-                        return
-        except Exception as e:
-            self.showMessageBox('Error', f"Error fetching doctor data: {e}")
-
-        # ===== PROJECT ADMIN LOGIN =====
-        try:
-            pa_admins = db.child('project_admin').get()
-            if pa_admins.each():
-                for admin in pa_admins.each():
-                    data = admin.val()
-                    if data.get('pa_id') == ic and data.get('pa_pass') == password:
-                        rights = data.get('rights', 4)
-                        firebase_uid = ic
-
-                        if not self._ensure_privacy_consent(firebase_uid):
+                        except Exception as e:
+                            count, last = self.record_failed_attempt(ic)
+                            self.showMessageBox(
+                                "Invalid Login",
+                                f"Invalid Email or Password. Attempt {count}."
+                            )
                             return
-                        
-                        # audit log for successful login===
-                        role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
-                        role = role_map.get(rights, "patient")
 
-                        log_event(
-                            uid=firebase_uid,
-                            role=role,
-                            action="LOGIN_SUCCESS",
-                            meta={"via": "password"}
-                        )
-                        
-                        self.showMessageBox('Info', 'Admin login successful')
-                        self.login_successful.emit(rights,firebase_uid)
-                        self.user_id.emit(ic)
-                        return
         except Exception as e:
-            self.showMessageBox('Error', f"Error fetching project admin data: {e}")
+            self.showMessageBox("Error", f"Error fetching doctor data: {str(e)}")
+
 
         # ===== CLINIC ADMIN LOGIN =====
         try:
@@ -479,30 +516,90 @@ class LoginWidget(QWidget):
                 for admin in ca_admins.each():
                     data = admin.val()
                     if data.get('ca_id') == ic and data.get('ca_pass') == password:
-                        rights = data.get('rights', 2)
-                        firebase_uid = ic           
+                        user_email = data.get('email')
 
-                        if not self._ensure_privacy_consent(firebase_uid):
+                        if not user_email:
+                            self.showMessageBox('Error', 'No email found for this clinic admin. Please contact system administrator.')
                             return
-                        
-                         # audit log for successful login===
-                        role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
-                        role = role_map.get(rights, "patient")
 
-                        log_event(
-                            uid=firebase_uid,
-                            role=role,
-                            action="LOGIN_SUCCESS",
-                            meta={"via": "password"}
-                        )
+                        # --- Authenticate with Firebase Auth ---
+                        try:
+                            user = auth.sign_in_with_email_and_password(user_email, password)
+                            refreshed = auth.refresh(user['refreshToken'])
+                            id_token = refreshed['idToken']
+                            user_info = auth.get_account_info(id_token)
+                            verified = user_info['users'][0].get('emailVerified', False)
 
+                            # --- If email is not verified ---
+                            if not verified:
+                                reply = QMessageBox.question(
+                                    self,
+                                    "Email Not Verified",
+                                    f"Your email ({user_email}) is not verified.\nWould you like to resend the verification link?",
+                                    QMessageBox.Yes | QMessageBox.No,
+                                    QMessageBox.No
+                                )
 
-                        self.showMessageBox('Info', 'Clinic Admin login successful')
-                        self.login_successful.emit(rights,firebase_uid)
-                        self.user_id.emit(ic)
-                        return
+                                if reply == QMessageBox.Yes:
+                                    try:
+                                        auth.send_email_verification(user['idToken'])
+                                        QMessageBox.information(
+                                            self,
+                                            "Verification Email Sent",
+                                            "A new verification link has been sent to your email.\nPlease verify before logging in."
+                                        )
+                                    except Exception as e:
+                                        QMessageBox.warning(
+                                            self,
+                                            "Error",
+                                            f"Failed to resend verification email.\nDetails: {str(e)}"
+                                        )
+                                else:
+                                    QMessageBox.information(
+                                        self,
+                                        "Verification Required",
+                                        "Please verify your email before logging in."
+                                    )
+                                return  # stop login until verified
+
+                            # --- Email verified → continue login ---
+                            db.child("login_attempts").child(ic).remove()  # reset failed attempts
+
+                            firebase_uid = user['localId']
+                            rights = data.get('rights', 2)  # default to clinic admin rights
+
+                            # Require privacy consent BEFORE showing success / emitting signals
+                            if not self._ensure_privacy_consent(firebase_uid):
+                                return
+
+                            # Audit log for successful login ===
+                            role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
+                            role = role_map.get(rights, "clinic_admin")
+
+                            log_event(
+                                uid=firebase_uid,
+                                role=role,
+                                action="LOGIN_SUCCESS",
+                                meta={"via": "password"}
+                            )
+
+                            # --- Successful login ---
+                            self.showMessageBox('Info', 'Clinic Admin login successful')
+                            self.login_successful.emit(rights, firebase_uid)
+                            self.user_id.emit(ic)
+                            return
+
+                        except Exception as e:
+                            count, last = self.record_failed_attempt(ic)
+                            self.showMessageBox(
+                                'Invalid Login',
+                                f'Invalid Email or Password. Attempt {count}.'
+                            )
+                            return
+
         except Exception as e:
             self.showMessageBox('Error', f"Error fetching clinic admin data: {e}")
+
 
         # ===== DEFAULT =====
         self.showMessageBox('Error', 'Invalid IC/ID number or password.')

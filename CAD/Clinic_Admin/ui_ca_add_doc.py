@@ -5,7 +5,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient, QIntValidator, QRegExpValidator)
 from PyQt5.QtWidgets import *
 import os
-from connection import db
+from connection import db, auth
 
 
 class CA_add_docWidget(QWidget):
@@ -21,8 +21,9 @@ class CA_add_docWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        self.fetch_doc_data()
         self.clinic_id = ""
+        self.fetch_doc_data()
+        
 
     def setupUi(self, Form):
         if Form.objectName():
@@ -399,34 +400,75 @@ class CA_add_docWidget(QWidget):
 
         self.submitForm(doctor_name, specialization, qualification, contact_number, doctor_email, doctor_img)
 
+
     def submitForm(self, doctor_name, specialization, qualification, contact_number, doctor_email, doctor_img):
         try:
-        # Generate the new clinic ID
+            # Generate the new doctor ID
             new_doctor_id = self.generate_new_doctor_id()
+
             if new_doctor_id:
-                # Upload the form data to the database with the new ID
+                # Upload doctor data under clinic > doctors
                 db.child("clinic").child(self.clinic_id).child("doctors").child(new_doctor_id).set({
                     "doctor_name": doctor_name,
                     "specialization": specialization,
                     "qualification": qualification,
                     "contact_number": contact_number,
                     "doctor_email": doctor_email,
-                    "doctor_img" : doctor_img
+                    "doctor_img": doctor_img,
+                    "doctor_status": "pending_verification"
                 })
-                msgBox = QMessageBox()
-                msgBox.setIcon(QMessageBox.Information)
-                msgBox.setText("Form submitted successfully.")
-                msgBox.setInformativeText("New doctor added.")
-                msgBox.setStandardButtons(QMessageBox.Ok)
-                msgBox.setDefaultButton(QMessageBox.Ok)
-                msgBox.buttonClicked.connect(self.redirect_doc)
-                msgBox.exec_()
-                self.clearForm()
-                #self.emitRedLogin()
+
+                # Also save in main "doctors" node for login reference
+                db.child("doctors").child(new_doctor_id).set({
+                    "doctor_id": new_doctor_id,
+                    "doctor_email": doctor_email,
+                    "rights": 1,  # doctor role
+                    "clinic_id": self.clinic_id
+                })
+
+                # --- Create Firebase Auth user ---
+                temp_password = doctor_name.lower().replace(" ", "")[:5] + contact_number[-4:]
+                try:
+                    user = auth.create_user_with_email_and_password(doctor_email, temp_password)
+                    refreshed = auth.refresh(user['refreshToken'])
+                    id_token = refreshed['idToken']
+
+                    # Send email verification
+                    auth.send_email_verification(id_token)
+
+                    # Update doctor status in DB
+                    db.child("doctors").child(new_doctor_id).update({
+                        "doctor_status": "verification_sent",
+                        "temp_password": temp_password
+                    })
+
+                    # Success message
+                    msgBox = QMessageBox()
+                    msgBox.setIcon(QMessageBox.Information)
+                    msgBox.setText("Doctor added successfully.")
+                    msgBox.setInformativeText(
+                        f"A Firebase account has been created for {doctor_name}.\n\n"
+                        f"A verification link has been sent to {doctor_email}.\n"
+                        f"Please remind the doctor to verify their email before logging in."
+                    )
+                    msgBox.setStandardButtons(QMessageBox.Ok)
+                    msgBox.setDefaultButton(QMessageBox.Ok)
+                    msgBox.buttonClicked.connect(self.redirect_doc)
+                    msgBox.exec_()
+
+                except Exception as e:
+                    QMessageBox.warning(
+                        self,
+                        "Account Creation Skipped",
+                        f"Doctor added to database, but failed to create Firebase account:\n\n{str(e)}"
+                    )
+
+            # Clear the form after successful submission
+            self.clearForm()
+
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to submit form: {str(e)}")
 
-        self.clearForm()
 
     def generate_new_doctor_id(self):
         try:
@@ -505,15 +547,29 @@ class CA_add_docWidget(QWidget):
                 print(f"An error occurred while fetching data: {e}")
 
     def set_user_id(self, user_id): 
-        #self.clinic_id = user_id
-        user_id = user_id.lower()
-        clinics = db.child("clinic").get().val()
-        for clinic_id, clinic_data in clinics.items():
-                clinic_name = clinic_data.get("clinic_name")
-                if clinic_name.lower().replace(" ", "") == user_id:
-                      self.clinic_id = clinic_id
-                      break
+        # user_id is Firebase UID
+        self.clinic_id = None  # reset first
+        print(f"user id in set user is {user_id}")
+
+        # Fetch all clinic_admin records
+        clinic_admins = db.child("clinic_admin").get()
+        found = False
+
+        if clinic_admins.each():
+            for admin in clinic_admins.each():
+                data = admin.val()
+                if data.get("firebase_uid") == user_id:
+                    self.clinic_id = data.get("clinic_id")
+                    found = True
+                    print(f"clinic id in set user is {self.clinic_id}")
+                    break
+
+        if not found:
+            print(f"No clinic admin found with Firebase UID {user_id}")
+            return
+
         self.fetch_doc_data()
+
 
     def uploadImage(self):
         file_dialog = QFileDialog()
