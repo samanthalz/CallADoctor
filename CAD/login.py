@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import *
 from connection import db, auth
 from datetime import datetime
 from User.ui_privacy_consent_dialog import PrivacyConsentDialog
+from security.audit_logger import log_event
 
 
 
@@ -380,6 +381,17 @@ class LoginWidget(QWidget):
                     # Require privacy consent BEFORE showing success / emitting signals
                     if not self._ensure_privacy_consent(firebase_uid):
                         return
+                    
+                    # audit log for successful login (patient branch) ===
+                    role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
+                    role = role_map.get(rights, "patient")
+
+                    log_event(
+                        uid=firebase_uid,
+                        role=role,
+                        action="LOGIN_SUCCESS",
+                        meta={"via": "password"}
+                    )
 
 
                     self.showMessageBox('Info', 'Patient login successful')
@@ -410,6 +422,17 @@ class LoginWidget(QWidget):
 
                         if not self._ensure_privacy_consent(firebase_uid):
                             return
+                        
+                        # audit log for successful login  ===
+                        role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
+                        role = role_map.get(rights, "patient")
+
+                        log_event(
+                            uid=firebase_uid,
+                            role=role,
+                            action="LOGIN_SUCCESS",
+                            meta={"via": "password"}
+                        )
 
                         self.showMessageBox('Info', 'Doctor login successful')
                         self.login_successful.emit(rights,firebase_uid)
@@ -431,6 +454,17 @@ class LoginWidget(QWidget):
                         if not self._ensure_privacy_consent(firebase_uid):
                             return
                         
+                        # audit log for successful login===
+                        role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
+                        role = role_map.get(rights, "patient")
+
+                        log_event(
+                            uid=firebase_uid,
+                            role=role,
+                            action="LOGIN_SUCCESS",
+                            meta={"via": "password"}
+                        )
+                        
                         self.showMessageBox('Info', 'Admin login successful')
                         self.login_successful.emit(rights,firebase_uid)
                         self.user_id.emit(ic)
@@ -450,6 +484,17 @@ class LoginWidget(QWidget):
 
                         if not self._ensure_privacy_consent(firebase_uid):
                             return
+                        
+                         # audit log for successful login===
+                        role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
+                        role = role_map.get(rights, "patient")
+
+                        log_event(
+                            uid=firebase_uid,
+                            role=role,
+                            action="LOGIN_SUCCESS",
+                            meta={"via": "password"}
+                        )
 
 
                         self.showMessageBox('Info', 'Clinic Admin login successful')
