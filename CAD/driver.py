@@ -43,7 +43,8 @@ from Clinic_Admin.ui_ca_approve_reject import CA_approved_rejectWidget
 from Clinic_Admin.ui_ca_add_doc import CA_add_docWidget
 from security.session import Session
 from User.ui_privacy_consent_dialog import PrivacyConsentDialog  
-
+# add import
+from security.audit_logger import log_event
 
 RIGHTS_TO_ROLE = {
     0: "patient",
@@ -769,6 +770,12 @@ class Ui_MainWindow(QMainWindow):
         return True
         
     def handle_session_expired(self):
+        # log session time out
+        try:
+            log_event(uid=Session.uid, role=Session.role, action="SESSION_TIMEOUT")
+        except Exception as e:
+            print("[AUDIT] timeout log failed:", e)
+
         """Handle when session automatically expires"""
         # Show message and redirect to login
         msg_box = QMessageBox()
@@ -789,6 +796,11 @@ class Ui_MainWindow(QMainWindow):
         reply = msg_box.exec_()
 
         if reply == QMessageBox.Ok:
+            # log out and session timeout
+            try:
+                log_event(uid=Session.uid, role=Session.role, action="LOGOUT")
+            except Exception as e:
+                print("[AUDIT] logout log failed:", e)
             # End session 
             try:
                 self.session_manager.end_session()
