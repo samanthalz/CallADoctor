@@ -774,7 +774,14 @@ class Ui_MainWindow(QMainWindow):
     def handle_session_expired(self):
         # log session time out
         try:
-            log_event(uid=Session.uid, role=Session.role, action="SESSION_TIMEOUT")
+            if Session.current:
+                log_event(
+                    uid=Session.current.uid,
+                    role=Session.current.role,
+                    action="SESSION_TIMEOUT"
+                )
+            else:
+                print("[AUDIT] timeout log skipped: no active session")
         except Exception as e:
             print("[AUDIT] timeout log failed:", e)
 
@@ -803,6 +810,7 @@ class Ui_MainWindow(QMainWindow):
                 log_event(uid=Session.uid, role=Session.role, action="LOGOUT")
             except Exception as e:
                 print("[AUDIT] logout log failed:", e)
+
             # End session 
             try:
                 self.session_manager.end_session()
