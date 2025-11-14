@@ -332,17 +332,24 @@ class CA_view_docWidget(QWidget):
     def initialize_db(self):
         return db
     
-    def set_user_id(self, user_id): 
-        #self.clinic_id = user_id
-        user_id = user_id.lower()
-        clinics = db.child("clinic").get().val()
-        for clinic_id, clinic_data in clinics.items():
-                clinic_name = clinic_data.get("clinic_name")
-                if clinic_name.lower().replace(" ", "") == user_id:
-                      self.clinic_id = clinic_id
-                      break
-              
-        self.load_status()
+    def set_user_id(self, user_id):
+        # user_id is Firebase UID
+        self.clinic_id = None  
+        print(f"[set_user_id] Firebase UID: {user_id}")
+
+        clinic_admins = db.child("clinic_admin").get()
+
+        if clinic_admins.each():
+            for admin in clinic_admins.each():
+                data = admin.val()
+
+                # Match by firebase_uid
+                if data.get("firebase_uid") == user_id:
+                    self.clinic_id = data.get("clinic_id")
+                    # Only call when found
+                    self.load_status()
+                    return  
+        
               
     def fetch_doc_data(self):
         # Clear list

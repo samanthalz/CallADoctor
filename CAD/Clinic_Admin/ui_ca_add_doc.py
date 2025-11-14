@@ -419,8 +419,8 @@ class CA_add_docWidget(QWidget):
                 })
 
                 # Also save in main "doctors" node for login reference
-                db.child("doctors").child(new_doctor_id).set({
-                    "doctor_id": new_doctor_id,
+                db.child("doctors").child(doctor_name).set({
+                    "doctor_id": doctor_name,
                     "doctor_email": doctor_email,
                     "rights": 1,  # doctor role
                     "clinic_id": self.clinic_id
@@ -438,9 +438,9 @@ class CA_add_docWidget(QWidget):
                     auth.send_email_verification(id_token)
 
                     # Update doctor status in DB
-                    db.child("doctors").child(new_doctor_id).update({
+                    db.child("doctors").child(doctor_name).update({
                         "doctor_status": "verification_sent",
-                        "temp_password": temp_password,
+                        #"temp_password": temp_password,
                         "firebase_uid": firebase_uid
                     })
 
@@ -449,7 +449,8 @@ class CA_add_docWidget(QWidget):
                     msgBox.setIcon(QMessageBox.Information)
                     msgBox.setText("Doctor added successfully.")
                     msgBox.setInformativeText(
-                        f"Account has been created for {doctor_name}.\n\n"
+                        f"Account has been created for {doctor_name}.\n"
+                        f"Temporary Password: {temp_password}\n\n"
                         f"A verification link has been sent to {doctor_email}.\n"
                         f"Please remind the doctor to verify their email before logging in."
                     )
@@ -548,29 +549,23 @@ class CA_add_docWidget(QWidget):
         except Exception as e:
                 print(f"An error occurred while fetching data: {e}")
 
-    def set_user_id(self, user_id): 
+    def set_user_id(self, user_id):
         # user_id is Firebase UID
-        self.clinic_id = None  # reset first
-        print(f"user id in set user is {user_id}")
+        self.clinic_id = None  
+        print(f"[set_user_id] Firebase UID: {user_id}")
 
-        # Fetch all clinic_admin records
         clinic_admins = db.child("clinic_admin").get()
-        found = False
 
         if clinic_admins.each():
             for admin in clinic_admins.each():
                 data = admin.val()
+
+                # Match by firebase_uid
                 if data.get("firebase_uid") == user_id:
                     self.clinic_id = data.get("clinic_id")
-                    found = True
-                    print(f"clinic id in set user is {self.clinic_id}")
-                    break
-
-        if not found:
-            print(f"No clinic admin found with Firebase UID {user_id}")
-            return
-
-        self.fetch_doc_data()
+                    # Only call when found
+                    self.fetch_doc_data()
+                    return 
 
 
     def uploadImage(self):

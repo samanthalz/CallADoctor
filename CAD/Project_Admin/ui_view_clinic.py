@@ -827,7 +827,7 @@ class ViewClinicWidget(QWidget):
                         # Save admin info in DB
                         db.child("clinic_admin").child(ca_id).set({
                                 "ca_id": ca_id,
-                                "temp_password": ca_pass,
+                                #"temp_password": ca_pass,
                                 "clinic_id": clinic_id,
                                 "email": clinic_email
                         })
@@ -849,7 +849,8 @@ class ViewClinicWidget(QWidget):
                         QMessageBox.information(
                                 self,
                                 "Clinic Approved",
-                                f"Clinic approved successfully!\n\n"
+                                f"Clinic approved successfully!\n"
+                                f"Temporary Password: {ca_pass}\n\n"
                                 f"A verification link has been sent to {clinic_email}.\n"
                                 f"Please remind the clinic admin to verify their email before logging in."
                         )
