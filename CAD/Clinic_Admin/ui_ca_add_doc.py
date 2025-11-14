@@ -449,7 +449,7 @@ class CA_add_docWidget(QWidget):
                     msgBox.setIcon(QMessageBox.Information)
                     msgBox.setText("Doctor added successfully.")
                     msgBox.setInformativeText(
-                        f"A Firebase account has been created for {doctor_name}.\n\n"
+                        f"Account has been created for {doctor_name}.\n\n"
                         f"A verification link has been sent to {doctor_email}.\n"
                         f"Please remind the doctor to verify their email before logging in."
                     )

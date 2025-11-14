@@ -827,7 +827,7 @@ class ViewClinicWidget(QWidget):
                         # Save admin info in DB
                         db.child("clinic_admin").child(ca_id).set({
                                 "ca_id": ca_id,
-                                "ca_pass": ca_pass,
+                                "temp_password": ca_pass,
                                 "clinic_id": clinic_id,
                                 "email": clinic_email
                         })
