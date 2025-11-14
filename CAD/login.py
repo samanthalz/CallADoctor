@@ -9,7 +9,17 @@ from datetime import datetime
 from User.ui_privacy_consent_dialog import PrivacyConsentDialog
 from security.audit_logger import log_event
 
-
+link_button_style = """
+QPushButton {
+    color: blue;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
+}
+QPushButton:hover {
+    color: darkblue;
+}
+"""
 
 class LoginWidget(QWidget):
     login_successful = pyqtSignal(int,str)  
@@ -129,7 +139,8 @@ class LoginWidget(QWidget):
         font2.setFamily(u"Consolas")
         font2.setPointSize(9)
         self.forgetpassbutton.setFont(font2)
-        self.forgetpassbutton.setStyleSheet(u"QPushButton { border: none; }")
+        self.forgetpassbutton.setStyleSheet(link_button_style)
+        self.forgetpassbutton.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.forgetpassword.addWidget(self.forgetpassbutton)
 
@@ -159,14 +170,16 @@ class LoginWidget(QWidget):
         font4.setFamily(u"Consolas")
         font4.setPointSize(10)
         self.registerbutton.setFont(font4)
-        self.registerbutton.setStyleSheet(u"border: none")
+        self.registerbutton.setStyleSheet(link_button_style)
+        self.registerbutton.setCursor(QCursor(Qt.PointingHandCursor))
 
         
         self.apply_clinic_btn = QPushButton(self.loginwidget)
         self.apply_clinic_btn.setObjectName(u"apply_clinic_btn")
         self.apply_clinic_btn.setGeometry(QRect(110, 610, 521, 28))
         self.apply_clinic_btn.setFont(font4)
-        self.apply_clinic_btn.setStyleSheet(u"border: none")
+        self.apply_clinic_btn.setStyleSheet(link_button_style)
+        self.apply_clinic_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.apply_clinic_btn.clicked.connect(self.emitApplyClinicBtn)
         
         self.widget_3 = QWidget(self.bg)

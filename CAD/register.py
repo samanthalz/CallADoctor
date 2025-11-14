@@ -8,6 +8,18 @@ from datetime import datetime
 from connection import db, auth
 from password_tools.password_strength import check_password_strength
 
+link_button_style = """
+QPushButton {
+    color: blue;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
+}
+QPushButton:hover {
+    color: darkblue;
+}
+"""
+
 class RegisterWidget(QWidget, QObject):
     registration_successful = pyqtSignal()  # Custom signal
     privacy_label_clicked = pyqtSignal()
@@ -42,7 +54,8 @@ class RegisterWidget(QWidget, QObject):
         font.setFamily(u"Consolas")
         font.setPointSize(10)
         self.loginbutton.setFont(font)
-        self.loginbutton.setStyleSheet(u"border: none")
+        self.loginbutton.setStyleSheet(link_button_style)
+        self.loginbutton.setCursor(QCursor(Qt.PointingHandCursor))
         self.layoutWidget = QWidget(self.registerwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(100, 73, 504, 831))
