@@ -28,7 +28,7 @@ class CAProfileSettingsWidget(QWidget):
         self.get_user_credentials(self.ca_id)
 
     def get_user_credentials(self, ca_id):
-        ca_pass = ""  # default
+        ca_name = ""  # default
         clinic_admin = db.child("clinic_admin").get().val()
         
         # Debug: Print the fetched clinic_admin data
@@ -36,12 +36,11 @@ class CAProfileSettingsWidget(QWidget):
         
         if clinic_admin is not None:
             for i, ca_info in clinic_admin.items():
-                if i == ca_id:
-                    ca_pass = ca_info.get('ca_pass')
+                if ca_info.get('firebase_uid') == ca_id:
+                    ca_name = ca_info.get('ca_id')
                     break
         
-        self.user_id_display.setText(ca_id)
-        self.pass_display.setText(ca_pass)
+        self.user_id_display.setText(ca_name)
 
 
     def setupUi(self, Form):
@@ -149,26 +148,6 @@ class CAProfileSettingsWidget(QWidget):
 
         self.verticalLayout_2.addLayout(self.name_layout)
 
-        self.pass_layout = QVBoxLayout()
-        self.pass_layout.setObjectName(u"pass_layout")
-        self.pas = QLabel(self.layoutWidget)
-        self.pas.setObjectName(u"pas")
-        self.pas.setMaximumSize(QSize(514, 23))
-        self.pas.setFont(font2)
-
-        self.pass_layout.addWidget(self.pas)
-
-        self.pass_display = QLabel(self.layoutWidget)
-        self.pass_display.setObjectName(u"pass_display")
-        self.pass_display.setMinimumSize(QSize(514, 40))
-        self.pass_display.setMaximumSize(QSize(514, 40))
-        self.pass_display.setFont(font1)
-        self.pass_display.setStyleSheet(u"border-radius: 0px; border: 1px solid #808080")
-
-        self.pass_layout.addWidget(self.pass_display)
-
-
-        self.verticalLayout_2.addLayout(self.pass_layout)
 
         self.layoutWidget_2 = QWidget(Form)
         self.layoutWidget_2.setObjectName(u"layoutWidget_2")
@@ -300,7 +279,6 @@ class CAProfileSettingsWidget(QWidget):
         self.profile_btn.setText(QCoreApplication.translate("Form", u"Clinic", None))
         self.profile_icon_2.setText("")
         self.user_id.setText(QCoreApplication.translate("Form", u"User ID", None))
-        self.pas.setText(QCoreApplication.translate("Form", u"Password", None))
         
         self.home_navigation.setText(QCoreApplication.translate("Form", u"   Home   ", None))
         self.doctors_navigation.setText(QCoreApplication.translate("Form", u"Doctors", None))

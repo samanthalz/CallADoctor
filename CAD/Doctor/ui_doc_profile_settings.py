@@ -27,16 +27,14 @@ class DocProfileSettingsWidget(QWidget):
         self.get_user_credentials(self.user_id)
 
     def get_user_credentials(self, user_id):
-        password = 0 # default
+        username = "" # default
         doctors = db.child("doctors").get().val()
         for i, doctor_info in doctors.items():
-            if i == (user_id):
-                    password = doctor_info.get('password')
-                    break
+            if doctor_info.get('doctor_id') == (user_id):
+                username = doctor_info.get('doctor_id')
+                break
             
-        self.user_id_display.setText(user_id)
-        if password : 
-            self.pass_display.setText(password)
+        self.user_id_display.setText(username)
         
     def setupUi(self, Form):
         if Form.objectName():
@@ -143,27 +141,6 @@ class DocProfileSettingsWidget(QWidget):
 
 
         self.verticalLayout_2.addLayout(self.name_layout)
-
-        self.pass_layout = QVBoxLayout()
-        self.pass_layout.setObjectName(u"pass_layout")
-        self.pas = QLabel(self.layoutWidget)
-        self.pas.setObjectName(u"pas")
-        self.pas.setMaximumSize(QSize(514, 23))
-        self.pas.setFont(font2)
-
-        self.pass_layout.addWidget(self.pas)
-
-        self.pass_display = QLabel(self.layoutWidget)
-        self.pass_display.setObjectName(u"pass_display")
-        self.pass_display.setMinimumSize(QSize(514, 40))
-        self.pass_display.setMaximumSize(QSize(514, 40))
-        self.pass_display.setFont(font3)
-        self.pass_display.setStyleSheet(u"border-radius: 0px; border: 1px solid #808080")
-
-        self.pass_layout.addWidget(self.pass_display)
-
-
-        self.verticalLayout_2.addLayout(self.pass_layout)
 
 
 
@@ -296,7 +273,6 @@ class DocProfileSettingsWidget(QWidget):
         self.profile_btn.setText(QCoreApplication.translate("Form", u"Doctor", None))
         self.profile_icon_2.setText("")
         self.user_id.setText(QCoreApplication.translate("Form", u"User ID", None))
-        self.pas.setText(QCoreApplication.translate("Form", u"Password", None))
 
         self.home_navigation.setText(QCoreApplication.translate("Form", "   Home   "))
         self.patients_navigation.setText(QCoreApplication.translate("Form", "Patients"))

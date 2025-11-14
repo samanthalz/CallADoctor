@@ -107,26 +107,6 @@ class PAProfileSettingsWidget(QWidget):
 
         self.verticalLayout_2.addLayout(self.name_layout)
 
-        self.pass_layout = QVBoxLayout()
-        self.pass_layout.setObjectName(u"pass_layout")
-        self.pas = QLabel(self.layoutWidget)
-        self.pas.setObjectName(u"pas")
-        self.pas.setMaximumSize(QSize(514, 23))
-        self.pas.setFont(font1)
-
-        self.pass_layout.addWidget(self.pas)
-
-        self.pass_display = QLabel(self.layoutWidget)
-        self.pass_display.setObjectName(u"pass_display")
-        self.pass_display.setMinimumSize(QSize(514, 40))
-        self.pass_display.setMaximumSize(QSize(514, 40))
-        self.pass_display.setFont(font2)
-        self.pass_display.setStyleSheet(u"border-radius: 0px; border: 1px solid #808080")
-
-        self.pass_layout.addWidget(self.pass_display)
-
-
-        self.verticalLayout_2.addLayout(self.pass_layout)
 
         self.layoutWidget_2 = QWidget(self.whitebg)
         self.layoutWidget_2.setObjectName(u"layoutWidget_2")
@@ -301,8 +281,7 @@ class PAProfileSettingsWidget(QWidget):
         self.profile_icon_2.setText("")
         self.user_id_label.setText(QCoreApplication.translate("Form", u"User ID", None))
         self.user_id_display.setText("")
-        self.pas.setText(QCoreApplication.translate("Form", u"Password", None))
-        self.pass_display.setText("")
+
         self.edit_policy_btn.setText(QCoreApplication.translate("Form", u"Edit Privacy policy                  >", None))
         self.edit_tnc_btn.setText(QCoreApplication.translate("Form", u"Edit Terms and Conditions            >", None))
         self.profile_icon.setText("")
@@ -378,7 +357,6 @@ class PAProfileSettingsWidget(QWidget):
             
             if admin_data:
                 self.user_id_display.setText(admin_data.get("pa_id", ""))
-                self.pass_display.setText(admin_data.get("pa_pass", ""))
         else:
                 print("error")
          
