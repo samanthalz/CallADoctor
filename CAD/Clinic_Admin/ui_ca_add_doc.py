@@ -430,6 +430,7 @@ class CA_add_docWidget(QWidget):
                 temp_password = doctor_name.lower().replace(" ", "")[:5] + contact_number[-4:]
                 try:
                     user = auth.create_user_with_email_and_password(doctor_email, temp_password)
+                    firebase_uid = user['localId']
                     refreshed = auth.refresh(user['refreshToken'])
                     id_token = refreshed['idToken']
 
@@ -439,7 +440,8 @@ class CA_add_docWidget(QWidget):
                     # Update doctor status in DB
                     db.child("doctors").child(new_doctor_id).update({
                         "doctor_status": "verification_sent",
-                        "temp_password": temp_password
+                        "temp_password": temp_password,
+                        "firebase_uid": firebase_uid
                     })
 
                     # Success message
@@ -475,7 +477,7 @@ class CA_add_docWidget(QWidget):
             doctor_data = db.child("clinic").child(self.clinic_id).child("doctors").get().val()
 
             if doctor_data is None:
-                raise ValueError("Doctor data is not available in the database.")
+                return "doctor1"
             
             # Get the maximum clinic ID currently in the database
             max_id = 0
