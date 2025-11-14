@@ -161,7 +161,7 @@ class ForgotPwWidget(QWidget):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Forgot Password", None))
+        self.label.setText(QCoreApplication.translate("Form", u"Change Password", None))
         self.label_2.setText(QCoreApplication.translate("Form", u"Enter your email for the verification processes, we will ", None))
         self.label_5.setText(QCoreApplication.translate("Form", u"send verification link to your email", None))
         self.label_.setText(QCoreApplication.translate("Form", u"Email", None))
