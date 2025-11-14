@@ -230,7 +230,7 @@ class ForgotPwWidget(QWidget):
             for doctor in doctors.each():
                 if doctor.val().get('doctor_email') == email:
                     return True
-            clinic_admins = db.child('clinic_admin')
+            clinic_admins = db.child('clinic_admin').get()
             for admin in clinic_admins.each():
                 if admin.val().get('email') == email:
                     return True
