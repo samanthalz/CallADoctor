@@ -481,7 +481,7 @@ class RegisterClinicWidget(QWidget):
                     "uploadDoc_status": "Yes",
                     "clinic_img": img_path,
                     "clinic_dor": current_date,
-                    "clinic_status": "pending"
+                    "clinic_status": "pending",
                 })
                 QMessageBox.information(self, "Success", "Form submitted successfully.")
                 self.emitRedLogin()
