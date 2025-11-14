@@ -16,6 +16,7 @@ class CAProfileSettingsWidget(QWidget):
     patients_navigation_btn_clicked = pyqtSignal()
     logout_btn_clicked = pyqtSignal()
     settings_navigation_btn_clicked = pyqtSignal()
+    change_pass_btn_clicked = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -147,6 +148,28 @@ class CAProfileSettingsWidget(QWidget):
 
 
         self.verticalLayout_2.addLayout(self.name_layout)
+
+        # ============================
+        #   RIGHT SIDE - UPDATE PASSWORD BUTTON
+        # ============================
+        self.layoutWidget_3 = QWidget(self.whitebg)
+        self.layoutWidget_3.setGeometry(QRect(1130, 270, 548, 211))
+
+        self.btn_layout = QVBoxLayout(self.layoutWidget_3)
+        self.btn_layout.setContentsMargins(0, 0, 0, 0)
+        self.btn_layout.setSpacing(50)
+
+        # UPDATE PASSWORD BUTTON
+        self.update_password_btn = QPushButton(self.layoutWidget_3)
+        self.update_password_btn.setMinimumSize(QSize(546, 0))
+        self.update_password_btn.setFont(QFont("Consolas", 14))
+        self.update_password_btn.setStyleSheet(
+            "border-radius: 10; background-color: transparent; color: black"
+        )
+        self.update_password_btn.setText("Update Password                     >")
+        self.update_password_btn.clicked.connect(self.emitChangePassBtn)
+
+        self.btn_layout.addWidget(self.update_password_btn)
 
 
         self.layoutWidget_2 = QWidget(Form)
@@ -309,6 +332,11 @@ class CAProfileSettingsWidget(QWidget):
     @pyqtSlot()
     def emitPatientsBtn(self):
         self.patients_navigation_btn_clicked.emit()  
+
+    @pyqtSlot()
+    def emitChangePassBtn(self):
+        # Emit the custom signal
+        self.change_pass_btn_clicked.emit()
 
 
 # # # If run directly from this page

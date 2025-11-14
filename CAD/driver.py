@@ -301,6 +301,7 @@ class Ui_MainWindow(QMainWindow):
         self.docProfileSettingsWidget.patients_btn_clicked.connect(self.showDocPatientsWidget)
         self.docProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
         self.docProfileSettingsWidget.profile_btn_clicked.connect(self.showDocProfileSettingsWidget)
+        self.docProfileSettingsWidget.change_pass_btn_clicked.connect(self.showForgotPwWidget)
         
         # Clinic admin widgets
         self.caHomeWidget.view_detail_btn_clicked.connect(self.showCAPatientsPageWidget)
@@ -345,6 +346,7 @@ class Ui_MainWindow(QMainWindow):
         self.caProfileSettingsWidget.patients_navigation_btn_clicked.connect(self.showCAPatientsPageWidget)
         self.caProfileSettingsWidget.settings_navigation_btn_clicked.connect(self.showCAProfileSettingsWidget)
         self.caProfileSettingsWidget.logout_btn_clicked.connect(self.showLogoutPopup)
+        self.caProfileSettingsWidget.change_pass_btn_clicked.connect(self.showForgotPwWidget)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
