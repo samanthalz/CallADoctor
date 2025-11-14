@@ -515,7 +515,7 @@ class LoginWidget(QWidget):
             if ca_admins.each():
                 for admin in ca_admins.each():
                     data = admin.val()
-                    if data.get('ca_id') == ic and data.get('ca_pass') == password:
+                    if data.get('ca_id') == ic:
                         user_email = data.get('email')
 
                         if not user_email:
