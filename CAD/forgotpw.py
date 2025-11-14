@@ -228,11 +228,11 @@ class ForgotPwWidget(QWidget):
                     return True
             doctors = db.child('doctors').get()
             for doctor in doctors.each():
-                if doctor.val().get('doc_email') == email:
+                if doctor.val().get('doctor_email') == email:
                     return True
             clinic_admins = db.child('clinic_admin')
             for admin in clinic_admins.each():
-                if admin.val().get('ca_email') == email:
+                if admin.val().get('email') == email:
                     return True
             return False
         except Exception as e:
