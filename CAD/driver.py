@@ -507,7 +507,7 @@ class Ui_MainWindow(QMainWindow):
         self.loginWidget.ic_input.clear()
         self.loginWidget.password_input.clear()
         self.current_widget = self.loginWidget
-        self.stackedWidget.setCurrentWidget(self.loginWidget)
+        self.stackedWidget.setCurrentWidget(self.loginWidget) 
         
     @pyqtSlot()
     def showPrivacyPolicyWidget(self):
