@@ -31,7 +31,7 @@ class DocProfileSettingsWidget(QWidget):
         username = "" # default
         doctors = db.child("doctors").get().val()
         for i, doctor_info in doctors.items():
-            if doctor_info.get('doctor_id') == (user_id):
+            if doctor_info.get('firebase_uid') == (user_id):
                 username = doctor_info.get('doctor_id')
                 break
             
