@@ -8,6 +8,7 @@ from connection import db, auth
 from datetime import datetime
 from User.ui_privacy_consent_dialog import PrivacyConsentDialog
 from security.audit_logger import log_event
+from password_tools.password_hash import verify_password
 
 link_button_style = """
 QPushButton {
@@ -331,7 +332,9 @@ class LoginWidget(QWidget):
             if pa_admins.each():
                 for admin in pa_admins.each():
                     data = admin.val()
-                    if data.get('pa_id') == ic and data.get('pa_pass') == password:
+                    stored_hash_id = data.get('pa_id').encode('utf-8')
+                    stored_hash_pw = data.get('pa_pass').encode('utf-8')
+                    if verify_password(ic, stored_hash_id) and verify_password(password, stored_hash_pw):                        
                         rights = data.get('rights', 4)
                         firebase_uid = ic
 
