@@ -424,11 +424,13 @@ class LoginWidget(QWidget):
                     
                     # audit log for successful login (patient branch) ===
                     role_map = {0: "patient", 1: "doctor", 2: "clinic_admin", 4: "super_admin"}
+                    # Resolve the caller's role; default to "patient" if an unknown rights value appears.
+                    # (Prevents crashes and keeps logs consistent even if data is out of range.)
                     role = role_map.get(rights, "patient")
 
                     log_event(
-                        uid=firebase_uid,
-                        role=role,
+                        uid=firebase_uid, # stable internal user ID (not email/IC)
+                        role=role, # resolved role string for later RBAC/reporting
                         action="LOGIN_SUCCESS",
                         meta={"via": "password"}
                     )

@@ -43,7 +43,7 @@ from Clinic_Admin.ui_ca_approve_reject import CA_approved_rejectWidget
 from Clinic_Admin.ui_ca_add_doc import CA_add_docWidget
 from security.session import Session
 from User.ui_privacy_consent_dialog import PrivacyConsentDialog  
-# add import
+# add import for security
 from security.audit_logger import log_event
 
 RIGHTS_TO_ROLE = {
@@ -796,6 +796,7 @@ class Ui_MainWindow(QMainWindow):
         msg_box.exec_()
         
     def showLogoutPopup(self):
+         # Build a confirmation dialog to prevent accidental logouts.
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Logout")
         msg_box.setText("Are you sure you want to logout?")
@@ -820,6 +821,7 @@ class Ui_MainWindow(QMainWindow):
 
             # Clear any other user data or cached info
             try:
+                 # Defensive clears; only if these attributes exist in this window.
                 if hasattr(self, "current_user"):
                     self.current_user = None
                 if hasattr(self, "user_data"):

@@ -3,11 +3,12 @@ from typing import Optional
 
 @dataclass(frozen=True)
 class UserContext:
-    uid: str
+    uid: str  # Unique, stable user identifier 
     role: str                 # "patient" | "doctor" | "clinic_admin" | "super_admin"
-    clinic_id: Optional[str] = None
+    clinic_id: Optional[str] = None # Scope for clinic-bound actions.
 
 class Session:
+    # Good for a desktop app with a single user session, but not thread/process safe.
     current: Optional[UserContext] = None
 
     @classmethod
