@@ -397,6 +397,9 @@ class CA_add_docWidget(QWidget):
         if not doctor_name or not specialization or not qualification or not contact_number or not doctor_email:
             QMessageBox.warning(self, "Warning", "Please fill in all fields.")
             return
+        
+        # Format the doctor name
+        doctor_name = "doc" + doctor_name.strip().lower()
 
         self.submitForm(doctor_name, specialization, qualification, contact_number, doctor_email, doctor_img)
 

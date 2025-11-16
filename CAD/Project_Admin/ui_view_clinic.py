@@ -437,7 +437,7 @@ class ViewClinicWidget(QWidget):
         font7.setPointSize(10)
         credential_btn.setFont(font7)
         credential_btn.setStyleSheet(u"background-color: #B6D0E2;color: black; text-align: center;")
-        credential_btn.setText("View ID & Pass")
+        credential_btn.setText("View ID")
         credential_btn.clicked.connect(self.display_credentials)
         
         clinic_logo = QLabel(clinic_details_inner)
@@ -894,14 +894,12 @@ class ViewClinicWidget(QWidget):
                     admin_val = admin.val()
                     if admin_val.get("clinic_id").lower() == clinic_id.lower():
                         ca_id = admin_val.get("ca_id", "No ID found")
-                        ca_pass = admin_val.get("ca_pass", "No password found")
                         break
                 else:
                     ca_id = "No ID found"
-                    ca_pass = "No password found"
             
             # Show the credentials in a message box
-            QMessageBox.information(self, "Admin Credentials", f"ID: {ca_id}\nPassword: {ca_pass}")
+            QMessageBox.information(self, "Admin Credentials", f"ID: {ca_id}\n")
 
         except Exception as e:
             # Handle any exceptions that occur during database operation
