@@ -340,7 +340,7 @@ class PAProfileSettingsWidget(QWidget):
     def fetch_admin_data(self):
         db = self.initialize_db()
         try:
-                admin_data = db.child("project_admin").child(self.admin_id).get().val()
+                admin_data = db.child("project_admin").child("admin").get().val()
                 if admin_data:
                         return admin_data
                 else:
@@ -356,7 +356,7 @@ class PAProfileSettingsWidget(QWidget):
             admin_data = self.fetch_admin_data()
             
             if admin_data:
-                self.user_id_display.setText(admin_data.get("pa_id", ""))
+                self.user_id_display.setText("CAD_admin")
         else:
                 print("error")
          
