@@ -91,12 +91,12 @@ class SessionManager(QObject):
         self.current_user_rights = rights
         self.is_authenticated = True
         self.login_time = QDateTime.currentDateTime()
-        self.session_id = str(uuid.uuid4())
+        # self.session_id = str(uuid.uuid4())
         self.session_timer.start(self.session_timeout)
 
         # Update DB
         db.child("active_sessions").child(user_id).update({
-            "session_id": self.session_id,
+            # "session_id": self.session_id,
             "last_active": datetime.now().timestamp()
         })
         print(f"[INFO] Session started for user {user_id}")
